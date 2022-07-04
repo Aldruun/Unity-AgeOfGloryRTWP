@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f5553144826bd498d74c2a8386682b, type: 3}
+  m_Name: ActorDatabase
+  m_EditorClassIdentifier: 
+  Characters:
+  - {fileID: 11400000, guid: 8973418bc0a51e8479a7e3461aa21fcf, type: 2}
+  - {fileID: 11400000, guid: 579b4d3f3c44b28469a24ea69ecb1904, type: 2}
+  - {fileID: 11400000, guid: 24d067a97ff281340870dace644bd8c4, type: 2}
+  - {fileID: 11400000, guid: ca0a129df3a65714d90b617494efdf51, type: 2}
+  - {fileID: 11400000, guid: 98c48151748c69f499225d0089bfadf4, type: 2}
+  - {fileID: 11400000, guid: 7fc3cedd0de1db5409c012b4ca9185e5, type: 2}
+  Creatures: []

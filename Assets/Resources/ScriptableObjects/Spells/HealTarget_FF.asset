@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: HealTarget_FF
+  m_EditorClassIdentifier: 
+  ID: healtarget
+  Name: HealTarget
+  description: 
+  spellIcon: {fileID: 21300000, guid: 286ca9888395384469e2e18f62ff2d48, type: 3}
+  spellType: 5
+  magicSchool: 1
+  equipType: 0
+  castingType: 0
+  deliveryType: 3
+  magicEffects:
+  - {fileID: 11400000, guid: bbb34d0db59ffbf42920cb4870b005fe, type: 2}
+  magicEffectsData: []
+  targetLogic: {fileID: 11400000, guid: f1f03280aa427454086b482e4fa4b0cf, type: 2}
+  spellcastMotionIndex: 1
+  releaseMotionIndex: 0
+  needsPreparation: 0
+  needsToStopMoving: 0
+  cost: 5
+  activationRange: 10
+  chargeTimeMult: 1
+  castTimeMult: 1
+  cooldownTime: 2
+  recoveryTime: 1
+  travelSpeed: 0
+  grade: 0
+  castingTime: 0

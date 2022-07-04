@@ -58,7 +58,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.aab
-*.unitypackage
+# *.unitypackage
 *.app
 
 # Crashlytics generated file
@@ -72,5 +72,11 @@ crashlytics-build.properties
 # /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/*
 !/[Aa]ssets/AoG Pack/
+!/[Aa]ssets/Editor/
+!/[Aa]ssets/Materials/
 !/[Aa]ssets/Scripts/
+!/[Aa]ssets/Scenes/
+!/[Aa]ssets/Shaders/
+!/[Aa]ssets/Resources/
+/[Aa]ssets/Resources/SFX*
 # /[Aa]ssets/Resources/Plugins/*

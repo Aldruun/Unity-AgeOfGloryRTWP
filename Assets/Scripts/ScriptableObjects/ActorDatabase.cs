@@ -30,6 +30,7 @@ public class ActorDatabase : ScriptableObject
                 npcInput.SetSkills(skills);
                 npcInput.FinalizeActor(config);
                 npcInput.Inventory.AddItems(config.InventoryTemplate.items);
+                npcInput.Equipment.EquipBestArmor();
                 //FinalizeActor(npcInput, inventory);
 
                 return npcInput;

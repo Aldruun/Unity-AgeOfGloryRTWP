@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a41ce7bdd3e1649a0326b4fa3e1792, type: 3}
+  m_Name: FormulaTesting
+  m_EditorClassIdentifier: 
+  profession: 1
+  agentLevel: 1
+  enemyLevel: 1
+  currentExp: 0
+  expNeeded: 50
+  expMultiplier: 1
+  Name: Spider
+  isMagicAttack: 0
+  rawDamage: 0
+  pAttack: 4
+  pDef: 3
+  mAttack: 0
+  mDef: 1
+  currentHealth: 0
+  maxHealth: 151
+  Name_opp: Lexa
+  isMagicAttack_opp: 1
+  rawDamage_opp: 0
+  pAttack_opp: 2
+  pDef_opp: 1
+  mAttack_opp: 4
+  mDef_opp: 4
+  currentHealth_opp: 100
+  maxHealth_opp: 100

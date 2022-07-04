@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df3fd59b2b910d48932b844fc1c9ae7, type: 3}
+  m_Name: FactionRelationManager
+  m_EditorClassIdentifier: 
+  relations:
+  - relationData:
+      faction1: 3
+      faction2: 0
+      relations: -1
+  - relationData:
+      faction1: 2
+      faction2: 0
+      relations: -1
+  - relationData:
+      faction1: 1
+      faction2: 0
+      relations: -1
+  - relationData:
+      faction1: 3
+      faction2: 1
+      relations: -1
+  - relationData:
+      faction1: 2
+      faction2: 1
+      relations: -1
+  - relationData:
+      faction1: 3
+      faction2: 2
+      relations: -1
+  - relationData:
+      faction1: 4
+      faction2: 1
+      relations: -1
+  - relationData:
+      faction1: 4
+      faction2: 3
+      relations: -1
+  - relationData:
+      faction1: 4
+      faction2: 0
+      relations: 0
+  - relationData:
+      faction1: 4
+      faction2: 2
+      relations: 0
+  - relationData:
+      faction1: 5
+      faction2: 0
+      relations: -1
+  - relationData:
+      faction1: 5
+      faction2: 1
+      relations: -1
+  - relationData:
+      faction1: 5
+      faction2: 2
+      relations: -1
+  - relationData:
+      faction1: 5
+      faction2: 3
+      relations: 0
+  - relationData:
+      faction1: 5
+      faction2: 4
+      relations: -1

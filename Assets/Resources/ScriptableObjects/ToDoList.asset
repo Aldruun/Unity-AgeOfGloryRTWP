@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948c6eac03994cd49bad23b71ceeec7c, type: 3}
+  m_Name: ToDoList
+  m_EditorClassIdentifier: 
+  todoLists:
+  - title: Bug List
+    textList:
+    - s: Cast Spell command only working if actor not in spell pause
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Reset actor ring size after state change
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Ai healers need to be aware of how many other healers are going to heal
+        one target
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Attacked target should attack attacker when no action in queue
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Right click drag formation behaviour erratic with multiple selected
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Most of the time cast spell command is not carried through
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Make melee fighters switch target if previous is dead
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Reconnect death vocals
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: NPCController.UpdateActorState() StatusEffects
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Implement spell target logic in a generic way
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Mob doesn't enter combat state
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Cloth equipped after equipping bow, won't be visible on character mesh
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: If GameMaster = DontDestroyOnLoad -> No Init()
+      color: {r: 1, g: 1, b: 1, a: 1}
+  - title: Solved Bugs
+    textList:
+    - s: 'Note: Animator.Trigger not triggering? Make sure resetting trigger isn''t
+        done in the same frame after setting it'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: Wrong rotation of curewounds vfx, solved by making sure in the projectile
+        class a certain movement type is only applied to the spell it belongs to'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: Assigning one dict to another with simple ''='' makes both act as
+        one. If you change the value of one you change the other'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: ScriptableObject lost values/reverted back after restarting Unity
+
+        Fix:
+        Call ''EditorUtility.SetDirty(_scrObj);'' after all changes to the SO'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: Floating Actor UI sometimes showed up on rect parent anchor. Had
+        to move the parent out of main canvas/screen'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: Fixed weird pool object placement behaviour -> Disabled gravity on
+        agent rigidbodies'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: Freeze on play
+
+        1. GameMaster loaded Poolsystem -> PoolSystem
+        loaded GameMaster from prefabs -> StackOverflow'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: [Creatures won''t attack]
+
+        1. Make sure the creature''s internal
+        weapon is of type one handed'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: [No death animation on death]
+
+        1. Make sure subscribers use
+        += not = on the OnDeath event. It would override all other subscribers'
+      color: {r: 0, g: 1, b: 0, a: 1}
+    - s: 'Note: [Remove collision between player and NPC]
+
+        1. Uncheck Player/Agents
+        collision in Player Settings/Physics
+
+        2. Make sure all character
+        colliders (including ragdoll colliders) are triggers'
+      color: {r: 0, g: 1, b: 0, a: 1}
+  - title: TODO
+    textList:
+    - s: Implement ProgressionTables
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Research how to handle lots of events
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Make contextual cursors work
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Set intial movementstate of PCs to run
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Overlap shader for actor rings
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: make spray and beam projectiles do damage
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: add nice sling stone and arrow trails
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: skills should have a list of attributes they affect
+      color: {r: 1, g: 1, b: 1, a: 1}
+    - s: Make torch vfx look better [DONE]
+      color: {r: 1, g: 1, b: 1, a: 1}
+  - title: Observations
+    textList:
+    - s: 'Scene transitions:
+
+
+        - In initial scene, player is spawned via
+        spawnpoint
+
+        - When transition to next scene, a player is still spawned
+        via spawnpoint and is then controlled while the transitioned player is left
+        behind at the area transition
+
+
+        Conclusion:
+
+
+        Player is still
+        created in awake of GameStateManager.cs when it shouldn''t'
+      color: {r: 1, g: 1, b: 1, a: 1}
+  - title: TODO Long-Term
+    textList:
+    - s: Add my own icons
+      color: {r: 1, g: 1, b: 1, a: 1}

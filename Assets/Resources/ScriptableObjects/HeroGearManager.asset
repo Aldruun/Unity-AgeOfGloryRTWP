@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60065aeac21981b49a2215563c8fdf33, type: 3}
+  m_Name: HeroGearManager
+  m_EditorClassIdentifier: 
+  gearUpgrades:
+  - m_class: 0
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 1
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 2
+    weaponUpgrades:
+    - pAttackBonus: 2
+      mAttackBones: 1
+      pDefBonus: 2
+      mDefBonus: 1
+      m_gearLevel: 1
+      m_upgradeObject: {fileID: 5919939731254064859, guid: 39ab256e13ba3664cb7026296f7aef48, type: 3}
+    secondaryUpgrades: []
+  - m_class: 3
+    weaponUpgrades:
+    - pAttackBonus: 1
+      mAttackBones: 1
+      pDefBonus: 1
+      mDefBonus: 1
+      m_gearLevel: 1
+      m_upgradeObject: {fileID: 6757422144774219773, guid: e68a7b786ac8d834fbb7ad1df481183f, type: 3}
+    secondaryUpgrades: []
+  - m_class: 4
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 5
+    weaponUpgrades:
+    - pAttackBonus: 1
+      mAttackBones: 1
+      pDefBonus: 1
+      mDefBonus: 1
+      m_gearLevel: 1
+      m_upgradeObject: {fileID: 2957269374131374107, guid: e93ef63db7c074c448472dd1ee5cb502, type: 3}
+    secondaryUpgrades: []
+  - m_class: 6
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 7
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 8
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 9
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 10
+    weaponUpgrades:
+    - pAttackBonus: 1
+      mAttackBones: 1
+      pDefBonus: 1
+      mDefBonus: 1
+      m_gearLevel: 1
+      m_upgradeObject: {fileID: 2445427160723205714, guid: 4bad727aa2afecd4e8a0e310982c46fb, type: 3}
+    secondaryUpgrades: []
+  - m_class: 11
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 12
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 13
+    weaponUpgrades: []
+    secondaryUpgrades: []
+  - m_class: 14
+    weaponUpgrades:
+    - pAttackBonus: 1
+      mAttackBones: 1
+      pDefBonus: 1
+      mDefBonus: 1
+      m_gearLevel: 1
+      m_upgradeObject: {fileID: 2932805120865876856, guid: 64111c3d102277c4692239648a68ff41, type: 3}
+    secondaryUpgrades: []

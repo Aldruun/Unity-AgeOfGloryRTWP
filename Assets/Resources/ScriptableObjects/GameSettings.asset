@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e278a922285379042861a378dea4b606, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  gameDifficulty: 1
+  friendlyFire: 0
+  interactionDistance: 2
+  actorMoveDampRun: 3
+  actorMoveDampWalk: 5
+  expExponentialCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.9663384
+      outSlope: 0.9663384
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5141127
+      value: 0.49680686
+      inSlope: -0.02806753
+      outSlope: -0.02806753
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.0224735
+      outSlope: -1.0224735
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  agentLayers:
+    serializedVersion: 2
+    m_Bits: 4195328
+  aiUpdateInterval: 0.2
+  baseAggroRange: 0.2
+  globalExpMult: 1
+  globalDmgMult: 1
+  globalManaCostMult: 1
+  globalManaRegenMult: 1
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5122558
+      value: 0.49646866
+      inSlope: -0.06768205
+      outSlope: -0.06768205
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10650077
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.0388138
+      outSlope: -2.0388138
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08436476
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  upperBodyAimOffset: {x: 0, y: 0, z: 0}
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_climbSpeedLadder: 2
+  m_delay_drawWeapon_lefthip: 0.4
+  m_delay_sheathWeapon_lefthip: 0.4
+  ActorCircleFlashGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0, g: 1, b: 0, a: 1}
+    key2: {r: 0, g: 1, b: 0, a: 0}
+    key3: {r: 0, g: 1, b: 0, a: 1}
+    key4: {r: 0, g: 1, b: 0, a: 1}
+    key5: {r: 1, g: 1, b: 1, a: 1}
+    key6: {r: 1, g: 1, b: 1, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 11737
+    ctime2: 26792
+    ctime3: 37201
+    ctime4: 53236
+    ctime5: 65535
+    ctime6: 65535
+    ctime7: 0
+    atime0: 0
+    atime1: 4357
+    atime2: 32768
+    atime3: 60909
+    atime4: 65535
+    atime5: 65535
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 6
+    m_NumAlphaKeys: 5
+  m_floatingInfoHeight: 2
+  rotationSpeed: 120
+  DebugAILineOfSight: 1
+  DebugAITargetScans: 0
+  DebugSkillAOEProjectile: 0
+  DebugSkillBeamProjectile: 0
+  DebugProjectileOnTrigger: 0
