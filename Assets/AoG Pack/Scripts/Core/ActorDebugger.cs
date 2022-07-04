@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActorDebugger : MonoBehaviour
 {
-    internal List<ActorInput> registeredRuntimeActors;
+    public List<ActorInput> registeredRuntimeActors;
 
     public ActorInput observedActor { get; private set; }
 

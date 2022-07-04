@@ -7,12 +7,12 @@ public abstract class StatusEffect
     protected float _intervalTime;
     protected bool _percentage;
     private float _tickTimer;
-    internal int rounds;
-    internal int effectValue;
-    internal float tickTime;
+    public int rounds;
+    public int effectValue;
+    public float tickTime;
     protected bool _done;
 
-    internal Status statusEffect;
+    public Status statusEffect;
 
     public void Init(ActorInput actor, int rounds)
     {

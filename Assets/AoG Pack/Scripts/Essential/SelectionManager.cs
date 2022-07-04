@@ -32,14 +32,7 @@ public class SelectionManager
 
     public float leftMouseButtonDownTime;
 
-    private bool _startedOverGUI;
-    //float _leftButtonDownTime;
-    private float _lastClickTime = 0;
-    private bool _doubleClicked;
-    public float doubleClickCatchTime = 0.25f;
-
-    //public static int numSelected;
-
+    private bool startedOverGUI;
     private Rect selectionRect;
 
     private Vector2 squareStartPos;
@@ -50,16 +43,7 @@ public class SelectionManager
     {
         cameraMain = camera;
         this.selectionBoxVisual = selectionBoxVisual;
-        //if(current != null && current != this)
-        //{
-
-        //    Debug.LogError("Only one instance allowed");
-        //    Destroy(this);
-        //}
-        //else
-        //    current = this;
-
-        //selectedUnits = new List<ActorInput>();
+      
         PCsInSelRect = new List<ActorInput>();
         selected = new List<ActorInput>();
         selectionBoxVisual.gameObject.SetActive(false);
@@ -95,20 +79,17 @@ public class SelectionManager
         }
 
         if(Input.GetMouseButtonDown(0))
-            _startedOverGUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1);
-
-        //_holdingShift = Input.GetKey(KeyCode.LeftShift);
+            startedOverGUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1);
 
         // If we are above a GUI element, bail out
-        if(_startedOverGUI)
+        if(startedOverGUI)
         {
-
             if(Input.GetMouseButtonUp(0))
             {
 
-                _startedOverGUI = false;
+                startedOverGUI = false;
             }
-            //Debug.LogError("Started over UI");
+
             return;
         }
 
@@ -130,49 +111,15 @@ public class SelectionManager
                     Debug.Log("<color=orange>Click on actor</color>");
                 ActorInput clickedAgent = hitUnitClick.collider.GetComponentInParent<ActorInput>();
 
-                // Calculate double click
-                //if(Time.unscaledTime - _lastClickTime < doubleClickCatchTime)
-                //{
-
-                //SelectHeroes(GetVisibleAgents(), (Input.GetKey(addToSelectionKey) == false));
-                //foreach(Agent agent in ResourceManager.agents) {
-
-                //    if(agent.GetComponentInChildren<Renderer>().IsVisibleFrom(Camera.main)) {
-
-                //        SelectAgent(clickedAgent);
-                //    }
-                //}
-                //}
-
-                //if(_doubleClicked == false)
-                //{
-
-                //DeselectAll();
                 if(clickedAgent is ActorInput ac)
                 {
                     if(ac.IsPlayer)
                     {
-                        //UnitInfoPanel.ShowInfo(clickedAgent);
                         SelectPC(ac, /*ac.ActorRecord.faction == Faction.Bandits || ac.ActorRecord.faction == Faction.Monsters,*/ (Input.GetKey(KeyCode.LeftShift) == false));
                     }
                 }
-                //}
             }
-
-            _lastClickTime = Time.unscaledTime;
-
-            leftMouseButtonDownTime = 0;
         }
-        if(Input.GetMouseButton(0))
-        {
-            //if((squareStartPos - Input.mousePosition).magnitude > 10)
-            //{
-
-            //}
-
-            leftMouseButtonDownTime += Time.deltaTime;
-        }
-
     }
 
     private List<ActorInput> GetSelectedPCs()
@@ -258,8 +205,11 @@ public class SelectionManager
         if(newUnitUnderCursor == null)
         {
             if(actorUnderCursor != null)
+            {
                 actorUnderCursor.ActorUI.Unhighlight();
-            actorUnderCursor = null;
+                actorUnderCursor = null;
+            }
+
             return;
         }
 
@@ -267,19 +217,12 @@ public class SelectionManager
         {
             if(actorUnderCursor != newUnitUnderCursor)
             {
-                //UIHandler.SetCursor(0);
                 actorUnderCursor.ActorUI.Unhighlight();
-                //    actorUnderCursor.Highlight();
             }
         }
 
         actorUnderCursor = newUnitUnderCursor;
         newUnitUnderCursor.ActorUI.Highlight();
-    }
-
-    private void SelectNPC(ActorInput npc)
-    {
-        selectedNPC = npc;
     }
 
     public static void SelectPC(ActorInput actor, bool deselectOthers)
@@ -298,8 +241,6 @@ public class SelectionManager
         // If the clicked thing is not selected yet ...
         if(selected.Contains(actor) == false)
         {
-            //Debug.Log("* Selecting agent '" + agent.gameObject.name + "'");
-            //UnitInfoPanel.ShowInfo(actor);
             selectedNPC = null;
             actor.ActorUI.Select();
             selected.Add(actor);
@@ -343,23 +284,8 @@ public class SelectionManager
 
         if(selected.Contains(actor))
         {
-            //agent.Unhighlight();
             actor.ActorUI.Deselect();
             selected.Remove(actor);
-            //Debug.Log("* Deselecting agent '" + agent.gameObject.name + "'");
-            GameEventSystem.OnPartyMemberDeselected?.Invoke(actor);
-            //UIHandler.HighlightPartymemberPortrait(actor.PartyIndex, false);
-        }
-        //else
-        //{
-
-        //    Debug.LogError("Can't deselect agent, because it was not selected");
-        //}
-
-        if(selected.Count == 0)
-        {
-
-            //UnitInfoPanel.Hide();
         }
     }
 
@@ -375,13 +301,8 @@ public class SelectionManager
 
     public static void DeselectAllPCs()
     {
-
-        //Debug.Log("* Deselecting all");
-        //UnitInfoPanel.Hide();
-
         foreach(ActorInput actor in selected.ToArray())
         {
-
             DeselectPC(actor);
         }
     }
@@ -402,7 +323,9 @@ public class SelectionManager
             SelectPC(actor, Input.GetKey(KeyCode.LeftShift) == false);
         }
         else
-            DeselectPC(actor);
+        {
+            DeselectPC(actor); 
+        }
 
         GameEventSystem.OnPCSelectionStateChanged?.Invoke(actor, actor.aiControlled); //TODO Update all ui info of this actor
     }
@@ -429,8 +352,8 @@ public class SelectionManager
     //{
     //    foreach(ActorInput actor in selected)
     //    {
-    //Debug.Log("# Setting move state on selected");
-    //actor.Combat.Execute_SetMovementSpeed((MovementSpeed)speedIndex);
+    //        Debug.Log("# Setting move state on selected");
+    //        actor.Combat.Execute_SetMovementSpeed((MovementSpeed)speedIndex);
     //    }
     //}
 
@@ -460,7 +383,6 @@ public class SelectionManager
             {
                 return;
             }
-
 
             PCsInSelRect = new List<ActorInput>(GetPCsInsideSelRect());
 
@@ -506,7 +428,6 @@ public class SelectionManager
         {
             selectionBoxVisual.sizeDelta = Vector2.zero;
         }
-
     }
 
     private void GetSelectionRectContent()
@@ -537,20 +458,17 @@ public class SelectionManager
     ActorInput[] GetPCsInsideSelRect()
     {
         List<ActorInput> pcsInsideSelRect = new List<ActorInput>();
-        //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
+
         foreach(ActorInput selectable in GameInterface.Instance.GetCurrentGame().PCs)
         {
-            //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
             Vector3 screenPos = cameraMain.WorldToScreenPoint(selectable.transform.position);
             screenPos.z = 0;
 
             if(selectionRect.Contains(screenPos))
                 pcsInsideSelRect.Add(selectable);
-
         }
 
         return pcsInsideSelRect.ToArray();
-        //}
     }
 
     private int numInSelRect;
@@ -581,7 +499,7 @@ public class SelectionManager
             foreach(ActorUI actorUI in pcsInsideSelRect)
             {
                 actorUI.ResetHighlighting();
-            } 
+            }
         }
     }
 

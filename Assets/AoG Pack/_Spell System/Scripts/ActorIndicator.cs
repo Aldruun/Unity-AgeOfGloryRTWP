@@ -1,11 +1,8 @@
-using System;
 using UnityEngine;
 
 public class ActorIndicator
 {
     internal bool isSpeaking;
-    private const float DURATION_FLASH = 0.2f;
-    private const float DURATION_TOWHITE = 0.2f;
     private readonly Transform indicatorMainPanel;
     private readonly ActorInput self;
     private readonly SpriteAnimationController _targetReticleAnimator;
@@ -18,7 +15,8 @@ public class ActorIndicator
     private float lerp_time;
     private float pingpongTime;
     private Color selectedColor;
-    private Gradient flashGradient;
+    private readonly Gradient flashGradient;
+    private bool selected;
 
     public ActorIndicator(ActorInput self, Gradient flashGradient)
     {
@@ -33,34 +31,11 @@ public class ActorIndicator
         circleRenderer = indicatorMainPanel.Find("circle").GetComponent<Renderer>();
         targetReticleRenderer = indicatorMainPanel.Find("targetreticle").GetComponent<Renderer>();
         _targetReticleAnimator = targetReticleRenderer.GetComponent<SpriteAnimationController>();
-     
+
         circleRenderer.enabled = true;
         targetReticleRenderer.enabled = false;
 
         this.flashGradient = flashGradient;
-    }
-
-    public void ToggleSpeaking(bool on)
-    {
-        if(isSpeaking == on)
-        {
-            return;
-        }
-
-        isSpeaking = on;
-
-        if(on)
-        {
-            circleOutline.outlineColor = Color.white;
-            //circleRenderer.material.color = Color.white;
-        }
-        else
-        {
-            circleOutline.outlineColor = self.ActorUI.Selected ? selectedColor : defaultColor;
-            //circleRenderer.material.color = _self.ActorUI.Selected ? _selectedColor : _defaultColor;
-            circleRenderer.transform.localScale = Vector3.one;
-            pingpongTime = 0.5f;
-        }
     }
 
     internal void ChangeRelationColor(AlignmentColor alignmentColor)
@@ -100,27 +75,41 @@ public class ActorIndicator
 
     internal void Release()
     {
-       
+
     }
 
     internal void SetHighlighted(bool on)
     {
-        if(highlighted != on)
+        if(highlighted == on || isSpeaking)
         {
-            lerp_time = 0;
-            highlighted = on;
+            return;
+        }
+
+        highlighted = on;
+
+        lerp_time = 0;
+        if(on)
+        {
+            circleOutline.outlineColor = selectedColor;
+
+        }
+        else
+        {
+            circleOutline.outlineColor = defaultColor;
+
         }
     }
 
     internal void SetSelected(bool on)
     {
+        selected = on;
+
         if(on)
         {
             if(isSpeaking == false)
             {
                 circleOutline.outlineColor = selectedColor;
             }
-            //circleRenderer.material.color = _selectedColor;
         }
         else
         {
@@ -128,21 +117,19 @@ public class ActorIndicator
             {
                 circleOutline.outlineColor = defaultColor;
             }
-            //circleRenderer.material.color = _defaultColor;
         }
     }
 
     internal void UpdateColor(bool talking)
     {
-        ToggleSpeaking(talking);
-        if(isSpeaking)
+        AnimateTalkCircle(talking);
+        if(talking)
         {
             if(targetReticleRenderer.enabled)
             {
                 SetTargetReticle(false);
             }
 
-            //_circleAnimator.UpdateFrames();
             pingpongTime += Time.unscaledDeltaTime;
             float curveValue = Mathf.Lerp(-0.1f, 1f, Mathf.PingPong(pingpongTime, 0.3f));
             circleRenderer.transform.localScale = Vector3.one * (1 + curveValue);
@@ -170,9 +157,32 @@ public class ActorIndicator
                 lerp_time = 0f;
             }
         }
+    }
+
+    /// <summary>
+    /// Enables indicator circle scaling and coloring based on the old Black Isle RPGs.
+    /// </summary>
+    /// <param name="on"></param>
+    private void AnimateTalkCircle(bool on)
+    {
+        if(isSpeaking == on)
+        {
+            return;
+        }
+
+        isSpeaking = on;
+
+        if(on)
+        {
+            circleOutline.outlineColor = Color.white;
+            Debug.Log("AnimateTalkCircle on");
+        }
         else
         {
-            lerp_time = 0f;
+            circleOutline.outlineColor = selected ? selectedColor : defaultColor;
+            circleRenderer.transform.localScale = Vector3.one;
+            pingpongTime = 0.5f;
+            Debug.Log("AnimateTalkCircle off");
         }
     }
 

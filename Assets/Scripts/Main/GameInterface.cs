@@ -16,12 +16,15 @@ namespace AoG.Core
     /// </summary>
     public class GameInterface : MonoBehaviour
     {
+        public static GameInterface Instance { get; private set; }
+
         //////////////////////////////
         // ScriptableObjects
         //////////////////////////////
         public static int newPlaySceneIndex = 1;
         public static bool initialized;
         public string StartPlaySceneName;
+        public DatabaseService DatabaseService;
 
         internal static UIScreenFader ScreenFader;
         private static Game currentGame;
@@ -33,9 +36,6 @@ namespace AoG.Core
         private Transform mapHierarchy;
 
         private IDataService jsonDataService;
-        public DatabaseService DatabaseService;
-
-        public static GameInterface Instance { get; private set; }
 
         private void Awake()
         {

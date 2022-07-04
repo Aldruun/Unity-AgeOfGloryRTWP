@@ -16,7 +16,7 @@ public static class ResourceManager
     ///////////////////////////////////////////////////
     // Shared ScriptableObjects
     ///////////////////////////////////////////////////
-    public static Dictionary<ActorStat, int> actorAttributesTemplate;
+    
     //public static ActorSkillDatabase actorSkillDatabase;
     public static VoiceSetDatabase voiceSetDatabase;
     public static Quest[] questRefs;
@@ -171,9 +171,7 @@ public static class ResourceManager
         //    actorSkillDatabase.GetActorSkillsBySpecialization(Specialization.STEALTH)
         //    );
 
-        actorAttributesTemplate = new Dictionary<ActorStat, int>();
-        foreach(ActorStat attr in System.Enum.GetValues(typeof(ActorStat)))
-            actorAttributesTemplate.Add(attr, 0);
+        
 
         voiceSetDatabase = Resources.Load<VoiceSetDatabase>("ScriptableObjects/VoiceSetDatabase");
         if(voiceSetDatabase == null)

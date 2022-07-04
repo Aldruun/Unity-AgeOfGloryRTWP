@@ -10,6 +10,8 @@ public class ActorDatabase : ScriptableObject
     public List<ActorConfiguration> Characters;
     public List<ActorConfiguration> Creatures;
 
+    static Dictionary<ActorStat, int> actorAttributesTemplate;
+
     internal ActorInput InstantiateAndSetUpActor(string uniqueID, Vector3 position, Quaternion rotation)
     {
         for(int i = 0; i < Characters.Count; i++)
@@ -29,6 +31,7 @@ public class ActorDatabase : ScriptableObject
                 config.Skillbook.Init(ref skills);
                 npcInput.SetSkills(skills);
                 npcInput.FinalizeActor(config);
+                npcInput.ActorStats.InitializeStats(CreateActorStatsDictionaryTemplate());
                 npcInput.Inventory.AddItems(config.InventoryTemplate.items);
                 npcInput.Equipment.EquipBestArmor();
                 //FinalizeActor(npcInput, inventory);
@@ -39,6 +42,18 @@ public class ActorDatabase : ScriptableObject
 
         Debug.LogError("ActorConfig not found");
         return null;
+    }
+
+    private Dictionary<ActorStat, int> CreateActorStatsDictionaryTemplate()
+    {
+        if(actorAttributesTemplate == null)
+        {
+            actorAttributesTemplate = new Dictionary<ActorStat, int>();
+            foreach(ActorStat attr in System.Enum.GetValues(typeof(ActorStat)))
+                actorAttributesTemplate.Add(attr, 0); 
+        }
+
+        return actorAttributesTemplate;
     }
 
     internal ActorConfiguration GetActorByUniqueID(string uniqueID)

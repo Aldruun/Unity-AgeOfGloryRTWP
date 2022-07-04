@@ -142,8 +142,7 @@ public class ActorStats
 
     public ActorStats()
     {
-        StatsBase = new Dictionary<ActorStat, int>(ResourceManager.actorAttributesTemplate);
-        StatsModified = new Dictionary<ActorStat, int>(ResourceManager.actorAttributesTemplate);
+        
         _enemyFlags = (_actorFlags & (int)ActorFlags.HOSTILE) != 0 ? (int)ActorFlags.PC | (int)ActorFlags.ALLY : (int)ActorFlags.HOSTILE;
 
         switch (Faction)
@@ -166,6 +165,12 @@ public class ActorStats
             default:
                 break;
         }
+    }
+
+    public void InitializeStats(Dictionary<ActorStat, int> stats)
+    {
+        StatsBase = new Dictionary<ActorStat, int>(stats);
+        StatsModified = new Dictionary<ActorStat, int>(stats);
     }
 
     public ActorFlags GetEnemyFlags()
