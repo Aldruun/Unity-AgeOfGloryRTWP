@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: c_magicalstone
+  m_EditorClassIdentifier: 
+  isBeingCasted: 0
+  ID: acidarrow
+  Name: Acid Arrow
+  description: 'A shimmering green arrow streaks toward a target within range and
+    bursts in a spray of acid.
+
+    Make a ranged spell attack against the target.
+
+    On
+    a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the
+    end of its next turn.
+
+    On a miss, the arrow splashes the target with acid
+    for half as much of the initial damage and no damage at the end of its next turn.
+
+
+    At
+    Higher Levels: When you cast this spell using a spell slot of 3rd level or higher,
+    the damage (both initial and later) increases by 1d4 for each slot level above
+    2nd.'
+  spellIcon: {fileID: 21300000, guid: cdb0036e0e912164e90c2c9f41ac76d8, type: 3}
+  grade: 1
+  targetClasses: 03000000
+  subCategory: 0
+  attackRollType: 0
+  effectType: 0
+  savingThrowType: 0
+  projectileType: 0
+  magicSchool: 3
+  equipType: 0
+  castingType: 0
+  deliveryType: 2
+  spellTargetType: 2
+  keywords: 0
+  magicEffects:
+  - {fileID: 11400000, guid: d2654c27999e56a469af53132e84b329, type: 2}
+  targetLogic: {fileID: 0}
+  attackRollRequired: 1
+  castingTime: 4
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 1
+  numDamageRollDieSides: 4
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 8
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
+  activationRange: 9
+  cooldownTime: 2
+  recoveryTime: 1
+  spellcastMotionIndex: 1
+  releaseMotionIndex: 3
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1.41
+  castTimeMult: 1.39

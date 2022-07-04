@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402dfb5f0708c6c4ca9d643e35d6a08f, type: 3}
+  m_Name: config_goblinwizard
+  m_EditorClassIdentifier: 
+  AICombatProfile: {fileID: 11400000, guid: 3d52ba57c22eaa942a0785f7c6997c63, type: 2}
+  ActorPrefab: {fileID: 106969297574497071, guid: 410b9da81048da244bac715812dab1ed, type: 3}
+  BakedWeapon: 0
+  UniqueID: 34c48faf-a459-4ef2-8aca-454946f4bab6
+  Name: Goblin Shaman
+  InventoryTemplate: {fileID: 11400000, guid: e61f52d8a7b2602479347cb89e782062, type: 2}
+  ActorFlags: 128
+  levelMin: 1
+  levelMax: 1
+  portraitSprite: {fileID: 21300000, guid: a983f27ae2dbedc49a0b8cc5f55c83ab, type: 3}
+  Skillbook: {fileID: 11400000, guid: 06ef6245ad255a242b0428645d305f8d, type: 2}
+  ActorRadius: 0.3
+  Health: 100
+  VoicesetID: Goblin02

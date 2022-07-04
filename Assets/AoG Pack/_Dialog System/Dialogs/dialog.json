@@ -1,0 +1,1366 @@
+[
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": -1,
+    "parent": null,
+    "children": [
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 0,
+        "children": [
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": [
+              {
+                "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+                "text": "",
+                "enabled": true,
+                "IsLink": false,
+                "depth": 2,
+                "children": null,
+                "hasChildren": false,
+                "name": "Element 41",
+                "id": 42
+              }
+            ],
+            "hasChildren": true,
+            "name": "Element 42",
+            "id": 43
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 1",
+            "id": 2
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 2",
+            "id": 3
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 3",
+            "id": 4
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 37",
+            "id": 38
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 38",
+            "id": 39
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 39",
+            "id": 40
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 40",
+            "id": 41
+          }
+        ],
+        "hasChildren": true,
+        "name": "nalise",
+        "id": 1
+      }
+    ],
+    "hasChildren": true,
+    "name": "[ROOT]",
+    "id": 0
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 0,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": -1,
+      "parent": null,
+      "children": [],
+      "hasChildren": true,
+      "name": "[ROOT]",
+      "id": 0
+    },
+    "children": [
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": [
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 2,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 41",
+            "id": 42
+          }
+        ],
+        "hasChildren": true,
+        "name": "Element 42",
+        "id": 43
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 1",
+        "id": 2
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 2",
+        "id": 3
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 3",
+        "id": 4
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 37",
+        "id": 38
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 38",
+        "id": 39
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 39",
+        "id": 40
+      },
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 1,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 40",
+        "id": 41
+      }
+    ],
+    "hasChildren": true,
+    "name": "nalise",
+    "id": 1
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": [
+      {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 2,
+        "children": null,
+        "hasChildren": false,
+        "name": "Element 41",
+        "id": 42
+      }
+    ],
+    "hasChildren": true,
+    "name": "Element 42",
+    "id": 43
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 2,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 1,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": 0,
+        "parent": {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": -1,
+          "parent": null,
+          "children": [],
+          "hasChildren": true,
+          "name": "[ROOT]",
+          "id": 0
+        },
+        "children": [
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 1",
+            "id": 2
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 2",
+            "id": 3
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 3",
+            "id": 4
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 37",
+            "id": 38
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 38",
+            "id": 39
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 39",
+            "id": 40
+          },
+          {
+            "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+            "text": "",
+            "enabled": true,
+            "IsLink": false,
+            "depth": 1,
+            "children": null,
+            "hasChildren": false,
+            "name": "Element 40",
+            "id": 41
+          }
+        ],
+        "hasChildren": true,
+        "name": "nalise",
+        "id": 1
+      },
+      "children": [],
+      "hasChildren": true,
+      "name": "Element 42",
+      "id": 43
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 41",
+    "id": 42
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 1",
+    "id": 2
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 2",
+    "id": 3
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 3",
+    "id": 4
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 37",
+    "id": 38
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 38",
+    "id": 39
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 40",
+          "id": 41
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 39",
+    "id": 40
+  },
+  {
+    "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+    "text": "",
+    "enabled": true,
+    "IsLink": false,
+    "depth": 1,
+    "parent": {
+      "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+      "text": "",
+      "enabled": true,
+      "IsLink": false,
+      "depth": 0,
+      "parent": {
+        "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+        "text": "",
+        "enabled": true,
+        "IsLink": false,
+        "depth": -1,
+        "parent": null,
+        "children": [],
+        "hasChildren": true,
+        "name": "[ROOT]",
+        "id": 0
+      },
+      "children": [
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": [
+            {
+              "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+              "text": "",
+              "enabled": true,
+              "IsLink": false,
+              "depth": 2,
+              "children": null,
+              "hasChildren": false,
+              "name": "Element 41",
+              "id": 42
+            }
+          ],
+          "hasChildren": true,
+          "name": "Element 42",
+          "id": 43
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 1",
+          "id": 2
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 2",
+          "id": 3
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 3",
+          "id": 4
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 37",
+          "id": 38
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 38",
+          "id": 39
+        },
+        {
+          "$type": "DialogueTreeElement, Assembly-CSharp-Editor",
+          "text": "",
+          "enabled": true,
+          "IsLink": false,
+          "depth": 1,
+          "children": null,
+          "hasChildren": false,
+          "name": "Element 39",
+          "id": 40
+        }
+      ],
+      "hasChildren": true,
+      "name": "nalise",
+      "id": 1
+    },
+    "children": null,
+    "hasChildren": false,
+    "name": "Element 40",
+    "id": 41
+  }
+]

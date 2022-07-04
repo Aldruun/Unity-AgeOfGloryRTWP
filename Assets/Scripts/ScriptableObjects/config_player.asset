@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402dfb5f0708c6c4ca9d643e35d6a08f, type: 3}
+  m_Name: config_player
+  m_EditorClassIdentifier: 
+  AICombatProfile: {fileID: 11400000, guid: 95dd0b450a9344042952b38a60f61d46, type: 2}
+  ActorPrefab: {fileID: 6931963087151721191, guid: ac75b7ff9c1002d44af6354c497ffb1b, type: 3}
+  BakedWeapon: 0
+  UniqueID: 5c016e05-8e20-4001-bdc5-1eee2a54e494
+  Name: Player
+  InventoryTemplate: {fileID: 11400000, guid: 449032662a45772429abcefebff343b9, type: 2}
+  ActorFlags: 2
+  levelMin: 2
+  levelMax: 2
+  portraitSprite: {fileID: 21300000, guid: 7cfb5fb7b683c2149a751396b7c57a21, type: 3}
+  Skillbook: {fileID: 11400000, guid: 40c9c97a53f59e84aa833f5c2549695f, type: 2}
+  ActorRadius: 0.3
+  Health: 100
+  VoicesetID: voiceset female confident

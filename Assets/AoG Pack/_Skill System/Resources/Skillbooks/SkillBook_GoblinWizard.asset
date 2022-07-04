@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed38c9b037f33e499dcb5a3bcad9c95, type: 3}
+  m_Name: SkillBook_GoblinWizard
+  m_EditorClassIdentifier: 
+  skills:
+  - priority: 1
+    skill: {fileID: 11400000, guid: 5df084e6df504f947a2478563c42dabd, type: 2}
+  - priority: 1
+    skill: {fileID: 11400000, guid: 9856b660892996c4aa3f959c7d0c0943, type: 2}
+  - priority: 2
+    skill: {fileID: 11400000, guid: 99f42d06102ce9347b53c408c4b60678, type: 2}
+  - priority: 3
+    skill: {fileID: 11400000, guid: 5615a452d9df8754e9b6be6ccd15910f, type: 2}

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
+  m_Name: effect_agannazarsscorcher
+  m_EditorClassIdentifier: 
+  ID: 
+  Name: 
+  magicSchool: 0
+  actor_skill_ref: 
+  affectedAttribute: 0
+  effectType: 0
+  effect: 0
+  keywords: 0
+  projectileType: 3
+  isPermanent: 0
+  magnitude: 0
+  duration: 0
+  projectileDiameter: 0
+  aoeRadius: 3
+  struckChance: 0
+  id_VFXHandIdle: 
+  id_VFXHandCharge: vfx_chargespell_fire
+  id_VFXHandRelease: 
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 
+  id_VFXProjectile: vfx_beam_agannazarsscorcher
+  projectileSpeed: 0
+  destroyOnImpact: 0
+  clampVFXToTarget: 0
+  damageType: 0
+  sfxDraw: {fileID: 0}
+  sfxSheath: {fileID: 0}
+  sfxCharge: {fileID: 0}
+  sfxReady: {fileID: 0}
+  sfxRelease: {fileID: 0}
+  sfxCastLoop: {fileID: 0}
+  sfxOnHit: []

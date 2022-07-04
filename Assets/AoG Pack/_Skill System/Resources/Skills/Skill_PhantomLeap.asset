@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a2a41b21463ba4c9c216ba6660cf3c, type: 3}
+  m_Name: Skill_PhantomLeap
+  m_EditorClassIdentifier: 
+  repeatIfNoAI: 0
+  activationRange: 5
+  animStateName: 
+  cooldown: 12
+  description: Teleports the rogue towards the enemy.
+  ActorMeshEffectType: 0
+  DamageType: 0
+  SpellTargetType: 0
+  DeliveryType: 4
+  fwdStartOffset: 0
+  effectValue: 10101
+  manaCost: 0
+  animatorLayer: 0
+  motionID: 0
+  needsWeaponDrawn: 0
+  recoveryTime: 1
+  skillIcon: {fileID: 21300000, guid: 0b1178881c6531d46a15b044721a4bf6, type: 3}
+  skillName: Phantom Leap
+  startVFXIdentifier: vfx_phantomleap_start
+  vfxDelay: 0.24
+  vfxIdentifier: vfx_phantomleap_end
+  vfx_impact_identifier: 
+  sfx_chargeSkill: {fileID: 0}
+  sfxlist_releaseSkill: []
+  minLeapRange: 3
+  rangeBonusPerLevel: 0.1

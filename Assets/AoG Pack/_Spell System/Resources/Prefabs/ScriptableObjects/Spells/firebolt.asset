@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: firebolt
+  m_EditorClassIdentifier: 
+  isBeingCasted: 0
+  ID: firebolt
+  Name: Fire Bolt
+  description: "Make a ranged spell attack against the target. On a hit, the target
+    takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn\u2019t
+    being worn or carried.\nThis spell\u2019s damage increases by 1d10 when you reach
+    5th level (2d10), 11th level (3d10), and 17th level (4d10)."
+  spellIcon: {fileID: 21300000, guid: a1c7a7ea6e38d904b98b74fb02275681, type: 3}
+  grade: 0
+  targetClasses: 0a0000000c000000
+  subCategory: 0
+  attackRollType: 2
+  effectType: 10
+  savingThrowType: 0
+  projectileType: 0
+  magicSchool: 4
+  equipType: 0
+  castingType: 0
+  deliveryType: 2
+  spellTargetType: 2
+  keywords: 1
+  magicEffects:
+  - {fileID: 11400000, guid: 55321a5aae07ba14da9137a79d781ecf, type: 2}
+  targetLogic: {fileID: 0}
+  attackRollRequired: 1
+  castingTime: 1
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 1
+  numDamageRollDieSides: 10
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 12
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
+  activationRange: 9
+  cooldownTime: 3
+  recoveryTime: 1
+  spellcastMotionIndex: 3
+  releaseMotionIndex: 0
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1
+  castTimeMult: 1

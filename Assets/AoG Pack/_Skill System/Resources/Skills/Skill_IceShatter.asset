@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769af0423c24bea4c941c817e661233e, type: 3}
+  m_Name: Skill_IceShatter
+  m_EditorClassIdentifier: 
+  activationRange: 3
+  animStateName: 
+  cooldown: 15
+  description: A moving Ice Wave, that freezes all creatures in its way.
+  ActorMeshEffectType: 2
+  DamageType: 7
+  SpellTargetType: 2
+  DeliveryType: 6
+  fwdStartOffset: 0
+  effectValue: 10
+  manaCost: 15
+  animatorLayer: 2
+  motionID: 2
+  needsWeaponDrawn: 0
+  recoveryTime: 4
+  skillIcon: {fileID: 21300000, guid: 4fb0ddab0b459b1498fddc7d4b507d38, type: 3}
+  skillName: Ice Shatter
+  startVFXIdentifier: vfx_charge_fireball
+  vfxDelay: 0
+  vfxIdentifier: vfx_iceshatter
+  vfx_impact_identifier: vfx_hit_ice
+  sfx_chargeSkill: {fileID: 8300000, guid: 46858196d1802d64e9e3157aa211d802, type: 3}
+  sfxlist_releaseSkill: []
+  keepGrounded: 1
+  destroyOnImpact: 0
+  ProjectileType: 3
+  vfxStartOffset: {x: 0, y: 0, z: 1}
+  vfxTargetOffset: {x: 0, y: 0, z: 0}
+  launchFromHandAnchor: 0
+  isMagic: 1
+  baseSpeed: 0
+  baseDamage: 10
+  damagePerSecond: 10
+  dpsDuration: 3
+  aoeRadius: 1.02
+  sfxlist_impact:
+  - {fileID: 8300000, guid: 9e159078ebea0384fa5cf964aeefebc7, type: 3}
+  - {fileID: 8300000, guid: 020bd6bcf2524b64b83e5f0d7e001320, type: 3}
+  beamDiameter: 1.98
+  beamRange: 3

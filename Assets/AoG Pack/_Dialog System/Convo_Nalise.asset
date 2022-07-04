@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3fcd3ccd1e74844994172f859609072, type: 3}
+  m_Name: Convo_Nalise
+  m_EditorClassIdentifier: 
+  nodes:
+  - ID: 0
+    endDialog: 0
+    moveToID: 1
+    dialog: "Seid gegr\xFC\xDFt! Lasst mich raten. Ihr seid auf der Suche nach dem
+      Oberhaupt der Goblins?"
+    choices:
+    - newStage: 1001
+      endDialog: 0
+      nextNodeID: 2
+      text: So ist es.
+      effects: 
+    - newStage: 1002
+      endDialog: 0
+      nextNodeID: 1
+      text: Das geht euch nichts an.
+      effects: 
+    - newStage: 1
+      endDialog: 0
+      nextNodeID: 1
+      text: Ihr irrt euch. Wir sind nur Abenteurer auf der Suche nach Gold. Lebt
+        wohl.
+      effects: 02000000
+  - ID: 2
+    endDialog: 0
+    moveToID: 0
+    dialog: Dann haben wir ein gemeinsames Ziel. Vielleicht sollten wir uns zusammentun.
+      Was denkt ihr?
+    choices:
+    - newStage: 1003
+      endDialog: 0
+      nextNodeID: 0
+      text: Nun gut. Folgt mir.
+      effects: 01000000
+    - newStage: 1002
+      endDialog: 0
+      nextNodeID: 3
+      text: Verschwindet!
+      effects: 01000000
+  - ID: 1001
+    endDialog: 1
+    moveToID: 0
+    dialog: "Viel Gl\xFCck auf euren Wegen."
+    choices: []
+  - ID: 1002
+    endDialog: 1
+    moveToID: 0
+    dialog: Wie ihr meint.
+    choices: []
+  - ID: 1003
+    endDialog: 1
+    moveToID: 0
+    dialog: Geht voran.
+    choices: []

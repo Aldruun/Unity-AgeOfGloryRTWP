@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769af0423c24bea4c941c817e661233e, type: 3}
+  m_Name: Skill_Fireball
+  m_EditorClassIdentifier: 
+  activationRange: 10
+  animStateName: 
+  cooldown: 7
+  description: A basic ball of fire. It is the standard spell of the wizard.
+  ActorMeshEffectType: 1
+  DamageType: 5
+  SpellTargetType: 2
+  DeliveryType: 5
+  fwdStartOffset: 0
+  effectValue: 10
+  manaCost: 15
+  animatorLayer: 2
+  motionID: 2
+  needsWeaponDrawn: 0
+  recoveryTime: 1.26
+  skillIcon: {fileID: 21300000, guid: c2402ab4304cbc74aacc52f2ce59929e, type: 3}
+  skillName: Fireball
+  startVFXIdentifier: vfx_charge_fireball
+  vfxDelay: 0
+  vfxIdentifier: vfx_projectile_fireball
+  vfx_impact_identifier: vfx_hit_fire
+  sfx_chargeSkill: {fileID: 0}
+  sfxlist_releaseSkill: []
+  keepGrounded: 0
+  destroyOnImpact: 1
+  impactType: 0
+  ProjectileType: 0
+  vfxStartOffset: {x: 0, y: 0, z: 0}
+  vfxTargetOffset: {x: 0, y: 0, z: 0}
+  launchFromHandAnchor: 1
+  isMagic: 1
+  baseSpeed: 5
+  baseDamage: 10
+  damagePerSecond: 10
+  dpsDuration: 3
+  aoeRadius: 3.02
+  sfxlist_impact:
+  - {fileID: 8300000, guid: 213bb4dbcedd58b47a38daa0e0300c83, type: 3}
+  beamDiameter: 0
+  beamRange: 0

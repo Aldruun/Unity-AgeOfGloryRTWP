@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769af0423c24bea4c941c817e661233e, type: 3}
+  m_Name: Skill_HolyBolt
+  m_EditorClassIdentifier: 
+  activationRange: 10
+  animStateName: 
+  cooldown: 4
+  description: A ball of divine fire that seeks evil beings.
+  ActorMeshEffectType: 4
+  DamageType: 0
+  SpellTargetType: 2
+  DeliveryType: 1
+  fwdStartOffset: 0
+  effectValue: 2
+  manaCost: 15
+  animatorLayer: 2
+  motionID: 2
+  needsWeaponDrawn: 0
+  recoveryTime: 2
+  skillIcon: {fileID: 21300000, guid: d100ab557f7028c49ac2286c3cf938bd, type: 3}
+  skillName: Holy Flame
+  startVFXIdentifier: vfx_charge_holyflame
+  vfxDelay: 0
+  vfxIdentifier: vfx_holybolt
+  vfx_impact_identifier: vfx_hit_holy
+  sfx_chargeSkill: {fileID: 8300000, guid: 39211bf96f7731242866d52181d3fef4, type: 3}
+  sfxlist_releaseSkill: []
+  keepGrounded: 0
+  destroyOnImpact: 1
+  ProjectileType: 0
+  vfxStartOffset: {x: 0, y: 0, z: 0}
+  vfxTargetOffset: {x: 0, y: 0, z: 0}
+  launchFromHandAnchor: 1
+  isMagic: 1
+  baseSpeed: 7
+  baseDamage: 2
+  damagePerSecond: 0
+  dpsDuration: 1
+  aoeRadius: 0
+  sfxlist_impact:
+  - {fileID: 8300000, guid: ac1b3394e2a9aed4cabbeeef25b7cfae, type: 3}
+  beamDiameter: 0
+  beamRange: 0

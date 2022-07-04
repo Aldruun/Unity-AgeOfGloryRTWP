@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769af0423c24bea4c941c817e661233e, type: 3}
+  m_Name: Skill_SoundBlast
+  m_EditorClassIdentifier: 
+  repeatIfNoAI: 0
+  activationRange: 10
+  animStateName: 
+  cooldown: 4
+  description: 'A wave of sounds '
+  ActorMeshEffectType: 0
+  DamageType: 0
+  SpellTargetType: 0
+  DeliveryType: 3
+  fwdStartOffset: 0
+  effectValue: 10101
+  manaCost: 0
+  animatorLayer: 0
+  motionID: 0
+  needsWeaponDrawn: 0
+  recoveryTime: 1.26
+  skillIcon: {fileID: 21300000, guid: c2402ab4304cbc74aacc52f2ce59929e, type: 3}
+  skillName: Sound Blast
+  startVFXIdentifier: 
+  vfxDelay: 0.61
+  vfxIdentifier: vfx_projectile_soundblast
+  vfx_impact_identifier: 
+  sfx_chargeSkill: {fileID: 0}
+  sfxlist_releaseSkill: []
+  keepGrounded: 0
+  destroyOnImpact: 1
+  damageType: 16
+  impactType: 4
+  ProjectileType: 0
+  vfxStartOffset: {x: 0, y: 0, z: 0}
+  vfxTargetOffset: {x: 0, y: 0, z: 0}
+  launchFromHandAnchor: 1
+  isMagic: 1
+  baseSpeed: 7
+  baseDamage: 7
+  damagePerSecond: 4
+  dpsDuration: 1
+  aoeRadius: 0
+  sfxlist_impact: []
+  beamDiameter: 0
+  beamRange: 0

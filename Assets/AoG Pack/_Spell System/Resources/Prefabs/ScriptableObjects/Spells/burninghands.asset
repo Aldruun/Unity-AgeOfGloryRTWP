@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: burninghands
+  m_EditorClassIdentifier: 
+  ID: burninghands
+  Name: Burning Hands
+  description: "Casting Time: 1 action\r\nRange: Self (15-foot cone)\r\nComponents:
+    V S\r\nDuration: Instantaneous\r\nClasses: Sorcerer, Wizard\nAs you hold your
+    hands with thumbs touching and fingers spread, a thin sheet of flames shoots
+    forth from your outstretched fingertips. Each creature in a 15-foot cone must
+    make a Dexterity saving throw. A creature takes 3d6 fire damage on a failed save,
+    or half as much damage on a successful one. The fire ignites any flammable objects
+    in the area that aren\u2019t being worn or carried."
+  spellIcon: {fileID: 21300000, guid: d2cb297d0f55e2544a0ad46253d61b76, type: 3}
+  spellType: 0
+  magicSchool: 4
+  equipType: 1
+  castingType: 1
+  deliveryType: 7
+  magicEffects:
+  - {fileID: 11400000, guid: 6b2a0cd6f7bbfa840a9c42b9c6d8dd6b, type: 2}
+  magicEffectsData: []
+  targetLogic: {fileID: 0}
+  spellcastMotionIndex: 2
+  releaseMotionIndex: 2
+  needsPreparation: 0
+  needsToStopMoving: 0
+  cost: 0
+  activationRange: 3
+  chargeTimeMult: 1
+  castTimeMult: 1
+  cooldownTime: 2
+  recoveryTime: 3
+  travelSpeed: 0
+  grade: 1
+  castingTime: 1

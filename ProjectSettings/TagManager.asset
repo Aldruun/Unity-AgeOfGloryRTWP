@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - PopupContainer
+  - PlayerSpawnPoint
+  - ui info
+  - InventoryPreviewCamera
+  - PlayerInventory
+  - Cursor
+  - SelectionRect
+  - PortraitPanel
+  - UIMaster
+  - WorldMap
+  - Settlement
+  - MapInfo
+  - PlayerSpawnpoint
+  - WorldUpdater
+  - PersistentManagers
+  - Interface
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Emissive
+  - Reticles
+  - Obstacles
+  - Ground
+  - Actors
+  - Interactables
+  - Corpses
+  - Projectiles
+  - Selectables
+  - QuestBoards
+  - Cave
+  - VFX
+  - Construction
+  - FogOfWarStencil
+  - FOWProjector
+  - FOWPlane
+  - Player
+  - Doors
+  - SceneTransition
+  - Bodyparts
+  - ActorCircles
+  - Containers
+  - 
+  - 
+  - PortraitCreation
+  - PostProcessingStack
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Particles Fog
+    uniqueID: 2600255965
+    locked: 0
+  - name: Sparkles
+    uniqueID: 2528062943
+    locked: 0

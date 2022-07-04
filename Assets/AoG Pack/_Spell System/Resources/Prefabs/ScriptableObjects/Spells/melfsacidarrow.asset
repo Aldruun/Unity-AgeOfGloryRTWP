@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: melfsacidarrow
+  m_EditorClassIdentifier: 
+  ID: melfsacidarrow
+  Name: Melf's Acid Arrow
+  description: 'A shimmering green arrow streaks toward a target within range and
+    bursts in a spray of acid.
+
+    Make a ranged spell attack against the target.
+
+    On
+    a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the
+    end of its next turn.
+
+    On a miss, the arrow splashes the target with acid
+    for half as much of the initial damage and no damage at the end of its next turn.
+
+
+    At
+    Higher Levels: When you cast this spell using a spell slot of 3rd level or higher,
+    the damage (both initial and later) increases by 1d4 for each slot level above
+    2nd.'
+  spellIcon: {fileID: 21300000, guid: 12580a9e8343d9e4194c7784f90c3b4b, type: 3}
+  grade: 2
+  targetClasses: 0c000000
+  subCategory: 0
+  attackRollType: 0
+  effectType: 1
+  savingThrowType: 0
+  projectileType: 0
+  magicSchool: 4
+  equipType: 0
+  castingType: 0
+  deliveryType: 2
+  spellTargetType: 2
+  keywords: 32
+  magicEffects:
+  - {fileID: 11400000, guid: b50aca43d93d0dc43bd178e353721000, type: 2}
+  targetLogic: {fileID: 0}
+  attackRollRequired: 1
+  castingTime: 1
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 2
+  numDamageRollDieSides: 4
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 8
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
+  activationRange: 9
+  cooldownTime: 2
+  recoveryTime: 1
+  spellcastMotionIndex: 0
+  releaseMotionIndex: 0
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1.41
+  castTimeMult: 1.39

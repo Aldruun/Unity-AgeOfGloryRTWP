@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769af0423c24bea4c941c817e661233e, type: 3}
+  m_Name: Skill_DragonSneeze
+  m_EditorClassIdentifier: 
+  activationRange: 3
+  animStateName: 
+  cooldown: 15
+  description: Even a sneeze of a dragon can be devastating.
+  ActorMeshEffectType: 1
+  DamageType: 5
+  SpellTargetType: 2
+  DeliveryType: 6
+  fwdStartOffset: 0
+  effectValue: 10
+  manaCost: 15
+  animatorLayer: 2
+  motionID: 2
+  needsWeaponDrawn: 0
+  recoveryTime: 4
+  skillIcon: {fileID: 21300000, guid: 98b65887d04a856459b2a00d4d736514, type: 3}
+  skillName: Dragon Sneeze
+  startVFXIdentifier: vfx_charge_fireball
+  vfxDelay: 0
+  vfxIdentifier: vfx_spell_dragonsneeze
+  vfx_impact_identifier: vfx_hit_fire
+  sfx_chargeSkill: {fileID: 8300000, guid: 5bbb0d61fe2eeab499d6802a082ecd37, type: 3}
+  sfxlist_releaseSkill: []
+  repeatIfNoAI: 0
+  keepGrounded: 0
+  destroyOnImpact: 0
+  ProjectileType: 3
+  vfxStartOffset: {x: 0, y: 0, z: 0.49}
+  vfxTargetOffset: {x: 0, y: 0, z: 0}
+  launchFromHandAnchor: 1
+  isMagic: 1
+  baseSpeed: 0
+  baseDamage: 10
+  damagePerSecond: 10
+  dpsDuration: 3
+  aoeRadius: 1.98
+  sfxlist_impact:
+  - {fileID: 8300000, guid: 18e70938ca6234c4ea1dee5b1bd1d512, type: 3}
+  - {fileID: 8300000, guid: 08a38c40b681f03409fa3d19f75546f1, type: 3}
+  - {fileID: 8300000, guid: 3a32ecf6b88b2884cb0e0a7824110e87, type: 3}
+  - {fileID: 8300000, guid: e7e7b69f545e38c4588a71e2377e9f23, type: 3}
+  beamDiameter: 2.22
+  beamRange: 4.26

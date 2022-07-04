@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: fireball
+  m_EditorClassIdentifier: 
+  ID: fireball
+  Name: Fireball
+  description: 'A bright streak flashes from your pointing finger to a point you
+    choose within range and then blossoms with a low roar into an explosion of flame.
+
+    Each
+    creature in a 20-foot-radius sphere centered on that point must make a Dexterity
+    saving throw.
+
+    A target takes 8d6 fire damage on a failed save, or half as
+    much damage on a successful one.
+
+
+    At Higher Levels: When you cast this spell
+    using a spell slot of 4th level or higher, the damage increases by 1d6 for each
+    slot level above 3rd.'
+  spellIcon: {fileID: 21300000, guid: c2402ab4304cbc74aacc52f2ce59929e, type: 3}
+  grade: 3
+  targetClasses: 06000000
+  subCategory: 0
+  attackRollType: 0
+  effectType: 10
+  savingThrowType: 6
+  projectileType: 0
+  magicSchool: 4
+  equipType: 1
+  castingType: 0
+  deliveryType: 3
+  spellTargetType: 0
+  keywords: 1
+  magicEffects:
+  - {fileID: 11400000, guid: 9ecb4c475afd7b445a6e03beab54f52f, type: 2}
+  targetLogic: {fileID: 0}
+  attackRollRequired: 0
+  castingTime: 3
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 8
+  numDamageRollDieSides: 6
+  higherSlotBonusDice: 1
+  aoeRadius: 7
+  travelSpeed: 7
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
+  activationRange: 12
+  cooldownTime: 3
+  recoveryTime: 2
+  spellcastMotionIndex: 0
+  releaseMotionIndex: 0
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1
+  castTimeMult: 1

@@ -1,0 +1,41 @@
+Required Chat Mapper Template Fields for: E:\Unity Projects\Age of Glory - Heroes\Assets\AoG Pack\_Dialog System\DfU Exports\dfudb1.xml
+
+ACTORS (in this order):
+[1] Name: Text
+[2] Pictures: Files
+[3] Description: Text
+[4] IsPlayer: Boolean
+
+ITEMS (in this order):
+[1] Name: Text
+[2] Pictures: Files
+[3] Description: Text
+[4] Is Item: Boolean
+[5] Success Description: Text
+[6] Failure Description: Text
+[7] State: Text
+
+LOCATIONS (in this order):
+[1] Name: Text
+[2] Description: Text
+
+USER VARIABLES (in this order):
+[1] Name: Text
+[2] Initial Value: Text
+[3] Description: Text
+
+CONVERSATIONS (in this order):
+[1] Title: Text
+[2] Description: Text
+[3] ActorInput: ActorInput
+[4] Conversant: ActorInput
+
+DIALOGUE NODES (in this order):
+[1] Title: Text
+[2] Description: Text
+[3] ActorInput: ActorInput
+[4] Conversant: ActorInput
+[5] Menu Text: Text
+[6] Dialogue Text: Text
+[7] Sequence: Text
+[8] canvasRect: Text

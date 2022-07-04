@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda635d5804a65446b9dc8d48adc98b3, type: 3}
+  m_Name: comb_cleric
+  m_EditorClassIdentifier: 
+  AIProfile:
+    AIFlags: 14
+    meleeAttackEnemyHPThreshold: 0
+    rangedAttackEnemyHPThreshold: 0
+    offensiveAttackEnemyHPThreshold: 0
+    healThreshold: 0
+  IsRanged: 1
+  AggroRange: 20
+  AttackRange: 10
+  AttackInterval: 2
+  MinDamage: 2
+  MaxDamage: 4
+  AIUpdateInterval: 0.1
+  Acceleration: 12
+  AngularSpeed: 120
+  AreaMask: -1
+  AvoidancePriority: 50
+  BaseOffset: 0
+  ObstacleAvoidanceType: 1
+  Speed: 3

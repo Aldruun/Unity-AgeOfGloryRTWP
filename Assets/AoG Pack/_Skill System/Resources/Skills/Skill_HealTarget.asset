@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e69dda9af6004b4faa9a916e9df83d8, type: 3}
+  m_Name: Skill_HealTarget
+  m_EditorClassIdentifier: 
+  activationRange: 5
+  animStateName: 
+  cooldown: 7
+  description: Heals target by a certain percentage.
+  ActorMeshEffectType: 0
+  DamageType: 11
+  SpellTargetType: 1
+  DeliveryType: 3
+  fwdStartOffset: 0
+  effectValue: 15
+  manaCost: 20
+  animatorLayer: 2
+  motionID: 1
+  needsWeaponDrawn: 0
+  recoveryTime: 2
+  skillIcon: {fileID: 21300000, guid: 286ca9888395384469e2e18f62ff2d48, type: 3}
+  skillName: Heal
+  startVFXIdentifier: vfx_skillactivation_healsingletarget
+  vfxDelay: 0.51
+  vfxIdentifier: vfx_skill_healtarget
+  vfx_impact_identifier: 
+  sfx_chargeSkill: {fileID: 8300000, guid: 311b735e8e6fdb84cb74fb7df0c05363, type: 3}
+  sfxlist_releaseSkill: []
+  checkWoundedRadius: 20
+  healHealthPercAllies: 0.7
+  healHealthPercSelf: 0.5

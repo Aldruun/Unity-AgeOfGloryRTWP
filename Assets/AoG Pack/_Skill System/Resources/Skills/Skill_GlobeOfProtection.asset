@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7974190aac28e640b97644673ffe2c8, type: 3}
+  m_Name: Skill_GlobeOfProtection
+  m_EditorClassIdentifier: 
+  repeatIfNoAI: 0
+  activationRange: 5
+  animStateName: 
+  cooldown: 20
+  description: A magical sphere that reduces physical damage greatly.
+  ActorMeshEffectType: 0
+  DamageType: 0
+  SpellTargetType: 1
+  DeliveryType: 5
+  fwdStartOffset: 0
+  effectValue: 10101
+  manaCost: 20
+  animatorLayer: 2
+  motionID: 1
+  needsWeaponDrawn: 0
+  recoveryTime: 2
+  skillIcon: {fileID: 21300000, guid: 910b536f844277b4eacf294421f24971, type: 3}
+  skillName: Globe Of Protection
+  startVFXIdentifier: vfx_chargespell_magic
+  vfxDelay: 1
+  vfxIdentifier: vfx_globeofprotection
+  vfx_impact_identifier: 
+  sfx_chargeSkill: {fileID: 0}
+  sfxlist_releaseSkill:
+  - {fileID: 8300000, guid: cd610220c6e102c43911e857cacc13c6, type: 3}
+  checkFriendsRadius: 5
+  globeLifeTime: 10
+  lifeTimeBonusPerLevel: 0.3

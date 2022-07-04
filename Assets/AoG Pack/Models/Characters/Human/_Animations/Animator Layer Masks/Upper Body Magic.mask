@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Upper Body Magic
+  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature Human Female
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/anchor_2hhammer
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/anchor_2hsword
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/anchor_bow
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/anchor_quiver
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/anchor_rifle
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/breast.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/breast.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/neck
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/neck/head
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/neck/head/eye.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/neck/head/eye.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/neck/head/Jaw
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/anchor_hand.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L/f_index.02.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L/f_index.02.L/f_index.03.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L/f_middle.02.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L/f_middle.02.L/f_middle.03.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L/f_pinky.02.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L/f_pinky.02.L/f_pinky.03.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L/f_ring.02.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L/f_ring.02.L/f_ring.03.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L/thumb.02.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L/thumb.02.L/thumb.03.L
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/anchor_hand.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R/f_index.02.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R/f_index.02.R/f_index.03.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R/f_middle.02.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R/f_middle.02.R/f_middle.03.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R/f_pinky.02.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R/f_pinky.02.R/f_pinky.03.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R/f_ring.02.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R/f_ring.02.R/f_ring.03.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R/thumb.02.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/abdomen/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R/thumb.02.R/thumb.03.R
+    m_Weight: 1
+  - m_Path: Armature Human Female/ROOT/hips/anchor_hip
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/pelvis.L
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/pelvis.R
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.L
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.L/shin.L
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.L/shin.L/foot.L
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.L/shin.L/foot.L/toe.L
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.R
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.R/shin.R
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.R/shin.R/foot.R
+    m_Weight: 0
+  - m_Path: Armature Human Female/ROOT/hips/thigh.R/shin.R/foot.R/toe.R
+    m_Weight: 0
+  - m_Path: Human Female
+    m_Weight: 1

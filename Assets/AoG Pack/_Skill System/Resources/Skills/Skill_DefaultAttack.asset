@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38635d30e58c814ea037dc5919b55c1, type: 3}
+  m_Name: Skill_DefaultAttack
+  m_EditorClassIdentifier: 
+  activationRange: 2
+  animStateName: 
+  cooldown: 2
+  description: N/A
+  ActorMeshEffectType: 0
+  DamageType: 0
+  SpellTargetType: 2
+  DeliveryType: 8
+  fwdStartOffset: 0
+  effectValue: 10101
+  manaCost: 0
+  animatorLayer: 1
+  motionID: -1
+  needsWeaponDrawn: 0
+  recoveryTime: 2
+  skillIcon: {fileID: 21300000, guid: ee2e2efe6af33aa45b3abb012b1a6abf, type: 3}
+  skillName: Default Attack
+  startVFXIdentifier: 
+  vfxDelay: 0
+  vfxIdentifier: 
+  vfx_impact_identifier: 
+  sfx_chargeSkill: {fileID: 0}
+  sfxlist_releaseSkill: []

@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
+  m_Name: lightingbolt
+  m_EditorClassIdentifier: 
+  isBeingCasted: 0
+  ID: lightningbolt
+  Name: Lightning Bolt
+  description: "Casting Time: 1 action\r\nRange: Self (100-foot line)\r\nComponents:
+    V S M (A bit of fur and a rod of amber, crystal, or glass)\r\nDuration: Instantaneous\r\nClasses:
+    Sorcerer, Wizard\r\nA stroke of lightning forming a line 100 feet long and 5
+    feet wide blasts out from you in a direction you choose. Each creature in the
+    line must make a Dexterity saving throw. A creature takes 8d6 lightning damage
+    on a failed save, or half as much damage on a successful one. The lightning ignites
+    flammable objects in the area that aren\u2019t being worn or carried.\r\nAt Higher
+    Levels: When you cast this spell using a spell slot of 4th level or higher, the
+    damage increases by 1d6 for each slot above 3rd.\r\n\r\n"
+  spellIcon: {fileID: 21300000, guid: 8503354471d365b4da2519972f78f6e7, type: 3}
+  grade: 3
+  targetClasses: 0a0000000c000000
+  subCategory: 0
+  attackRollType: 0
+  effectType: 3
+  savingThrowType: 6
+  projectileType: 0
+  magicSchool: 4
+  equipType: 1
+  castingType: 0
+  deliveryType: 7
+  spellTargetType: 0
+  keywords: 4
+  magicEffects:
+  - {fileID: 11400000, guid: f7a6fa673d28d1244a8ec92f452a4ba8, type: 2}
+  targetLogic: {fileID: 0}
+  attackRollRequired: 0
+  castingTime: 1
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 8
+  numDamageRollDieSides: 6
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 6
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
+  activationRange: 12
+  cooldownTime: 2.5
+  recoveryTime: 2
+  spellcastMotionIndex: 2
+  releaseMotionIndex: 0
+  effectDiameter: 1
+  effectRange: 0
+  chargeTimeMult: 1
+  castTimeMult: 1

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402dfb5f0708c6c4ca9d643e35d6a08f, type: 3}
+  m_Name: config_alethia
+  m_EditorClassIdentifier: 
+  AICombatProfile: {fileID: 11400000, guid: 813cba377b24c7e4a8de131cda799cee, type: 2}
+  ActorPrefab: {fileID: 5016249287824669278, guid: d013b2d02e85cd744b929027aa9e7e22, type: 3}
+  BakedWeapon: 0
+  UniqueID: 0c729bf1-d78b-48a4-81f7-a0c3a46dff1c
+  Name: Alethia
+  InventoryTemplate: {fileID: 11400000, guid: e61f52d8a7b2602479347cb89e782062, type: 2}
+  ActorFlags: 2
+  levelMin: 1
+  levelMax: 1
+  portraitSprite: {fileID: 21300000, guid: 88e01637216b9874e8a299f482aa135e, type: 3}
+  Skillbook: {fileID: 11400000, guid: ece6331be87f9434b9a742d1218a33f5, type: 2}
+  ActorRadius: 0.3
+  Health: 100
+  VoicesetID: voiceset female mysterious

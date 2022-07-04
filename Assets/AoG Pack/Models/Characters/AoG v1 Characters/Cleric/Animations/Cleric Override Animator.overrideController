@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cleric Override Animator
+  m_Controller: {fileID: 9100000, guid: 0b6314901b3b10e46ba02adedcc3a2e0, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 3684828129263205045, guid: 5781f21621a3ce84b80b441f3d84e7d7, type: 3}
+    m_OverrideClip: {fileID: 2125527651724223137, guid: f4157ffb132fe3b4fbf9d9a17d52268a, type: 3}
+  - m_OriginalClip: {fileID: -6386204677735159624, guid: 60a4bed7eac196f468a4c786f3a964f1, type: 3}
+    m_OverrideClip: {fileID: 1798856959095831919, guid: e23b29f061e0faa46b8c57c91f00c4a9, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 1c65dd869c486a64a8b8c5d0b2321f10, type: 2}
+    m_OverrideClip: {fileID: -8977530178556239251, guid: 940a71a6bde641c4cb3ce54938f8029c, type: 3}
+  - m_OriginalClip: {fileID: -500736016799534178, guid: ab02426aa0d4b9f46bd4b9e5b1e96a9e, type: 3}
+    m_OverrideClip: {fileID: -1654247744522176995, guid: 3b0662a8c01d1244ca17dfca1e3f3411, type: 3}
+  - m_OriginalClip: {fileID: -4011115396923104619, guid: 6954baa3a8790044aa1da77b7e091606, type: 3}
+    m_OverrideClip: {fileID: 8395632681811500239, guid: b424a260a480e594db455d478de6a006, type: 3}
+  - m_OriginalClip: {fileID: -5179610596376659227, guid: 17a64a40d3ef8b64e9c5efd9cbe71f7c, type: 3}
+    m_OverrideClip: {fileID: 8395632681811500239, guid: b424a260a480e594db455d478de6a006, type: 3}
+  - m_OriginalClip: {fileID: -2163141725159825376, guid: a7c5fdd8e30d56648b9da7abd713bcd0, type: 3}
+    m_OverrideClip: {fileID: 8395632681811500239, guid: b424a260a480e594db455d478de6a006, type: 3}
