@@ -5,39 +5,20 @@ using UnityEngine;
 
 public class ToDoList : ScriptableObject
 {
-
     public List<TodoList> todoLists;
-
-    //void Awake()
-    //{
-    //    if(textList.Count == 0)
-    //    {
-    //        TextObject t = new TextObject();
-    //        textList.Add(t);
-    //    }
-    //}
-
-   
 }
 
 [Serializable]
 public class TodoList
 {
-    //[GUIColor("GetColor")]
     public string title = "LIST TITLE";
     public List<TextObject> textList;
-    //public Color color;
 
     public TodoList()
     {
         title = "NEW LIST";
         textList = new List<TextObject>();
     }
-
-    //private Color GetColor()
-    //{
-    //    return color;
-    //}
 
     public void CreateNewText()
     {
@@ -68,12 +49,9 @@ public class TodoList
 public class TextObject
 {
     [TextArea(1, 10)]
-    //[GUIColor("GetColor")]
     public string s = "empty content item";
 
-    //[TableColumnWidth(40, Resizable = false)]
     public Color color;
-    //public bool show = true;
 
     private Color GetColor()
     {
