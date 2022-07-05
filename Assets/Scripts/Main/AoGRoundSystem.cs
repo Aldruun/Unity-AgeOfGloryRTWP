@@ -17,6 +17,7 @@ public class AoGRoundSystem
     private bool debugRoundSystem;
     private Actor self;
     private StatusEffectSystem statusEffectSystem;
+    private ActorStats stats;
 
     [Flags]
     enum LuckyRollFlags
@@ -29,6 +30,7 @@ public class AoGRoundSystem
     public AoGRoundSystem(Actor actor, StatusEffectSystem statusEffectSystem)
     {
         self = actor;
+        stats = actor.ActorStats;
         this.statusEffectSystem = statusEffectSystem;
     }
 
@@ -107,7 +109,7 @@ public class AoGRoundSystem
 
     public int GetTotalAPR()
     {
-        int apr = ActorUtility.GetModdedStat(self.ActorStats, ActorStat.APR);
+        int apr = self.ActorStats.GetStat(ActorStat.APR);
         //if(debug)
         //    Debug.Log(GetName() + " APR " + apr);
 
@@ -118,7 +120,7 @@ public class AoGRoundSystem
 
     public int GetAC()
     {
-        return ActorUtility.GetStatBase(self.ActorStats, ActorStat.AC);
+        return stats.GetBaseStat(ActorStat.AC);
     }
 
     public int GetACFromEquipment()
@@ -166,7 +168,7 @@ public class AoGRoundSystem
     {
         int luck;
 
-        luck = ActorUtility.GetStatBase(self.ActorStats, ActorStat.LUCK);
+        luck = stats.GetBaseStat(ActorStat.LUCK);
 
         //damageluck is additive with regular luck (used for maximized damage, righteous magic)
         if(flags.HasFlag(LuckyRollFlags.DAMAGELUCK))
@@ -176,7 +178,7 @@ public class AoGRoundSystem
 
         //it is always the opponent's luck that decrease damage (or anything)
         if(opponent != null)
-            luck -= ActorUtility.GetStatBase(opponent.ActorStats, ActorStat.LUCK);
+            luck -= opponent.ActorStats.GetBaseStat(ActorStat.LUCK);
 
         if(flags.HasFlag(LuckyRollFlags.NEGATIVE))
         {

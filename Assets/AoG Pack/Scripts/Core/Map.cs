@@ -108,7 +108,6 @@ public class Map
             //}
 
             actor.UpdateActiveCellBehaviours();
-            //actor.UpdateActorState();
         }
     }
 

@@ -488,32 +488,32 @@ public abstract class AICombatScript : GameScript
 
     protected bool CheckStatGT(Actor actor, ActorStat stat, int threshold)
     {
-        return ActorUtility.GetStatBase(actor.ActorStats, stat) > threshold;
+        return actor.ActorStats.GetBaseStat(stat) > threshold;
     }
 
     protected bool CheckStatLT(Actor actor, ActorStat stat, int threshold)
     {
-        return ActorUtility.GetStatBase(actor.ActorStats, stat) < threshold;
+        return actor.ActorStats.GetBaseStat( stat) < threshold;
     }
 
     protected bool HPLT(Actor actor, int hpThreshold)
     {
-        return ActorUtility.GetStatBase(actor.ActorStats, ActorStat.HITPOINTS) < hpThreshold;
+        return actor.ActorStats.GetBaseStat(ActorStat.HITPOINTS) < hpThreshold;
     }
 
     protected bool HPGT(Actor actor, int hpThreshold)
     {
-        return ActorUtility.GetStatBase(actor.ActorStats, ActorStat.HITPOINTS) > hpThreshold;
+        return actor.ActorStats.GetBaseStat(ActorStat.HITPOINTS) > hpThreshold;
     }
 
     protected bool HPPercentageLT(Actor actor, int hpThreshold)
     {
-        return actor.hpPercentage * 100 < hpThreshold;
+        return actor.HPPercentage * 100 < hpThreshold;
     }
 
     protected bool HPPercentageGT(Actor actor, int hpThreshold)
     {
-        return actor.hpPercentage * 100 > hpThreshold;
+        return actor.HPPercentage * 100 > hpThreshold;
     }
 
     protected bool MovedInRange(Actor target, float range)
@@ -587,7 +587,7 @@ public abstract class GameScript
     internal bool running;
     internal bool dead;
 
-    internal bool debug_scriptupdating;
+    public bool debug_scriptupdating;
 
     public GameScript(Scriptable self)
     {

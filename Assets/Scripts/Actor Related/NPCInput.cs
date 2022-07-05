@@ -79,9 +79,54 @@ public class NPCInput : Actor, IActivatable
         base.FinalizeActor(config);
         NavAgent = GetComponent<NavMeshAgent>();
         config.ConfigureNavAgent(NavAgent);
-       
+
         Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, false, true);
         Combat.Execute_DrawWeapon();
+    }
+
+    public override void ProcessActions()
+    {
+        if(waitTimer > 0)
+        {
+            waitTimer -= Time.deltaTime;
+            if(waitTimer > 0)
+                return;
+        }
+
+        if(CurrentAction == null)
+        {
+            if(debugActions)
+                Debug.Log($"{GetName()}<color=orange>A</color>: CurrAction null -> popping next");
+            CurrentAction = PopNextAction();
+
+            if(debugActions)
+            {
+                if(CurrentAction == null)
+                    Debug.Log($"{GetName()}<color=orange>A</color>: Popping next action failed");
+            }
+
+            return;
+        }
+
+        if(debugActions)
+            Debug.Log($"{GetName()}<color=orange>A</color>: Exec CurrAction '{CurrentAction}'");
+        if(CurrentAction.Done(this))
+        {
+            if(debugActions)
+                Debug.Log($"{GetName()}<color=orange>A</color>: CurrAction '{CurrentAction} done");
+
+
+            ReleaseCurrentAction();
+
+        }
+        //actionRoutine = CR_ExecuteAction();
+        //scrMono.StartCoroutine(actionRoutine);
+    }
+
+    internal override void Stop()
+    {
+        base.Stop();
+        NavAgent.SetDestination(transform.position);
     }
 
     public void SetEscortTarget(Actor actor)
@@ -120,6 +165,11 @@ public class NPCInput : Actor, IActivatable
         UpdateStates();
         UpdateLocomotion();
         UpdateSummonedCreatureStates();
+
+        ActorUI.Update();
+        RoundSystem.ProcessRoundTime();
+        UpdateScriptTicks();
+        ProcessActions();
     }
 
     public virtual void UpdateLocomotion()

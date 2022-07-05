@@ -245,7 +245,7 @@ public static class HelperFunctions
         {
             Actor actor = populatedArray[i].GetComponent<Actor>();
 
-            if(caller != actor && actor.hpPercentage <= healthThreshold && actor.ActorStats.isBeingHealed == false)
+            if(caller != actor && actor.HPPercentage <= healthThreshold && actor.ActorStats.isBeingHealed == false)
                 //if(actor != skillTarget)
                 //    Debug.Log($"<color=cyan>Found wounded friend ({actor.m_agentData.Name})</color>");
 
@@ -255,7 +255,7 @@ public static class HelperFunctions
                     agentList.Add(actor);
         }
 
-        return agentList.OrderBy(a => a.hpPercentage).FirstOrDefault();
+        return agentList.OrderBy(a => a.HPPercentage).FirstOrDefault();
     }
 
     public static Vector3 GetCursorWorldPosition()

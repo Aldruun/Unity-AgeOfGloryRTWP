@@ -11080,7 +11080,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 10
@@ -30407,7 +30407,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 10
@@ -30587,7 +30587,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 11400000, guid: 7fc3cedd0de1db5409c012b4ca9185e5, type: 2}
   canRespawn: 0
   respawnTimer: 10
@@ -66791,7 +66791,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 11400000, guid: 24d067a97ff281340870dace644bd8c4, type: 2}
   canRespawn: 1
   respawnTimer: 5
@@ -67063,7 +67063,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 10
@@ -81762,7 +81762,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 10
@@ -82170,7 +82170,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 10
@@ -82312,7 +82312,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 1
   respawnTimer: 5.1
@@ -82625,7 +82625,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 0
   actorConfiguration: {fileID: 0}
   canRespawn: 0
   respawnTimer: 18.5
@@ -83304,7 +83304,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActorInput: 0
+  debugActions: 1
   actorConfiguration: {fileID: 11400000, guid: ca0a129df3a65714d90b617494efdf51, type: 2}
   canRespawn: 0
   respawnTimer: 10

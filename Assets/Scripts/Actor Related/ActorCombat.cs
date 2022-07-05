@@ -183,7 +183,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
         int attackRoll = 0;
 
-        int AC = ActorUtility.GetModdedStat(stats, ActorStat.AC);
+        int AC = stats.GetStat(ActorStat.AC);
 
         switch(attackRollType)
         {
@@ -330,18 +330,18 @@ public class ActorCombat : MonoBehaviour, IAttackable
             {
                 if(currentRatio > 50 && newRatio < 25)
                 {
-                    ActorUtility.ModifyStatBase(stats, ActorStat.MORALE, -4, ModType.ADDITIVE);
+                    stats.ModifyStatBase(ActorStat.MORALE, -4, ModType.ADDITIVE);
                 }
                 else if(currentRatio > 50 && newRatio < 50)
                 {
-                    ActorUtility.ModifyStatBase(stats, ActorStat.MORALE, -2, ModType.ADDITIVE);
+                    stats.ModifyStatBase(ActorStat.MORALE, -2, ModType.ADDITIVE);
                 }
                 else if(currentRatio > 25 && newRatio < 25)
                 {
-                    ActorUtility.ModifyStatBase(stats, ActorStat.MORALE, -2, ModType.ADDITIVE);
+                    stats.ModifyStatBase(ActorStat.MORALE, -2, ModType.ADDITIVE);
                 }
 
-                if(ActorUtility.GetStatBase(stats, ActorStat.MORALE) < 10)
+                if(stats.GetBaseStat(ActorStat.MORALE) < 10)
                 {
                     self.ApplyStatusEffect(Status.PANIC, 3);
                 }
@@ -377,7 +377,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
             }
         }
 
-        int con = ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION);
+        int con = stats.GetBaseStat(ActorStat.CONSTITUTION);
         bool staggerSuccess = isCasting ? ((10 + equippedSpell.Grade - Mathf.FloorToInt(stats.Level / 2) - Mathf.FloorToInt(con / 2) - 2) > DnD.D20()) : (noStagger ? false : hitSuccess); //critHitSuccess ? true : false; // Random.value > 0.3f;
         if(staggerSuccess && self.isDowned == false)
         {
@@ -470,7 +470,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
             else
             {
                 Execute_KnockDown(Vector3.zero, 5, true);
-                ActorUtility.ModifyActorHealth(self.ActorStats, 1, ModType.ABSOLUTE);
+                Execute_ModifyHealth(1, ModType.ABSOLUTE);
             }
         }
         else
@@ -764,7 +764,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
     public void Execute_UnequipArmor(Armor armor, bool silent = false)
     {
         self.Equipment.UnequipArmor(armor);
-        ActorUtility.ModifyStatModded(self.ActorStats, ActorStat.AC, -armor.AC, ModType.ADDITIVE);
+        stats.ModifyStatModded(ActorStat.AC, -armor.AC, ModType.ADDITIVE);
         //Debug.Log("<color=grey>Dress root object '" + dressRootObject.name + "' being processed</color>");
         //DressUpManager.UnequipArmor(targetSlot);
 
@@ -1122,8 +1122,8 @@ public class ActorCombat : MonoBehaviour, IAttackable
     #region Combat Callbacks
     public void RegisterCallback_OnHealthChanged(System.Action<float, float> method) => onHealthChanged += method;
     public void UnregisterCallback_OnHealthChanged(System.Action<float, float> method) => onHealthChanged -= method;
-    public void Callback_OnHealthChanged() => onHealthChanged?.Invoke(ActorUtility.GetModdedStat(self.ActorStats, ActorStat.HITPOINTS),
-        ActorUtility.GetModdedStat(self.ActorStats, ActorStat.MAXHITPOINTS));
+    public void Callback_OnHealthChanged() => onHealthChanged?.Invoke(stats.GetStat(ActorStat.HITPOINTS),
+        stats.GetStat(ActorStat.MAXHITPOINTS));
     public void RegisterCallback_OnStunChanged(System.Action<ActorStats> method) => onStunChanged += method;
     public void UnregisterCallback_OnStunChanged(System.Action<ActorStats> method) => onStunChanged -= method;
     public void Callback_OnStunChanged() => onStunChanged?.Invoke(self.ActorStats);
@@ -1135,7 +1135,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
     #region IAttackable Methods
     public void Execute_ModifyHealth(int value, ModType modType)
     {
-        ActorUtility.ModifyActorHealth(stats, value, modType);
+        stats.ModifyActorHP(value, modType);
     }
 
     public Transform GetTransform()

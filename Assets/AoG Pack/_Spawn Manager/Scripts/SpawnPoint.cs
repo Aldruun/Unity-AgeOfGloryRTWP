@@ -16,10 +16,10 @@ public class SpawnPoint : MonoBehaviour
 {
     public SpawnType SpawnType;
 
-    [SerializeField] private bool debugAnimation;
-    [SerializeField] private bool debugInitialization;
-    [SerializeField] private bool debugActorGear;
-    [SerializeField] private bool debugActorInput;
+    public bool debugAnimation;
+    public bool debugInitialization;
+    public bool debugActorGear;
+    public bool debugActions;
 
     public string UniqueID => actorConfiguration.UniqueID;
     [SerializeField] private ActorConfiguration actorConfiguration;

@@ -124,17 +124,17 @@ public class Editor_ActorDebugger : EditorWindow
                                     GUILayout.Label(_observee.GetName() + ", " + _observee.ActorStats.Race + " " + _observee.ActorStats.Class.ToString() + "(" + _observee.ActorStats.Level + ")");
                                     string xpNeeded = _observee.ActorStats.Level == 20 ? "MAX" : _observee.ActorStats.expNeeded.ToString();
                                     GUILayout.Label(string.Format("XP: {0}/{1}", _observee.ActorStats.currentExp, xpNeeded));
-                                    GUILayout.Label(string.Format("HP: {0}/{1}", ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.HITPOINTS), ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.MAXHITPOINTS)));
+                                    GUILayout.Label(string.Format("HP: {0}/{1}", _observee.ActorStats.GetBaseStat(ActorStat.HITPOINTS), _observee.ActorStats.GetBaseStat(ActorStat.MAXHITPOINTS)));
                                     //GUILayout.Label(string.Format("ST: {0}/{1}", ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.STUN), ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.MAXSTUN)));
                                     GUILayout.Label(string.Format(
-                                        $"AC: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.AC)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.AC)}], " +
-                                        $"APR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.APR)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.APR)}], " +
-                                        $"STR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.STRENGTH)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.STRENGTH)}], " +
-                                        $"DEX: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.DEXTERITY)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.DEXTERITY)}], " +
-                                        $"CON: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CONSTITUTION)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CONSTITUTION)}], " +
-                                        $"INT: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.INTELLIGENCE)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.INTELLIGENCE)}], " +
-                                        $"WIL: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.WISDOM)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.WISDOM)}], " +
-                                        $"CHA: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CHARISMA)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CHARISMA)}], "
+                                        $"AC: {_observee.ActorStats.GetBaseStat(ActorStat.AC)} [{_observee.ActorStats.GetStat(ActorStat.AC)}], " +
+                                        $"APR: {_observee.ActorStats.GetBaseStat(ActorStat.APR)} [{_observee.ActorStats.GetStat( ActorStat.APR)}], " +
+                                        $"STR: {_observee.ActorStats.GetBaseStat(ActorStat.STRENGTH)} [{_observee.ActorStats.GetStat( ActorStat.STRENGTH)}], " +
+                                        $"DEX: {_observee.ActorStats.GetBaseStat(ActorStat.DEXTERITY)} [{_observee.ActorStats.GetStat( ActorStat.DEXTERITY)}], " +
+                                        $"CON: {_observee.ActorStats.GetBaseStat(ActorStat.CONSTITUTION)} [{_observee.ActorStats.GetStat( ActorStat.CONSTITUTION)}], " +
+                                        $"INT: {_observee.ActorStats.GetBaseStat(ActorStat.INTELLIGENCE)} [{_observee.ActorStats.GetStat( ActorStat.INTELLIGENCE)}], " +
+                                        $"WIL: {_observee.ActorStats.GetBaseStat(ActorStat.WISDOM)} [{_observee.ActorStats.GetStat( ActorStat.WISDOM)}], " +
+                                        $"CHA: {_observee.ActorStats.GetBaseStat(ActorStat.CHARISMA)} [{_observee.ActorStats.GetStat( ActorStat.CHARISMA)}], "
                                         ));
                                     GUILayout.Label(string.Format("AR: {0}", GameMechanics.GetArmorRating(_observee.ActorStats)));
 

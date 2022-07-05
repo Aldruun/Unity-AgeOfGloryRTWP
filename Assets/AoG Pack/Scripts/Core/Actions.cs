@@ -223,12 +223,12 @@ public static class Actions
                 //agent.CheckStatusEffect(Status.BEINGHEALED) == 0 &&
                 agent.isDowned == false &&
                 agent.dead == false &&
-                agent.hpPercentage <= hpThreshold &&
+                agent.HPPercentage <= hpThreshold &&
                 FactionExentions.IsFriend(agent.ActorStats, caller.ActorStats) &&
                 agent.ActorStats.isBeingBuffed == false)
                 agentList.Add(agent);
         }
-        return agentList.OrderBy(a => a.hpPercentage).ToList();
+        return agentList.OrderBy(a => a.HPPercentage).ToList();
         //return agentList.OrderBy(a => (a.attackTarget.transform.position - a.transform.position).sqrMagnitude)
         //	.FirstOrDefault();
     }

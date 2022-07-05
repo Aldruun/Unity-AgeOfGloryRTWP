@@ -1,6 +1,8 @@
-﻿using AoG.Core;
-using System.Collections.Generic;
+﻿using GenericFunctions;
+using System;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Editor_ActorDebugger : EditorWindow
@@ -11,48 +13,45 @@ public class Editor_ActorDebugger : EditorWindow
     //    GUI.TextField(new Rect(20, 20, 70, 30), "");
     //}
 
-    //static GUISkin cSkin;
-    private static ActorDebugger debugger;
-    private int labelFontSize = 9;
-    private static string[] tabs;
-    private static int selectedTabIndex;
-    private Actor _observee;
-    private Vector2 scrollPosition_ActorData;
+    static GUISkin cSkin;
+    static ActorDebugger debugger;
+    static Actor _actor;
+    //static AI_CombatProtocol aiCombat;
+    //static Inventory aiInventory;
+    int labelFontSize = 9;
+    static string[] tabs;
+    static int selectedTabIndex;
 
-    private void OnEnable()
+    void OnEnable()
     {
 
-        tabs = new string[] { "Overview", "Stats", "Status Effects", "Inventory", "Global" };
+        tabs = new string[] { "Overview", "Stats", "Status Effects", "Global" };
 
-        //cSkin = Resources.Load<GUISkin>("GUI Skins/Editor GUISkin");
+        cSkin = Resources.Load<GUISkin>("GUI Skins/Editor GUISkin");
 
-        //if(EditorPrefs.HasKey("tabIndex"))
-        //    EditorPrefs.DeleteKey("tabIndex");
-        //if(EditorPrefs.HasKey("labelFontSize"))
-        //    EditorPrefs.DeleteKey("labelFontSize");
-        //selectedTabIndex = EditorPrefs.GetInt("tabIndex", selectedTabIndex);
-        //EditorPrefs.GetInt("labelFontSize", labelFontSize);
+        selectedTabIndex = EditorPrefs.GetInt("tabIndex", selectedTabIndex);
+        EditorPrefs.GetInt("labelFontSize", labelFontSize);
 
         //SelectionManager.OnAgentSelected += (agent) => { debugger.SetObservedPlanner(agent is PlanningProtocol ? (PlanningProtocol)agent : null); };
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
 
-        //EditorPrefs.SetInt("tabIndex", selectedTabIndex);
-        //EditorPrefs.SetInt("labelFontSize", labelFontSize);
+        EditorPrefs.SetInt("tabIndex", selectedTabIndex);
+        EditorPrefs.SetInt("labelFontSize", labelFontSize);
     }
 
-    private void OnGUI()
+    void OnGUI()
     {
 
-        //if(Application.isPlaying)
-        //{
-        //    if(debugger != null && debugger.observedActor == null)
-        //    {
-        //        debugger.SetObservedPlanner(GameStateManager.GetPC());
-        //    }
-        //}
+        if(Application.isPlaying)
+        {
+            if(debugger != null && debugger.observedActor == null)
+            {
+                debugger.SetObservedPlanner(AoG.Core.GameInterface.Instance.GetCurrentGame().GetPC(1));
+            }
+        }
 
         //GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), tex, ScaleMode.StretchToFill);
 
@@ -61,12 +60,11 @@ public class Editor_ActorDebugger : EditorWindow
         if(debugger == null)
         {
             GUILayout.Label("Initializing...");
-            debugger = GameObject.FindWithTag("PersistentManagers").GetComponent<ActorDebugger>();
+            debugger = FindObjectOfType<ActorDebugger>();
             return;
         }
 
-        _observee = debugger.observedActor;
-        if(_observee == null)
+        if(debugger.observedActor == null)
         {
             //if(Application.isPlaying)
             //{
@@ -77,23 +75,20 @@ public class Editor_ActorDebugger : EditorWindow
             GUILayout.Label("Observed Actor (Runtime Only)");
 
 
+            DrawSelectPlannerDropDown();
 
             return;
         }
-        DrawSelectPlannerDropDown();
-        if(_observee == null)
-            _observee = null;
-        //if(_observee != debugger.observedActor)
-        Repaint();
+        Actor observee = debugger.observedActor;
 
-        if(debugger.observedActor == null)
+        if(debugger.observedActor.ActionQueue == null)
         {
             GUI.color = Color.yellow;
             GUILayout.Label("Actor's action queue is null");
             GUI.color = Color.white;
         }
 
-        if(_observee != null && _observee.gameObject.activeSelf)
+        if(observee != null && observee.gameObject.activeSelf)
         {
 
             selectedTabIndex = GUILayout.Toolbar(selectedTabIndex, tabs/*cSkin.GetStyle("Goap Runtime Editor Tab")*/);
@@ -101,255 +96,383 @@ public class Editor_ActorDebugger : EditorWindow
             switch(selectedTabIndex)
             {
 
-                case 0://? Actor Data
+                case 0:
+                    //GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical();
+                    EditorPrefs.SetInt("tabIndex", 0);
+
+                    GUI.skin = cSkin;
+
+                    GUILayout.BeginVertical();
+
+                    GUI.color = Color.yellow;
+                    GUILayout.Label("- Actor State -");
+                    GUI.color = Color.white;
+                    //GUI.skin = cSkin;
+                    if(Application.isPlaying)
                     {
-                        //GUILayout.BeginHorizontal();
-                       
-                        using(var scrollView = new GUILayout.ScrollViewScope(scrollPosition_ActorData))
+                        GUILayout.Label(observee.GetName() + ", " + observee.ActorStats.Class.ToString() + "(" + observee.ActorStats.Level + ")");
+                        string xpNeeded = observee.ActorStats.Level == 20 ? "MAX" : observee.ActorStats.expNeeded.ToString();
+                        GUILayout.Label(string.Format("XP: {0}/{1}", observee.ActorStats.currentExp, xpNeeded));
+                        GUILayout.Label(string.Format("HP: {0}/{1}", observee.ActorStats.GetBaseStat(ActorStat.HITPOINTS), observee.ActorStats.GetBaseStat(ActorStat.MAXHITPOINTS)));
+                        GUILayout.Label(string.Format(
+                            "STR: {0} [{6}], " +
+                            "DEX: {1} [{7}], " +
+                            "CON: {2} [{8}], " +
+                            "INT: {3} [{9}], " +
+                            "WIS: {4} [{10}], " +
+                            "CHA: {5} [{11}]",
+                            observee.ActorStats.GetBaseStat(ActorStat.STRENGTH),
+                            observee.ActorStats.GetBaseStat(ActorStat.DEXTERITY),
+                            observee.ActorStats.GetBaseStat(ActorStat.CONSTITUTION),
+                            observee.ActorStats.GetBaseStat(ActorStat.INTELLIGENCE),
+                            observee.ActorStats.GetBaseStat(ActorStat.WISDOM),
+                            observee.ActorStats.GetBaseStat(ActorStat.CHARISMA),
+                            observee.ActorStats.strMod,
+                            observee.ActorStats.dexMod,
+                            observee.ActorStats.conMod,
+                            observee.ActorStats.intMod,
+                            observee.ActorStats.wisMod,
+                            observee.ActorStats.chaMod
+                            ));
+                        GUILayout.Label(string.Format("Total APR: {0}", observee.RoundSystem.GetTotalAPR()));
+                        GUILayout.Label(string.Format("AC: {0}", observee.ActorStats.GetBaseStat(ActorStat.AC)));
+                        //foreach(WorldStateData kvp in debugger.observedPlanner.behaviours.actionSelector.worldState)
+                        //{
+
+                        //    bool state = (kvp.state == true);
+
+                        //    GUI.skin.label.normal.textColor = Color.white;
+                        //    if(state)
+                        //    {
+
+                        //        GUI.backgroundColor = Color.green;
+                        //    }
+                        //    else
+                        //    {
+
+                        //        GUI.backgroundColor = Color.red;
+                        //    }
+                        //    string colorTag = (state == true) ? "<color=green>" : "<color=red>";
+                        //    GUILayout.Label(kvp.symbol + " = " + colorTag + state + "</color>");
+
+                        //    GUI.skin.label.normal.textColor = Color.grey;
+                        //    GUI.backgroundColor = Color.white;
+                        //}
+                    }
+                    //GUI.skin = null;
+                    GUILayout.EndVertical();
+                    //GUILayout.EndHorizontal();
+                    //? Misc debugging
+                    GUILayout.BeginVertical();
+                    if(Application.isPlaying)
+                    {
+                        if(observee.Combat.GetHostileTarget() == null)
+                            GUILayout.Label("Attack Target: null");
+                        else
+                            GUILayout.Label("Attack Target: " + observee.Combat.GetHostileTarget().GetName());
+                        GUILayout.Label("Enemy Flags: " + debugger.observedActor.ActorStats.GetEnemyFlags().ToString());
+                        if(observee.Equipment.equippedWeapon.Weapon != null)
                         {
-                            scrollPosition_ActorData = scrollView.scrollPosition;
-                            //EditorPrefs.SetInt("tabIndex", 0);
+                            GUILayout.Label("Weapon ID: " + observee.Equipment.equippedWeapon.Weapon.identifier);
+                        }
+                        GUILayout.Label("Global ID: " + observee.GetGlobalID());
+                        GUILayout.Label("Selected: " + observee.ActorUI.Selected);
+                        GUILayout.Label("Party Index: " + observee.PartySlot);
+                        GUILayout.Label("Is Downed: " + observee.isDowned);
+                    }
+                    GUILayout.EndVertical();
+                    //? Knowledge and belongings
 
-                            //GUI.skin = cSkin;
+                    //GUILayout.FlexibleSpace();
+                    if(Application.isPlaying)
+                    {
 
-                            using(new GUILayout.VerticalScope())
+                        GUI.skin = cSkin;
+                        //GUI.skin.label.normal.textColor = Color.grey;
+                        GUILayout.Label("Spells:");
+                        //if(debugger.plan.Key == null)
+                        //{
+
+                        //    GUILayout.Label("< No Plan >");
+                        //}
+                        //else
+                        //{
+
+                        //    GUILayout.BeginHorizontal();
+
+                        //    foreach(NPCAction gAction in debugger.plan.Value)
+                        //    {
+
+                        //        GUILayout.Label(gAction.GetType().Name + " -> ");
+                        //    }
+                        //    GUILayout.Label(debugger.plan.Key.GetType().Name);
+
+                        //    GUILayout.EndHorizontal();
+                        //}
+
+                        GUILayout.Label("Item Count:");
+                        //if(debugger.lastPlan.Key == null)
+                        //{
+
+                        //    GUILayout.Label("< No Plan >");
+                        //}
+                        //else
+                        //{
+
+                        //    GUILayout.BeginHorizontal();
+
+                        //    foreach(NPCAction gAction in debugger.lastPlan.Value)
+                        //    {
+
+                        //        GUILayout.Label(gAction.GetType().Name + " -> ");
+                        //    }
+                        //    GUILayout.Label(debugger.lastPlan.Key.GetType().Name);
+
+                        //    GUILayout.EndHorizontal();
+                        //}
+                        //GUI.skin.label.normal.textColor = Color.clear;
+                        GUI.skin = null;
+                    }
+
+
+                    GUI.color = Color.yellow;
+                    GUILayout.Label("- Actions -");
+                    GUI.color = Color.white;
+                    if(Application.isPlaying)
+                    {
+                        if(debugger.observedActor.CurrentAction != null)
+                        {
+                            string add = "";
+                            if(debugger.observedActor.CurrentAction is AIActions.Action_CastSpellAtActor ca)
+                            {
+                                add = ca.castState.ToString();
+                            }
+                            if(debugger.observedActor.CurrentAction is AIActions.Action_CastSpellAtLocation cl)
+                            {
+                                add = cl.castState.ToString();
+                            }
+                            GUILayout.BeginVertical();
+                            if(GUILayout.Button(debugger.observedActor.CurrentAction.ToString(), GUILayout.ExpandWidth(false)))
                             {
 
-                                GUI.color = Color.yellow;
-                                GUILayout.Label("- Actor State -");
-                                GUI.color = Color.white;
-                                //GUI.skin = cSkin;
-                                if(Application.isPlaying)
-                                {
-                                    GUILayout.Label(_observee.GetName() + ", " + _observee.ActorStats.Race + " " + _observee.ActorStats.Class.ToString() + "(" + _observee.ActorStats.Level + ")");
-                                    string xpNeeded = _observee.ActorStats.Level == 20 ? "MAX" : _observee.ActorStats.expNeeded.ToString();
-                                    GUILayout.Label(string.Format("XP: {0}/{1}", _observee.ActorStats.currentExp, xpNeeded));
-                                    GUILayout.Label(string.Format("HP: {0}/{1}", ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.HITPOINTS), ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.MAXHITPOINTS)));
-                                    //GUILayout.Label(string.Format("ST: {0}/{1}", ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.STUN), ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.MAXSTUN)));
-                                    GUILayout.Label(string.Format(
-                                        $"AC: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.AC)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.AC)}], " +
-                                        $"APR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.APR)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.APR)}], " +
-                                        $"STR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.STRENGTH)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.STRENGTH)}], " +
-                                        $"DEX: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.DEXTERITY)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.DEXTERITY)}], " +
-                                        $"CON: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CONSTITUTION)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CONSTITUTION)}], " +
-                                        $"INT: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.INTELLIGENCE)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.INTELLIGENCE)}], " +
-                                        $"WIL: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.WISDOM)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.WISDOM)}], " +
-                                        $"CHA: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CHARISMA)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CHARISMA)}], "
-                                        ));
-                                    GUILayout.Label(string.Format("AR: {0}", GameMechanics.GetArmorRating(_observee.ActorStats)));
+                            }
+                            if(add != "")
+                                GUILayout.Label("[" + add + "]");
+                            GUILayout.EndVertical();
+                        }
+                        else
+                        {
+                            GUILayout.Label("-");
+                        }
+                        //else if(debugger.observedActor.actionQueue.Count == 0)
+                        //{
+                        //    GUILayout.Label("0");
+                        //}
+                        foreach(GameAction action in debugger.observedActor.ActionQueue)
+                        {
+                            //if(gAction.active == false) {
 
-                                }
+                            //    continue;
+                            //}
 
-                                //? Misc debugging
+                            GUILayout.Space(1);
 
-                                if(Application.isPlaying)
-                                {
-                                    if(_observee.Combat.GetHostileTarget() == null)
-                                        GUILayout.Label("Attack Target: null");
-                                    else
-                                        GUILayout.Label("Attack Target: " + _observee.Combat.GetHostileTarget().GetName());
-                                    //GUILayout.Label("Enemy Flags: " + debugger.observedActor.GetEnemyFlags().ToString());
-                                    if(_observee.Equipment.equippedWeapon.Weapon != null)
-                                    {
-                                        GUILayout.Label("Weapon ID: " + _observee.Equipment.equippedWeapon.Weapon.identifier);
-                                        GUILayout.Label("  Weapon Type: " + _observee.Equipment.equippedWeapon.Weapon.weaponType);
-                                        GUILayout.Label("  Damage Type: " + _observee.Equipment.equippedWeapon.Weapon.damageType);
-                                        GUILayout.Label("  Weapon Range: " + _observee.Equipment.equippedWeapon.Weapon.Range);
-                                        GUILayout.Label("  Combat Type: " + _observee.Equipment.equippedWeapon.Weapon.CombatType);
-                                        GUILayout.Label("  Equip Type: " + _observee.Equipment.equippedWeapon.Weapon.equipType);
-                                        GUILayout.Label("  Animation Pack: " + _observee.Equipment.equippedWeapon.Weapon.AnimationPack);
-                                        GUILayout.Label("  Ammo Type: " + _observee.Equipment.equippedWeapon.Weapon.ammoType);
-                                        GUILayout.Label("  Projectile ID: " + _observee.Equipment.equippedWeapon.Weapon.projectileIdentifier);
-                                    }
-                                    //GUILayout.Label("Global ID: " + observee.GetGlobalID());
-                                    //GUILayout.Label("Selected: " + observee.selected);
-                                    GUILayout.Label("Escorts: " + _observee.EscortIndex);
-                                    // if(_observee is NPCInput npc)
-                                    //     GUILayout.Label("Escort Target: " + (npc.escortTarget == null ? "NONE" : npc.escortTarget.ActorRecord.Name));
-                                    GUILayout.Label("Is Downed: " + _observee.isDowned);
-                                    GUILayout.Label("Is Downed: " + debugger.observedActor.isDowned);
-                                    GUILayout.Label("Is Beast: " + _observee.ActorStats.isBeast);
-                                    GUILayout.Label("Is Casting: " + _observee.isCasting);
-                                    GUILayout.Label("Is Cloaked: " + _observee.isCloaked);
-                                }
+                            GUILayout.BeginVertical();
+                            GUILayout.BeginHorizontal();
+                            //if(action.valid)
+                            //{
+                            //    GUI.backgroundColor = Color.green;
+
+                            //}
+                            //else
+                            //{
+
+                            //    GUI.backgroundColor = Color.red;
+                            //}
+
+                            if(GUILayout.Button(action.ToString(), GUILayout.ExpandWidth(false)))
+                            {
 
 
                             }
 
+                            //if(debugger.observedActor.CurrentAction != null)
+                            //{
+                            //    //Debug.Log(debugger.observedPlanner.m_agentData.Name + ": WUT???");
+                            //    GUILayout.Button("", GUILayout.ExpandWidth(false));
+                            //}
 
-                            //? Knowledge and belongings
+                            GUI.backgroundColor = Color.white;
+                            GUILayout.EndHorizontal();
+                            GUILayout.EndVertical();
+                        }
+                    }
 
-                            if(Application.isPlaying)
+                    GUI.color = Color.yellow;
+                    GUILayout.Label("- Scripts -");
+                    GUI.color = Color.white;
+                    if(Application.isPlaying)
+                    {
+
+                        foreach(GameScript script in debugger.observedActor.Scripts)
+                        {
+                            //debugger.observedPlanner.currentGoal
+
+                            GUILayout.BeginVertical();
+                            GUILayout.BeginHorizontal();
+
+                            if(script == null)
                             {
-                                GUILayout.Label("Spells:");
-
-
-                                GUILayout.Label("Item Count:");
+                                GUILayout.Label("EMPTY", GUILayout.ExpandWidth(false));
                             }
-
-
-                            GUI.color = Color.yellow;
-                            GUILayout.Label("- Actions -");
-                            GUI.color = Color.white;
-                            if(Application.isPlaying)
+                            else
                             {
-                                if(debugger.observedActor is NPCInput npc)
+                                //if(gGoal.relevant)
+                                //{
+
+                                //    GUI.backgroundColor = Color.green;
+                                //}
+                                //else
+                                //{
+
+                                //    GUI.backgroundColor = Color.red;
+                                //}
+
+                                if(GUILayout.Button(script.ToString(), GUILayout.ExpandWidth(false)))
                                 {
-                                    GUILayout.Label("NPC State: " + npc.npcState);
+
                                 }
-                                else
+
+                                if(script.debug_scriptupdating)
                                 {
-                                    GUILayout.Label("-");
+
+                                    //GUILayout.Label("<-");
+                                    GUILayout.Label("U", GUILayout.ExpandWidth(false));
                                 }
                             }
 
-                            GUI.color = Color.yellow;
-                            GUILayout.Label("- Scripts -");
-                            GUI.color = Color.white;
-                            if(Application.isPlaying)
-                            {
-
-                            }
-
-                            GUILayout.Label("- Navigatiom -");
-                            GUI.color = Color.white;
-                            if(Application.isPlaying)
-                            {
-                                if(_observee.NavAgent != null)
-                                {
-                                    GUILayout.Label("Has Path: " + _observee.NavAgent.hasPath);
-                                    GUILayout.Label("Vel: " + _observee.NavAgent.velocity);
-                                    GUILayout.Label("Desired Vel: " + _observee.NavAgent.desiredVelocity);
-                                }
-                                GUILayout.Label("Move Speed: " + _observee.Animation.m_movementSpeed);
-                            }
+                            GUI.backgroundColor = Color.white;
+                            GUILayout.EndHorizontal();
+                            GUILayout.EndVertical();
                         }
 
-
-                        break;
                     }
+                    GUILayout.EndVertical();
+
+
+                    break;
                 case 1: //? Stats
+                    EditorPrefs.SetInt("tabIndex", 1);
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical();
+                    if(Application.isPlaying)
                     {
-                        //EditorPrefs.SetInt("tabIndex", 1);
-                        using(new GUILayout.HorizontalScope())
+
+                        GUI.skin = cSkin;
+
+                        foreach(System.Collections.Generic.KeyValuePair<ActorStat, int> stat in debugger.observedActor.ActorStats.StatsBase)
                         {
-                            using(new GUILayout.VerticalScope())
-                            {
-                                if(Application.isPlaying)
-                                {
-
-                                    //GUI.skin = cSkin;
-
-                                    //foreach(ActorSkill stat in debugger.observedActor.ActorRecord.skills)
-                                    //{
-                                    //    GUILayout.Label(stat.data.Name + ": " + stat.level);
-                                    //}
-
-                                    //GUI.skin = null;
-                                }
-                            }
+                            GUILayout.Label(stat.Key + ": " + stat.Value);
                         }
-                        //GUILayout.FlexibleSpace();
-                        break;
+
+                        GUI.skin = null;
                     }
+                    GUILayout.EndVertical();
+                    GUILayout.EndHorizontal();
+                    //GUILayout.FlexibleSpace();
+                    break;
                 case 2: //? Status
+                    EditorPrefs.SetInt("tabIndex", 2);
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical();
+                    if(Application.isPlaying)
                     {
-                        using(new GUILayout.HorizontalScope())
-                        {
-                            using(new GUILayout.VerticalScope())
-                            {
-                                if(Application.isPlaying)
-                                {
-                                    foreach(var eff in debugger.observedActor.GetAppliedStatusEffects())
-                                    {
-                                        GUILayout.Label(eff.statusEffect + ": " + eff.rounds + "s");
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
-                case 3: //? Inventory
-                    {
-                        using(new GUILayout.HorizontalScope())
-                        {
-                            using(new GUILayout.VerticalScope())
-                            {
-                                if(Application.isPlaying)
-                                {
-                                    foreach(InventoryItem item in debugger.observedActor.Inventory.inventoryItems)
-                                    {
-                                        if(item.itemData == null)
-                                        {
-                                            GUILayout.Label("Item data null");
-                                            continue;
-                                        }
-                                        GUILayout.Label(item.slotIndex + " " + item.itemData.Name + " x " + item.stackSize);
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
-                case 4: //? Global
-                    {
-                        using(new GUILayout.HorizontalScope())
-                        {
-                            using(new GUILayout.VerticalScope())
-                            {
 
-                            }
+                        GUI.skin = cSkin;
+
+                        foreach(StatusEffect statusEff in debugger.observedActor.GetAppliedStatusEffects())
+                        {
+                            if(statusEff == null || statusEff.rounds == 0)
+                                continue;
+                            GUILayout.Label(statusEff.statusEffect + " - " + statusEff.rounds + " Rounds");
                         }
-                        break;
+
+                        GUI.skin = null;
                     }
+                    GUILayout.EndVertical();
+                    GUILayout.EndHorizontal();
+                    //GUILayout.FlexibleSpace();
+                    break;
+                case 3: //? Global
+                    EditorPrefs.SetInt("tabIndex", 3);
+                    GUILayout.BeginHorizontal();
+                    GUILayout.BeginVertical();
+                    if(Application.isPlaying)
+                    {
+
+                        GUI.skin = cSkin;
+
+                        GUILayout.Label("Party Attack" + AoG.Core.GameInterface.Instance.GetCurrentGame()?.PartyAttack);
+                        GUILayout.Label("Combat Counter" + AoG.Core.GameInterface.Instance.GetCurrentGame()?.CombatCounter);
+
+                        GUI.skin = null;
+                    }
+                    GUILayout.EndVertical();
+                    GUILayout.EndHorizontal();
+                    //GUILayout.FlexibleSpace();
+                    break;
             }
         }
-        //else
-        //{
+        else
+        {
 
-        //    GUILayout.Label("Select Actor");
-        //}
+            GUILayout.Label("Select Actor");
+        }
         GUILayout.FlexibleSpace();
 
-        if(Application.isPlaying)
-            DrawSelectPlannerDropDown();
+        GUILayout.Label("Actor: " + debugger.observedActor.GetName());
+
+        DrawSelectPlannerDropDown();
     }
 
     private void DrawSelectPlannerDropDown()
     {
-        GUILayout.Label("Actor: " + debugger.observedActor.GetName());
         if(EditorGUILayout.DropdownButton(new GUIContent(debugger != null && debugger.observedActor != null ? debugger.observedActor.GetName() : "NONE"), FocusType.Passive))
         {
 
             GenericMenu gMenu = new GenericMenu();
 
-            List<Actor> NPCs = debugger.registeredRuntimeActors;
+            Actor[] NPCs = FindObjectsOfType<Actor>();
 
-            for(int i = 0; i < NPCs.Count; i++)
+            for(int i = 0; i < NPCs.Length; i++)
             {
 
                 Actor npc = NPCs[i];
 
-                gMenu.AddItem(new GUIContent(npc.GetName()), false, () => DropdownSelectNPC(npc));
+                gMenu.AddItem(new GUIContent(npc.gameObject.name), false, () => DropdownSelectNPC(npc));
             }
 
             gMenu.ShowAsContext();
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
 
     }
 
-    private void DropdownSelectNPC(Actor npc)
+    void DropdownSelectNPC(Actor npc)
     {
 
         debugger.SetObservedPlanner(npc);
-        //if(Application.isPlaying == false)
-        //{
+        //aiCombat = npc.GetComponent<AI_CombatProtocol>();
+        //aiInventory = npc.GetComponent<Inventory>();
 
-        //    EditorSceneManager.MarkSceneDirty(npc);
-        //}
+        if(Application.isPlaying == false)
+        {
+
+            EditorSceneManager.MarkSceneDirty(npc.gameObject.scene);
+        }
     }
 }

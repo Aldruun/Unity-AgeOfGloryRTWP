@@ -62,7 +62,7 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
             return;
         }
 
-        targets = targets.Where(t => t.PartySlot == 0).OrderBy(t => ActorUtility.GetStatBase(t.ActorStats, ActorStat.HITPOINTS)).ToArray();
+        targets = targets.Where(t => t.PartySlot == 0).OrderBy(t => t.ActorStats.GetBaseStat(ActorStat.HITPOINTS)).ToArray();
 
         //for(int i = 0; i < targets.Length; i++)
         //{

@@ -31,9 +31,9 @@ public abstract class Actor : Scriptable
 
     public bool dead =>
         ActorStats.HasActorFlag(ActorFlags.ESSENTIAL) == false &&
-        ActorUtility.GetModdedStat(ActorStats, ActorStat.HITPOINTS) <= 0;
+        ActorStats.GetStat(ActorStat.HITPOINTS) <= 0;
 
-    public float hpPercentage => ActorUtility.GetHealthPercentage(ActorStats);
+    public float HPPercentage => ActorStats.HPPercentage;
 
     public SpawnPoint spawnpoint;
     public ActorStats ActorStats;
@@ -202,14 +202,6 @@ public abstract class Actor : Scriptable
         cc.radius = 0.2f;
         cc.stepOffset = 0.01f;
         colliderRoot = cc.center - (Vector3.up * (cc.height * 0.5f));
-    }
-
-    //! Stuff that needs to be updated both for player and NPCs
-    private void Update()
-    {
-        ActorUI.Update();
-        RoundSystem.ProcessRoundTime();
-        UpdateScriptTicks();
     }
 
     internal void ApplyStatusEffect(Status status, int rounds)

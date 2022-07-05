@@ -437,7 +437,7 @@ public class ActorEquipment
                 Debug.Log(self.GetName() + ": Instantiated armor object '" + dressRootObject.name + "'");
             }
             Profiler.BeginSample("ACTOR EquipArmor");
-            ActorUtility.ModifyStatModded(self.ActorStats, ActorStat.AC, armor.AC, ModType.ADDITIVE);
+            stats.ModifyStatModded(ActorStat.AC, armor.AC, ModType.ADDITIVE);
             Profiler.EndSample();
 
             //actorInput.character.OnArmorEquipped?.Invoke(armor, true, true);
@@ -522,7 +522,7 @@ public class ActorEquipment
             Debug.Log(self.GetName() + ": Instantiated armor object '" + dressRootObject.name + "'");
         }
         Profiler.BeginSample("ACTOR EquipArmor");
-        ActorUtility.ModifyStatModded(self.ActorStats, ActorStat.AC, armor.AC, ModType.ADDITIVE);
+        stats.ModifyStatModded(ActorStat.AC, armor.AC, ModType.ADDITIVE);
         Profiler.EndSample();
 
         //actorInput.character.OnArmorEquipped?.Invoke(armor, true, true);

@@ -7,11 +7,12 @@ using Object = UnityEngine.Object;
 
 public class ActorUI
 {
+    public bool Selected { get; private set; }
+
     private HighlightEffect highlightEffect;
     private ActorIndicator actorIndicator;
     private UIActorPortrait actorPortrait;
     private Gradient flashGradient;
-    internal bool Selected { get; private set; }
     //private int partyIndex;
     private Actor actor;
     private AudioSource voiceAudioSource;

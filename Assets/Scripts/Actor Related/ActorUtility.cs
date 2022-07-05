@@ -174,89 +174,18 @@ public static class ActorUtility
             statDict[ActorStat.CHARISMA] = cha;
 
             statDict[ActorStat.HITDIE] = baseHitDie;
-            statDict[ActorStat.HITPOINTS] = statDict[ActorStat.MAXHITPOINTS] = CalculateFirstLevelHitpoints(baseHitDie, con);
+            statDict[ActorStat.HITPOINTS] = statDict[ActorStat.MAXHITPOINTS] = GetFirstLevelHitpoints(baseHitDie, con);
             statDict[ActorStat.AC] = 10 + DnD.AttributeModifier(dex);
         }
 
-        public static void CalculateCharacterStats(ActorStats stats, int level)
-        {
-            stats.proficiencyBonus = Mathf.CeilToInt((level / 4) + 1);
-            //if(debug)
-            //    DevConsole.Log(Name + ": <color=grey>Recalc proficiency: CharLvl " + level + "/4 + 1 = " + proficiencyBonus + "</color>");
-
-            ActorUtility.SetBaseStat(stats, ActorStat.HITDIE, DnD.GetHitDie(stats.Class, stats.Race) + level - 1);
-            if((level - 1) < 0)
-            {
-                Debug.LogError("Oh oh");
-            }
-
-            stats.strMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.STRENGTH));
-            stats.dexMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.DEXTERITY));
-            stats.conMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION));
-            stats.intMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.INTELLIGENCE));
-            stats.wisMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.WISDOM));
-            stats.chaMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.CHARISMA));
-
-            switch(stats.Class)
-            {
-                case Class.CLERIC:
-                case Class.DRUID:
-                    stats.spellcastingAbility = stats.wisMod;
-                    break;
-                case Class.BARD:
-                case Class.PALADIN:
-                case Class.SORCERER:
-                    stats.spellcastingAbility = stats.chaMod;
-                    break;
-                case Class.ALCHEMIST:
-                case Class.SHAMAN:
-                case Class.MAGE:
-                    stats.spellcastingAbility = stats.intMod;
-                    break;
-            }
-
-            stats.spellSaveDC = 8 + stats.proficiencyBonus /** (1 + level - 1)*/ + stats.spellcastingAbility;
-            //if(debug)
-            //    DevConsole.Log(GetName() + ": <color=grey>Recalc spellSaveDC: 8 + PB " + proficiencyBonus + " + SCA " + spellcastingAbility + " = " + spellSaveDC + "</color>");
-
-            stats.spellAttackModifier = stats.spellcastingAbility + stats.proficiencyBonus;
-            //if(debug)
-            //    DevConsole.Log(Name + ": <color=grey>Recalc spellAttackBonus: SCA " + spellcastingAbility + " + PB " + proficiencyBonus + " = " + spellAttackModifier + "</color>");
-
-            ActorUtility.SetBaseStat(stats, ActorStat.HITPOINTS, CalculateHitpointsAll(level, ActorUtility.GetStatBase(stats, ActorStat.HITDIE), ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION)));
-            ActorUtility.SetBaseStat(stats, ActorStat.MAXHITPOINTS, ActorUtility.GetStatBase(stats, ActorStat.HITPOINTS));
-
-            //if(debug)
-            //    Debug.Log(Name + ": Recalculated HP = " + StatsBase[ActorStat.HITPOINTS] + " Recalculated MaxHP = " + StatsBase[ActorStat.MAXHITPOINTS]);
-            //if(debug)
-            //    DevConsole.Log(GetName() + ": <color=grey>Recalc HP: SCA " + spellcastingAbility + " + PB " + proficiencyBonus + " = " + spellAttackBonus + "</color>");
-
-            stats.currentSpellSlots = GameInterface.Instance.DatabaseService.SpellCompendium.GetAllSpellSlotsAtLevel(stats.Class, level);
-
-            Debug.Assert(stats.currentSpellSlots != null);
-            //Debug.Assert(_currentSpellSlots.Length > 0);
-
-            //if(debug)
-            //    DevConsole.Log(Name + ": <color=grey>" + Class.ToString() + "(" + level + ") spell slots: " + string.Join(", ", currentSpellSlots) + "</color>");
-
-            int newAPR = stats.Class == Class.MONK ? (level < 4 ? 1 : level < 7 ? 2 : level < 10 ? 3 : level < 13 ? 4 : level < 16 ? 5 : 6)
-                : stats.Class == Class.FIGHTER ? (level < 6 ? 1 : level < 11 ? 2 : level < 16 ? 3 : 4)
-                : 2; //! Actually 1, I just want actors to attack more often during development
-                     //if(debug)
-                     //{
-                     //    Debug.Log(Name + ": Initial APR = " + newAPR);
-                     //}
-            ActorUtility.SetBaseStat(stats, ActorStat.APR, newAPR);
-        }
-
-        private static int CalculateHitpointsAll(int level, int baseHitDie, int constitution)
+        public static int CalculateHitpointsAll(int level, int baseHitDie, int constitution)
         {
             if(baseHitDie < 1)
             {
                 Debug.LogError("baseHitDie too low");
             }
 
-            int hp = CalculateFirstLevelHitpoints(baseHitDie, constitution);
+            int hp = GetFirstLevelHitpoints(baseHitDie, constitution);
             int conMod = DnD.AttributeModifier(constitution);
 
             //continue;
@@ -274,7 +203,7 @@ public static class ActorUtility
             return hp;
         }
 
-        private static int CalculateFirstLevelHitpoints(int hitDie, int constitution)
+        private static int GetFirstLevelHitpoints(int hitDie, int constitution)
         {
             int conMod = DnD.AttributeModifier(constitution);
             int hp = hitDie + conMod;
@@ -283,6 +212,88 @@ public static class ActorUtility
             return hp;
         }
 
+        public static int GetXPNeededForNextLevel(int currActorLvl)
+        {
+            switch(currActorLvl)
+            {
+                case 1:
+                    return 300;
+                case 2:
+                    return 900;
+                case 3:
+                    return 2700;
+                case 4:
+                    return 6500;
+                case 5:
+                    return 14000;
+                case 6:
+                    return 23000;
+                case 7:
+                    return 34000;
+                case 8:
+                    return 48000;
+                case 9:
+                    return 64000;
+                case 10:
+                    return 85000;
+                case 11:
+                    return 100000;
+                case 12:
+                    return 120000;
+                case 13:
+                    return 140000;
+                case 14:
+                    return 165000;
+                case 15:
+                    return 195000;
+                case 16:
+                    return 225000;
+                case 17:
+                    return 265000;
+                case 18:
+                    return 305000;
+                case 19:
+                    return 355000;
+                case 20:
+                    return 0;
+                default:
+                    Debug.LogError("SetLevelXPNeeded: Invalid actor level");
+                    return -1;
+            }
+        }
+
+        public static int[] GetNPCAttributeIncreaseOnLevelUp(Class actorClass)
+        {
+            switch(actorClass)
+            {
+                case Class.ALCHEMIST:
+                    return new int[] { 0, 0, 0, 1, 0, 0 };
+                case Class.BARBARIAN:
+                    return new int[] { 1, 0, 0, 0, 0, 0 };
+                case Class.BARD:
+                case Class.SORCERER:
+                    return new int[] { 0, 0, 0, 0, 0, 1 };
+                case Class.CLERIC:
+                case Class.DRUID:
+                case Class.PALADIN:
+                    return new int[] { 0, 0, 0, 0, 1, 0 };
+                case Class.FIGHTER:
+                    return new int[] { 1, 0, 0, 0, 0, 0 };
+                case Class.MONK:
+                    return new int[] { 0, 1, 0, 0, 0, 0 };
+                case Class.RANGER:
+                    return new int[] { 0, 1, 0, 0, 0, 0 };
+                case Class.THIEF:
+                    return new int[] { 0, 1, 0, 0, 0, 0 };
+                case Class.SHAMAN:
+                    return new int[] { 0, 0, 0, 1, 0, 0 };
+                case Class.MAGE:
+                    return new int[] { 0, 0, 0, 1, 0, 0 };
+                default:
+                    Debug.LogError("GetNPCAttributeIncreaseOnLevelUp: Case not handled");
+                    return null;
+            }
+        }
     }
 
     public static class Navigation
@@ -411,42 +422,21 @@ public static class ActorUtility
         actor.ApplyStatusEffect(status, rounds);
     }
 
-    //public static void ApplyEffect(ActorStats stats, EffectData effectData, float duration)
+    //public static float GetHealthPercentage(ActorStats stats)
     //{
-    //    if(CheckHasEffectApplied(stats, effectData.effect))
-    //        return;
-
-    //    stats.appliedEffects.Add(effectData, duration);
+    //    int hp = GetModdedStat(stats, ActorStat.HITPOINTS);
+    //    int hpMax = GetModdedStat(stats, ActorStat.MAXHITPOINTS);
+    //    float result = (float)hp / hpMax * 100;
+    //    //Debug.Log("HEALTH PERCENTAGE: " + hp + " / " + hpMax + " = " + result);
+    //    return result;
     //}
 
-    //public static bool CheckHasEffectApplied(ActorStats stats, Effects effect)
+    //public static void ModifyActorHealth(ActorStats stats, int amount, ModType modType)
     //{
-    //    foreach (EffectData eff in stats.appliedEffects.Keys)
-    //    {
-    //        if (eff.effect == effect)
-    //        {
-    //            return true;
-    //        }
-    //    }
+    //    ModifyStatBase(stats, ActorStat.HITPOINTS, amount, modType);
+    //    stats.StatsBase[ActorStat.HITPOINTS] = Mathf.Clamp(stats.StatsBase[ActorStat.HITPOINTS], 0, stats.StatsBase[ActorStat.MAXHITPOINTS]);
 
-    //    return false;
     //}
-
-    public static float GetHealthPercentage(ActorStats stats)
-    {
-        int hp = GetModdedStat(stats, ActorStat.HITPOINTS);
-        int hpMax = GetModdedStat(stats, ActorStat.MAXHITPOINTS);
-        float result = (float)hp / hpMax * 100;
-        //Debug.Log("HEALTH PERCENTAGE: " + hp + " / " + hpMax + " = " + result);
-        return result;
-    }
-
-    public static void ModifyActorHealth(ActorStats stats, int amount, ModType modType)
-    {
-        ModifyStatBase(stats, ActorStat.HITPOINTS, amount, modType);
-        stats.StatsBase[ActorStat.HITPOINTS] = Mathf.Clamp(stats.StatsBase[ActorStat.HITPOINTS], 0, stats.StatsBase[ActorStat.MAXHITPOINTS]);
-
-    }
 
     //public static void ModifyActorMagicka(ActorRecord stats, int amount, ModType modType)
     //{
@@ -461,139 +451,6 @@ public static class ActorUtility
     //    stats.attributesBase[ActorStats.STUN] = Mathf.Clamp(stats.attributesBase[ActorStats.STUN], 0, stats.attributesBase[ActorStats.MAXSTUN]);
 
     //}
-
-    public static void SetBaseStat(ActorStats stats, ActorStat baseStat, int value)
-    {
-        //if(debug)
-        //{
-        //    Debug.Log(GetName() + ": Setting stat " + baseStat + " to " + value);
-        //}
-        int diff = stats.StatsModified[baseStat] - stats.StatsBase[baseStat];
-
-        stats.StatsBase[baseStat] = value;
-        SetStatMod(stats, baseStat, value + diff);
-    }
-
-    private static void SetStatMod(ActorStats stats, ActorStat stat, int value)
-    {
-        //if(debug)
-        //{
-        //    Debug.Log(GetName() + ": Setting stat " + baseStat + " to " + value);
-        //}
-        stats.StatsModified[stat] = value;
-    }
-
-    public static int GetStatBase(ActorStats stats, ActorStat baseStat)
-    {
-        return stats.StatsBase[baseStat];
-    }
-
-    private static void SetAttributeBase(ActorStats stats, ActorStat baseStat, int value)
-    {
-        //if(debug)
-        //{
-        //    Debug.Log(GetName() + ": Setting stat " + baseStat + " to " + value);
-        //}
-        int diff = stats.StatsModified[baseStat] - stats.StatsBase[baseStat];
-
-        stats.StatsBase[baseStat] = value;
-        SetAttributeMod(stats, baseStat, value + diff);
-    }
-
-    private static void SetAttributeMod(ActorStats stats, ActorStat stat, int value)
-    {
-        //if(debug)
-        //{
-        //    Debug.Log(GetName() + ": Setting stat " + baseStat + " to " + value);
-        //}
-        stats.StatsModified[stat] = value;
-    }
-
-    public static int GetModdedStat(ActorStats stats, ActorStat stat)
-    {
-        return stats.StatsModified[stat];
-    }
-
-    public static int GetAttributeModValue(ActorStats stats, ActorStat stat)
-    {
-        return stats.StatsModified[stat] - stats.StatsBase[stat];
-    }
-
-    //public void NewStat(Stat baseStat, int value)
-    //{
-    //    statsBase.Add(baseStat, value);
-    //    statsModified.Add(baseStat, value);
-    //}
-
-    public static void RevertToBaseStat(ActorStats stats, ActorStat stat)
-    {
-        SetAttributeMod(stats, stat, GetStatBase(stats, stat));
-    }
-
-    /// <summary>
-    /// Change an existing base stat value based on the modifier type.
-    /// </summary>
-    /// <param name="baseStat"></param>
-    /// <param name="modValue"></param>
-    /// <param name="modifierType"></param>
-    public static int ModifyStatBase(ActorStats stats, ActorStat baseStat, int modValue, ModType modifierType)
-    {
-        int oldmod = stats.StatsBase[baseStat];
-
-        switch(modifierType)
-        {
-            case ModType.ADDITIVE:
-                SetAttributeBase(stats, baseStat, stats.StatsBase[baseStat] + modValue);
-                break;
-
-            case ModType.ABSOLUTE:
-                SetAttributeBase(stats, baseStat, modValue);
-                break;
-
-            case ModType.PERCENT:
-                SetAttributeBase(stats, baseStat, stats.StatsBase[baseStat] + (modValue / 100));
-                break;
-        }
-
-        return stats.StatsBase[baseStat] - oldmod;
-    }
-
-    /// <summary>
-    /// Change an existing modified stat value based on the modifier type.
-    /// </summary>
-    /// <param name="stat"></param>
-    /// <param name="modValue"></param>
-    /// <param name="modifierType"></param>
-    public static int ModifyStatModded(ActorStats stats, ActorStat stat, int modValue, ModType modifierType)
-    {
-        int oldmod = stats.StatsModified[stat];
-
-        switch(modifierType)
-        {
-            case ModType.ADDITIVE:
-                SetAttributeMod(stats, stat, stats.StatsModified[stat] + modValue);
-                break;
-
-            case ModType.ABSOLUTE:
-                SetAttributeMod(stats, stat, modValue);
-                break;
-
-            case ModType.PERCENT:
-                SetAttributeMod(stats, stat, stats.StatsBase[stat] + (modValue / 100));
-                break;
-
-            case ModType.MULTIPLICATIVE:
-                SetAttributeMod(stats, stat, stats.StatsBase[stat] + modValue);
-                break;
-        }
-
-        return stats.StatsModified[stat] - oldmod;
-    }
-
-    public static bool IsEnemy(ActorStats agent1, ActorStats agent2)
-    {
-        return FactionExentions.IsEnemy(agent1, agent2);
-    }
 
     //public static ActorInput CreateActor(GameObject actorPrefab, bool isPlayer, Vector3 position, Quaternion rotation)
     //{

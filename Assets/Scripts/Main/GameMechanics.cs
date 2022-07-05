@@ -5,9 +5,9 @@ using UnityEngine;
 
 public static class GameMechanics
 {
-    public static int GetArmorRating(ActorStats actor)
+    public static int GetArmorRating(ActorStats stats)
     {
-        return ActorUtility.GetModdedStat(actor, ActorStat.AC);
+        return stats.GetStat(ActorStat.AC);
     }
 
 }

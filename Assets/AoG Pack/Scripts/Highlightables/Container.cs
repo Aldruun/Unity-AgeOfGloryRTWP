@@ -148,7 +148,7 @@ public class Container : Highlightable
         //}
         //else
         //{
-        int str = ActorUtility.GetModdedStat(actor.ActorStats, ActorStat.STRENGTH);
+        int str = actor.ActorStats.GetStat(ActorStat.STRENGTH);
         //int strEx = actor.GetStat(Stat.STRENGTHEXTRA);
         //bonus = DnD.AttributeModifier(str); //BEND_BARS_LIFT_GATES
         //roll = actor.LuckyRoll(1, 10, bonus, 0);

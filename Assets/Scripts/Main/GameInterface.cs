@@ -225,7 +225,7 @@ namespace AoG.Core
             }
         }
 
-        internal Game GetCurrentGame()
+        public Game GetCurrentGame()
         {
             return currentGame;
         }

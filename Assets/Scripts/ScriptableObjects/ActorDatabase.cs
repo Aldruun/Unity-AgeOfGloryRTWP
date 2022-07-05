@@ -24,10 +24,8 @@ public class ActorDatabase : ScriptableObject
 
                 //npcInput.set(skills);
                 npcInput.FinalizeActor(config);
-                
-                npcInput.ActorStats.InitializeStats(CreateActorStatsDictionaryTemplate());
                 npcInput.Inventory.AddItems(config.InventoryTemplate.items);
-                npcInput.Equipment.EquipBestArmor();
+                
                 //FinalizeActor(npcInput, inventory);
 
                 return npcInput;

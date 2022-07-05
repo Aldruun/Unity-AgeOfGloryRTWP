@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -23,7 +24,8 @@ namespace AoG.Core
         internal ControlStatus controlStatus;
         private DatabaseService databaseService;
 
-        public bool PartyAttack { get; internal set; }
+        public bool PartyAttack { get; set; }
+        public int CombatCounter { get; private set; }
 
         public Game(DatabaseService databaseService) // Called in Awake
         {
@@ -35,6 +37,40 @@ namespace AoG.Core
             maps = new Dictionary<string, Map>();
 
             GameEventSystem.RequestGetPCByPartyIndex = GetPCByPartyIndex;
+        }
+
+        private void SpawnActors(Map map, Transform mapHierarchy)
+        {
+            SpawnPoint[] spawnpoints = mapHierarchy.Find("Spawnpoints").GetComponentsInChildren<SpawnPoint>();
+
+            for(int i = 0; i < spawnpoints.Length; i++)
+            {
+                SpawnPoint spawnpoint = spawnpoints[i];
+                Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
+                spawned.ActorStats.GenerateNPCLevel(1);
+                spawned.Equipment.EquipBestArmor();
+                //ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
+                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 1));
+
+                spawned.aiControlled = true;
+
+                spawned.debugAnimation = spawnpoint.debugAnimation;
+                spawned.debugActions = spawnpoint.debugActions;
+                spawned.debugGear = spawnpoint.debugActorGear;
+                spawned.debugInitialization = spawnpoint.debugInitialization;
+
+                Debug.Assert(spawned != null, "Spawn from spawnpoint '" + spawnpoint.name + "' null");
+
+                if(spawned.IsPlayer)
+                {
+                    // Needs to be done before actor.Initialize()
+                    // because here the partyIndex gets set
+                    CreatePartyMember(spawned);
+                }
+
+                map.AddActor(spawned);
+                //worldUpdater.AddNPC(spawned);
+            }
         }
 
         private void CreatePartyMember(Actor pc) // Called in Start of SpawnPoint.cs
@@ -63,6 +99,22 @@ namespace AoG.Core
             }
         }
 
+        /// <summary>
+        /// Get PC by party slot. Returns null if partySlot is out of bounds.
+        /// </summary>
+        /// <param name="partySlot"></param>
+        /// <returns></returns>
+        public Actor GetPC(int partySlot)
+        {
+            if(PCs.Count < partySlot)
+            {
+                Debug.LogError($"Party slot {partySlot} out of bounds");
+                return null;
+            }
+
+            return PCs[partySlot - 1];
+        }
+
         public GameObject[] GetPCObjects()
         {
             GameObject[] pcObjects = PCs.Select(c => c.gameObject).ToArray();
@@ -80,33 +132,6 @@ namespace AoG.Core
                 }
             }
             return summonedList.ToArray();
-        }
-
-        private void SpawnActors(Map map, Transform mapHierarchy)
-        {
-            SpawnPoint[] spawnpoints = mapHierarchy.Find("Spawnpoints").GetComponentsInChildren<SpawnPoint>();
-
-            for(int i = 0; i < spawnpoints.Length; i++)
-            {
-                SpawnPoint spawnpoint = spawnpoints[i];
-                Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
-                ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
-                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 1));
-
-                spawned.aiControlled = true;
-
-                Debug.Assert(spawned != null, "Spawn from spawnpoint '" + spawnpoint.name + "' null");
-
-                if(spawned.IsPlayer)
-                {
-                    // Needs to be done before actor.Initialize()
-                    // because here the partyIndex gets set
-                    CreatePartyMember(spawned);
-                }
-
-                map.AddActor(spawned);
-                //worldUpdater.AddNPC(spawned);
-            }
         }
 
         //public void OnTransitionDone()
@@ -240,7 +265,8 @@ namespace AoG.Core
             foreach(ActorData actorData in data.PCs)
             {
                 Actor spawnedActor = databaseService.ActorDatabase.InstantiateAndSetUpActor(actorData.UniqueID, actorData.WorldPosition.ToVector(), Quaternion.Euler(actorData.WorldEulerAngles.ToVector()));
-                ActorUtility.Initialization.CalculateCharacterStats(spawnedActor.ActorStats, actorData.Level);
+                spawnedActor.ActorStats.GenerateNPCLevel(1);
+                //ActorUtility.Initialization.CalculateCharacterStats(spawnedActor.ActorStats, actorData.Level);
                 spawnedActor.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawnedActor.ActorStats.Class, actorData.Level));
             }
         }
