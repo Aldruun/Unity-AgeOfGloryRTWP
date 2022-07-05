@@ -99,7 +99,7 @@ public class QuestMaster : MonoBehaviour
         }
     }
 
-    internal Quest GetQuest(ActorInput agent)
+    internal Quest GetQuest(Actor agent)
     {
         return null; // _availableQuests.Where(q => q.CanJoin).OrderBy(q => q.goldReward).FirstOrDefault();
     }

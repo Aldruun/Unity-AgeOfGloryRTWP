@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class ActorIndicator
 {
     internal bool isSpeaking;
     private readonly Transform indicatorMainPanel;
-    private readonly ActorInput self;
+    private readonly Actor self;
     private readonly SpriteAnimationController _targetReticleAnimator;
     private readonly AudioSource voiceAudioSource;
     private readonly HighlightPlus.HighlightEffect circleOutline;
@@ -18,7 +19,7 @@ public class ActorIndicator
     private readonly Gradient flashGradient;
     private bool selected;
 
-    public ActorIndicator(ActorInput self, Gradient flashGradient)
+    public ActorIndicator(Actor self, Gradient flashGradient)
     {
         this.self = self;
 
@@ -62,20 +63,9 @@ public class ActorIndicator
         circleOutline.outlineColor = highlighted ? selectedColor : defaultColor;
     }
 
-    internal void Clear()
-    {
-        Release();
-        UnityEngine.Object.Destroy(indicatorMainPanel.gameObject);
-    }
-
     internal void ResetHighlighting()
     {
         lerp_time = 0;
-    }
-
-    internal void Release()
-    {
-
     }
 
     internal void SetHighlighted(bool on)
@@ -205,4 +195,17 @@ public class ActorIndicator
             targetReticleRenderer.material.color = Color.green;
         }
     }
+
+    internal void Disable()
+    {
+        circleOutline.ignore = true;
+        circleRenderer.enabled = false;
+        SetTargetReticle(false);
+    }
+
+    internal void Destroy()
+    {
+        UnityEngine.Object.Destroy(indicatorMainPanel.gameObject);
+    }
+
 }

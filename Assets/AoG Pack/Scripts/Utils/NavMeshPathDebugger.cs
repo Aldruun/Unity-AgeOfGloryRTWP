@@ -3,14 +3,14 @@
 public class NavMeshPathDebugger : MonoBehaviour
 {
     //LineRenderer line; //to hold the line Renderer
-    private ActorInput monoAgent; //to hold the agent of this gameObject
+    private Actor monoAgent; //to hold the agent of this gameObject
 
     private void Awake()
     {
         //line = GetComponent<LineRenderer>(); //get the line renderer
         //line.startWidth = 0.1f;
         //line.endWidth = 0.1f;
-        monoAgent = GetComponentInParent<ActorInput>(); //get the agent
+        monoAgent = GetComponentInParent<Actor>(); //get the agent
         //monoAgent.OnNavMeshPathRequest += DrawPath;
     }
 

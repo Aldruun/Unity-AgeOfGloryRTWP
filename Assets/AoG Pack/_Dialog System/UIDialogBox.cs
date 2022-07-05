@@ -160,7 +160,7 @@ public class UIDialogBox
         }
     }
 
-    public void Setup(ActorInput talkingPC, ConversationData data)
+    public void Setup(Actor talkingPC, ConversationData data)
     {
         _PCName = talkingPC.GetName();
         _dialogNPCName = data.owner.GetName();

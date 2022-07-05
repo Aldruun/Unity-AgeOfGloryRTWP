@@ -217,7 +217,7 @@ public class UIInventory : MonoBehaviour, IPointerDownHandler
 
     //    Equipment newEquipment = new Equipment(new InventoryItem[9], new InventoryItem[3]);
 
-    //    ActorGearData gearData = newMember.gearData;
+    //    ActorGearData gearData = newMember.Equipment;
 
     //    if(gearData.equippedHeadwear.Value != null)
     //    {
@@ -847,14 +847,14 @@ public class UIInventory : MonoBehaviour, IPointerDownHandler
 
         //_selectedHero.Execute_EquipArmor(armor);
 
-        //ActorGearData gearData = _selectedHero.gearData;
+        //ActorGearData gearData = _selectedHero.Equipment;
 
         //else if(dataSlot.itemData is Weapon weapon)
         //{
-        //        ActorGearData gearData = _selectedHero.gearData;
-        //        if(gearData.equippedWeapon.weaponObject != null && gearData.equippedWeapon.weaponData != weapon)
+        //        ActorGearData gearData = _selectedHero.Equipment;
+        //        if(gearData.equippedWeapon.weaponObject != null && gearData.equippedWeapon.Weapon != weapon)
         //        {
-        //            //SetEquipped(playerInventory.inventoryItems.Where(s => s.itemData == gearData.equippedWeapon.weaponData).FirstOrDefault().slotIndex, false);
+        //            //SetEquipped(playerInventory.inventoryItems.Where(s => s.itemData == gearData.equippedWeapon.Weapon).FirstOrDefault().slotIndex, false);
         //        }
         //        //equippedWeaponSlot.itemData = weapon;
         //        //equippedWeaponSlot.slotIndex = dataSlot.slotIndex;
@@ -877,14 +877,14 @@ public class UIInventory : MonoBehaviour, IPointerDownHandler
 
 
 
-        //ActorGearData gearData = _selectedHero.gearData;
+        //ActorGearData gearData = _selectedHero.Equipment;
 
         //else if(dataSlot.itemData is Weapon weapon)
         //{
-        //        ActorGearData gearData = _selectedHero.gearData;
-        //        if(gearData.equippedWeapon.weaponObject != null && gearData.equippedWeapon.weaponData != weapon)
+        //        ActorGearData gearData = _selectedHero.Equipment;
+        //        if(gearData.equippedWeapon.weaponObject != null && gearData.equippedWeapon.Weapon != weapon)
         //        {
-        //            //SetEquipped(playerInventory.inventoryItems.Where(s => s.itemData == gearData.equippedWeapon.weaponData).FirstOrDefault().slotIndex, false);
+        //            //SetEquipped(playerInventory.inventoryItems.Where(s => s.itemData == gearData.equippedWeapon.Weapon).FirstOrDefault().slotIndex, false);
         //        }
         //        //equippedWeaponSlot.itemData = weapon;
         //        //equippedWeaponSlot.slotIndex = dataSlot.slotIndex;
@@ -1123,7 +1123,7 @@ public class UIInventory : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    private static void SetInventoryOwner(ActorInput actor)
+    private static void SetInventoryOwner(Actor actor)
     {
         if(Instance.inventoryPanel.gameObject.activeInHierarchy == false)
         {

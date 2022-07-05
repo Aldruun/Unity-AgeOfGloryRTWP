@@ -15,7 +15,7 @@ public interface IAttackable
 {
     AttackableType AttackableType { get; }
     void InitializeAttackableInterface();
-    void ApplyDamage(ActorInput source, Weapon weapon, EffectData magicEffect, bool isProjectile, bool hitSuccess = true);
+    void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage);
     Transform GetTransform();
     bool IgnorePlayerAttack { get; }
     float GetObjectRadius();

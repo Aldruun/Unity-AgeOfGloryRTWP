@@ -1,7 +1,4 @@
-﻿using AoG.AI;
-using AoG.Core;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public enum NPCState
@@ -61,7 +58,7 @@ public struct WeaponInfo
         this.profDamageBonus = profDamageBonus;
     }
 }
-public class NPCInput : ActorInput, IActivatable
+public class NPCInput : Actor, IActivatable
 {
     public NPCState npcState;
     public System.Action<float> spellCheckIntervalCallback;
@@ -70,15 +67,11 @@ public class NPCInput : ActorInput, IActivatable
     public System.Action<float> skillCheckIntervalCallback;
     public Vector3 startPosition;
     public Vector3 startEulerAngles;
-    private StateMachine<NPCInput> _npcStateMachine;
     private float _checkForCloseActorsTimer;
-    private ActorInput _closestLookAtActor;
-    private float tauntTimer;
-    private float makeMoveCooldown;
+    private Actor _closestLookAtActor;
     public AIProfile AIProfile { get; set; }
 
-    public SpellTargetingProfile SpellTargetingProfile { get; private set; }
-    public ActorInput EscortTarget { get; private set; }
+    public Actor EscortTarget { get; private set; }
     public float recoveryTime { get; set; }
 
     public override void FinalizeActor(ActorConfiguration config)
@@ -86,13 +79,12 @@ public class NPCInput : ActorInput, IActivatable
         base.FinalizeActor(config);
         NavAgent = GetComponent<NavMeshAgent>();
         config.ConfigureNavAgent(NavAgent);
-        _npcStateMachine = new StateMachine<NPCInput>();
        
         Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, false, true);
         Combat.Execute_DrawWeapon();
     }
 
-    public void SetEscortTarget(ActorInput actor)
+    public void SetEscortTarget(Actor actor)
     {
         if(actor == null)
         {
@@ -203,7 +195,7 @@ public class NPCInput : ActorInput, IActivatable
         {
             _checkForCloseActorsTimer = 1;
 
-            _closestLookAtActor = HelperFunctions.GetClosestActor_WithJobs(this, 5);
+            //_closestLookAtActor = HelperFunctions.GetClosestActor_WithJobs(this, 5, );
 
         }
         if(Combat.GetHostileTarget() != null && ActorUtility.IsValidTarget(Combat.GetHostileTarget()))
@@ -238,36 +230,6 @@ public class NPCInput : ActorInput, IActivatable
     public void CloseInfo()
     {
 
-    }
-
-    internal void ChangeState(NPCState npcState)
-    {
-        if(this.npcState == npcState)
-        {
-            return;
-        }
-        this.npcState = npcState;
-        State<NPCInput> state = null;
-        switch(npcState)
-        {
-            case NPCState.IDLE:
-                state = new State_Idle();
-                break;
-            case NPCState.WANDER:
-                state = new State_Wander();
-                break;
-            case NPCState.MOVEATTACK:
-                state = new State_MoveToAndAttack(this);
-                break;
-            case NPCState.MOVECAST:
-                state = new State_MoveToAndCast();
-                break;
-            case NPCState.ESCORT:
-                state = new State_Escort();
-                break;
-        }
-
-        _npcStateMachine.ChangeState(state, this);
     }
 
     internal override float GetCharacterRadius()
@@ -370,10 +332,6 @@ public class NPCInput : ActorInput, IActivatable
             }
 
             hasMovementOrder = !done;
-        }
-        else
-        {
-            skillController.UpdateAI();
         }
     }
     private ActorStats GetSpellTarget()

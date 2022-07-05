@@ -8,17 +8,17 @@ public class StatusEffect_Sleep : StatusEffect
     {
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
         
     }
 
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
         actor.Combat.Execute_KnockDown(Vector3.zero, rounds);
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
         actor.Combat.Execute_StandUp();
     }

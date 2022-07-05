@@ -18,7 +18,7 @@ public enum AreaType
     INTERIOR
 }
 
-public class Map : Scriptable
+public class Map
 {
     private float _garbageTimer = 1;
     public Dictionary<GameObject, int> garbage { get; } = new Dictionary<GameObject, int>();
@@ -30,7 +30,7 @@ public class Map : Scriptable
 
     //public int gameTime;
     private bool pcInArea;
-    public List<ActorInput> actors = new List<ActorInput>();
+    public List<Actor> actors = new List<Actor>();
     //public List<Container> containers = new List<Container>();
     //public List<Door> doors = new List<Door>();
 
@@ -89,7 +89,7 @@ public class Map : Scriptable
 
         if(pcInArea)
         {
-            UpdateScriptableLoop();
+            //UpdateScriptableLoop();
         }
         else
         {
@@ -100,7 +100,7 @@ public class Map : Scriptable
         //SortQueues();
 
         //gameTime++;
-        foreach(ActorInput actor in actors)
+        foreach(Actor actor in actors)
         {
             //if(actor.GetCurrentArea() != this)
             //{
@@ -112,7 +112,7 @@ public class Map : Scriptable
         }
     }
 
-    public void InitSpawns(SpawnPoint[] spawnPoints, ref List<ActorInput> spawnedPCs)
+    public void InitSpawns(SpawnPoint[] spawnPoints, ref List<Actor> spawnedPCs)
     {
         Debug.Log("# <color=green>Init Spawns</color>");
         _spawnPoints = spawnPoints;
@@ -120,7 +120,7 @@ public class Map : Scriptable
         {
             if(sp.SpawnType == SpawnType.ONSTART)
             {
-                ActorInput spawnedActor = sp.Spawn();
+                Actor spawnedActor = sp.Spawn();
 
                 if(spawnedActor.ActorStats.HasActorFlag(ActorFlags.PC))
                 {
@@ -151,7 +151,7 @@ public class Map : Scriptable
     //{
     //}
 
-    internal void AddActor(ActorInput monoAgent)
+    internal void AddActor(Actor monoAgent)
     {
         if(actors.Contains(monoAgent))
         {
@@ -182,7 +182,7 @@ public class Map : Scriptable
         //}
     }
 
-    private void RemoveActorFromMap(ActorInput actor)
+    private void RemoveActorFromMap(Actor actor)
     {
         actors.Remove(actor);
         Debug.Log("<color=orange>Removing actor </color>'" + actor.GetName() + "'");
@@ -198,7 +198,7 @@ public class Map : Scriptable
         return footstepLinks;
     }
 
-    private bool MustSave(ActorInput actor)
+    private bool MustSave(Actor actor)
     {
         if(actor.ActorStats.HasActorFlag(ActorFlags.ESSENTIAL))
         {
@@ -230,7 +230,7 @@ public class Map : Scriptable
 
     internal void SelectActors()
     {
-        foreach(ActorInput actor in actors)
+        foreach(Actor actor in actors)
         {
             //if(actor.GetModifiedStat[Stat.ea] < EA_CONTROLLABLE)
             //{

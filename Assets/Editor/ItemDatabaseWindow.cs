@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GenericFunctions;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +8,17 @@ using UnityEngine;
 
 public class ItemDatabaseWindow : EditorWindow
 {
+    enum VFXID
+    {
+        Projectile,
+        OnHit,
+        OnHandIdle,
+        OnHandCharge,
+        OnHandRelease,
+        OnImpact,
+    }
+    VFXID vfxID;
+
     private static string[] tabs;
     private static string[] itemCategories;
     private static string[] actorCategories;
@@ -56,7 +68,7 @@ public class ItemDatabaseWindow : EditorWindow
         voicesetSelectionDropDown = new GenericMenu();
         foreach(string name in vfxNames)
         {
-            vfxSelectionMenu.AddItem(new GUIContent(name), false, () => { SetMagicEffectVFXID(name); });
+            vfxSelectionMenu.AddItem(new GUIContent(name), false, () => { SetMagicEffectVFXID(vfxID, name); });
         }
 
         //_skillNames = Resources.Load<ActorSkillDatabase>("ScriptableObjects/ActorSkillDatabase").actorSkills.Select(n => n.Name).ToArray();
@@ -290,7 +302,7 @@ public class ItemDatabaseWindow : EditorWindow
                             GUILayout.Space(30);
                             GUI.skin.button.alignment = TextAnchor.MiddleLeft;
 
-                            if(config == null || config.InventoryTemplate == null || config.ActorPrefab == null || config.Skillbook == null || config.ActorFlags == 0 || config.Name == null /*|| _selectedSpell.magicEffects[0] == null*/)
+                            if(config == null || config.InventoryTemplate == null || config.ActorPrefab == null || config.ActorFlags == 0 || config.Name == null /*|| selectedSpell.magicEffects[0] == null*/)
                             {
                                 GUI.contentColor = Color.red;
                             }
@@ -370,7 +382,7 @@ public class ItemDatabaseWindow : EditorWindow
                             GUILayout.Space(30);
                             GUI.skin.button.alignment = TextAnchor.MiddleLeft;
 
-                            if(config == null || config.ActorPrefab == null || config.Skillbook == null /*|| _selectedSpell.magicEffects[0] == null*/)
+                            if(config == null || config.ActorPrefab == null || config.Spellbook == null /*|| selectedSpell.magicEffects[0] == null*/)
                             {
                                 GUI.contentColor = Color.red;
                             }
@@ -443,36 +455,36 @@ public class ItemDatabaseWindow : EditorWindow
                     }
 
                     selectedActor.Level = EditorGUILayout.IntField("Level: ", Mathf.Clamp(selectedActor.Level, 1, 20), GUILayout.Width(300));
-                    selectedActor.Skillbook = (SkillBook)EditorGUILayout.ObjectField("Skillbook:", selectedActor.Skillbook, typeof(SkillBook), false, GUILayout.Width(300));
+                    //selectedActor.Spellbook = (SpellBook)EditorGUILayout.ObjectField("Spellbook:", selectedActor.Spellbook, typeof(SpellBook), false, GUILayout.Width(300));
 
-                    if(selectedActor.Skillbook != null)
-                    {
-                        int count = selectedActor.Skillbook.skills.Count;
+                    //if(selectedActor.Spellbook != null)
+                    //{
+                    //    int count = selectedActor.Spellbook.SpellData.Count;
 
-                        if(count > 0)
-                        {
-                            actorStatsFoldoutState = Foldout("Skills", count, "actorInsp");
+                    //    if(count > 0)
+                    //    {
+                    //        actorStatsFoldoutState = Foldout("Skills", count, "actorInsp");
 
-                            if(actorStatsFoldoutState)
-                            {
-                                GUI.contentColor = Color.gray;
-                                using(new GUILayout.HorizontalScope())
-                                {
-                                    GUILayout.Space(15);
-                                    using(new GUILayout.VerticalScope())
-                                    {
-                                        for(int i = 0; i < selectedActor.Skillbook.skills.Count; i++)
-                                        {
-                                            SkillPropertyDrawer skill = selectedActor.Skillbook.skills[i];
+                    //        if(actorStatsFoldoutState)
+                    //        {
+                    //            GUI.contentColor = Color.gray;
+                    //            using(new GUILayout.HorizontalScope())
+                    //            {
+                    //                GUILayout.Space(15);
+                    //                using(new GUILayout.VerticalScope())
+                    //                {
+                    //                    for(int i = 0; i < selectedActor.Spellbook.SpellData.Count; i++)
+                    //                    {
+                    //                        SpellPropertyDrawer skill = selectedActor.Spellbook.SpellData[i];
 
-                                            GUILayout.Label(skill.skill.name);
-                                        }
-                                    }
-                                }
-                                GUI.contentColor = Color.white;
-                            }
-                        }
-                    }
+                    //                        GUILayout.Label(skill.spell.name);
+                    //                    }
+                    //                }
+                    //            }
+                    //            GUI.contentColor = Color.white;
+                    //        }
+                    //    }
+                    //}
 
                     selectedActor.ActorFlags = (ActorFlags)EditorGUILayout.EnumFlagsField("Actor Flags: ", selectedActor.ActorFlags, GUILayout.Width(300));
                     selectedActor.Race = (ActorRace)EditorGUILayout.EnumPopup("Race: ", selectedActor.Race, GUILayout.Width(300));
@@ -527,32 +539,34 @@ public class ItemDatabaseWindow : EditorWindow
 
     private void DrawItemsPage()
     {
-        itemListScrollPosition = EditorGUILayout.BeginScrollView(itemListScrollPosition, false, true,
-                                       GUILayout.Width(240), GUILayout.MinHeight(200), GUILayout.MaxHeight(600));
-        foreach(string objectCategory in itemCategories)
+        using(var scrollViewItems = new GUILayout.ScrollViewScope(itemListScrollPosition, false, true,
+                                           GUILayout.Width(240), GUILayout.MinHeight(200), GUILayout.MaxHeight(600)))
         {
-            if(objectCategory == "Items") //Hack -------------------------------------------------- Items
-            {
-                GUILayout.BeginHorizontal(GUILayout.Width(226));
+            itemListScrollPosition = scrollViewItems.scrollPosition;
 
-                foldoutState = Foldout(objectCategory);
-                GUILayout.EndHorizontal();
-                if(foldoutState)
+            foreach(string objectCategory in itemCategories)
+            {
+                if(objectCategory == "Items")
                 {
-                    DrawItemsList();
+                    GUILayout.BeginHorizontal(GUILayout.Width(226));
+
+                    foldoutState = Foldout(objectCategory);
+                    GUILayout.EndHorizontal();
+                    if(foldoutState)
+                    {
+                        DrawItemsList();
+                    }
+                }
+                else if(objectCategory == "Spells")
+                {
+                    DrawSpellsList();
+                }
+                else if(objectCategory == "Magic Effects")
+                {
+                    DrawMagicEffectsList();
                 }
             }
-            else if(objectCategory == "Spells") //Hack -------------------------------------------------- Spells
-            {
-                DrawSpellsList();
-            }
-            else if(objectCategory == "Magic Effects") //Hack -------------------------------------------------- Magic Effects
-            {
-                DrawMagicEffectsList();
-            }
-
         }
-        EditorGUILayout.EndScrollView();
 
         if(selectedElement != null) //! Settings Inspector
         {
@@ -577,6 +591,7 @@ public class ItemDatabaseWindow : EditorWindow
                         }
 
                     default:
+                        Debug.LogError($"Selection index {selectedElementIndex} invalid");
                         break;
                 }
             }
@@ -924,7 +939,7 @@ public class ItemDatabaseWindow : EditorWindow
                     GUILayout.Space(30);
                     GUI.skin.button.alignment = TextAnchor.MiddleLeft;
 
-                    if(spell == null || spell.magicEffects.Count == 0 /*|| _selectedSpell.magicEffects[0] == null*/)
+                    if(spell == null || spell.magicEffects.Count == 0 /*|| selectedSpell.magicEffects[0] == null*/)
                     {
                         GUI.contentColor = Color.red;
                     }
@@ -1005,7 +1020,7 @@ public class ItemDatabaseWindow : EditorWindow
                     GUILayout.Space(30);
                     GUI.skin.button.alignment = TextAnchor.MiddleLeft;
 
-                    if(magicEffect == null/*|| _selectedSpell.magicEffects[0] == null*/)
+                    if(magicEffect == null/*|| selectedSpell.magicEffects[0] == null*/)
                     {
                         GUI.contentColor = Color.red;
                     }
@@ -1101,11 +1116,13 @@ public class ItemDatabaseWindow : EditorWindow
 
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
             EditorGUIUtility.labelWidth = 70;
-            weapon.damage = EditorGUILayout.IntField("Damage:", weapon.damage, GUILayout.Width(94));
+            weapon.NumDice = EditorGUILayout.IntField("Attack Roll:", weapon.NumDice, GUILayout.Width(94));
+            EditorGUIUtility.labelWidth = 15;
+            weapon.NumDieSides = EditorGUILayout.IntField("d", weapon.NumDieSides, GUILayout.Width(150));
             EditorGUIUtility.labelWidth = 120;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-            weapon.maxHitTargets = EditorGUILayout.IntField("Max Hit Targets:", weapon.maxHitTargets);
+            weapon.MaxHitTargets = EditorGUILayout.IntField("Max Hit Targets:", weapon.MaxHitTargets);
 
             weapon.projectileIdentifier = EditorGUILayout.TextField("Projectile Identifier", weapon.projectileIdentifier, GUILayout.Width(300));
 
@@ -1178,14 +1195,12 @@ public class ItemDatabaseWindow : EditorWindow
         selectedSpell = (Spell)selectedElement;
         SerializedObject srlSpell = new SerializedObject(selectedSpell);
 
-        //EditorGUILayout.BeginHorizontal();
-
         EditorGUILayout.BeginVertical();
         EditorGUIUtility.labelWidth = 120;
 
         EditorGUILayout.BeginHorizontal();
 
-        //AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(_selectedSpell.GetInstanceID()), EditorGUILayout.DelayedTextField("Asset Name:", _selectedSpell.name, GUILayout.Width(270)));
+        //AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(selectedSpell.GetInstanceID()), EditorGUILayout.DelayedTextField("Asset Name:", selectedSpell.name, GUILayout.Width(270)));
         EditorGUI.BeginChangeCheck();
         selectedSpell.name = EditorGUILayout.TextField("Asset Name:", selectedSpell.name, GUILayout.Width(270));
         if(EditorGUI.EndChangeCheck())
@@ -1195,26 +1210,17 @@ public class ItemDatabaseWindow : EditorWindow
 
         //AssetDatabase.Refresh();
         if(GUILayout.Button(".", GUILayout.Width(15), GUILayout.Height(15)))
-        {
             selectedSpell.name = selectedSpell.Name.Replace(" ", "");
-        }
-
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
         selectedSpell.Name = EditorGUILayout.TextField("Name:", selectedSpell.Name, GUILayout.Width(270));
         if(GUILayout.Button(".", GUILayout.Width(15), GUILayout.Height(15)))
-        {
-            selectedSpell.Name = selectedSpell.name/*.SplitCamelCase()*/;
-        }
-
+            selectedSpell.Name = selectedSpell.name.SplitCamelCase();
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
         selectedSpell.ID = EditorGUILayout.TextField("ID:", selectedSpell.ID, GUILayout.Width(270));
         if(GUILayout.Button(".", GUILayout.Width(15), GUILayout.Height(15)))
-        {
             selectedSpell.ID = selectedSpell.Name.ToLower();
-        }
-
         EditorGUILayout.EndHorizontal();
         EditorStyles.textField.wordWrap = true;
         //EditorStyles.textField.stretchHeight = true;
@@ -1222,47 +1228,48 @@ public class ItemDatabaseWindow : EditorWindow
         selectedSpell.description = EditorGUILayout.TextArea(selectedSpell.description, GUILayout.ExpandHeight(true), GUILayout.Height(100));
 
         selectedSpell.spellIcon = (Sprite)EditorGUILayout.ObjectField("Icon:", selectedSpell.spellIcon, typeof(Sprite), false, GUILayout.ExpandWidth(false));
-        //_selectedSpell.projectileType = (ProjectileType)EditorGUILayout.EnumPopup("Projectile Type: ", _selectedSpell.projectileType);
-        //_selectedSpell.activationMode = (SpellActivationMode)EditorGUILayout.EnumPopup("Activation Mode: ", _selectedSpell.activationMode, GUILayout.Width(270));
-        //_selectedSpell.subCategory = (SubCategory)EditorGUILayout.EnumPopup("Subcategory: ", _selectedSpell.subCategory, GUILayout.Width(270));
-        //_selectedSpell.attackRollType = (SpellAttackRollType)EditorGUILayout.EnumPopup("Attack Roll: ", _selectedSpell.attackRollType, GUILayout.Width(270));
-        //_selectedSpell.effectType = (DamageType)EditorGUILayout.EnumPopup("Effect Type: ", _selectedSpell.effectType, GUILayout.Width(270));
-        //_selectedSpell.spellTargetType = (SpellTargetType)EditorGUILayout.EnumPopup("Target Type: ", _selectedSpell.spellTargetType, GUILayout.Width(270));
-        //_selectedSpell.savingThrowType = (SavingThrowType)EditorGUILayout.EnumPopup("Saving Throw Type: ", _selectedSpell.savingThrowType, GUILayout.Width(270));
+        //selectedSpell.projectileType = (ProjectileType)EditorGUILayout.EnumPopup("Projectile Type: ", selectedSpell.projectileType);
+        //selectedSpell.activationMode = (SpellActivationMode)EditorGUILayout.EnumPopup("Activation Mode: ", selectedSpell.activationMode, GUILayout.Width(270));
+        selectedSpell.subCategory = (SubCategory)EditorGUILayout.EnumPopup("Subcategory: ", selectedSpell.subCategory, GUILayout.Width(270));
+        selectedSpell.attackRollType = (SpellAttackRollType)EditorGUILayout.EnumPopup("Attack Roll: ", selectedSpell.attackRollType, GUILayout.Width(270));
+        selectedSpell.effectType = (DamageType)EditorGUILayout.EnumPopup("Effect Type: ", selectedSpell.effectType, GUILayout.Width(270));
+        selectedSpell.spellTargetType = (SpellTargetType)EditorGUILayout.EnumPopup("Target Type: ", selectedSpell.spellTargetType, GUILayout.Width(270));
+        selectedSpell.savingThrowType = (SavingThrowType)EditorGUILayout.EnumPopup("Saving Throw Type: ", selectedSpell.savingThrowType, GUILayout.Width(270));
         selectedSpell.magicSchool = (MagicSchool)EditorGUILayout.EnumPopup("Magic School: ", selectedSpell.magicSchool, GUILayout.Width(300));
         selectedSpell.equipType = (EquipType)EditorGUILayout.EnumPopup("Equip Type: ", selectedSpell.equipType, GUILayout.Width(300));
         selectedSpell.castingType = (CastingType)EditorGUILayout.EnumPopup("Casting Type: ", selectedSpell.castingType, GUILayout.Width(300));
         selectedSpell.deliveryType = (DeliveryType)EditorGUILayout.EnumPopup("Delivery Type: ", selectedSpell.deliveryType, GUILayout.Width(300));
 
+        selectedSpell.keywords = (Keyword)EditorGUILayout.EnumFlagsField("Keywords; ", selectedSpell.keywords, GUILayout.Width(300));
 
         //GUILayout.BeginHorizontal();
         //GUILayout.Label("Class Requirements", GUILayout.Width(116));
         //if(GUILayout.Button("+", GUILayout.Width(20)))
         //{
-        //    _selectedSpell.spellRules.Add(new SpellRule());
+        //    selectedSpell.spellRules.Add(new SpellRule());
         //}
         //GUILayout.EndHorizontal();
 
-        //_selectedSpell.targetClasses = (Class[])EditorGUILayout.EnumPopup("Target Classes", _selectedSpell.targetClasses, GUILayout.Width(150));
-        //foreach(SpellRule spellRule in _selectedSpell.spellRules.ToArray())
+        //selectedSpell.targetClasses = (Class[])EditorGUILayout.EnumPopup("Target Classes", selectedSpell.targetClasses, GUILayout.Width(150));
+        //foreach(SpellRule spellRule in selectedSpell.spellRules.ToArray())
         //{
         //    GUILayout.BeginHorizontal();
         //    spellRule = (Class)EditorGUILayout.EnumPopup("", spellRule.targetClass, GUILayout.Width(150));
         //    spellRule.requiredLevel = EditorGUILayout.IntField("Req. Level:", spellRule.requiredLevel, GUILayout.Width(150));
         //    if(GUILayout.Button("-", GUILayout.Width(20)))
         //    {
-        //        _selectedSpell.spellRules.Remove(spellRule);
+        //        selectedSpell.spellRules.Remove(spellRule);
         //    }
         //    GUILayout.EndHorizontal();
 
         //    GUILayout.Space(5);
         //}
 
-        //_selectedSpell.grade = EditorGUILayout.IntField("Grade:", Mathf.Clamp(_selectedSpell.grade, 0, 9), GUILayout.Width(150));
-        //SerializedProperty sTargetClasses = srlSpell.FindProperty("targetClasses");
-        //EditorGUILayout.PropertyField(sTargetClasses, true, GUILayout.Width(300));
+        selectedSpell.grade = EditorGUILayout.IntField("Grade:", Mathf.Clamp(selectedSpell.grade, 0, 9), GUILayout.Width(150));
+        SerializedProperty sTargetClasses = srlSpell.FindProperty("targetClasses");
+        EditorGUILayout.PropertyField(sTargetClasses, true, GUILayout.Width(300));
 
-        //if(_selectedSpell.magicEffects.Count == 0 || _selectedSpell.magicEffects[0] == null)
+        //if(selectedSpell.magicEffects.Count == 0 || selectedSpell.magicEffects[0] == null)
         //{
         //    GUI.contentColor = Color.red;
         //}
@@ -1272,41 +1279,43 @@ public class ItemDatabaseWindow : EditorWindow
 
         //GUI.contentColor = Color.white;
 
-        selectedSpell.targetLogic = (SpellTargetLogic)EditorGUILayout.ObjectField("Target Logic:", selectedSpell.targetLogic, typeof(SpellTargetLogic), false, GUILayout.Width(300));
-        //_selectedSpell.castingTime = EditorGUILayout.IntField("Casting Time:", _selectedSpell.castingTime, GUILayout.Width(150));
-        //_selectedSpell.duration = EditorGUILayout.IntField("Spell Duration:", _selectedSpell.duration, GUILayout.Width(150));
-        //_selectedSpell.concentrationTime = EditorGUILayout.IntField("Concentration Time:", _selectedSpell.concentrationTime, GUILayout.Width(150));
+        selectedSpell.targetLogic = (SpellTargetLogic)EditorGUILayout.ObjectField("Target Logic:", selectedSpell.targetLogic, typeof(SpellTargetLogic), false, GUILayout.Width(300)/*, GUILayout.ExpandWidth(false)*/);
+        selectedSpell.castingTime = EditorGUILayout.IntField("Casting Time:", selectedSpell.castingTime, GUILayout.Width(150));
+        selectedSpell.duration = EditorGUILayout.IntField("Spell Duration:", selectedSpell.duration, GUILayout.Width(150));
+        selectedSpell.concentrationTime = EditorGUILayout.IntField("Concentration Time:", selectedSpell.concentrationTime, GUILayout.Width(150));
 
-        //_selectedSpell.attackRollRequired = EditorGUILayout.Toggle("Attack Roll Required", _selectedSpell.attackRollRequired);
+        selectedSpell.attackRollRequired = EditorGUILayout.Toggle("Attack Roll Required", selectedSpell.attackRollRequired);
 
         GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
-        //EditorGUIUtility.labelWidth = 80;
-        //_selectedSpell.specialRollDice = EditorGUILayout.IntField("Special Roll:", _selectedSpell.specialRollDice, GUILayout.Width(100));
-        //EditorGUIUtility.labelWidth = 15;
-        //_selectedSpell.numSpecialRollDieSides = EditorGUILayout.IntField("d", _selectedSpell.numSpecialRollDieSides, GUILayout.Width(150));
+        EditorGUIUtility.labelWidth = 80;
+        selectedSpell.specialRollDice = EditorGUILayout.IntField("Special Roll:", selectedSpell.specialRollDice, GUILayout.Width(100));
+        EditorGUIUtility.labelWidth = 15;
+        selectedSpell.numSpecialRollDieSides = EditorGUILayout.IntField("d", selectedSpell.numSpecialRollDieSides, GUILayout.Width(150));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
-        //EditorGUIUtility.labelWidth = 80;
-        //_selectedSpell.damageRollDice = EditorGUILayout.IntField("Damage Roll:", _selectedSpell.damageRollDice, GUILayout.Width(100));
-        //EditorGUIUtility.labelWidth = 15;
-        //_selectedSpell.numDamageRollDieSides = EditorGUILayout.IntField("d", _selectedSpell.numDamageRollDieSides, GUILayout.Width(150));
+        EditorGUIUtility.labelWidth = 80;
+        selectedSpell.damageRollDice = EditorGUILayout.IntField("Damage Roll:", selectedSpell.damageRollDice, GUILayout.Width(100));
+        EditorGUIUtility.labelWidth = 15;
+        selectedSpell.numDamageRollDieSides = EditorGUILayout.IntField("d", selectedSpell.numDamageRollDieSides, GUILayout.Width(150));
         EditorGUIUtility.labelWidth = 120;
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-        //_selectedSpell.higherSlotBonusDice = EditorGUILayout.IntField("Die Per Higher Slot:", _selectedSpell.higherSlotBonusDice, GUILayout.Width(150));
-        //_selectedSpell.percentMagnitude = EditorGUILayout.Toggle("Percent Magnitude: ", _selectedSpell.percentMagnitude);
-        selectedSpell.cost = EditorGUILayout.IntField("Cost:", selectedSpell.cost, GUILayout.Width(150));
-        selectedSpell.activationRange = EditorGUILayout.FloatField("Activation Range:", selectedSpell.activationRange, GUILayout.Width(150));
+        selectedSpell.higherSlotBonusDice = EditorGUILayout.IntField("Die Per Higher Slot:", selectedSpell.higherSlotBonusDice, GUILayout.Width(150));
+        selectedSpell.percentMagnitude = EditorGUILayout.Toggle("Percent Magnitude: ", selectedSpell.percentMagnitude);
+        //selectedSpell.cost = EditorGUILayout.FloatField("Cost:", selectedSpell.cost, GUILayout.Width(150));
+        selectedSpell.activationRange = EditorGUILayout.IntField("Activation Range:", selectedSpell.activationRange, GUILayout.Width(150));
+        selectedSpell.aoeRadius = EditorGUILayout.FloatField("AOE Radius:", selectedSpell.aoeRadius, GUILayout.Width(150));
         selectedSpell.travelSpeed = EditorGUILayout.FloatField("Travel Speed:", selectedSpell.travelSpeed, GUILayout.Width(150));
         selectedSpell.cooldownTime = EditorGUILayout.FloatField("Cooldown:", selectedSpell.cooldownTime, GUILayout.Width(150));
         selectedSpell.recoveryTime = EditorGUILayout.FloatField("Recovery Time:", selectedSpell.recoveryTime, GUILayout.Width(150));
         selectedSpell.spellcastMotionIndex = EditorGUILayout.IntField("Cast Anim Idx:", selectedSpell.spellcastMotionIndex, GUILayout.Width(150));
         selectedSpell.releaseMotionIndex = EditorGUILayout.IntField("Release Anim Idx:", selectedSpell.releaseMotionIndex, GUILayout.Width(150));
+        selectedSpell.effectDiameter = EditorGUILayout.FloatField("Effect Diameter:", selectedSpell.effectDiameter, GUILayout.Width(150));
+        selectedSpell.effectRange = EditorGUILayout.FloatField("Effect Range:", selectedSpell.effectRange, GUILayout.Width(150));
 
         srlSpell.ApplyModifiedProperties();
         EditorGUILayout.EndVertical();
-        //EditorGUILayout.EndHorizontal();
     }
 
     private void DrawMagicEffectInspector()
@@ -1315,6 +1324,7 @@ public class ItemDatabaseWindow : EditorWindow
         SerializedObject srlMagicEffect = new SerializedObject(selectedMagicEffect);
 
         EditorGUILayout.BeginHorizontal();
+
         EditorGUILayout.BeginVertical();
         EditorGUIUtility.labelWidth = 120;
 
@@ -1328,27 +1338,8 @@ public class ItemDatabaseWindow : EditorWindow
         }
         EditorGUILayout.EndHorizontal();
 
-        selectedMagicEffect.StatusEffect = (Status)EditorGUILayout.EnumPopup("Effect: ", selectedMagicEffect.StatusEffect, GUILayout.Width(300));
-        if(selectedMagicEffect.StatusEffect == Status.CURSED
-            || selectedMagicEffect.StatusEffect == Status.POISENED
-            || selectedMagicEffect.StatusEffect == Status.ACID
-            || selectedMagicEffect.StatusEffect == Status.BLINDED
-            || selectedMagicEffect.StatusEffect == Status.SLEEP)
-        {
-            selectedMagicEffect.StatusEffect = (Status)EditorGUILayout.EnumPopup("Affected Attribute: ", selectedMagicEffect.StatusEffect, GUILayout.Width(300));
-        }
-
         selectedMagicEffect.projectileType = (ProjectileType)EditorGUILayout.EnumPopup("Projectile Type: ", selectedMagicEffect.projectileType, GUILayout.Width(300));
-        selectedMagicEffect.keywords = (Keyword)EditorGUILayout.EnumFlagsField("Keywords: ", selectedMagicEffect.keywords, GUILayout.Width(300));
-
-        EditorGUILayout.BeginHorizontal();
-        selectedMagicEffect.actor_skill_ref = EditorGUILayout.TextField("Magic Skill:", selectedMagicEffect.actor_skill_ref, GUILayout.Width(300));
-        if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
-        {
-            magicSkillContextMenuIndex = 0;
-            magicSkillSelectionMenu.ShowAsContext();
-        }
-        EditorGUILayout.EndHorizontal();
+        selectedMagicEffect.affectedAttribute = (AffectedAttribute)EditorGUILayout.EnumPopup("Affected Attribute: ", selectedMagicEffect.affectedAttribute, GUILayout.Width(300));
 
         selectedMagicEffect.destroyOnImpact = EditorGUILayout.Toggle("Destroy On Impact: ", selectedMagicEffect.destroyOnImpact);
 
@@ -1359,16 +1350,16 @@ public class ItemDatabaseWindow : EditorWindow
         selectedMagicEffect.id_VFXProjectile = EditorGUILayout.TextField("VFX Projectile ID:", selectedMagicEffect.id_VFXProjectile, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 0;
+            vfxID = VFXID.Projectile;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        selectedMagicEffect.id_VFXOnInflict = EditorGUILayout.TextField("VFX OnInflict ID:", selectedMagicEffect.id_VFXOnInflict, GUILayout.Width(300));
+        selectedMagicEffect.id_VFXOnHit = EditorGUILayout.TextField("VFX OnHit ID:", selectedMagicEffect.id_VFXOnHit, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 1;
+            vfxID = VFXID.OnHit;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
@@ -1377,7 +1368,7 @@ public class ItemDatabaseWindow : EditorWindow
         selectedMagicEffect.id_VFXHandIdle = EditorGUILayout.TextField("VFX Hand Idle ID:", selectedMagicEffect.id_VFXHandIdle, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 2;
+            vfxID = VFXID.OnHandIdle;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
@@ -1386,7 +1377,7 @@ public class ItemDatabaseWindow : EditorWindow
         selectedMagicEffect.id_VFXHandCharge = EditorGUILayout.TextField("VFX Charge ID:", selectedMagicEffect.id_VFXHandCharge, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 3;
+            vfxID = VFXID.OnHandCharge;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
@@ -1395,16 +1386,16 @@ public class ItemDatabaseWindow : EditorWindow
         selectedMagicEffect.id_VFXHandRelease = EditorGUILayout.TextField("VFX Release ID:", selectedMagicEffect.id_VFXHandRelease, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 4;
+            vfxID = VFXID.OnHandRelease;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        selectedMagicEffect.id_VFXOnImpact = EditorGUILayout.TextField("VFX OnImpact ID:", selectedMagicEffect.id_VFXOnImpact, GUILayout.Width(300));
+        selectedMagicEffect.id_VFXHandRelease = EditorGUILayout.TextField("VFX Release ID:", selectedMagicEffect.id_VFXHandRelease, GUILayout.Width(300));
         if(EditorGUILayout.DropdownButton(new GUIContent("..."), FocusType.Passive, GUILayout.Width(50)))
         {
-            vfxIndex = 5;
+            vfxID = VFXID.OnImpact;
             vfxSelectionMenu.ShowAsContext();
         }
         EditorGUILayout.EndHorizontal();
@@ -1412,26 +1403,9 @@ public class ItemDatabaseWindow : EditorWindow
         GUILayout.Space(5);
         GUILayout.Label("SFX", EditorStyles.boldLabel, GUILayout.Width(200));
 
-        selectedMagicEffect.damageType = (DamageType)EditorGUILayout.EnumPopup("Damage Type: ", selectedMagicEffect.damageType, GUILayout.Width(300));
+        selectedMagicEffect.impactSFXType = (WeaponImpactType)EditorGUILayout.EnumPopup("Impact SFX Type: ", selectedMagicEffect.impactSFXType, GUILayout.Width(300));
         SerializedProperty sOnHitSFX = srlMagicEffect.FindProperty("sfxOnHit");
         EditorGUILayout.PropertyField(sOnHitSFX, true);
-
-        //_selectedSpell.targetLogic = (SpellTargetLogic)EditorGUILayout.ObjectField("Target Logic:", _selectedSpell.targetLogic, typeof(SpellTargetLogic), false, GUILayout.Width(300)/*, GUILayout.ExpandWidth(false)*/);
-
-        //
-        selectedMagicEffect.magnitude = EditorGUILayout.IntField("Magnitude:", selectedMagicEffect.magnitude, GUILayout.Width(170));
-        selectedMagicEffect.projectileDiameter = EditorGUILayout.FloatField("Projectile Diameter:", selectedMagicEffect.projectileDiameter, GUILayout.Width(170));
-        selectedMagicEffect.struckChance = EditorGUILayout.FloatField("Struck Chance:", selectedMagicEffect.struckChance, GUILayout.Width(170));
-
-        //_selectedSpell.activationRange =
-        //    EditorGUILayout.FloatField("Activation Range:", _selectedSpell.activationRange, GUILayout.Width(150));
-        //_selectedSpell.cooldownTime = EditorGUILayout.FloatField("Cooldown:", _selectedSpell.cooldownTime, GUILayout.Width(150));
-        //_selectedSpell.recoveryTime = EditorGUILayout.FloatField("Recovery Time:", _selectedSpell.recoveryTime, GUILayout.Width(150));
-        //_selectedSpell.spellcastMotionIndex = EditorGUILayout.IntField("Cast Anim Idx:", _selectedSpell.spellcastMotionIndex, GUILayout.Width(150));
-        //_selectedSpell.releaseMotionIndex = EditorGUILayout.IntField("Release Anim Idx:", _selectedSpell.releaseMotionIndex, GUILayout.Width(150));
-        //_selectedSpell.needsPreparation = EditorGUILayout.Toggle("Needs Preparation: ", _selectedSpell.needsPreparation);
-        //_selectedSpell.needsToStopMoving = EditorGUILayout.Toggle("NavStop On Cast: ", _selectedSpell.needsToStopMoving);
-
 
         srlMagicEffect.ApplyModifiedProperties();
         EditorGUILayout.EndVertical();
@@ -1442,7 +1416,7 @@ public class ItemDatabaseWindow : EditorWindow
 
     private void SelectElement(object selectedType)
     {
-        if(selectedType is InventoryItem)
+        if(selectedType is Item)
         {
             selectedElementIndex = 0;
         }
@@ -1459,26 +1433,26 @@ public class ItemDatabaseWindow : EditorWindow
 
     }
 
-    private void SetMagicEffectVFXID(string newName)
+    private void SetMagicEffectVFXID(VFXID id, string newName)
     {
-        switch(vfxIndex)
+        switch(id)
         {
-            case 0:
+            case VFXID.Projectile:
                 selectedMagicEffect.id_VFXProjectile = newName;
                 break;
-            case 1:
-                selectedMagicEffect.id_VFXOnInflict = newName;
+            case VFXID.OnHit:
+                selectedMagicEffect.id_VFXOnHit = newName;
                 break;
-            case 2:
+            case VFXID.OnHandIdle:
                 selectedMagicEffect.id_VFXHandIdle = newName;
                 break;
-            case 3:
+            case VFXID.OnHandCharge:
                 selectedMagicEffect.id_VFXHandCharge = newName;
                 break;
-            case 4:
+            case VFXID.OnHandRelease:
                 selectedMagicEffect.id_VFXHandRelease = newName;
                 break;
-            case 5:
+            case VFXID.OnImpact:
                 selectedMagicEffect.id_VFXOnImpact = newName;
                 break;
         }

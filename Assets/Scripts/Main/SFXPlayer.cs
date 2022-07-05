@@ -162,9 +162,9 @@ public static class SFXPlayer
 
     }
 
-    public static void PlaySound_OnChargeSpell(ActorInput actor, Spell spell)
+    public static void PlaySound_OnChargeSpell(Actor actor, Spell spell)
     {
-        AudioClip audioClip = spell.magicEffects[0].sfxCharge;
+        AudioClip audioClip = spell.magicEffects[0].sfxChargeSpell;
         if(audioClip != null)
             TriggerSFX(audioClip, actor.transform.position);
     }

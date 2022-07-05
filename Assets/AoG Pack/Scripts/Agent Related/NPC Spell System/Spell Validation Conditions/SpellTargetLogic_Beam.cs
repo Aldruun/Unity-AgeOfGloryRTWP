@@ -7,17 +7,17 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
     public float beamThickness = 1;
     public bool firstTickAt0 = true;
     public int numTicks = 1;
-    private int _ticksAvailable;
+    int _ticksAvailable;
     public float tickInterval = 1;
-    private float _damageTick01Timer;
+    float _damageTick01Timer;
 
-    private float _lifeTime;
+    float _lifeTime;
 
-    private RaycastHit[] _beamEnemyList;
-    private ParticleSystem _tempParticleSystem;
-    private Transform _vfxBeamStart;
+    RaycastHit[] _beamEnemyList;
+    ParticleSystem _tempParticleSystem;
+    Transform _vfxBeamStart;
 
-    public override SpellTargetLogic Init(ActorInput owner, ActorInput target, Spell spell, Projectile projectile)
+    public override SpellTargetLogic Init(Actor owner, Actor target, Spell spell, Projectile projectile)
     {
         GameObject vfxObj = PoolSystem.GetPoolObject("vfx_agannazarsscorcher_beam", ObjectPoolingCategory.VFX);
         VFXPlayer.TriggerVFX(vfxObj, owner.Equipment.spellAnchor.position, Quaternion.identity);
@@ -28,7 +28,7 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
         this.spell = spell;
         //this.projectile = projectile;
         _beamEnemyList = new RaycastHit[5];
-        _lifeTime = spell.magicEffectsData[0].Rounds * 6;
+        _lifeTime = spell.duration * 6;
         _damageTick01Timer = firstTickAt0 ? 0 : tickInterval;
         _ticksAvailable = numTicks;
         _tempParticleSystem = vfxObj.GetComponentInChildren<ParticleSystem>();
@@ -41,22 +41,22 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
         if(_lifeTime <= 0)
         {
             _tempParticleSystem.Stop();
-            return true; 
+            return true;
         }
-        
+
         HandleBeamEffect(beamThickness);
         _vfxBeamStart.position = owner.Equipment.spellAnchor.position;
         _vfxBeamStart.LookAt(spellTarget.transform.position);
         return false;
     }
 
-    private void HandleBeamEffect(float diameter)
+    void HandleBeamEffect(float diameter)
     {
         Vector3 dir = spellTarget.transform.position - owner.Equipment.spellAnchor.position;
         ParticleSystem.ShapeModule shape = _tempParticleSystem.shape;
         shape.length = dir.magnitude;
 
-        //Debug.Log(owner.ActorRecord.Name + ": Handling line effect");
+        //Debug.Log(owner.actorData.Name + ": Handling line effect");
         int numHits = Physics.SphereCastNonAlloc(_vfxBeamStart.position, diameter, dir.normalized, _beamEnemyList, dir.magnitude, 1 << LayerMask.NameToLayer("Actors"));
 
         _damageTick01Timer -= Time.deltaTime;
@@ -66,7 +66,7 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
             _damageTick01Timer = tickInterval;
             for(int i = 0; i < numHits; i++)
             {
-                ActorInput beamTarget = _beamEnemyList[i].collider.GetComponent<ActorInput>();
+                Actor beamTarget = _beamEnemyList[i].collider.GetComponent<Actor>();
 
                 if(beamTarget == owner) // Don't ignite the caster
                     continue;
@@ -76,13 +76,13 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
                 //    continue;
                 //}
 
-                beamTarget.Combat.ApplyDamage(owner, null, null, false);
-                //var statuseffect = spell.magicEffects[0]._statusEffect;
-                //if(statuseffect.rounds > 0)
-                //{
-                //    beamTarget.Execute_ApplyStatusEffect(statuseffect.statusType, statuseffect.rounds);
-                //}
-            } 
+                beamTarget.Combat.ApplyDamage(owner, spell.savingThrowType, spell.effectType, spell.attackRollType, DnD.Roll(spell.damageRollDice, spell.numDamageRollDieSides), false);
+                var statuseffect = spell.magicEffects[0]._statusEffect;
+                if(statuseffect.rounds > 0)
+                {
+                    beamTarget.ApplyStatusEffect(statuseffect.statusType, statuseffect.rounds);
+                }
+            }
         }
     }
 

@@ -12,7 +12,7 @@ public class ActorInfoPanel : MonoBehaviour
 
     public float mainPanelScrollTime = 1;
 
-    private ActorInput _observedAgent;
+    private Actor _observedAgent;
     private bool _isPlanningAI;
     public Slider statusBar_Exp;
     public Slider statusBar_Health;
@@ -61,11 +61,11 @@ public class ActorInfoPanel : MonoBehaviour
         //SelectionManager.OnAgentDeselected -= Hide;
     }
 
-    private void ShowInfo(ActorInput agent)
+    private void ShowInfo(Actor agent)
     {
 
 
-        ActorInput pAI = agent;
+        Actor pAI = agent;
 
         if(current._observedAgent != agent)
         {
@@ -125,7 +125,7 @@ public class ActorInfoPanel : MonoBehaviour
         current.text_CurrentState.text = text;
     }
 
-    private void Hide(ActorInput agent)
+    private void Hide(Actor agent)
     {
         if(current._observedAgent == null)
         {
@@ -188,7 +188,7 @@ public class ActorInfoPanel : MonoBehaviour
         text_CurrentLevel.text = level.ToString();
     }
 
-    private void UpdateUI_HealthBar(ActorInput agent, float amount)
+    private void UpdateUI_HealthBar(Actor agent, float amount)
     {
 
         if(agent.dead)

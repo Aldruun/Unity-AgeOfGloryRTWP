@@ -49,23 +49,23 @@ public abstract class Interactable : MonoBehaviour
         interactionPoint.position = pos;
     }
 
-    public void Player_Interact(ActorInput agent)
+    public void Player_Interact(Actor agent)
     {
         if (IsInRange(agent))
             if (IsFacingThis(agent))
                 Interact(agent);
     }
 
-    public void AI_Interact(ActorInput agent)
+    public void AI_Interact(Actor agent)
     {
         if (IsInRange(agent))
             if (IsFacingThis(agent))
                 Interact(agent);
     }
 
-    public abstract void Interact(ActorInput ctrl);
+    public abstract void Interact(Actor ctrl);
 
-    protected bool IsInRange(ActorInput agent)
+    protected bool IsInRange(Actor agent)
     {
         if (Vector3.Distance(interactionPoint.position, agent.transform.position) <= 1)
         {
@@ -78,7 +78,7 @@ public abstract class Interactable : MonoBehaviour
         return false;
     }
 
-    private bool IsFacingThis(ActorInput agent)
+    private bool IsFacingThis(Actor agent)
     {
         if (mustFace)
             if (Get.IsInFOV(agent.transform, transform.position, 5) == false)

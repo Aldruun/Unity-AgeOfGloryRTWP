@@ -5,7 +5,7 @@ public class PickupItem
 {
     public int gold;
     public string identifier;
-    public ActorInput occupee { get; private set; }
+    public Actor occupee { get; private set; }
     public Vector3 spawnPosition { get; private set; }
     private readonly GameObject _obj;
 
@@ -31,7 +31,7 @@ public class PickupItem
         _obj.SetActive(false);
     }
 
-    public bool Reserve(ActorInput agent)
+    public bool Reserve(Actor agent)
     {
         if(occupee != null && occupee.dead == false)
         {

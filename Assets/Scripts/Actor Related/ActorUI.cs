@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HighlightPlus;
+using Object = UnityEngine.Object;
 
 public class ActorUI
 {
@@ -12,10 +13,10 @@ public class ActorUI
     private Gradient flashGradient;
     internal bool Selected { get; private set; }
     //private int partyIndex;
-    private ActorInput actor;
+    private Actor actor;
     private AudioSource voiceAudioSource;
 
-    public ActorUI(ActorInput actor, AudioSource voiceAudioSource, HighlightEffect highlightEffect)
+    public ActorUI(Actor actor, AudioSource voiceAudioSource, HighlightEffect highlightEffect)
     {
         this.actor = actor;
         this.voiceAudioSource = voiceAudioSource;
@@ -151,12 +152,6 @@ public class ActorUI
         actorPortrait?.ChangeRelationColor(alignmentColor);
     }
 
-    internal void Clear()
-    {
-        actorPortrait = null;
-        actorIndicator.Clear();
-    }
-
     internal void ResetHighlighting()
     {
         actorIndicator.ResetHighlighting();
@@ -173,5 +168,20 @@ public class ActorUI
         }
 
         gradient.SetKeys(colorKeys, gradient.alphaKeys);
+    }
+
+    internal void Disable()
+    {
+        actorIndicator.Disable();
+        actorPortrait.Disable();
+        Clear();
+    }
+
+    internal void Clear()
+    {
+        GameEventSystem.RequestRemovePortrait(actor.PartySlot);
+        actorPortrait = null;
+        actorIndicator.Destroy();
+        actorIndicator = null;
     }
 }

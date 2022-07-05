@@ -27,12 +27,34 @@ public enum Gender
 
 public enum Class
 {
-    Warrior,
-    Ranger,
-    Rogue,
-    Wizard,
-    Cleric,
-    Priest,
+    ALCHEMIST,
+    BARBARIAN,
+    BARD,
+    CLERIC,
+    DRUID,
+    FIGHTER,
+    MONK,
+    PALADIN,
+    RANGER,
+    THIEF,
+    SORCERER,
+    SHAMAN,
+    MAGE,
+}
+
+[Flags]
+public enum ActorRace
+{
+    HUMAN,
+    HALFORC,
+    HALFELF,
+    ELF,
+    DWARF,
+    GNOME,
+    HALFLING,
+    TIEFLING,
+    GOBLIN,
+    ANIMAL
 }
 
 public enum ModType
@@ -52,8 +74,9 @@ public enum Specialization
 
 public enum ActorStat
 {
-    HEALTH,
-    MAXHEALTH,
+    HITPOINTS,
+    MAXHITPOINTS,
+    HITDIE,
     AC,
     APR,
     ENCUMBRANCE,
@@ -62,7 +85,9 @@ public enum ActorStat
     CONSTITUTION,
     INTELLIGENCE,
     WISDOM,
-    CHARISMA
+    CHARISMA,
+    LUCK,
+    MORALE
 }
 
 /*
@@ -136,9 +161,20 @@ public class ActorStats
 
     public SerializableVector3 currentPosition;
     public SerializableVector3 currentEulerAngles;
-   
-    public bool IsRanged { get; set; }
+    internal int intMod;
+    internal int proficiencyBonus;
+    internal int strMod;
+    internal int dexMod;
+    internal int conMod;
+    internal int wisMod;
+    internal int chaMod;
+    internal int spellcastingAbility;
+    internal int spellSaveDC;
+    internal int spellAttackModifier;
+    internal int[] currentSpellSlots;
+
     public float ActorRadius { get; set; }
+    public bool NoDead { get; internal set; }
 
     public ActorStats()
     {
@@ -222,47 +258,6 @@ public class ActorStats
         }
     }
 
-    // public void Execute_ApplyStatusEffect(Status statusEffect, int rounds)
-    // {
-    //     switch (statusEffect)
-    //     {
-    //         case Status.BERSERK:
-    //         case Status.CONFUSED:
-    //         case Status.ENTANGLED:
-    //         case Status.FEEBLEMINDED:
-    //         case Status.HELD:
-    //         case Status.PANIC:
-    //         case Status.PETRIFIED:
-    //         case Status.POLYMORPHED:
-    //         case Status.UNCONSCIOUS:
-    //         case Status.STUN:
-    //             break;
-
-    //         case Status.SLEEP:
-    //             //isDowned = true;
-    //             break;
-
-    //         case Status.WEBBED:
-    //             //ClearActions();
-    //             break;
-    //     }
-
-    //     //_statusEffectSystem.ApplyStatusEffect(statusEffect, rounds);
-    //     OnStatusEffectAdded?.Invoke(statusEffect);
-    // }
-
-
-
-    //public virtual void Die()
-    //{
-    //    //internalAiBehaviours.Clear();
-    //    //internalAiBehaviours = null;
-    //    //Destroy(this);
-    //}
-
-
-
-
     //! Spell Related # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     public void Execute_ModifyCurrentXP(float amount, ModType modType)
@@ -285,33 +280,33 @@ public class ActorStats
 
         int prevLvl = Level;
 
-        while (currentExp >= expNeeded)
-        {
-            switch (Class)
-            {
-                case Class.Warrior:
-                    IncreaseStats(0, 4, 5, 2, 0, 4, 0, 3);
-                    break;
+        //while (currentExp >= expNeeded)
+        //{
+        //    switch (Class)
+        //    {
+        //        case Class.Warrior:
+        //            IncreaseStats(0, 4, 5, 2, 0, 4, 0, 3);
+        //            break;
 
-                case Class.Wizard:
-                    IncreaseStats(0, 4, 5, 2, 2, 1, 5, 1);
-                    break;
+        //        case Class.Wizard:
+        //            IncreaseStats(0, 4, 5, 2, 2, 1, 5, 1);
+        //            break;
 
-                case Class.Priest:
-                    IncreaseStats(0, 4, 5, 1, 2, 2, 4, 1);
-                    break;
+        //        case Class.Priest:
+        //            IncreaseStats(0, 4, 5, 1, 2, 2, 4, 1);
+        //            break;
 
-                case Class.Rogue:
-                    IncreaseStats(0, 4, 5, 2, 1, 7, 0, 2);
-                    break;
-            }
+        //        case Class.Rogue:
+        //            IncreaseStats(0, 4, 5, 2, 1, 7, 0, 2);
+        //            break;
+        //    }
 
-            Level++;
-            //skillpoints++;
-            currentExp -= expNeeded;
-            //m_levelProgress = m_currentExp;
-            expNeeded += expNeeded * 2;
-        }
+        //    Level++;
+        //    //skillpoints++;
+        //    currentExp -= expNeeded;
+        //    //m_levelProgress = m_currentExp;
+        //    expNeeded += expNeeded * 2;
+        //}
     }
 
     public void Execute_ModifyLevel(int value, ModType modType)

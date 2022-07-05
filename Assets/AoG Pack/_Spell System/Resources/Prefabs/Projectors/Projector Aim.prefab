@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 1358227648327263844}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7675057463777629822
 MonoBehaviour:
@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 4751757987135683050}
   - component: {fileID: 4751757987135683051}
   - component: {fileID: 4751757987135683052}
-  - component: {fileID: 4751757987135683049}
   m_Layer: 2
   m_Name: mesh
   m_TagString: Untagged
@@ -162,18 +161,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4751757987135683049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4751757987135683054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb68fca83abc64618b0a01926a0b2c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7675057462466132546
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class UIQuestboard : MonoBehaviour
     private Transform _contentHolder;
 
     private QuestBoard _currQuestboard;
-    private ActorInput _player;
+    private Actor _player;
     private GameObject _prefab_questUIElement;
     private List<GameObject> _questUIElements;
 

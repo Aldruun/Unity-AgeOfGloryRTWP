@@ -29,7 +29,7 @@ public class ActorEquipment
     public KeyValuePair<Armor, GameObject> equippedShield;
     public Ammo equippedAmmo;
 
-    private readonly ActorInput self;
+    private readonly Actor self;
     private readonly Inventory Inventory;
     public int healthPotions;
     private readonly Transform m_offhand;
@@ -49,7 +49,7 @@ public class ActorEquipment
 
     public int manaPotions;
 
-    public ActorEquipment(ActorInput agent, ActorStats stats, Inventory inventory)
+    public ActorEquipment(Actor agent, ActorStats stats, Inventory inventory)
     {
         Debug.Assert(agent != null);
         self = agent;
@@ -101,7 +101,7 @@ public class ActorEquipment
 
     internal bool WeaponInHand()
     {
-        return equippedWeapon.Weapon.animationPack == AnimationSet.UNARMED || equippedWeapon.WeaponObject.transform.parent == m_weaponHand;
+        return equippedWeapon.Weapon.AnimationPack == AnimationSet.UNARMED || equippedWeapon.WeaponObject.transform.parent == m_weaponHand;
     }
 
     private void SpawnAndHolsterWeapon(Weapon weapon)
@@ -145,7 +145,7 @@ public class ActorEquipment
         if(self.debugGear)
             Debug.Log(self.GetName() + ":<color=orange>4</color> ActorGearData.DrawWeapon");
 
-        Transform hand = equippedWeapon.Weapon.animationPack == AnimationSet.BOW ? m_offhand : m_weaponHand;
+        Transform hand = equippedWeapon.Weapon.AnimationPack == AnimationSet.BOW ? m_offhand : m_weaponHand;
         if(hand == null)
         {
             Debug.LogError(self.GetName() + ": weaponHand null");
@@ -165,7 +165,7 @@ public class ActorEquipment
         if(self.debugGear)
             Debug.Log(self.GetName() + ":<color=green>*</color> ActorGearData.HolsterEquippedWeapon");
         Transform holster = null;
-        switch(equippedWeapon.Weapon.animationPack)
+        switch(equippedWeapon.Weapon.AnimationPack)
         {
             case AnimationSet.DAGGER:
             case AnimationSet.ONEHANDED:
@@ -256,10 +256,11 @@ public class ActorEquipment
     private Weapon SetUpClaw()
     {
         Weapon creatureClaw = new Weapon();
-        creatureClaw.animationPack = AnimationSet.UNARMED;
+        creatureClaw.AnimationPack = AnimationSet.UNARMED;
         creatureClaw.weaponCategory = WeaponCategory.Unarmed;
         creatureClaw.impactSFXType = WeaponImpactType.Creature;
-        creatureClaw.damage = 10;
+        creatureClaw.NumDice = 1;
+        creatureClaw.NumDieSides = 4;
         creatureClaw.Init();
         equippedWeapon.Weapon = creatureClaw;
         return equippedWeapon.Weapon;
@@ -268,12 +269,13 @@ public class ActorEquipment
     internal Weapon SetUpFist()
     {
         Weapon fist = new Weapon();
-        fist.animationPack = AnimationSet.UNARMED;
+        fist.AnimationPack = AnimationSet.UNARMED;
         fist.weaponCategory = WeaponCategory.Unarmed;
         fist.damageType = DamageType.CRUSHING;
         fist.identifier = "fist";
-        fist.damage = 4;
-        fist.range = 1.5f;
+        fist.NumDice = 1;
+        fist.NumDieSides = 3;
+        fist.Range = 1.5f;
         fist.Init();
         equippedWeapon.Weapon = fist;
         return equippedWeapon.Weapon;

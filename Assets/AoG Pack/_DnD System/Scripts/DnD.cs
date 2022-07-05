@@ -49,7 +49,7 @@
 //        int wis = 0;
 //        int cha = 0;
 
-//        //if(race == Race.GOBLIN && race != Race.ANIMAL)
+//        //if(race == ActorRace.GOBLIN && race != ActorRace.ANIMAL)
 //        //{
 //            str = StartingAttributeRoll();
 //            dex = StartingAttributeRoll();
@@ -67,13 +67,13 @@
 
 //        switch(race)
 //        {
-//            case Race.HUMAN:
+//            case ActorRace.HUMAN:
 //            // Human Features: Size (Medium),
 //            // Base Speed (30 ft.),
 //            // Languages (Common, one extra language of your choice)
 //            // Proficiency Bonus: + 2
 
-//            case Race.HALFORC:
+//            case ActorRace.HALFORC:
 //            // Half-Orc Features: Ability Score Increase (Str +2; Con +1),
 //            // Size (Medium),
 //            // Base Speed (30 ft.),
@@ -84,7 +84,7 @@
 //            // Languages (Common, Orc)
 //            // Proficiency Bonus: +2
 
-//            case Race.HALFELF:
+//            case ActorRace.HALFELF:
 //                // Half-Elf Features: Ability Score Increase (Cha +2;
 //                // +1 to two other ability scores of your choice),
 //                // Size (Medium), Base Speed (30 ft.), Darkvision (60 ft.),
@@ -99,7 +99,7 @@
 //                speed = 30;
 
 //                break;
-//            case Race.ELF:
+//            case ActorRace.ELF:
 //                // Elf Features: Ability Score Increase (Dex +2), Size (Medium), Base Speed (30 ft.), Darkvision (60 ft.), Keen Senses (proficiency in Perception),
 //                // Fey Ancestry (advantage on saving throws against being charmed; magic can't put you to sleep),
 //                // Trance (elves meditate for 4 hours instead of sleeping), Languages (Common, Elvish)
@@ -116,7 +116,7 @@
 //                speed = 30;
 
 //                break;
-//            case Race.DWARF:
+//            case ActorRace.DWARF:
 //                // Dwarf Features: Ability Score Increase (Con +2), Size (Medium), Base Speed (25 ft.),
 //                // Darkvision (60 ft.), Dwarven Resilience (advantage on saving throws against poison; resistance to poison damage),
 //                // Dwarven Combat Training (proficiency with battleaxe, handaxe, light hammer and warhammer),
@@ -130,9 +130,9 @@
 //                speed = 25;
 //                wis += 1;
 //                break;
-//            case Race.GNOME:
+//            case ActorRace.GNOME:
 //                break;
-//            case Race.HALFLING:
+//            case ActorRace.HALFLING:
 //                // Halfling Features: Ability Score Increase(Dex + 2),
 //                // Size(Small), Base Speed(25 ft.),
 //                // Lucky (reroll 1 on d20 roll of attack roll, ability check or saving throw),
@@ -147,9 +147,9 @@
 
 
 //                break;
-//            case Race.TIEFLING:
+//            case ActorRace.TIEFLING:
 //                break;
-//            case Race.GOBLIN:
+//            case ActorRace.GOBLIN:
 //                // Nimble Escape. The goblin can take the Disengage or Hide action as a bonus action on each of its turns.
 //                // Scimitar. Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: (1d6 + 2) slashing damage.
 //                // Shortbow. Ranged Weapon Attack: +4 to hit, reach 80/320 ft., one target. Hit: (1d6 + 2) piercing damage.
@@ -163,7 +163,7 @@
 //                cha = 8;
 
 //                break;
-//            case Race.ANIMAL:
+//            case ActorRace.ANIMAL:
 //                break;
 //        }
 
@@ -204,14 +204,14 @@
 //        int die = 4; // Default = small creature
 //        switch(race)
 //        {
-//            case Race.HUMAN:
-//            case Race.HALFORC:
-//            case Race.HALFELF:
-//            case Race.ELF:
-//            case Race.DWARF:
-//            case Race.GNOME:
-//            case Race.HALFLING:
-//            case Race.TIEFLING:
+//            case ActorRace.HUMAN:
+//            case ActorRace.HALFORC:
+//            case ActorRace.HALFELF:
+//            case ActorRace.ELF:
+//            case ActorRace.DWARF:
+//            case ActorRace.GNOME:
+//            case ActorRace.HALFLING:
+//            case ActorRace.TIEFLING:
 //                switch(characterClass)
 //                {
 //                    case Class.WIZARD:
@@ -231,11 +231,11 @@
 //                        break;
 //                }
 //                break;
-//            case Race.GOBLIN:
+//            case ActorRace.GOBLIN:
 //                die = 6; //TODO numDice = 2
 
 //                break;
-//            case Race.ANIMAL:
+//            case ActorRace.ANIMAL:
 //                break;
 //        }
 

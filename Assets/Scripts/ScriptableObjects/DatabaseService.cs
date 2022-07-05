@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DatabaseService
 {
-    public GameSettings GameSettings;
-    public ActorDatabase ActorDatabase;
+    public GameSettings GameSettings { get; internal set; }
+    public ActorDatabase ActorDatabase { get; internal set; }
+    public SpellCompendium SpellCompendium { get; internal set; }
 
     public DatabaseService InitScriptableObjectDatabases()
     {
@@ -25,6 +26,14 @@ public class DatabaseService
             return null;
         }
         Debug.Log("<color=green>// ActorDatabase Loaded</color>");
+
+        SpellCompendium = Resources.Load<SpellCompendium>("ScriptableObjects/SpellCompendium");
+        if(SpellCompendium == null)
+        {
+            Debug.LogError("GameInterface: Initilization failed -> SpellCompendium was null");
+            return null;
+        }
+        Debug.Log("<color=green>// SpellCompendium Loaded</color>");
 
         return this;
     }

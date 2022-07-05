@@ -29,7 +29,7 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private bool randomFacing;
 
     //TODO: Set up actors within a dedicated class
-    public ActorInput Spawn()
+    public Actor Spawn()
     {
         //if(actorConfiguration == null)
         //{
@@ -80,7 +80,7 @@ public class SpawnPoint : MonoBehaviour
         return null;
     }
 
-    internal ActorInput SpawnSummonedCreature()
+    internal Actor SpawnSummonedCreature()
     {
         canRespawn = false;
         return Spawn();

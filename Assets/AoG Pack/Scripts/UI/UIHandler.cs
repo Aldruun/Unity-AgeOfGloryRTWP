@@ -297,7 +297,7 @@ namespace AoG.UI
             panelActive = activePanel != null;
         }
 
-        public void ShowDialogbox(ActorInput talkingPC, ConversationData data)
+        public void ShowDialogbox(Actor talkingPC, ConversationData data)
         {
             SetActivePanel(dialogBox.dialogboxPanel.gameObject);
             playerControls.SetActive(false);

@@ -196,7 +196,7 @@ public class Editor_AoGUtilities : Editor
 
 public class NPCConfigWindow : EditorWindow
 {
-    private static List<ActorInput> _agents;
+    private static List<Actor> _agents;
     private int _currAgentIndex;
 
     private Gender _gender;
@@ -211,14 +211,14 @@ public class NPCConfigWindow : EditorWindow
 
         titleContent = new GUIContent("NPC Config");
 
-        _agents = new List<ActorInput>();
+        _agents = new List<Actor>();
 
         if(Selection.transforms.Length > 0)
         {
             foreach(Transform t in Selection.transforms)
             {
 
-                ActorInput agent = t.GetComponentInChildren<ActorInput>();
+                Actor agent = t.GetComponentInChildren<Actor>();
 
                 if(agent == null)
                 {
@@ -242,7 +242,7 @@ public class NPCConfigWindow : EditorWindow
             return;
         }
 
-        ActorInput currentAgent = _agents[_currAgentIndex];
+        Actor currentAgent = _agents[_currAgentIndex];
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label(currentAgent.transform.gameObject.name);

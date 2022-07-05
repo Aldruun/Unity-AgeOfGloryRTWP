@@ -12,17 +12,17 @@ public class StatusEffect_Damage : StatusEffect
         this.rounds = rounds;
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
         actor.ActorStats.ApplyStatusEffectDamage(_effectType, effectValue);
     }
 
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
         
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
         //actor.ApplyStatusEffectDamage(_effectType, _savingThrowType, (int)effectValue, _percentage);
     }

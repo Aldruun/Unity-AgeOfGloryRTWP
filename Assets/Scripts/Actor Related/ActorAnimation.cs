@@ -14,7 +14,7 @@ public enum MovementSpeed
 
 public class ActorAnimation : MonoBehaviour
 {
-    public ActorInput self { get; protected set; }
+    public Actor self { get; protected set; }
     public Animator Animator { get; protected set; }
     //public LocomotionState locomotionState { get; protected set; }
     public MovementSpeed m_movementSpeed;
@@ -41,7 +41,7 @@ public class ActorAnimation : MonoBehaviour
     private float _checkForCloseActorsTimer = 1;
     //private RaycastHit[] _waterHits;
 
-    public virtual void Initialize(ActorInput actor, Animator animator)
+    public virtual void Initialize(Actor actor, Animator animator)
     {
         if(actor.debugInitialization)
             Debug.Log($"<color=grey>{actor.GetName()}: Initializing Animation Component</color>");
@@ -626,7 +626,7 @@ public class ActorAnimation : MonoBehaviour
         //animator.enabled = false;
     }
 
-    public void CollapseDead(ActorInput source, Vector3 force)
+    public void CollapseDead(Actor source, Vector3 force)
     {
         self.isDowned = true;
         //animator.SetTrigger("tDie");

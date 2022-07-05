@@ -49,43 +49,57 @@ public static class HelperFunctions
             speed * Time.deltaTime);
     }
 
-    public static ActorInput GetClosestActor_WithJobs(ActorInput agent, float range)
+    public static Actor GetClosestActor_WithJobs(Actor actor, float range, ActorFlags enemyFlags)
     {
-        ActorInput closestActor = null;
+        Actor closestActor = null;
 
         Collider[] agents = new Collider[5];
-        int numHit = Physics.OverlapSphereNonAlloc(agent.transform.position, range, agents, 1 << LayerMask.NameToLayer("Actors"));
+        int numHit = Physics.OverlapSphereNonAlloc(actor.transform.position, range, agents,
+            1 << LayerMask.NameToLayer("Actors"));
 
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
             //Profiler.BeginSample("AggroCtrl: GetComponent");
-            ActorInput a = agents[i].GetComponent<ActorInput>();
+            Actor a = agents[i].GetComponent<Actor>();
+            if(a == actor)
+                continue;
             //Profiler.EndSample();
 
             //Profiler.BeginSample("AggroCtrl: FilterAgent");
-            if(a != agent)
-            {
+            //if(actor.debug)
+            //    Debug.Log(enemyFlags.ToString() + (a.ActorStats.GetActorFlags().HasFlag(enemyFlags) ? " is in " : " is not in ") + a.ActorStats.GetActorFlags().ToString());
+
+            if(a.ActorStats.GetActorFlags().HasFlag(enemyFlags) && /*a.isDowned == false &&*/ a.dead == false)
                 agentList.Add(a);
-            }
+            //else
+            //{
+            //    //Debug.Assert(a != actor);
+            //    Debug.Assert(a.isDowned == false);
+            //    Debug.Assert(a.healthDepleted == false);
+            //    Debug.Assert(a.ActorStats.GetActorFlags().HasFlag(enemyFlags));
+
+            //    if(actor.debug)
+            //        Debug.Log(actor.GetName() + ": Getting closest actor failed");
+            //}
             //Profiler.EndSample();
         }
 
-        float3[] otherActorsPositions = agentList.Select(e => (float3)e.transform.position).ToArray();
+        float3[] enemyPositions = agentList.Select(e => (float3)e.transform.position).ToArray();
 
-        NativeArray<float3> positions = new NativeArray<float3>(otherActorsPositions, Allocator.TempJob);
-        NativeArray<float> distances = new NativeArray<float>(otherActorsPositions.Length, Allocator.TempJob);
+        NativeArray<float3> positions = new NativeArray<float3>(enemyPositions, Allocator.TempJob);
+        NativeArray<float> distances = new NativeArray<float>(enemyPositions.Length, Allocator.TempJob);
 
-        if(agent != null)
+        if(actor != null)
         {
             //int searchDepth = positions.Length;
             //if(searchDepth > 3)
             //    searchDepth = UnityEngine.Random.Range(searchDepth, searchDepth - 1);
-            DistanceCheckJob job = new DistanceCheckJob()
+            DistanceCheckJob job = new DistanceCheckJob
             {
                 positions = positions,
-                selfPosition = agent.transform.position,
+                selfPosition = actor.transform.position,
                 distances = distances
             };
             JobHandle jobHandle = job.Schedule(distances.Length, 1);
@@ -93,36 +107,38 @@ public static class HelperFunctions
 
             float currDist = Mathf.Infinity;
             for(int i = 0; i < distances.Length; i++)
-            {
                 if(distances[i] < currDist)
                 {
-
                     currDist = distances[i];
                     closestActor = agentList[i];
                 }
-            }
         }
 
         distances.Dispose();
         positions.Dispose();
         //transformAccessArray.Dispose();
         //Profiler.EndSample();
+
+        if(actor.debug)
+        {
+            Debug.Log(actor.GetName() + ": " + (closestActor != null ? "Found closest actor '" + closestActor.GetName() + "'" : "Closest actor = null"));
+        }
         return closestActor;
     }
 
-    public static ActorInput GetClosestEnemy_WithJobs(ActorInput agent, float range)
+    public static Actor GetClosestEnemy_WithJobs(Actor agent, float range)
     {
-        ActorInput closestEnemy = null;
+        Actor closestEnemy = null;
 
         Collider[] agents = new Collider[5];
         int numHit = Physics.OverlapSphereNonAlloc(agent.transform.position, range, agents, 1 << LayerMask.NameToLayer("Actors"));
 
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
             //Profiler.BeginSample("AggroCtrl: GetComponent");
-            ActorInput a = agents[i].GetComponent<ActorInput>();
+            Actor a = agents[i].GetComponent<Actor>();
             //Profiler.EndSample();
 
             //Profiler.BeginSample("AggroCtrl: FilterAgent");
@@ -171,21 +187,22 @@ public static class HelperFunctions
         return closestEnemy;
     }
 
-    public static ActorInput[] GetEnemiesInRangeNonAlloc(ActorInput self, float range, bool requireLOS)
+    public static Actor[] GetEnemiesInRangeNonAlloc(Actor self, float range, bool requireLOS)
     {
         Collider[] agents = new Collider[5];
         int numHit = Physics.OverlapSphereNonAlloc(self.transform.position, range, agents, 1 << LayerMask.NameToLayer("Actors"));
 
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput agent = agents[i].GetComponent<ActorInput>();
+            Actor agent = agents[i].GetComponent<Actor>();
 
-            if(agent.transform != agent.transform && agent.isCloaked == false && self.ActorStats.IsEnemy(agent.ActorStats))
+            if(agent.transform != self.transform && agent.isCloaked == false && self.ActorStats.IsEnemy(agent.ActorStats))
                 agentList.Add(agent);
         }
-        List<ActorInput> enemiesInRange = new List<ActorInput>();
+
+        List<Actor> enemiesInRange = new List<Actor>();
         float3[] enemyPositions = agentList.Select(e => (float3)e.transform.position).ToArray();
         NativeArray<float3> positions = new NativeArray<float3>(enemyPositions, Allocator.TempJob);
         NativeArray<float> distances = new NativeArray<float>(enemyPositions.Length, Allocator.TempJob);
@@ -213,7 +230,7 @@ public static class HelperFunctions
         return enemiesInRange.ToArray();
     }
 
-    public static ActorInput GetMostWoundedInRangeNonAlloc(ActorInput caller, float healthThreshold,
+    public static Actor GetMostWoundedInRangeNonAlloc(Actor caller, float healthThreshold,
       float range, Collider[] populatedArray)
     {
         int numHit = Physics.OverlapSphereNonAlloc(caller.transform.position, range, populatedArray,
@@ -222,11 +239,11 @@ public static class HelperFunctions
         if(numHit == 0)
             return null;
 
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput actor = populatedArray[i].GetComponent<ActorInput>();
+            Actor actor = populatedArray[i].GetComponent<Actor>();
 
             if(caller != actor && actor.hpPercentage <= healthThreshold && actor.ActorStats.isBeingHealed == false)
                 //if(actor != skillTarget)

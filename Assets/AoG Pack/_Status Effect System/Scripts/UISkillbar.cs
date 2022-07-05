@@ -5,12 +5,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISkillbar : MonoBehaviour
+public class UIspellbar : MonoBehaviour
 {
     public bool debug;
-    private Transform skillParentPanel;
-    private List<UISkillButton> spellButtons;
-    private UISkillButton _lastSelectedButton;
+    private Transform spellParentPanel;
+    private List<UISpellButton> spellButtons;
+    private UISpellButton _lastSelectedButton;
 
     public bool vertical;
     public float mainPanelScrollTime = 1;
@@ -19,25 +19,26 @@ public class UISkillbar : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //GameEventSystem.OnPartyMemberDeselected -= AdjustSkillbarVisibilityStatus;
-        //GameEventSystem.OnPartyMemberDeselected += AdjustSkillbarVisibilityStatus;
-        GameEventSystem.OnPartyMemberSelected -= PopulateSkillbar;
-        GameEventSystem.OnPartyMemberSelected += PopulateSkillbar;
-        //GameEventSystem.OnSpellAimingDone += DeselectActiveSkillButton;
-        skillParentPanel = transform.Find("Content - Skill Buttons");
+        GameEventSystem.OnPartyMemberDeselected -= AdjustSpellbarVisibilityStatus;
+        GameEventSystem.OnPartyMemberDeselected += AdjustSpellbarVisibilityStatus;
+        GameEventSystem.OnPartyMemberSelected -= Populatespellbar;
+        GameEventSystem.OnPartyMemberSelected += Populatespellbar;
+
+        spellParentPanel = transform.Find("Content - spell Buttons");
         _transform = GetComponent<RectTransform>();
-        spellButtons = new List<UISkillButton>();
+        spellButtons = new List<UISpellButton>();
 
         for(int i = 0; i < 5; i++)
         {
-            GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Skill Button"), transform.Find("Content - Skill Buttons"));
+            GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/spell Button"), transform.Find("Content - spell Buttons"));
             obj.SetActive(false);
-            spellButtons.Add(obj.GetComponent<UISkillButton>());
+            spellButtons.Add(obj.GetComponent<UISpellButton>());
         }
-        //StartCoroutine("CR_ScrollSpellBar", true);
+
+        StartCoroutine("CR_ScrollSpellBar", true);
     }
 
-    private void DeselectActiveSkillButton()
+    private void DeselectActivespellButton()
     {
         if(_lastSelectedButton != null)
         {
@@ -48,184 +49,125 @@ public class UISkillbar : MonoBehaviour
 
     private void OnDisable()
     {
-        //GameEventSystem.OnPartyMemberDeselected -= AdjustSkillbarVisibilityStatus;
-        GameEventSystem.OnPartyMemberSelected -= PopulateSkillbar;
+        GameEventSystem.OnPartyMemberDeselected -= AdjustSpellbarVisibilityStatus;
+        GameEventSystem.OnPartyMemberSelected -= Populatespellbar;
     }
 
-    private void PopulateSkillbar(ActorInput caster)
+    private void Populatespellbar(Actor caster)
     {
         _lastSelectedButton = null;
         if(debug)
             Debug.Log("<color=cyan>Populating spell bar</color>");
-        foreach(UISkillButton item in spellButtons)
+        foreach(UISpellButton item in spellButtons)
         {
             item.ToggleSelected(false);
             item.gameObject.SetActive(false);
         }
-        //StopCoroutine("CR_ScrollSpellBar");
-        //if(SelectionManager.NumSelectedPCs() > 1)
-        //{
-            
-        //    StartCoroutine("CR_ScrollSpellBar", false);
-        //    return;
-        //}
-
-        //StartCoroutine("CR_ScrollSpellBar", true);
-        
-
-        List<Skill> playerSkills = caster.GetSkills(true);
-        int skillCount = playerSkills.Count;
-        //int skillButtonIndex = 0;
-        for(int i = 0; i < skillCount; i++)// Skill skill in agent.behaviours.skillController.GetSkills())
+        StopCoroutine("CR_ScrollSpellBar");
+        if(SelectionManager.NumSelectedPCs() > 1)
         {
-            Skill skill = playerSkills[i];
+
+            StartCoroutine("CR_ScrollSpellBar", false);
+            return;
+        }
+
+        StartCoroutine("CR_ScrollSpellBar", true);
+
+        int spellCount = caster.Spellbook.SpellData.Count;
+        for(int i = 0; i < spellCount; i++)// Skill skill in agent.behaviours.skillController.GetSkills())
+        {
+            Spell spell = caster.Spellbook.SpellData[i].spell;
             if(debug)
-                Debug.Log(caster.GetName() + ": <color=cyan>Adding button for skill '" + skill.skillName + "'</color>");
-            //if(skill is Skill_DrinkHealthPotion)
-            //{
-            //    Button btn_drinkHealth = transform.Find("Button - Consume Health Potion").GetComponent<Button>();
-            //    if(agent.isBeast)
-            //    {
-            //        btn_drinkHealth.gameObject.SetActive(false);
-            //        continue;
-            //    }
-            //    Text numInfo = btn_drinkHealth.transform.GetChild(1).GetComponent<Text>();
-            //    numInfo.text = agent.GetComponent<AgentGearController>().healthPotions.ToString();
-            //    btn_drinkHealth.onClick.AddListener(delegate {
-            //        if(skill.CanActivate(agent))
-            //        {
-            //            GameEventSystem.OnPlayerSkillButtonClicked?.Invoke(skill);
-            //            numInfo.text = agent.GetComponent<AgentGearController>().healthPotions.ToString();
-            //        }
-            //    });
-            //    Image radI1 = btn_drinkHealth.transform.GetChild(0).GetComponent<Image>();
-            //    skill.CooldownHook += (remainingCooldown) =>
-            //    {
-            //        radI1.fillAmount = remainingCooldown / skill.cooldown;
-            //    };
-            //    continue;
-            //}
-            //if(skill is Skill_DrinkManaPotion && agent.m_isSpellCaster)
-            //{
-            //    Button btn_drinkMana = transform.Find("Button - Consume Mana Potion").GetComponent<Button>();
-            //    if(agent.m_isSpellCaster == false || agent.isBeast)
-            //    {
-            //        btn_drinkMana.gameObject.SetActive(false);
-            //        continue;
-            //    }
-            //    Text numInfo = btn_drinkMana.transform.GetChild(1).GetComponent<Text>();
-            //    numInfo.text = agent.GetComponent<AgentGearController>().manaPotions.ToString();
-            //    btn_drinkMana.onClick.AddListener(delegate {
-            //        if(skill.CanActivate(agent))
-            //        {
-            //            GameEventSystem.OnPlayerSkillButtonClicked?.Invoke(skill);
-            //            numInfo.text = agent.GetComponent<AgentGearController>().manaPotions.ToString();
-            //        }
-            //    });
-            //    Image radI1 = btn_drinkMana.transform.GetChild(0).GetComponent<Image>();
-            //    skill.CooldownHook += (remainingCooldown) =>
-            //    {
-            //        radI1.fillAmount = remainingCooldown / skill.cooldown;
-            //    };
-            //    continue;
-            //}
+                Debug.Log("<color=cyan>Configuring spell hotkey</color>");
+          
+            UISpellButton sBtn = GetSpellButton();
+            sBtn.spell = spell;
+            Button spellButton = sBtn.GetComponent<Button>();
 
-            UISkillButton sBtn = GetSkillButton();
-            sBtn.skill = skill;
-            Button skillButton = sBtn.GetComponent<Button>();
-
-            if(skill.skillIcon == null)
+            if(spell.spellIcon == null)
             {
                 if(debug)
                     Debug.LogError(caster.GetName() + ": spell.spellIcon = null");
             }
 
-            skillButton.GetComponent<Image>().sprite = skill.skillIcon;
-            //GameEventSystem.OnPlayerSkillKeyPressed += (inputKey) =>
-            //{
-                
-            //};
-
-            //skillButton.image.sprite = skill.spellIcon;
-            //skillButton.onClick = new Button.ButtonClickedEvent();
-            skillButton.onClick.RemoveAllListeners();
-            skillButton.onClick.AddListener(delegate
+            spellButton.GetComponent<Image>().sprite = spell.spellIcon;
+        
+            spellButton.onClick.RemoveAllListeners();
+            spellButton.onClick.AddListener(delegate
             {
                 if(debug)
-                    Debug.Log(caster.GetName() + ":<color=orange>Key " + skill.skillName + " pressed</color>");             
-                GameEventSystem.OnPlayerSkillButtonClicked?.Invoke(caster, skill, sBtn);
+                    Debug.Log(caster.GetName() + ":<color=orange>Key " + spell.Name + " pressed</color>");             
+                GameEventSystem.OnPlayerSpellButtonClicked?.Invoke(caster, spell, sBtn);
 
-                foreach(UISkillButton skillBtn in spellButtons)
+                foreach(UISpellButton spellBtn in spellButtons)
                 {
-                    skillBtn.ToggleSelected(false);
+                    spellBtn.ToggleSelected(false);
                 }
                 sBtn.ToggleSelected(true);
                 _lastSelectedButton = sBtn;
             });
             Image radImage = sBtn.transform.Find("cooldown").GetComponent<Image>();
-            skill.CooldownHook += (remainingCooldown) =>
+            spell.CooldownHook += (remainingCooldown) =>
             {
-                radImage.fillAmount = remainingCooldown / skill.cooldown;
+                radImage.fillAmount = remainingCooldown / spell.cooldownTime;
             };
-
-            //skillButtonIndex++;
         }
     }
 
-    //void AdjustSkillbarVisibilityStatus(ActorInput agent)
-    //{
-    //    //int numSelectedPCs = SelectionManager.NumSelectedPCs();
-
-    //    foreach(UISpellButton item in spellButtons)
-    //    {
-    //        item.transform.Find("glow frame").GetComponent<Image>().enabled = false;
-    //        item.gameObject.SetActive(false);
-    //    }
-
-    //    StopCoroutine("CR_ScrollSpellBar");
-
-    //    if(SelectionManager.selected != null)
-    //    {
-    //        StartCoroutine("CR_ScrollSpellBar", true);
-    //    }
-    //    else
-    //    {
-    //        StartCoroutine("CR_ScrollSpellBar", false);
-    //    }
-    //}
-
-    private UISkillButton GetSkillButton()
+    void AdjustSpellbarVisibilityStatus(Actor agent)
     {
-        UISkillButton skillButton = null;
+        int numSelectedPCs = SelectionManager.NumSelectedPCs();
 
-        foreach(UISkillButton cachedObj in spellButtons)
+        foreach(UISpellButton item in spellButtons)
+        {
+            item.transform.Find("glow frame").GetComponent<Image>().enabled = false;
+            item.gameObject.SetActive(false);
+        }
+
+        StopCoroutine("CR_ScrollSpellBar");
+
+        if(numSelectedPCs == 1)
+        {
+            StartCoroutine("CR_ScrollSpellBar", true);
+        }
+        else
+        {
+            StartCoroutine("CR_ScrollSpellBar", false);
+        }
+    }
+
+    private UISpellButton GetSpellButton()
+    {
+        UISpellButton spellButton = null;
+
+        foreach(UISpellButton cachedObj in spellButtons)
         {
 
             // Pick an inactive object from the pool and leave the loop
             if(cachedObj.gameObject.activeSelf == false)
             {
                 //Debug.Log("Found cached popup obj");
-                skillButton = cachedObj;
+                spellButton = cachedObj;
 
                 break;
             }
         }
 
         // No inactive popup was found in the pool, so let's create a new one
-        if(skillButton == null)
+        if(spellButton == null)
         {
-            GameObject skillBtn = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Skill Button"), skillParentPanel);
-            skillButton = skillBtn.GetComponent<UISkillButton>();
+            GameObject spellBtn = Instantiate(Resources.Load<GameObject>("Prefabs/UI/spell Button"), spellParentPanel);
+            spellButton = spellBtn.GetComponent<UISpellButton>();
 
-            Debug.Assert(skillBtn != null, "Skill button null");
+            Debug.Assert(spellBtn != null, "spell button null");
 
-            spellButtons.Add(skillButton);
+            spellButtons.Add(spellButton);
         }
 
         //if(popup.InRange)
-        skillButton.gameObject.SetActive(true);
+        spellButton.gameObject.SetActive(true);
 
-        return skillButton;
+        return spellButton;
     }
 
     private IEnumerator CR_ScrollSpellBar(bool scrollIn)

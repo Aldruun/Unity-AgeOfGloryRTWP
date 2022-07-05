@@ -19,7 +19,7 @@ public static class Actions
     //	t.rotation = targetRot;
     //}
 
-    public static bool MoveIntoRange(NPCInput self, Vector3 point, float range, bool requiresInFOV = true)
+    public static bool MoveIntoRange(Actor self, Vector3 point, float range, bool requiresInFOV = true)
     {
         Debug.Assert(self != null);
         Debug.Assert(point != Vector3.zero);
@@ -38,14 +38,14 @@ public static class Actions
         if(hasLOS == false)
         {
             Debug.DrawLine(self.transform.position + Vector3.up * 0.3f, point, Color.red);
-            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300/*, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NoLOS)</color>"*/);
+            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NoLOS)</color>");
 
             self.SetDestination(targetPos, 1f);
         }
         else if(inRange == false)
         {
             Debug.DrawLine(self.transform.position + Vector3.up * 0.3f, point, Color.yellow);
-            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300/*, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NotInRange)</color>"*/);
+            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NotInRange)</color>");
 
             self.SetDestination(targetPos, Mathf.Clamp(range - 0.1f, 0, 100));
         }
@@ -55,16 +55,16 @@ public static class Actions
             self.HoldPosition();
             if(inFOV == false)
             {
-                HelperFunctions.RotateTo(self.transform, targetPos, 300/*, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to target (InFOV)</color>"*/);
+                HelperFunctions.RotateTo(self.transform, targetPos, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to target (InFOV)</color>");
             }
 
-            if(self.debugAnimation)
+            if(self.debug)
                 Debug.Log(self.GetName() + "<color=cyan>: # Can attack</color>");
         }
         return hasLOS && inRange && inFOV;
     }
 
-    public static bool MoveIntoRange(NPCInput self, ActorInput target, float range)
+    public static bool MoveIntoRange(Actor self, Actor target, float range)
     {
         Debug.Assert(self != null);
         Debug.Assert(target != null);
@@ -93,7 +93,7 @@ public static class Actions
             Debug.DrawLine(self.transform.position + Vector3.up * 0.3f, target.transform.position, Color.yellow);
             HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300);
 
-            self.SetDestination(targetPos, desiredDistToTarget - 0.1f, "");
+            self.SetDestination(targetPos, desiredDistToTarget - 0.1f);
         }
         else
         {
@@ -104,13 +104,13 @@ public static class Actions
                 HelperFunctions.RotateTo(self.transform, targetPos, 300);
             }
 
-            if(self.debugAnimation)
+            if(self.debug)
                 Debug.Log(self.GetName() + "<color=cyan>: # Can attack</color>");
         }
         return hasLOS && inWeaponRange && inFOV;
     }
 
-    //public static bool MoveIntoSpellRange(ActorInput self, ActorInput target, Spell spell)
+    //public static bool MoveIntoSpellRange(Actor self, Actor target, Spell spell)
     //{
     //	Debug.Assert(self != null);
     //	Debug.Assert(target != null);
@@ -156,12 +156,12 @@ public static class Actions
     //		}
 
     //		if(self.debug)
-    //			Debug.Log(self.ActorRecord.Name + "<color=cyan>: # Can cast</color>");
+    //			Debug.Log(self.actorData.Name + "<color=cyan>: # Can cast</color>");
     //	}
     //	return hasLOS && inSpellRange && inFOV;
     //}
 
-    public static Vector3 GetBestPositionOnFoe(ActorInput self, Vector3 foePosition, int posCount, Collider[] _attackPosHits)
+    public static Vector3 GetBestPositionOnFoe(Actor self, Vector3 foePosition, int posCount, Collider[] _attackPosHits)
     {
         List<Vector3> availablePositions = new List<Vector3>();
         int radius = 4;
@@ -182,7 +182,7 @@ public static class Actions
             {
                 for(int h = 0; h < hits; h++)
                 {
-                    ActorInput actor = _attackPosHits[h].GetComponent<ActorInput>();
+                    Actor actor = _attackPosHits[h].GetComponent<Actor>();
                     if(actor == self || actor.dead)
                     {
                         availablePositions.Add(standPosition);
@@ -205,18 +205,18 @@ public static class Actions
         return availablePositions[UnityEngine.Random.Range(0, availablePositions.Count)];
     }
 
-    public static List<ActorInput> GetWoundedAlliesInRangeNonAlloc(NPCInput caller, float range, float hpThreshold, Collider[] populatedArray)
+    public static List<Actor> GetWoundedAlliesInRangeNonAlloc(Actor caller, float range, int hpThreshold, Collider[] populatedArray)
     {
         int numHit = Physics.OverlapSphereNonAlloc(caller.transform.position, range, populatedArray,
             1 << LayerMask.NameToLayer("Actors"));
 
         if(numHit == 0)
             return null;
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput agent = populatedArray[i].GetComponent<ActorInput>();
+            Actor agent = populatedArray[i].GetComponent<Actor>();
             //Debug.Log(agent.hpPercentage);
 
             if( /*agent != _agent &&*/
@@ -224,7 +224,7 @@ public static class Actions
                 agent.isDowned == false &&
                 agent.dead == false &&
                 agent.hpPercentage <= hpThreshold &&
-                agent.ActorStats.IsFriend(caller.ActorStats) &&
+                FactionExentions.IsFriend(agent.ActorStats, caller.ActorStats) &&
                 agent.ActorStats.isBeingBuffed == false)
                 agentList.Add(agent);
         }
@@ -233,7 +233,7 @@ public static class Actions
         //	.FirstOrDefault();
     }
 
-    public static int GetNumAlliesAtLocation(ActorInput caller, Vector3 location, float range, Collider[] populatedArray)
+    public static int GetNumAlliesAtLocation(Actor caller, Vector3 location, float range, Collider[] populatedArray)
     {
         int numHit = Physics.OverlapSphereNonAlloc(location, range, populatedArray,
             1 << LayerMask.NameToLayer("Actors"));
@@ -245,10 +245,10 @@ public static class Actions
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput agent = populatedArray[i].GetComponent<ActorInput>();
+            Actor agent = populatedArray[i].GetComponent<Actor>();
 
             if( /*agent != _agent &&*/
-                agent.dead == false && agent.ActorStats.IsFriend(caller.ActorStats))
+                agent.dead == false && FactionExentions.IsFriend(agent.ActorStats, caller.ActorStats))
                 hits++;
         }
 
@@ -257,7 +257,7 @@ public static class Actions
         //	.FirstOrDefault();
     }
 
-    public static List<ActorInput> GetActorsOfClassAtLocation(ActorInput caller, Vector3 location, Class actorClass, float range, SpellTargetType targetType, Collider[] populatedArray)
+    public static List<Actor> GetActorsOfClassAtLocation(Actor caller, Vector3 location, Class actorClass, float range, SpellTargetType targetType, Collider[] populatedArray)
     {
         int numHit = Physics.OverlapSphereNonAlloc(location, range, populatedArray,
             1 << LayerMask.NameToLayer("Actors"));
@@ -265,16 +265,16 @@ public static class Actions
         if(numHit == 0)
             return null;
 
-        List<ActorInput> agentList = new List<ActorInput>();
+        List<Actor> agentList = new List<Actor>();
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput agent = populatedArray[i].GetComponent<ActorInput>();
+            Actor agent = populatedArray[i].GetComponent<Actor>();
 
             if(agent != caller && agent.ActorStats.Class == actorClass &&
                 agent.dead == false &&
-                (targetType == SpellTargetType.Foe ? agent.ActorStats.IsEnemy(caller.ActorStats)
-                : targetType == SpellTargetType.Friend ? agent.ActorStats.IsFriend(caller.ActorStats)
+                (targetType == SpellTargetType.Foe ? FactionExentions.IsEnemy(agent.ActorStats, caller.ActorStats)
+                : targetType == SpellTargetType.Friend ? FactionExentions.IsFriend(agent.ActorStats, caller.ActorStats)
                 : true))
                 agentList.Add(agent);
         }
@@ -284,7 +284,7 @@ public static class Actions
         //	.FirstOrDefault();
     }
 
-    public static float GetDistanceToNearestActor(ActorInput caller, Vector3 point, Collider[] populatedArray, bool onlyHostile)
+    public static float GetDistanceToNearestActor(Actor caller, Vector3 point, Collider[] populatedArray, bool onlyHostile)
     {
         int numHit = Physics.OverlapSphereNonAlloc(point, 20, populatedArray,
             1 << LayerMask.NameToLayer("Actors"));
@@ -296,10 +296,10 @@ public static class Actions
 
         for(int i = 0; i < numHit; i++)
         {
-            ActorInput agent = populatedArray[i].GetComponent<ActorInput>();
+            Actor agent = populatedArray[i].GetComponent<Actor>();
             float newDist = Vector3.Distance(agent.transform.position, point);
 
-            if(newDist < shortestDist && agent.dead == false && (onlyHostile ? agent.ActorStats.IsEnemy(caller.ActorStats) : agent.ActorStats.IsFriend(caller.ActorStats)))
+            if(newDist < shortestDist && agent.dead == false && (onlyHostile ? FactionExentions.IsEnemy(agent.ActorStats, caller.ActorStats) : FactionExentions.IsFriend(agent.ActorStats, caller.ActorStats)))
                 shortestDist = newDist;
         }
 

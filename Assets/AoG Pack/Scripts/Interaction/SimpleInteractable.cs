@@ -8,7 +8,7 @@ public class SimpleInteractable : Interactable
 {
     public UnityEvent onInteractCallback;
 
-    public override void Interact(ActorInput ctrl)
+    public override void Interact(Actor ctrl)
     {
         onInteractCallback?.Invoke();
     }

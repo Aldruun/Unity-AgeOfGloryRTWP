@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ASpellVFXBehaviour : StateMachineBehaviour
 {
-    private ActorInput actor;
+    private Actor actor;
     private ParticleSystem[] chargeVFX;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

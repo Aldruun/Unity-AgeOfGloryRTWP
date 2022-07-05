@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Conversation : ScriptableObject
 {
-    public ActorInput owner;
+    public Actor owner;
     public List<ConversationNode> nodes;
 
     public ConversationNode LoadNode(int ID)
@@ -67,11 +67,11 @@ public enum ChoiceEffect
 [System.Serializable]
 public class ConversationData
 {
-    public ActorInput owner;
+    public Actor owner;
     public int currentStage;
     public TextAsset inkdlgJSON;
 
-    public ConversationData(ActorInput owner, TextAsset inkdlgJSON, int currentStage)
+    public ConversationData(Actor owner, TextAsset inkdlgJSON, int currentStage)
     {
         this.owner = owner;
         this.inkdlgJSON = inkdlgJSON;

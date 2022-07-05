@@ -9,7 +9,7 @@ public class ActorFlashMonoHandler
     //private Color[] originalColors;
     //private Material fleshMaterial;
 
-    public ActorFlashMonoHandler(ActorInput self)
+    public ActorFlashMonoHandler(Actor self)
     {
         actorMeshRenderers = self.GetComponentsInChildren<SkinnedMeshRenderer>();
         //originalColors = new Color[actorMeshRenderers.Length];

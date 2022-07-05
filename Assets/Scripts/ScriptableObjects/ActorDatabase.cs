@@ -12,7 +12,7 @@ public class ActorDatabase : ScriptableObject
 
     static Dictionary<ActorStat, int> actorAttributesTemplate;
 
-    internal ActorInput InstantiateAndSetUpActor(string uniqueID, Vector3 position, Quaternion rotation)
+    internal Actor InstantiateAndSetUpActor(string uniqueID, Vector3 position, Quaternion rotation)
     {
         for(int i = 0; i < Characters.Count; i++)
         {
@@ -27,10 +27,11 @@ public class ActorDatabase : ScriptableObject
                 //actor.ActorStats.StatsModified = new Dictionary<ActorStat, int>(actor.ActorStats.StatsBase);
               
 
-                List<Skill> skills = new List<Skill>();
-                config.Skillbook.Init(ref skills);
-                npcInput.SetSkills(skills);
+                List<Spell> skills = new List<Spell>();
+                config.Spellbook.Init(npcInput);
+                //npcInput.set(skills);
                 npcInput.FinalizeActor(config);
+                
                 npcInput.ActorStats.InitializeStats(CreateActorStatsDictionaryTemplate());
                 npcInput.Inventory.AddItems(config.InventoryTemplate.items);
                 npcInput.Equipment.EquipBestArmor();
@@ -43,6 +44,15 @@ public class ActorDatabase : ScriptableObject
         Debug.LogError("ActorConfig not found");
         return null;
     }
+
+    //public void UpdateSpellbook(SpellBook spellbook, int characterLevel)
+    //{
+    //    if(spellbook == null)
+    //    {
+    //        spellbook = new SpellBook();
+    //        spellbook.Init(this);
+    //    }
+    //}
 
     private Dictionary<ActorStat, int> CreateActorStatsDictionaryTemplate()
     {

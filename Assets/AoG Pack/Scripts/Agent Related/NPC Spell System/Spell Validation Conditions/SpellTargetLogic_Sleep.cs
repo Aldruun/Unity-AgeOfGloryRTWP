@@ -5,7 +5,7 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
 {
     private Collider[] _targetList;
 
-    public override SpellTargetLogic Init(ActorInput owner, Vector3 targetPosition, Spell spell, Projectile projectile)
+    public override SpellTargetLogic Init(Actor owner, Vector3 targetPosition, Spell spell, Projectile projectile)
     {
         this.owner = owner;
         this.spell = spell;
@@ -46,13 +46,13 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
 
         //Debug.Log("________________SLEEP");
 
-        ActorInput[] targets = new ActorInput[numHits];
+        Actor[] targets = new Actor[numHits];
 
 
         for(int i = 0; i < numHits; i++)
         {
             Collider col = _targetList[i];
-            targets[i] = col.GetComponent<ActorInput>();
+            targets[i] = col.GetComponent<Actor>();
             //Debug.Log("________________SLEEP TARGET HIT");
         }
         //_targetList.Select(c => (ActorInput)c.GetComponent<ActorInput>()).ToArray();
@@ -62,7 +62,7 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
             return;
         }
 
-        targets = targets.Where(t => t.PartyIndex == 0).OrderBy(t => ActorUtility.GetAttributeBase(t.ActorStats, ActorStat.HEALTH)).ToArray();
+        targets = targets.Where(t => t.PartySlot == 0).OrderBy(t => ActorUtility.GetStatBase(t.ActorStats, ActorStat.HITPOINTS)).ToArray();
 
         //for(int i = 0; i < targets.Length; i++)
         //{
@@ -81,7 +81,7 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
 
     }
 
-    private void CreateProjectile(Vector3 from, ActorInput target, bool hit)
+    private void CreateProjectile(Vector3 from, Actor target, bool hit)
     {
         GameObject vfxObj = PoolSystem.GetPoolObject("vfx_projectile_sleep", ObjectPoolingCategory.VFX);
         Projectile projectile = vfxObj.GetComponent<Projectile>();
@@ -97,7 +97,7 @@ public class SpellTargetLogic_Sleep : SpellTargetLogic
             //projectile.OnImpact = () =>
             //{
             //    //if(sfxOnHit != null)
-            //    //    ActorSFXManager.TriggerSFX(sfxOnHit[Random.Range(0, sfxOnHit.Length)],
+            //    //    SFXPlayer.TriggerSFX(sfxOnHit[Random.Range(0, sfxOnHit.Length)],
             //    //        projectile.transform.position);
             //    //! Create this effect when the projectile arrives at its target position
             //    if(hit)

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class WorldUpdater
 {
-    public List<ActorInput> actors;
+    public List<Actor> actors;
     public List<GameObject> garbage;
     public List<PickupItem> pickupItems { get; private set; }
     private int extectedNumActors;
@@ -14,7 +14,7 @@ public class WorldUpdater
 
     public WorldUpdater()
     {
-        actors = new List<ActorInput>();
+        actors = new List<Actor>();
         garbage = new List<GameObject>();
       
         GameEventSystem.RequestAddGarbage = AddGarbage;
@@ -74,7 +74,7 @@ public class WorldUpdater
     //    player = null;
     //}
 
-    public void AddNPC(ActorInput monoAgent)
+    public void AddNPC(Actor monoAgent)
     {
         if (actors.Contains(monoAgent))
         {
@@ -83,7 +83,7 @@ public class WorldUpdater
         actors.Add(monoAgent);
     }
 
-    public void DespawnActor(ActorInput actorInput)
+    public void DespawnActor(Actor actorInput)
     {
         actors.Remove(actorInput);
     }

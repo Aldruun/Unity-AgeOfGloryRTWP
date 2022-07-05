@@ -268,7 +268,7 @@
 //        //    }
 //        //};
 
-//        //if(actor.ActorRecord.race != Race.ANIMAL && actor.ActorRecord.race != Race.GOBLIN)
+//        //if(actor.ActorRecord.race != ActorRace.ANIMAL && actor.ActorRecord.race != ActorRace.GOBLIN)
 //        //{
 //        //    actor.OnHandleSpell += (spell, stage, motionIndex) =>
 //        //    {

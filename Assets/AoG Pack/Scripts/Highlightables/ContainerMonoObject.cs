@@ -23,9 +23,9 @@ public class ContainerMonoObject : HighlightableMonoObject, IAttackable
         AttackableType = AttackableType.CONTAINER;
     }
 
-    public void ApplyDamage(ActorInput source, Weapon weapon, EffectData magicEffect, bool isProjectile, bool hitSuccess = true)
+    public void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage)
     {
-        int damage = weapon != null ? weapon.damage : magicEffect != null ? (int)magicEffect.magnitude : 0;
+        int damage = damageRoll;
 
         _containerData.Health -= damage;
     }

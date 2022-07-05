@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Quest : ScriptableObject
 {
-    public static Action<Quest, ActorInput> OnQuestTaken;
+    public static Action<Quest, Actor> OnQuestTaken;
     private Stack<QuestStage> _stages;
 
     [TextArea] public string description;
@@ -63,12 +63,12 @@ public class Quest : ScriptableObject
         return false;
     }
 
-    internal void AddQuestPartyMember(ActorInput agent)
+    internal void AddQuestPartyMember(Actor agent)
     {
         //_questParty.targetPosition = currentStage.GetLocation();
     }
 
-    public void TakeQuestFromQuestBoard(ActorInput agent)
+    public void TakeQuestFromQuestBoard(Actor agent)
     {
         OnQuestTaken?.Invoke(this, agent);
         taken = true;

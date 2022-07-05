@@ -60,19 +60,19 @@
 //            return;
 //        }
 
-//        if(_actor.GetAttackTarget() == null)
+//        if(_actor.Combat.GetHostileTarget() == null)
 //        {
 //            Debug.LogError("Cannot attack: Attack target = null");
 //            return;
 //        }
 
-//        if(_actor == _actor.GetAttackTarget())
-//            Debug.Log($"<color=red>{_actor.Name}</color>: I'm attacking myself");
+//        if(_actor == _actor.Combat.GetHostileTarget())
+//            Debug.Log($"<color=red>{_actor.GetName()}</color>: I'm attacking myself");
 
 //        if(_actor.GetEquippedWeapon() == null)
 //        {
 //            if(_actor.debug)
-//                Debug.Log(_actor.Name + ": Applying damage failed: Equipped right hand weapon = null");
+//                Debug.Log(_actor.GetName() + ": Applying damage failed: Equipped right hand weapon = null");
 //        }
 //        else
 //        {
@@ -87,13 +87,13 @@
 //                if(_projectile == null)
 //                    Debug.LogError("ActorMonoObject: Projectile visual not found");
 
-//                _projectile.Launch(null, _actor, _actor.gearData.m_weaponHand.position, _actor.GetAttackTarget(), SpellTargetType.Foe, DeliveryType.SeekActor, ProjectileType.Lobber, 10, 5,0,0);;
+//                _projectile.Launch(null, _actor, _actor.Equipment.m_weaponHand.position, _actor.Combat.GetHostileTarget(), SpellTargetType.Foe, DeliveryType.SeekActor, ProjectileType.Lobber, 10, 5,0,0);;
 //            }
-//            else if(_actor.GetAttackTarget() is ActorInput a)
+//            else if(_actor.Combat.GetHostileTarget() is ActorInput a)
 //            {
 //                a.ApplyDamage(_actor, _actor.GetEquippedWeapon().damageType, ImpactType.Blade, _actor.GetEquippedWeapon().DamageRoll(), false);
 //            }
-//            ActorSFXManager.PlaySound_WeaponSwing(_actor, _actor.gearData.equippedWeapon.weaponData.weaponCategory);
+//            SFXPlayer.PlaySound_WeaponSwing(_actor, _actor.Equipment.equippedWeapon.Weapon.weaponCategory);
 //            //Debug.Log(agentData.Name + ": Applying damage");
 //        }
   
@@ -104,12 +104,12 @@
 //    //! For animator
 //    public void DrawWeapon()
 //    {
-//        _actor.gearData.DrawEquippedWeapon();
+//        _actor.Equipment.DrawEquippedWeapon();
 //    }
 
 //    public void SheathWeapon()
 //    {
-//        _actor.gearData.HolsterEquippedWeapon();
+//        _actor.Equipment.HolsterEquippedWeapon();
 //    }
 
 //    public void ReleaseSpell() // 0 = left, 1 = right

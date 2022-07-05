@@ -15,7 +15,7 @@ public enum ScriptableType
 	GLOBAL = 7
 }
 
-public abstract class Scriptable
+public abstract class Scriptable : MonoBehaviour
 {
 	public static int globalScriptableCounter = 10000;
 	private int _globalID;
@@ -25,8 +25,6 @@ public abstract class Scriptable
 	public bool debugRoundSystem;
 
 	public ScriptableType type;
-	public ScriptableMonoObject scrMono;
-	public Transform transform;
 
 	protected int lastDamage;
 	private int CurrentActionTarget = 0;
@@ -35,6 +33,12 @@ public abstract class Scriptable
 	private int CurrentActionState = 0;
 	protected InternalFlags internalFlags;
 	protected float waitTimer;
+
+	internal LinkedList<GameAction> actionQueue;
+	public GameAction CurrentAction;
+	public GameAction OverrideAction;
+
+	internal GameScript[] scripts;
 
 	private Map _area;
 
@@ -45,80 +49,223 @@ public abstract class Scriptable
     {
 		this.type = type;
 		_globalID = ++globalScriptableCounter;
-
 	}
-
- //   void Awake()
- //   {
-	//	GameMaster.OnScriptableInit += Init;
-	//}
-
- //   void OnDisable()
-	//{
-	//	GameMaster.OnScriptableInit -= Init;
-
-	//	//behaviours.Clear();
-	//	//behaviours = null;
-	//}
-
-	//hack Set by the mono object itself, inside SpawnPoint.cs for now
-	public virtual void SetScriptable(ScriptableMonoObject newScrMono)
-    {
-		scrMono = newScrMono.SetScriptable(this);
-		transform = scrMono.transform;
-	}
-
-	public virtual void UpdateScriptableLoop()
-    {
-		//Ticks++;
-		//AdjustedTicks++;
-		//AuraTicks++;
-
-		//if(UnselectableTimer)
-		//{
-		//	UnselectableTimer--;
-		//	if(!UnselectableTimer && Type == ST_ACTOR)
-		//	{
-		//		ActorInput* actor = (ActorInput*)this;
-		//		actor->SetCircleSize();
-		//		if(actor->InParty)
-		//		{
-		//			core->GetGame()->SelectActor(actor, true, SELECT_QUIET);
-		//			core->SetEventFlag(EF_PORTRAIT);
-		//		}
-		//	}
-		//}
-		
-		UpdateScriptTicks();
-		//InterruptCasting = false;
-    }
-
-	//public void AddScript(AICombatScript script)
- //   {
- //       if(_scripts.Contains(script))
- //       {
-	//		Debug.LogError("Script already in list");
- //       }
-
-	//	_scripts.Add(script);
- //   }
-
-	public void Wait(float waitTime)
-    {
-		waitTimer = waitTime;
-    }
 
 	public virtual void UpdateScriptTicks()
 	{
 		//int scriptDepth = 1;
 
-  //      if(GameStateManager.Instance.GetCurrentGame().controlStatus.partyAIEnabled == 0)
-  //      {
+		//      if(Interface.GetCurrentGame().controlStatus.partyAIEnabled == 0)
+		//      {
 		//	scriptDepth = 0;
 		//}
 
 		//ExecuteScript(scriptDepth);
 	}
+
+	public void ExecuteScript(int scriptCount)
+	{
+
+		for(int i = 0; i < scriptCount; i++)
+		{
+			if(scripts[i] != null)
+			{
+				GameScript script = scripts[i];
+
+				script.OnUpdate();
+
+				if(script.dead)
+					script = null;
+
+			}
+		}
+	}
+
+	public void SetScript(GameScript script, int index)
+	{
+		if(index >= 8)
+		{
+			Debug.LogError("Scriptable: Invalid script index!");
+		}
+
+		if(scripts[index] != null && scripts[index].running)
+		{
+			scripts[index].dead = true;
+		}
+
+		scripts[index] = script;
+	}
+
+	public void ReleaseCurrentAction()
+	{
+		if(debugActions)
+			Debug.Log(name + ": <color=cyan>Attempting to release current action</color>");
+		if(CurrentAction != null)
+		{
+			//CurrentAction.OnDone?.Invoke();
+
+			if(debugActions)
+				Debug.Log(name + ": <color=cyan>Releasing action '" + CurrentAction.ToString() + "'</color>");
+			CurrentAction.Release();
+			CurrentAction = null;
+		}
+
+		CurrentActionTarget = 0;
+		CurrentActionInterruptable = true;
+		CurrentActionTicks = 0;
+		CurrentActionState = 0;
+	}
+
+	/// <summary>
+	/// Simply add this action to the end of the queue.
+	/// </summary>
+	/// <param name="newAction"></param>
+	/// <param name="instant"></param>
+	public void AddAction(GameAction newAction, bool instant)
+	{
+		if(newAction == null)
+		{
+			Debug.LogError("Scriptable: NULL action encountered!");
+			return;
+		}
+
+		if(instant /*&& CurrentAction == null && GetNextAction() == null*/)
+		{
+			if(debugActions)
+				Debug.Log("<color=cyan>Instant action '" + newAction.ToString() + "' started</color>");
+			ReleaseCurrentAction();
+			//CurrentAction = newAction;
+			//ExecuteAction(this, CurrentAction); //Why? Current action will be performed instantly either way
+
+		}
+
+		if(debugActions)
+			Debug.Log("<color=cyan>Enqueueing action '" + newAction.ToString() + "'</color>");
+
+		actionQueue.AddLast(newAction);
+	}
+
+	/// <summary>
+	/// Set the next action to be processed after the CurrentAction has finnished.
+	/// </summary>
+	/// <param name="newAction"></param>
+	public void AddActionInFront(GameAction newAction)
+	{
+		if(newAction == null)
+		{
+			Debug.LogError("Scriptable: NULL action encountered!");
+			return;
+		}
+
+		if(debugActions)
+			Debug.Log("<color=cyan>Adding action " + newAction.ToString() + " in front</color>");
+
+		actionQueue.AddFirst(newAction);
+	}
+
+	public GameAction GetCurrentAction()
+	{
+		return CurrentAction;
+	}
+
+	public GameAction GetNextAction()
+	{
+		if(actionQueue.Count == 0)
+		{
+			return null;
+		}
+
+		return actionQueue.Last.Value;
+	}
+
+	protected GameAction PopNextAction()
+	{
+		if(actionQueue == null)
+		{
+			if(debugActions)
+				Debug.Log(name + ": <color=cyan>Can't pop -> action queue null</color>");
+			return null;
+		}
+
+		if(actionQueue.Count == 0)
+		{
+			if(debugActions)
+				Debug.Log(name + ": <color=cyan>Can't pop -> action queue empty</color>");
+			return null;
+		}
+
+		GameAction last = actionQueue.Last.Value;
+		actionQueue.RemoveLast();
+		return last;
+	}
+
+	internal virtual void Stop()
+	{
+		ClearActions();
+	}
+
+	protected void ClearActions()
+	{
+		if(debugActions)
+			Debug.Log(name + ": <color=cyan>Clearing action queue</color>");
+		ReleaseCurrentAction();
+		foreach(var a in actionQueue.ToArray())
+		{
+			if(debugActions)
+				Debug.Log(name + ": <color=cyan>Clearing action queue: Releasing action '" + a.ToString() + "'</color>");
+			actionQueue.Remove(a);
+			a.Release();
+		}
+
+		waitTimer = 0;
+	}
+
+	protected virtual void ProcessActions()
+	{
+		if(waitTimer > 0)
+		{
+			waitTimer -= Time.deltaTime;
+			if(waitTimer > 0)
+				return;
+		}
+
+		if(CurrentAction == null)
+		{
+			CurrentAction = PopNextAction();
+			return;
+		}
+
+		if(debugActions)
+			Debug.Log(name + ": <color=orange>PA: Exec CurrAction '" + CurrentAction.ToString() + "'</color>");
+
+		ExecuteAction(this, CurrentAction);
+
+		////! Displaces movable scriptable to the next path node.
+		////! Returns true if one exists
+		//if(InMove())
+		//{
+		//	return;
+		//}
+	}
+
+	public void ExecuteAction(Scriptable sender, GameAction action)
+	{
+		if(sender is Actor a)
+		{
+			if(action != null)
+			{
+				if(action.Done(a))
+				{
+					ReleaseCurrentAction();
+				}
+			}
+		}
+	}
+
+	public void Wait(float waitTime)
+    {
+		waitTimer = waitTime;
+    }
 
 	internal Map GetCurrentArea()
 	{

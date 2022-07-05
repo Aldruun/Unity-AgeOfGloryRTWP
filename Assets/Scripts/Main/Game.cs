@@ -1,13 +1,7 @@
-﻿using AoG.Controls;
-using AoG.SceneManagement;
-using AoG.UI;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEngine.Rendering;
 
 namespace AoG.Core
 {
@@ -21,13 +15,15 @@ namespace AoG.Core
     public class Game : Scriptable
     {
         private bool doQuit;
-        internal List<ActorInput> PCs = new List<ActorInput>();
-        internal List<ActorInput> NPCs = new List<ActorInput>();
+        internal List<Actor> PCs = new List<Actor>();
+        internal List<Actor> NPCs = new List<Actor>();
 
         private Dictionary<string, Map> maps;
         private Map currentMap;
         internal ControlStatus controlStatus;
         private DatabaseService databaseService;
+
+        public bool PartyAttack { get; internal set; }
 
         public Game(DatabaseService databaseService) // Called in Awake
         {
@@ -41,16 +37,16 @@ namespace AoG.Core
             GameEventSystem.RequestGetPCByPartyIndex = GetPCByPartyIndex;
         }
 
-        private void CreatePartyMember(ActorInput pc) // Called in Start of SpawnPoint.cs
+        private void CreatePartyMember(Actor pc) // Called in Start of SpawnPoint.cs
         {
             SpawnPoint playerSpawnpoint = GameObject.FindWithTag("PlayerSpawnpoint").GetComponent<SpawnPoint>();
 
             pc.gameObject.tag = "Player";
-            pc.PartyIndex = PCs.Count + 1;
+            pc.PartySlot = PCs.Count + 1;
             if(pc.IsSummon == false)
             {
                 Debug.Log("Requesting portrait");
-                UIActorPortrait portrait = GameEventSystem.RequestCreatePortrait?.Invoke(pc.PartyIndex, pc.transform);
+                UIActorPortrait portrait = GameEventSystem.RequestCreatePortrait?.Invoke(pc.PartySlot, pc.transform);
                 pc.Combat.UnregisterCallback_OnHealthChanged(portrait.UpdatePortraitHealthbar);
                 pc.Combat.RegisterCallback_OnHealthChanged(portrait.UpdatePortraitHealthbar);
                 pc.ActorUI.SetPortrait(portrait, databaseService.ActorDatabase.GetActorByUniqueID(pc.UniqueID).portraitSprite);
@@ -78,7 +74,7 @@ namespace AoG.Core
             List<GameObject> summonedList = new List<GameObject>();
             for(int i = 0; i < PCs.Count; i++)
             {
-                foreach(ActorInput creature in PCs[i].summonedCreatures)
+                foreach(Actor creature in PCs[i].summonedCreatures)
                 {
                     summonedList.Add(creature.gameObject);
                 }
@@ -93,8 +89,10 @@ namespace AoG.Core
             for(int i = 0; i < spawnpoints.Length; i++)
             {
                 SpawnPoint spawnpoint = spawnpoints[i];
-                ActorInput spawned = GameInterface.Instance.DatabaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
-                ActorUtility.GenerateRandomStats(spawned.ActorStats, 1);
+                Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
+                ActorUtility.Initialization.CalculateDnDStats(spawned.ActorStats, 1);
+
+                //ActorUtility.GenerateRandomStats(spawned.ActorStats, 1);
                 spawned.aiControlled = true;
 
                 Debug.Assert(spawned != null, "Spawn from spawnpoint '" + spawnpoint.name + "' null");
@@ -170,10 +168,10 @@ namespace AoG.Core
             Profiler.EndSample();
 
             //SetMap(currentMap);
-            currentMap.InitScriptable(ScriptableType.AREA);
+            //currentMap.InitScriptable(ScriptableType.AREA);
         }
 
-        private int InParty(ActorInput pc)
+        private int InParty(Actor pc)
         {
             for(int i = 0; i < PCs.Count; i++)
             {
@@ -185,11 +183,11 @@ namespace AoG.Core
             return -1;
         }
 
-        internal ActorInput GetPCByPartyIndex(int partyIndex)
+        internal Actor GetPCByPartyIndex(int partyIndex)
         {
             foreach(var a in PCs)
             {
-                if(a.PartyIndex == partyIndex)
+                if(a.PartySlot == partyIndex)
                 {
                     return a;
                 }
@@ -218,7 +216,7 @@ namespace AoG.Core
             //List<object> playerData = new List<object>();
             //Dictionary<string, ActorData> actorData = new Dictionary<string, ActorData>();
             List<ActorData> actors = new List<ActorData>();
-            foreach(ActorInput actor in PCs)
+            foreach(Actor actor in PCs)
             {
                 actors.Add(actor.CollectData());
             }
@@ -234,14 +232,15 @@ namespace AoG.Core
 
         internal void Load(GameData data)
         {
-            foreach(ActorInput actor in PCs)
+            foreach(Actor actor in PCs)
             {
                 UnityEngine.Object.Destroy(actor.gameObject);
             }
 
             foreach(ActorData actorData in data.PCs)
             {
-                ActorInput spawnedActor = databaseService.ActorDatabase.InstantiateAndSetUpActor(actorData.UniqueID, actorData.WorldPosition.ToVector(), Quaternion.Euler(actorData.WorldEulerAngles.ToVector()));
+                Actor spawnedActor = databaseService.ActorDatabase.InstantiateAndSetUpActor(actorData.UniqueID, actorData.WorldPosition.ToVector(), Quaternion.Euler(actorData.WorldEulerAngles.ToVector()));
+                ActorUtility.Initialization.CalculateDnDStats(spawnedActor.ActorStats, actorData.Level);
             }
         }
         #endregion Serialization End

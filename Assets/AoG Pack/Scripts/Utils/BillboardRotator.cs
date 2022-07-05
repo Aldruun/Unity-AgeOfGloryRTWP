@@ -3,7 +3,7 @@
 public class BillboardRotator : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
-    private ActorInput _agent;
+    private Actor _agent;
 
     private Camera _camera;
     //NPCController _npcCTRL;
@@ -13,7 +13,7 @@ public class BillboardRotator : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        _agent = GetComponentInParent<ActorInput>();
+        _agent = GetComponentInParent<Actor>();
         //_agent.OnCombatStateChanged += ChangeStateSpriteColor;
 
         //_npcCTRL.behaviours.actionSelector.OnActionChanged += ChangeActionSpriteColor;

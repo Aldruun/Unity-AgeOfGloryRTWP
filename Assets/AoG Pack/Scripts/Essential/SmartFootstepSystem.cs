@@ -64,7 +64,7 @@ public class SmartFootstepSystem : MonoBehaviour
     public Transform lFootPrtclSpot;
     public Transform rFootPrtclSpot;
     private Vector3 currFXPos;
-    private ActorInput _actorMonoObject;
+    private Actor _actorMonoObject;
     private MapInfo mapInfo;
 
     private void Start()
@@ -78,7 +78,7 @@ public class SmartFootstepSystem : MonoBehaviour
 
         _stepTimer = stepCooldown;
         _animator = transform.GetComponent<Animator>();
-        _actorMonoObject = GetComponent<ActorInput>();
+        _actorMonoObject = GetComponent<Actor>();
 
         if(_animator.isHuman)
         {

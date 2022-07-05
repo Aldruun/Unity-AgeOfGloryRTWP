@@ -14,16 +14,16 @@ public abstract class StatusEffect
 
     public Status statusEffect;
 
-    public void Init(ActorInput actor, int rounds)
+    public void Init(Actor actor, int rounds)
     {
         this.rounds = rounds;
         OnBegin(actor);
     }
 
 
-    protected abstract void Tick(ActorInput actor);
+    protected abstract void Tick(Actor actor);
 
-    public void UpdateTicks(ActorInput actor)
+    public void UpdateTicks(Actor actor)
     {
         if(tickTime <= 0)
             return;
@@ -37,43 +37,43 @@ public abstract class StatusEffect
         }
     }
 
-    protected abstract void OnBegin(ActorInput actor);
+    protected abstract void OnBegin(Actor actor);
 
-    public abstract void OnEnd(ActorInput actor);
+    public abstract void OnEnd(Actor actor);
 }
 
 public class StatusEffect_Dummy : StatusEffect
 {
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
 
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
 
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
     }
 }
 
 public class StatusEffect_Panicked : StatusEffect
 {
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
         actor.panicked = true;
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
         actor.panicked = false;
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
-        ActorInput enemy = actor.Combat.GetHostileTarget();
+        Actor enemy = actor.Combat.GetHostileTarget();
         if(enemy != null)
         {
             //actor.SetDestination(actor.transform.position + (actor.transform.position - enemy.transform.position) * 10, 1);
@@ -83,17 +83,17 @@ public class StatusEffect_Panicked : StatusEffect
 
 public class StatusEffect_Stunned : StatusEffect
 {
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
         actor.stunned = true;
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
         actor.stunned = false;
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
     }
 }

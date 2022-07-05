@@ -1,5 +1,4 @@
-﻿using AoG.AI;
-using AoG.Serialization;
+﻿using AoG.Serialization;
 using GenericFunctions;
 using Newtonsoft.Json;
 using System;
@@ -17,10 +16,9 @@ public enum SpellCastingFlags
     HasDamageSpell
 }
 
-public abstract class ActorInput : MonoBehaviour
+public abstract class Actor : Scriptable
 {
     public bool debugAnimation;
-
     internal bool debugInput;
     internal bool debugGear;
     internal bool debugInitialization;
@@ -36,28 +34,26 @@ public abstract class ActorInput : MonoBehaviour
 
     public bool dead =>
         ActorStats.HasActorFlag(ActorFlags.ESSENTIAL) == false &&
-        ActorUtility.GetModdedAttribute(ActorStats, ActorStat.HEALTH) <= 0;
+        ActorUtility.GetModdedStat(ActorStats, ActorStat.HITPOINTS) <= 0;
 
     public float hpPercentage => ActorUtility.GetHealthPercentage(ActorStats);
 
     public SpawnPoint spawnpoint;
     public ActorStats ActorStats;
-    private readonly SpellBook Spellbook;
+    public readonly SpellBook Spellbook;
     public ActorCombat Combat;
     public ActorEquipment Equipment;
     public Inventory Inventory;
     public ActorAnimation Animation;
     public ActorHeadTracking HeadTracking;
+    public ConversationData conversationData;
+    public AoGRoundSystem RoundSystem;
 
     internal List<NPCInput> companions { get; private set; }
     internal List<NPCInput> summonedCreatures { get; private set; }
     public NavMeshAgent NavAgent { get; protected set; }
     public CharacterController cc { get; protected set; }
     public int EscortIndex { get; protected set; }
-
-    //public SkillBook Skillbook { get; set; }
-    private List<Skill> skills;
-
     public CharacterVoiceSet CharacterVoiceSet { get; set; }
     public ActorUI ActorUI { get; set; }
 
@@ -68,7 +64,7 @@ public abstract class ActorInput : MonoBehaviour
     protected Vector3 colliderRoot;
     protected float lowestSpellMagickaCost;
     internal bool HasSpells { get; private set; }
-    public int PartyIndex { get; internal set; }
+    public int PartySlot { get; internal set; }
 
     private readonly SpellCastingFlags spellCastingFlags;
 
@@ -90,17 +86,43 @@ public abstract class ActorInput : MonoBehaviour
     protected Vector3 desiredTargetReachedDirection;
     private Vector3 currentDestination;
     internal bool inWater;
-   
-    public AISkillController skillController { get; private set; }
+    public bool IsRanged { get; set; }
+
     StatusEffectSystem statusEffectSystem;
 
     // ReSharper disable Unity.PerformanceAnalysis
     public virtual void FinalizeActor(ActorConfiguration config)
     {
+        InitScriptable(ScriptableType.ACTOR);
+
         ActorStats = new ActorStats();
         
         UniqueID = config.UniqueID;
         InitializeStats(config);
+
+        /*TODO Get rid of this switch statement and create a database
+        * to fetch scripts and stats depending on actor class
+        */
+        switch(ActorStats.Class)
+        {
+            case Class.FIGHTER:
+            case Class.THIEF:
+                SetScript(new AIScripts.AI_StandardMelee(this), 1);
+                break;
+            case Class.RANGER:
+                IsRanged = true;
+                SetScript(new AIScripts.AI_StandardRanged(this), 1);
+                break;
+            case Class.SORCERER:
+                IsRanged = true;
+                SetScript(new AIScripts.AI_WizardAggressive(this), 1);
+                break;
+            case Class.CLERIC:
+            case Class.PALADIN:
+                SetScript(new AIScripts.AI_ClericHealer(this), 1);
+                break;
+        }
+
         InitializeEquipment(ActorStats);
 
         Animation = GetComponent<ActorAnimation>();
@@ -140,12 +162,16 @@ public abstract class ActorInput : MonoBehaviour
         companions = new List<NPCInput>();
         summonedCreatures = new List<NPCInput>();
 
-        skillController = new AISkillController(this);
         statusEffectSystem = new StatusEffectSystem(this);
 
         ChangeMovementSpeed(MovementSpeed.Run);
 
         Debug.Log(GetName() + ": Initialization done");
+    }
+
+    internal bool ValidTarget(ActorFlags actorFlags)
+    {
+        return dead == false;
     }
 
     private void InitializeStats(ActorConfiguration config)
@@ -195,12 +221,8 @@ public abstract class ActorInput : MonoBehaviour
     private void Update()
     {
         ActorUI.Update();
-        UpdateStatusEffects();
-    }
-
-    private void UpdateStatusEffects()
-    {
-        statusEffectSystem.Update();
+        RoundSystem.ProcessRoundTime();
+        UpdateScriptTicks();
     }
 
     internal void ApplyStatusEffect(Status status, int rounds)
@@ -218,27 +240,62 @@ public abstract class ActorInput : MonoBehaviour
         return statusEffectSystem.GetAppliedStatusEffects();
     }
 
+    public override void UpdateScriptTicks()
+    {
+        if(Immobile())
+        {
+            return;
+        }
+
+        int scriptDepth = 1;
+
+        if(IsPlayer && AoG.Core.GameInterface.Instance.GetCurrentGame().controlStatus.partyAIEnabled == 0)
+        {
+            scriptDepth = 0;
+        }
+
+        ExecuteScript(scriptDepth);
+
+        base.UpdateScriptTicks();
+    }
+
     /// <summary>
     /// Commanding a PC will in most cases clear all other actions.
     /// One exception would be drinking a potion, which can be queued once.
     /// </summary>
     /// <param name="action"></param>
-    public void MoveCommand(Vector3 destination, Vector3 draggedDirection, float stoppingDistance, Action OnDestinationReached)
+    public void CommandActor(GameAction action)
+    {
+        if(dead)
+        {
+            return;
+        }
+
+        FormationController.ClearFormationVisual(PartySlot);
+        ClearActions();
+        isCasting = false;
+        //SetPortraitActionIcon?.Invoke(action);
+
+        AddAction(action, true);
+
+        //TODO Handle verbal constants and their probability
+    }
+
+    /// <summary>
+    /// Commanding a PC will in most cases clear all other actions.
+    /// One exception would be drinking a potion, which can be queued once.
+    /// </summary>
+    /// <param name="action"></param>
+    public void MoveCommand(MoveAction action)
     {
         if(dead)
         {
             return;
         }
         CancelAnimations();
-        skillController.CancelSkill();
-        FormationController.ClearFormationVisual(PartyIndex);
-        Combat.SetHostileTarget(null);
+        //SetAttackTarget(null);
         hasMovementOrder = true;
-        desiredTargetReachedDirection = draggedDirection;
-        OnMovementOrderDone = OnDestinationReached;
-        SetDestination(destination, stoppingDistance);
-
-        //CommandActor(action);
+        CommandActor(action);
         //TODO Handle verbal constants and their probability
     }
 
@@ -246,6 +303,7 @@ public abstract class ActorInput : MonoBehaviour
     {
         return isDowned;
     }
+
     public bool AtDestination()
     {
         return NavAgent.pathPending == false && AgentStopping();
@@ -266,8 +324,8 @@ public abstract class ActorInput : MonoBehaviour
             return;
         }
         CancelAnimations();
-        Debug.Log(GetName() + ":<color=orange>[partyindex: " + PartyIndex + "] Canceling actions</color>");
-        FormationController.ClearFormationVisual(PartyIndex);
+        Debug.Log(GetName() + ":<color=orange>[partyindex: " + PartySlot + "] Canceling actions</color>");
+        FormationController.ClearFormationVisual(PartySlot);
         //ClearActions();
         Combat.SetHostileTarget(null);
         isCasting = false;
@@ -279,7 +337,7 @@ public abstract class ActorInput : MonoBehaviour
         //TODO Handle verbal constants and their probability
     }
 
-    private void CancelAnimations()
+    internal void CancelAnimations()
     {
         //animator.Play("Cancel");
         Animation.Animator.Play("Cancel", 1);
@@ -357,8 +415,6 @@ public abstract class ActorInput : MonoBehaviour
         NavAgent.isStopped = false;
     }
 
-    
-
     private void InitializeSpellBook()
     {
         Profiler.BeginSample("Spellbook.Init");
@@ -382,46 +438,11 @@ public abstract class ActorInput : MonoBehaviour
         //}
         Profiler.EndSample();
     }
-    public List<Spell> GetSpells()
-    {
-        return Spellbook.spells;
-    }
 
-    //private void InitSkillbook()
+    //public List<SpellData> GetSpells()
     //{
-    //    Skillbook = ActorConfiguration.CombatSettings.Skillbook;
-    //    //if(ActorRecord.faction != Faction.Heroes)
-    //    //    ActorRecord.aiControlled = true;
-
-
+    //    return Spellbook.SpellData;
     //}
-
-
-    internal void SetSkills(List<Skill> skills)
-    {
-        this.skills = skills;
-    }
-
-    public List<Skill> GetSkills(bool skipHidden)
-    {
-        if(skipHidden)
-        {
-            List<Skill> list = new List<Skill>();
-            foreach(Skill skill in skills)
-            {
-                if(skill.hidden)
-                {
-                    continue;
-                }
-
-                list.Add(skill);
-            }
-
-            return list;
-        }
-
-        return skills;
-    }
 
     public void ChangeMovementSpeed(MovementSpeed movementState)
     {

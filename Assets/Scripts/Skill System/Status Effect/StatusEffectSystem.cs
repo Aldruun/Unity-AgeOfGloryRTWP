@@ -17,19 +17,19 @@ public struct StatusEffectData
 
 public class StatusEffectSystem
 {
-    private ActorInput self;
+    private Actor self;
 
     private Dictionary<Status, StatusEffect> _statusEffects;
 
     public bool immobilized;
 
-    public StatusEffectSystem(ActorInput agent)
+    public StatusEffectSystem(Actor agent)
     {
         self = agent;
         Init(self);
     }
 
-    private void Init(ActorInput agent)
+    private void Init(Actor agent)
     {
         self = agent;
 
@@ -175,7 +175,7 @@ public class StatusEffectSystem
         _statusEffects.Add(status, statusEffect);
     }
 
-    public void Update()
+    public void DecrementRounds()
     {
         foreach(KeyValuePair<Status, StatusEffect> kvp in _statusEffects.ToArray())
         {

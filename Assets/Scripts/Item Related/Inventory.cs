@@ -594,7 +594,7 @@ public class Inventory
         {
             if(inventoryItems[i].itemData is Weapon weapon)
             {
-                if(weapon.IsRanged == false && (bestWeapon == null || weapon.damage > bestWeapon.damage))
+                if(weapon.IsRanged == false && (bestWeapon == null || weapon.BaseDamageRoll > bestWeapon.BaseDamageRoll))
                     bestWeapon = weapon;
             }
         }
@@ -610,7 +610,7 @@ public class Inventory
         {
             if(inventoryItems[i].itemData is Weapon weapon)
             {
-                if(weapon.IsRanged && (bestWeapon == null || weapon.damage > bestWeapon.damage))
+                if(weapon.IsRanged && (bestWeapon == null || weapon.BaseDamageRoll > bestWeapon.BaseDamageRoll))
                 {
                     if(HasAmmo(weapon.ammoType))
                     {

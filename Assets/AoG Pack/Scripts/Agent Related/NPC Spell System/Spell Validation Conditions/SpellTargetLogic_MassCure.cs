@@ -5,7 +5,7 @@ public class SpellTargetLogic_MassCure : SpellTargetLogic
 {
     private Collider[] _targetList;
    
-    public override SpellTargetLogic Init(ActorInput owner, ActorInput target, Spell spell, Projectile projectile)
+    public override SpellTargetLogic Init(Actor owner, Actor target, Spell spell, Projectile projectile)
     {
         this.owner = owner;
         this.spell = spell;
@@ -39,13 +39,13 @@ public class SpellTargetLogic_MassCure : SpellTargetLogic
 
         //Debug.Log("________________SLEEP");
 
-        ActorInput[] targets = new ActorInput[numHits];
+        Actor[] targets = new Actor[numHits];
 
 
         for(int i = 0; i < numHits; i++)
         {
             Collider col = _targetList[i];
-            targets[i] = col.GetComponent<ActorInput>();
+            targets[i] = col.GetComponent<Actor>();
             //Debug.Log("________________SLEEP TARGET HIT");
         }
         //_targetList.Select(c => (ActorInput)c.GetComponent<ActorInput>()).ToArray();
@@ -55,7 +55,7 @@ public class SpellTargetLogic_MassCure : SpellTargetLogic
             return;
         }
 
-        targets = targets.Where(t => t.PartyIndex > 0).ToArray();
+        targets = targets.Where(t => t.PartySlot > 0).ToArray();
 
         for(int i = 0; i < targets.Length; i++)
         {
@@ -67,7 +67,7 @@ public class SpellTargetLogic_MassCure : SpellTargetLogic
 
     }
 
-    private void CreateTargetEffect(ActorInput target, int healAmount)
+    private void CreateTargetEffect(Actor target, int healAmount)
     {
         //GameObject vfxObj = PoolSystem.GetPoolObject("vfx_masscure_healeffect", ObjectPoolingCategory.VFX);
         //Projectile projectile = vfxObj.GetComponent<Projectile>();

@@ -1,32 +1,67 @@
-﻿using AoG.Core;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-
-public enum SpellType // A spell's Type determines which subcategory it appears in under Spell in the Object Window. It also determines some of the spell's secondary effects or use restrictions:
-{
-    Ability, // are always-on, constant-effect spells, such as the Wood Elf's racial resistance to poison and disease.
-    Disease, // represent diseases the player can acquire. Disease Resistance offers protection from these spells.
-    LesserPower, // are classified as Powers in the Magic Menu, and can be used multiple times a day, such as the Khajiit's Nighteye Power.
-    Poison, // represents poisons the player can use or acquire.Poison Resistance offers protection from these spells.
-    Power, // can be used by the player once per day and show up in a separate section of the magic menu.
-    Spell  //represents standard spells. These will be sorted by school in the Magic Menu.
-}
 
 public enum MagicSchool
 {
-    DESTRUCTION,
-    RESTORATION,
-    CONJURATION,
-    ALTERATION,
-    ENCHANTING,
-    ILLUSION
+    Abjuration,
+    // Primarily designed for protection and shielding. Don’t be fooled however, some Abjuration spells can pack quite a punch.
+    // Low Level: Dispel Magic, Shield
+    // Mid Level: Dispel Evil and Good, Greater Restoration
+    // High Level: Invulnerability, Antimagic Field
+
+    Conjuration, // Beschwörung
+    // Deals with creating objects and creatures, or making them disappear.
+    // Low Level: Find Familiar, Poison Spray
+    // Mid Level: Spirit Guardians, Conjure Elemental
+    // High Level: Plane Shift, Wish
+
+    Divination, // Hellsehen
+    // Reveal and grant knowledge and information to the caster. Useful for reading ancient scripts,
+    // identifying magical items, and seeing invisible enemies.
+    // Low Level: Identify, Find Traps
+    // Mid Level: Scrying, Locate Creature
+    // High Level: True Seeing, Foresight
+
+    Enchantment, // Verzauberung
+    // Manipulate the mental state of a person.
+    // Low Level: Hold Person, Sleep
+    // Mid Level: Modify Memory, Mass Suggestion
+    // High Level: Feeblemind, Power Word Kill
+
+    Evocation, // Hervorrufung
+    /* Casters within the school of evocation unleash a raw magical energy upon their enemies. Whether it be flames,
+     * ice, or pure arcane energy: evocation spellcasters are here to deal damage and chew gum… and they’re all out of gum. */
+    // Low Level: Burning Hands, Dancing Lights
+    // Mid Level: Fireball, Freezing Sphere
+    // High Level: Meteor Swarm, Prismatic Spray
+
+    Illusion,
+    // Manipulate the various senses of people and creatures.
+    // This could be vision, hearing, or other various senses such as body temperature.
+    // Low Level: Disguise Self, Silent Image
+    // Mid Level: Invisibility, Hallucinatory Terrain
+    // High Level: Project Image, Weird
+
+    Necromancy,
+    /* In general, think of spells within the School of Necromancy as manipulating the ebb and flow of different creatures’ “life energy”,
+     * or the balance of energy between life and death. This can come across in the form of helping resurrection, or draining necrotic damage. */
+    // Low Level: Chill Touch, Inflict Wounds
+    // Mid Level: Animate Dead, Blight
+    // High Level: Resurrection, Finger of Death
+
+    Transmutation // Verwandlung
+    // Manipulate the physical properties of both items and people.
+    // Low Level: Shape Water, Feather Fall
+    // Mid Level: Gaseous Form, Stone Shape
+    // High Level: Polymorph, Etherealness
 }
 
 public enum EquipType
 {
     RightHand,
+
     //LeftHand,
     BothHands,
     EitherHand,
@@ -34,6 +69,7 @@ public enum EquipType
     Shield,
     None
 }
+
 public enum CastingType
 {
     FireAndForget,
@@ -46,163 +82,225 @@ public enum CastingType
 public enum DeliveryType
 {
     None,
+    Contact, // Effect is applied to the target by contact (a hit event). This only works for Weapons.
     SeekActor,
+    SeekLocation,
     InstantSelf,
     InstantActor,
     InstantLocation,
-    SeekLocation,
     Spray,
-    Beam,
-    Contact
-
+    Beam
     // All of the effects on a Spell must have the same casting type.
 }
 
-[System.Flags]
+public enum SubCategory
+{
+    Spell,
+    Ability
+    // All of the effects on a Spell must have the same casting type.
+}
+
+//public enum DamageType
+//{
+//    CRUSHING,
+//    ACID,
+//    COLD,
+//    ELECTRICITY,
+//    FIRE,
+//    PIERCING,
+//    POISON,
+//    MAGIC,
+//    MISSILE,
+//    SLASHING,
+//    MAGICFIRE,
+//    MAGICCOLD,
+//    STUNNING,
+//    DESEASE,
+//    BLEEDING,
+//    NECROTIC,
+//    RADIANT,
+//    HEAL,
+//    SLEEP
+//}
+
+public enum SpellAttackRollType
+{
+    None,
+    Melee,
+    Ranged
+}
+
+public enum SavingThrowType
+{
+    None,
+    Strength,
+    StrengthHalfDamage,
+    Constitution,
+    ConstitutionHalfDamage,
+    Dexterity,
+    DexterityHalfDamage,
+    Intelligence,
+    IntelligenceHalfDamage,
+    Wisdom,
+    WisdomHalfDamage,
+    Charisma,
+    CharismaHalfDamage,
+    Reflex
+}
+
+[Flags]
 public enum Keyword
 {
-    None = 0,
+    PhysicalDamage = 0,
     FireDamage = 1,
     FrostDamage = 1 << 1,
     LightningDamage = 1 << 2,
-    DamageHealth = 1 << 3,
-    DamageFatigue = 1 << 4,
+    HolyDamage = 1 << 3,
+    UnholyDamage = 1 << 4,
     PoisonDamage = 1 << 5,
-    HealSelf = 1 << 6,
-    HealOther = 1 << 7,
-    DebuffHealth = 1 << 8,
-    DebuffMana = 1 << 9,
-    BuffHealth = 1 << 10,
-    BuffMana = 1 << 11
+    RadiantDamage = 1 << 6,
+    ForceDamage = 1 << 7,
+    Damage = 1 << 8,
+    Heal = 1 << 9,
+    HealSelf = 1 << 10,
+    HealOther = 1 << 11,
+    DebuffHealth = 1 << 12,
+    DebuffMana = 1 << 13,
+    BuffHealth = 1 << 14,
+    BuffMana = 1 << 15
 }
 
 [CreateAssetMenu(menuName = "Spell System/Spell")]
 public class Spell : ScriptableObject
 {
-    //public SpellData spellData;
-
     public string ID;
     public string Name;
     [TextArea]
     public string description;
     public Sprite spellIcon;
 
-    public SpellType spellType;
+    [Range(0, 9)] //! 0 = cantrip
+    public int grade;
+    internal int slotLevel;
+    public Class[] targetClasses;
+    public SubCategory subCategory;
+    public SpellAttackRollType attackRollType;
+    public DamageType effectType;
+    public SavingThrowType savingThrowType;
+    public ProjectileType projectileType;
+    //public SpellActivationMode activationMode;
     public MagicSchool magicSchool;
     public EquipType equipType;
     public CastingType castingType;
     public DeliveryType deliveryType;
-
-    //public EffectList effectList;
-
+    public SpellTargetType spellTargetType;
+    public Keyword keywords;
     public List<MagicEffect> magicEffects;
-    public List<EffectData> magicEffectsData;
     public SpellTargetLogic targetLogic;
 
+    public bool attackRollRequired;
+    public int castingTime = 1;
+    public int duration;
+    public int concentrationTime;
+    public int specialRollDice = 0;
+    public int numSpecialRollDieSides = 0;
+    public int damageRollDice = 1;
+    public int numDamageRollDieSides = 3;
+    public int higherSlotBonusDice = 1;
+    public float aoeRadius;
+    public float travelSpeed;
+    public bool percentMagnitude;
+    public int usages;
+    public int maxUsages;
+    public int activationRange;
+    public float cooldownTime;
+    public float recoveryTime;
     public int spellcastMotionIndex;
     public int releaseMotionIndex;
-
-    public System.Action<float> OnPriorityChangedHook { get; set; }
-    public bool needsPreparation;
-    public bool needsToStopMoving;
-    public int cost;
-    public float activationRange;
+    public float effectDiameter;
+    public float effectRange;
 
     [Range(0.5f, 2f)] public float chargeTimeMult = 1f; // TODO: Get animation length
     [Range(0.5f, 2f)] public float castTimeMult = 1f; // TODO: Get animation length
     //public float cooldown = 2;
     //public float recoveryTime;
 
-    [Tooltip("Determines how long this skill will be unavailable after it has been activated")]
-    public float cooldownTime = 1;
     internal float cooldownTimer;
     public System.Action<float> CooldownHook;
-    [Tooltip("Determines how long it takes until a new skill can be activated after this skill has been activated")]
-    public float recoveryTime = 1;
-    public float travelSpeed;
-    public int grade;
-    public float castingTime;
 
-    public ActorStats spellTarget { get; protected set; }
+    public float priority { get; set; }
 
-    public virtual void Init(ActorStats self)
+    public virtual void Init(Actor self)
     {
         if(deliveryType != DeliveryType.InstantSelf && targetLogic == null)
         {
-            Debug.Log("<color=grey>Spell '" + (Name == "" ? GetType().ToString() : Name) + "' has no targetLogic</color>");
+            Debug.Log("<color=grey>Spell '" + (Name == "" ? GetType().ToString() : Name) +
+                      "' has no targetLogic</color>");
         }
         else
         {
-            //targetLogic = Instantiate(targetLogic);
+            targetLogic = Instantiate(targetLogic);
             //targetLogic.Init(self);
         }
 
         for(int i = 0; i < magicEffects.Count; i++)
-        {
             //magicEffects[i] = Object.Instantiate(magicEffects[i]);
             magicEffects[i].Init(this);
-        }
 
-        magicEffectsData = new List<EffectData>();
-        foreach(MagicEffect eff in magicEffects)
+        switch(castingType)
         {
-            magicEffectsData.Add(MagicEffect.GetEffectData(eff));
+            case CastingType.FireAndForget:
+                break;
+            case CastingType.Concentration:
+                break;
+            case CastingType.ConstantEffect:
+                break;
         }
+        slotLevel = grade;
     }
-
-    //internal Actor GetAITarget(Actor self)
-    //{
-    //    switch(deliveryType)
-    //    {
-    //        case DeliveryType.Self:
-    //            spellTarget = self;
-    //            break;
-    //        case DeliveryType.Contact:
-    //            break;
-    //        case DeliveryType.Aimed:
-    //        //break;
-    //        case DeliveryType.TargetActor:
-
-    //            if(targetLogic != null)
-    //                spellTarget = targetLogic.GetTarget(self);
-    //            else
-    //                spellTarget = HelperFunctions.GetClosestEnemy_WithJobs(self, 20);
-
-    //            break;
-    //        case DeliveryType.TargetLocation:
-    //            break;
-    //    }
-
-    //    return spellTarget;
-    //}
-
-    public void Stop()
-    {
-        foreach(var effect in magicEffects)
-        {
-            effect.Extinguish();
-        }
-    }
-
-    public float GetEffectDiameter()
-    {
-        return magicEffects[0].projectileDiameter;
-    }
-
 
     public void StartCooldown()
     {
-        CoroutineRunner.Instance.StartCoroutine(CR_Cooldown());
+        AoG.Core.CoroutineRunner.Instance.StartCoroutine(CR_Cooldown());
     }
 
     private IEnumerator CR_Cooldown()
     {
         cooldownTimer = cooldownTime;
-        while(cooldownTimer > 0)
+        while(cooldownTimer >= 0)
         {
             CooldownHook?.Invoke(cooldownTimer);
             cooldownTimer -= Time.deltaTime;
             yield return null;
         }
     }
+
+    public bool HasKeyWord(Keyword keyword)
+    {
+        if((keywords & keyword) != 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
+
+public enum SpellType
+{
+    Arcane,
+    Divine
+}
+
+//[System.Serializable]
+//public class SpellRule
+//{
+//    public Class targetClass;
+//    public int requiredLevel;
+//    //public SpellType spellType;
+//    //public SpellRule(Class targetClass, int spellGrade)
+//    //{
+//    //    this.targetClass = targetClass;
+//    //    this.spellGrade = spellGrade;
+//    //}
+//}

@@ -1,66 +1,66 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
 
-public class Skill_HealTarget : Skill
-{
-    private Collider[] _wounded;
+//public class Skill_HealTarget : Skill
+//{
+//    private Collider[] _wounded;
 
-    public float checkWoundedRadius = 20;
+//    public float checkWoundedRadius = 20;
 
-    [Range(0, 1)] public float healHealthPercAllies = 0.60f;
+//    [Range(0, 1)] public float healHealthPercAllies = 0.60f;
 
-    [Range(0, 1)] public float healHealthPercSelf = 0.50f;
+//    [Range(0, 1)] public float healHealthPercSelf = 0.50f;
 
-    public override void Init()
-    {
-        _wounded = new Collider[3];
-        base.Init();
-    }
+//    public override void Init()
+//    {
+//        _wounded = new Collider[3];
+//        base.Init();
+//    }
 
-    public override bool ConditionsMetAI(NPCInput agent)
-    {
+//    public override bool ConditionsMetAI(NPCInput agent)
+//    {
 
-        if(ActorUtility.GetHealthPercentage(agent.ActorStats) <= healHealthPercSelf * 100)
-        {
-            skillTarget = agent;
-            return true;
-        }
+//        if(ActorUtility.GetHealthPercentage(agent.ActorStats) <= healHealthPercSelf * 100)
+//        {
+//            skillTarget = agent;
+//            return true;
+//        }
 
-        ActorInput mostWounded = HelperFunctions.GetMostWoundedInRangeNonAlloc(agent, checkWoundedRadius, healHealthPercAllies, _wounded);
-        if(mostWounded != null)
-        {
-            skillTarget = mostWounded;
-            return true;
-        }
+//        Actor mostWounded = HelperFunctions.GetMostWoundedInRangeNonAlloc(agent, checkWoundedRadius, healHealthPercAllies, _wounded);
+//        if(mostWounded != null)
+//        {
+//            skillTarget = mostWounded;
+//            return true;
+//        }
 
 
-        return false;
-    }
+//        return false;
+//    }
 
-    public override bool ConditionsMetPlayer(ActorInput actor)
-    {
-        return true;
-    }
+//    public override bool ConditionsMetPlayer(Actor actor)
+//    {
+//        return true;
+//    }
 
-    public override void IndividualSetup(ActorInput self)
-    {
-        skillTarget.ActorStats.isBeingHealed = true;
+//    public override void IndividualSetup(Actor self)
+//    {
+//        skillTarget.ActorStats.isBeingHealed = true;
 
-    }
+//    }
 
-    public override void SpawnVFX(ActorInput self, ActorInput target, Vector3 targetPosition)
-    {
-        if(self == null || self.dead || skillTarget == null || skillTarget.dead)
-            return;
+//    public override void SpawnVFX(Actor self, Actor target, Vector3 targetPosition)
+//    {
+//        if(self == null || self.dead || skillTarget == null || skillTarget.dead)
+//            return;
 
-        ActorUtility.ModifyActorHealth(target.ActorStats, (int)effectValue + self.ActorStats.Level * 2, ModType.ADDITIVE);
+//        ActorUtility.ModifyActorHealth(target.ActorStats, (int)effectValue + self.ActorStats.Level * 2, ModType.ADDITIVE);
 
-        //VFXManager.TriggerVFX(
-        //    PoolSystem.GetPoolObject("vfx_skillactivation_healsingletarget", ObjectPoolingCategory.VFX), vfxPoint,
-        //    Quaternion.identity, false);
+//        //VFXManager.TriggerVFX(
+//        //    PoolSystem.GetPoolObject("vfx_skillactivation_healsingletarget", ObjectPoolingCategory.VFX), vfxPoint,
+//        //    Quaternion.identity, false);
 
-        skillTarget.ActorStats.isBeingHealed = false;
+//        skillTarget.ActorStats.isBeingHealed = false;
 
-        VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject(vfxIdentifier, ObjectPoolingCategory.VFX),
-            skillTarget.transform, Vector3.zero, Quaternion.identity, false);
-    }
-}
+//        VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject(vfxIdentifier, ObjectPoolingCategory.VFX),
+//            skillTarget.transform, Vector3.zero, Quaternion.identity, false);
+//    }
+//}

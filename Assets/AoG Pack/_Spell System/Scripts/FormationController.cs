@@ -77,7 +77,7 @@ public class FormationController : MonoBehaviour
 
     void UpdateReticles()
     {
-        foreach(ActorInput ac in GameInterface.Instance.GetCurrentGame().PCs)
+        foreach(Actor ac in GameInterface.Instance.GetCurrentGame().PCs)
         {
             //int selIndex = -1;
 
@@ -225,7 +225,7 @@ public class FormationController : MonoBehaviour
                 {
                     // Else it's just a simple click. Best to make the formation point away from the party center
                     Vector3 sum = Vector3.zero;
-                    foreach(ActorInput actor in SelectionManager.selected)
+                    foreach(Actor actor in SelectionManager.selected)
                     {
                         sum += actor.transform.position;
                     }
@@ -268,7 +268,7 @@ public class FormationController : MonoBehaviour
                 }
                 else
                 {
-                    int idx = SelectionManager.selected[0].PartyIndex;
+                    int idx = SelectionManager.selected[0].PartySlot;
                     Vector3 sampledPosition = HelperFunctions.GetSampledNavMeshPosition(_terrainClickPoint);
                     DrawTargetReticle(idx - 1, sampledPosition, false);
 
@@ -298,7 +298,7 @@ public class FormationController : MonoBehaviour
 
             for(int i = 1; i <= _numSelected; i++)
             {
-                ActorInput actor = SelectionManager.selected[i - 1];
+                Actor actor = SelectionManager.selected[i - 1];
                 actor.HoldPosition();
 
                 if(_numSelected > 1)
@@ -307,7 +307,7 @@ public class FormationController : MonoBehaviour
                 }
                 GenericFunctions.DebugDraw.Circle(move, Vector3.up, 0.5f, 6, Colors.White, 5);
                 int retIndex = i - 1;
-                actor.MoveCommand(HelperFunctions.GetSampledNavMeshPosition(move), _draggedDirection, 0.1f, () => { _cachedTargetReticles[retIndex].SetActive(false); });
+                actor.MoveCommand(new MoveAction(actor).Set(HelperFunctions.GetSampledNavMeshPosition(move), _draggedDirection, 0.1f, () => { _cachedTargetReticles[retIndex].SetActive(false); }));
             }
         }
     }

@@ -150,15 +150,15 @@ public class ActorSkillDatabase : ScriptableObject
 
     private static void SetRacialSkillBonus(Skills skill, int human, int elf, int orc, int goblin, int ogre, int troll, int dwarf, int angel, int undead, int demon)
     {
-        racialBonuses[(int)ActorRace.Human, (int)skill] = human;
-        racialBonuses[(int)ActorRace.Elf, (int)skill] = elf;
-        racialBonuses[(int)ActorRace.Dwarf, (int)skill] = dwarf;
-        racialBonuses[(int)ActorRace.Orc, (int)skill] = orc;
-        racialBonuses[(int)ActorRace.Goblin, (int)skill] = goblin;
-        racialBonuses[(int)ActorRace.Ogre, (int)skill] = ogre;
-        racialBonuses[(int)ActorRace.Troll, (int)skill] = troll;
-        racialBonuses[(int)ActorRace.Angel, (int)skill] = angel;
-        racialBonuses[(int)ActorRace.Demon, (int)skill] = demon;
-        racialBonuses[(int)ActorRace.Undead, (int)skill] = undead;
+        //racialBonuses[(int)ActorRace.HUMAN, (int)skill] = human;
+        //racialBonuses[(int)ActorRace.ELF, (int)skill] = elf;
+        //racialBonuses[(int)ActorRace.DWARF, (int)skill] = dwarf;
+        //racialBonuses[(int)ActorRace.HALFORC, (int)skill] = orc;
+        //racialBonuses[(int)ActorRace.GOBLIN, (int)skill] = goblin;
+        //racialBonuses[(int)ActorRace.o, (int)skill] = ogre;
+        //racialBonuses[(int)ActorRace.Troll, (int)skill] = troll;
+        //racialBonuses[(int)ActorRace.Angel, (int)skill] = angel;
+        //racialBonuses[(int)ActorRace.Demon, (int)skill] = demon;
+        //racialBonuses[(int)ActorRace.Undead, (int)skill] = undead;
     }
 }

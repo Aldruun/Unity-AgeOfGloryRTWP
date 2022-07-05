@@ -18,9 +18,9 @@ public class ParticleCollisionDamage : MonoBehaviour
     {
         //Debug.Log("<color=orange>ParticleCollision called</color>");
         if (_projectile.owner.transform.root != other.transform.root &&
-            other.GetComponentInParent<ActorInput>())
+            other.GetComponentInParent<Actor>())
         {
-            var target = other.GetComponentInParent<ActorInput>();
+            var target = other.GetComponentInParent<Actor>();
             var source = _projectile.owner;
 
             var numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);

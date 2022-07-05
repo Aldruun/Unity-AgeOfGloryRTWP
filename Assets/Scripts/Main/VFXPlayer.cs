@@ -3,7 +3,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
-// Wrapper class for catching animation bound sfx events
+public enum ActorMeshEffectType
+{
+    None,
+    Fire,
+    Ice,
+    Lightning,
+    Holy
+}
+
 public static class VFXPlayer
 {
     public static void PlayVFX_OnHit(Vector3 position, Vector3 targetDir, DamageType damageType)
@@ -47,7 +55,7 @@ public static class VFXPlayer
 
     }
 
-    public static void PlayVFX_OnLevelUp(ActorInput self, int level)
+    public static void PlayVFX_OnLevelUp(Actor self, int level)
     {
         TriggerVFX(PoolSystem.GetPoolObject("vfx_notify_levelup", ObjectPoolingCategory.VFX), self.transform, Vector3.zero, Quaternion.identity, false);
     }
@@ -388,7 +396,7 @@ public static class VFXPlayer
     //    /// <summary>
     //    /// Trigger VFX Graph that adds particles to a SkinnedMeshRenderer. For effects like a goblin on fire.
     //    /// </summary>
-    public static void TriggerActorVFX(ActorInput target, ActorMeshEffectType actorMeshEffectType, float duration)
+    public static void TriggerActorVFX(Actor target, ActorMeshEffectType actorMeshEffectType, float duration)
     {
         if(duration < 0)
             duration = 0;
@@ -417,7 +425,7 @@ public static class VFXPlayer
             Debug.LogError("VFX object for actor mesh effect '" + actorMeshEffectType + "' not found");
     }
 
-    private static IEnumerator CR_TriggerActorVFX(GameObject vfxObject, ActorInput target, float duration = 0)
+    private static IEnumerator CR_TriggerActorVFX(GameObject vfxObject, Actor target, float duration = 0)
     {
         //float longestDuration = 0;
         //var longestIndex = 0;

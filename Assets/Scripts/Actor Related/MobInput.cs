@@ -8,11 +8,11 @@ using UnityEngine.AI;
 
 public class MobInput : NPCInput
 {
-    protected Dictionary<ActorInput, float> _attackers; // attacker, aggro
-    ActorInput _killer;
+    protected Dictionary<Actor, float> _attackers; // attacker, aggro
+    Actor _killer;
     bool _hasGem;
     public Class nemesisClass;
-    public System.Func<float, List<ActorInput>> OnGetEnemiesInRange; // checkRange, return Enemy
+    public System.Func<float, List<Actor>> OnGetEnemiesInRange; // checkRange, return Enemy
 
     public override void FinalizeActor(ActorConfiguration config)
     {
@@ -42,25 +42,10 @@ public class MobInput : NPCInput
         }
     }
 
-    public int GetAC()
+    public void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage)
     {
-        return ActorUtility.GetAttributeBase(ActorStat.AC);
-    }
-
-    public int GetACFromEquipment()
-    {
-        //TODO Merge and return equipment ac
-        return GetAC();
-    }
-
-    public void ApplyDamage(ActorInput source, Weapon weapon, EffectData magicEffect, bool isRangedAttack)
-    {
-        float finalAmount = 0;
-        if(weapon != null)
-        {
-            finalAmount += weapon.damage;
-        }
-
+        float finalAmount = damageRoll;
+       
         if(_attackers.ContainsKey(source) == false)
         {
             Debug.Log("Adding aggro candidat");
@@ -71,7 +56,7 @@ public class MobInput : NPCInput
             _attackers[source] += finalAmount / 100;
         }
 
-        Combat.ApplyDamage(source, weapon, magicEffect, isRangedAttack, true);
+        Combat.ApplyDamage(source, savingThrowType, damageType, attackRollType, damageRoll, true);
         
         if(_attackers.ContainsKey(source))
             _attackers[source] += finalAmount;
@@ -86,7 +71,7 @@ public class MobInput : NPCInput
 
     public void Kill()
     {
-        foreach(ActorInput attacker in _attackers.Keys)
+        foreach(Actor attacker in _attackers.Keys)
         {
             if(attacker != null && attacker.ActorStats.isPlayer)
             {
@@ -127,8 +112,8 @@ public class MobInput : NPCInput
 
             if(_attackers.Count > 0)
             {
-                KeyValuePair<ActorInput, float> mostHated = new KeyValuePair<ActorInput, float>(null, 0);
-                foreach(KeyValuePair<ActorInput, float> kvp in _attackers.ToArray())
+                KeyValuePair<Actor, float> mostHated = new KeyValuePair<Actor, float>(null, 0);
+                foreach(KeyValuePair<Actor, float> kvp in _attackers.ToArray())
                 {
                     if(kvp.Key == null || kvp.Key.dead)
                     {
@@ -148,8 +133,8 @@ public class MobInput : NPCInput
             }
             else
             {
-                ActorInput[] targets = HelperFunctions.GetEnemiesInRangeNonAlloc(this, 20, false);
-                ActorInput newTarget = targets.Length > 0 ? targets[0] : null;//.Count > 0 ? targets.MinBy(t => t.actorData.maxHealth) : null;
+                Actor[] targets = HelperFunctions.GetEnemiesInRangeNonAlloc(this, 20, false);
+                Actor newTarget = targets.Length > 0 ? targets[0] : null;//.Count > 0 ? targets.MinBy(t => t.actorData.maxHealth) : null;
 
                 if(newTarget != null && _attackers.ContainsKey(newTarget) == false)
                 {

@@ -34,7 +34,7 @@ public class PortraitRecorder : MonoBehaviour
         //GameEventSystem.OnPartyMemberAdded -= CreatePortrait;
     }
 
-    private void CreatePortrait(ActorInput agent, RawImage image)
+    private void CreatePortrait(Actor agent, RawImage image)
     {
 
         if(snapshotCamera == null)

@@ -16,7 +16,7 @@ public class Editor_ActorDebugger : EditorWindow
     private int labelFontSize = 9;
     private static string[] tabs;
     private static int selectedTabIndex;
-    private ActorInput _observee;
+    private Actor _observee;
     private Vector2 scrollPosition_ActorData;
 
     private void OnEnable()
@@ -124,17 +124,17 @@ public class Editor_ActorDebugger : EditorWindow
                                     GUILayout.Label(_observee.GetName() + ", " + _observee.ActorStats.Race + " " + _observee.ActorStats.Class.ToString() + "(" + _observee.ActorStats.Level + ")");
                                     string xpNeeded = _observee.ActorStats.Level == 20 ? "MAX" : _observee.ActorStats.expNeeded.ToString();
                                     GUILayout.Label(string.Format("XP: {0}/{1}", _observee.ActorStats.currentExp, xpNeeded));
-                                    GUILayout.Label(string.Format("HP: {0}/{1}", ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.HEALTH), ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.MAXHEALTH)));
+                                    GUILayout.Label(string.Format("HP: {0}/{1}", ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.HITPOINTS), ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.MAXHITPOINTS)));
                                     //GUILayout.Label(string.Format("ST: {0}/{1}", ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.STUN), ActorUtility.GetAttributeBase(_observee.ActorRecord, ActorStats.MAXSTUN)));
                                     GUILayout.Label(string.Format(
-                                        $"AC: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.AC)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.AC)}], " +
-                                        $"APR: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.APR)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.APR)}], " +
-                                        $"STR: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.STRENGTH)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.STRENGTH)}], " +
-                                        $"DEX: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.DEXTERITY)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.DEXTERITY)}], " +
-                                        $"CON: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.CONSTITUTION)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.CONSTITUTION)}], " +
-                                        $"INT: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.INTELLIGENCE)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.INTELLIGENCE)}], " +
-                                        $"WIL: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.WISDOM)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.WISDOM)}], " +
-                                        $"CHA: {ActorUtility.GetAttributeBase(_observee.ActorStats, ActorStat.CHARISMA)} [{ActorUtility.GetModdedAttribute(_observee.ActorStats, ActorStat.CHARISMA)}], "
+                                        $"AC: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.AC)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.AC)}], " +
+                                        $"APR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.APR)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.APR)}], " +
+                                        $"STR: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.STRENGTH)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.STRENGTH)}], " +
+                                        $"DEX: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.DEXTERITY)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.DEXTERITY)}], " +
+                                        $"CON: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CONSTITUTION)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CONSTITUTION)}], " +
+                                        $"INT: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.INTELLIGENCE)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.INTELLIGENCE)}], " +
+                                        $"WIL: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.WISDOM)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.WISDOM)}], " +
+                                        $"CHA: {ActorUtility.GetStatBase(_observee.ActorStats, ActorStat.CHARISMA)} [{ActorUtility.GetModdedStat(_observee.ActorStats, ActorStat.CHARISMA)}], "
                                         ));
                                     GUILayout.Label(string.Format("AR: {0}", GameMechanics.GetArmorRating(_observee.ActorStats)));
 
@@ -154,10 +154,10 @@ public class Editor_ActorDebugger : EditorWindow
                                         GUILayout.Label("Weapon ID: " + _observee.Equipment.equippedWeapon.Weapon.identifier);
                                         GUILayout.Label("  Weapon Type: " + _observee.Equipment.equippedWeapon.Weapon.weaponType);
                                         GUILayout.Label("  Damage Type: " + _observee.Equipment.equippedWeapon.Weapon.damageType);
-                                        GUILayout.Label("  Weapon Range: " + _observee.Equipment.equippedWeapon.Weapon.range);
-                                        GUILayout.Label("  Combat Type: " + _observee.Equipment.equippedWeapon.Weapon.combatType);
+                                        GUILayout.Label("  Weapon Range: " + _observee.Equipment.equippedWeapon.Weapon.Range);
+                                        GUILayout.Label("  Combat Type: " + _observee.Equipment.equippedWeapon.Weapon.CombatType);
                                         GUILayout.Label("  Equip Type: " + _observee.Equipment.equippedWeapon.Weapon.equipType);
-                                        GUILayout.Label("  Animation Pack: " + _observee.Equipment.equippedWeapon.Weapon.animationPack);
+                                        GUILayout.Label("  Animation Pack: " + _observee.Equipment.equippedWeapon.Weapon.AnimationPack);
                                         GUILayout.Label("  Ammo Type: " + _observee.Equipment.equippedWeapon.Weapon.ammoType);
                                         GUILayout.Label("  Projectile ID: " + _observee.Equipment.equippedWeapon.Weapon.projectileIdentifier);
                                     }
@@ -323,12 +323,12 @@ public class Editor_ActorDebugger : EditorWindow
 
             GenericMenu gMenu = new GenericMenu();
 
-            List<ActorInput> NPCs = debugger.registeredRuntimeActors;
+            List<Actor> NPCs = debugger.registeredRuntimeActors;
 
             for(int i = 0; i < NPCs.Count; i++)
             {
 
-                ActorInput npc = NPCs[i];
+                Actor npc = NPCs[i];
 
                 gMenu.AddItem(new GUIContent(npc.GetName()), false, () => DropdownSelectNPC(npc));
             }
@@ -342,7 +342,7 @@ public class Editor_ActorDebugger : EditorWindow
 
     }
 
-    private void DropdownSelectNPC(ActorInput npc)
+    private void DropdownSelectNPC(Actor npc)
     {
 
         debugger.SetObservedPlanner(npc);

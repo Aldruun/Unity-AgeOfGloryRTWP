@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ActorDebugger : MonoBehaviour
 {
-    public List<ActorInput> registeredRuntimeActors;
+    public List<Actor> registeredRuntimeActors;
 
-    public ActorInput observedActor { get; private set; }
+    public Actor observedActor { get; private set; }
 
     private void Start()
     {
 
-        registeredRuntimeActors = new List<ActorInput>();
+        registeredRuntimeActors = new List<Actor>();
         GameEventSystem.OnActorSpawned -= AddRuntimActor;
         GameEventSystem.OnActorSpawned += AddRuntimActor;
         GameEventSystem.OnActorDespawned -= RemoveRuntimActor;
@@ -27,17 +27,17 @@ public class ActorDebugger : MonoBehaviour
         GameEventSystem.OnActorDespawned -= RemoveRuntimActor;
     }
 
-    public void SetObservedPlanner(ActorInput observedPlanner)
+    public void SetObservedPlanner(Actor observedPlanner)
     {
         this.observedActor = observedPlanner;
         GameEventSystem.ActorDebuggerOnActorChanged?.Invoke();
     }
 
-    private void AddRuntimActor(ActorInput actor)
+    private void AddRuntimActor(Actor actor)
     {
         registeredRuntimeActors.Add(actor);
     }
-    private void RemoveRuntimActor(ActorInput actor)
+    private void RemoveRuntimActor(Actor actor)
     {
         registeredRuntimeActors.Add(actor);
     }

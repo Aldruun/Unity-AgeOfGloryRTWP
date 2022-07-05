@@ -16,7 +16,7 @@ public class AWeaponSFXBehaviour : StateMachineBehaviour
         {
             CR_PlaySound_Instance = CR_PlaySound(animator, stateInfo.length * normalizedDelay);
         }
-        animator.GetComponent<ActorInput>().StartCoroutine(CR_PlaySound_Instance);
+        AoG.Core.CoroutineRunner.Instance.StartCoroutine(CR_PlaySound_Instance);
     }
 
     private IEnumerator CR_PlaySound(Animator animator, float delay)
@@ -31,7 +31,7 @@ public class AWeaponSFXBehaviour : StateMachineBehaviour
     {
         if (_audioSource != null)
         {
-            animator.GetComponent<ActorInput>().StopCoroutine(CR_PlaySound_Instance);
+            AoG.Core.CoroutineRunner.Instance.StopCoroutine(CR_PlaySound_Instance);
             CR_PlaySound_Instance = null;
             _audioSource.Stop();
         }

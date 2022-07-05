@@ -15,13 +15,13 @@ public class SelectionManager
     //public static SelectionManager current;
 
     //public static List<ActorInput> selectedUnits;
-    public List<ActorInput> PCsInSelRect;
-    public static List<ActorInput> selected;
+    public List<Actor> PCsInSelRect;
+    public static List<Actor> selected;
 
-    public static ActorInput actorUnderCursor;
+    public static Actor actorUnderCursor;
 
-    public static ActorInput selectedNPC;
-    public static ActorInput lastSelectedPC;
+    public static Actor selectedNPC;
+    public static Actor lastSelectedPC;
 
     public bool playSelectSound;
     public int agentOrderMouseKey = 1;
@@ -44,8 +44,8 @@ public class SelectionManager
         cameraMain = camera;
         this.selectionBoxVisual = selectionBoxVisual;
       
-        PCsInSelRect = new List<ActorInput>();
-        selected = new List<ActorInput>();
+        PCsInSelRect = new List<Actor>();
+        selected = new List<Actor>();
         selectionBoxVisual.gameObject.SetActive(false);
         GameEventSystem.RequestSelectedPCs = GetSelectedPCs;
         GameEventSystem.OnRequest_GetNumSelectedHeroes -= NumSelectedPCs;
@@ -109,9 +109,9 @@ public class SelectionManager
             {
                 if(debug)
                     Debug.Log("<color=orange>Click on actor</color>");
-                ActorInput clickedAgent = hitUnitClick.collider.GetComponentInParent<ActorInput>();
+                Actor clickedAgent = hitUnitClick.collider.GetComponentInParent<Actor>();
 
-                if(clickedAgent is ActorInput ac)
+                if(clickedAgent is Actor ac)
                 {
                     if(ac.IsPlayer)
                     {
@@ -122,7 +122,7 @@ public class SelectionManager
         }
     }
 
-    private List<ActorInput> GetSelectedPCs()
+    private List<Actor> GetSelectedPCs()
     {
         return selected;
     }
@@ -164,7 +164,7 @@ public class SelectionManager
         RaycastHit selectableHit;
         if(Physics.Raycast(cameraMain.ScreenPointToRay(Input.mousePosition), out selectableHit, 100, 1 << LayerMask.NameToLayer("Actors")))
         {
-            ActorInput newUnitUnderCursor = selectableHit.collider.GetComponentInParent<ActorInput>();
+            Actor newUnitUnderCursor = selectableHit.collider.GetComponentInParent<Actor>();
 
             HighlightUnit(newUnitUnderCursor);
         }
@@ -200,7 +200,7 @@ public class SelectionManager
         return door;
     }
 
-    public void HighlightUnit(ActorInput newUnitUnderCursor)
+    public void HighlightUnit(Actor newUnitUnderCursor)
     {
         if(newUnitUnderCursor == null)
         {
@@ -225,7 +225,7 @@ public class SelectionManager
         newUnitUnderCursor.ActorUI.Highlight();
     }
 
-    public static void SelectPC(ActorInput actor, bool deselectOthers)
+    public static void SelectPC(Actor actor, bool deselectOthers)
     {
         if(actor.dead)
         {
@@ -251,12 +251,12 @@ public class SelectionManager
             }
 
             GameEventSystem.OnPartyMemberSelected?.Invoke(actor);
-            GameEventSystem.RequestHighlightPCPortrait?.Invoke(actor.PartyIndex, true);
+            GameEventSystem.RequestHighlightPCPortrait?.Invoke(actor.PartySlot, true);
             lastSelectedPC = actor;
         }
     }
 
-    private void SelectPCs(List<ActorInput> actors, bool deselectOthers = false)
+    private void SelectPCs(List<Actor> actors, bool deselectOthers = false)
     {
 
         if(actors.Count > 0 && deselectOthers)
@@ -275,7 +275,7 @@ public class SelectionManager
             GameEventSystem.UIRequestShowAIToggleAsOn(actors[actors.Count - 1].aiControlled); //TODO Update complete ui info of this actor
     }
 
-    internal static void DeselectPC(ActorInput actor)
+    internal static void DeselectPC(Actor actor)
     {
         if(lastSelectedPC == actor)
         {
@@ -289,7 +289,7 @@ public class SelectionManager
         }
     }
 
-    private void DeselectPCs(List<ActorInput> agents)
+    private void DeselectPCs(List<Actor> agents)
     {
 
         for(int i = 0; i < agents.Count; i++)
@@ -301,7 +301,7 @@ public class SelectionManager
 
     public static void DeselectAllPCs()
     {
-        foreach(ActorInput actor in selected.ToArray())
+        foreach(Actor actor in selected.ToArray())
         {
             DeselectPC(actor);
         }
@@ -309,7 +309,7 @@ public class SelectionManager
 
     private void UnhighlightAllPCs()
     {
-        foreach(ActorInput actor in selected)
+        foreach(Actor actor in selected)
         {
             actor.ActorUI.Unhighlight();
         }
@@ -317,7 +317,7 @@ public class SelectionManager
 
     private void TogglePCSelectionState(int partySlot, bool select)
     {
-        ActorInput actor = GameEventSystem.RequestGetPCByPartyIndex?.Invoke(partySlot);
+        Actor actor = GameEventSystem.RequestGetPCByPartyIndex?.Invoke(partySlot);
         if(select)
         {
             SelectPC(actor, Input.GetKey(KeyCode.LeftShift) == false);
@@ -384,7 +384,7 @@ public class SelectionManager
                 return;
             }
 
-            PCsInSelRect = new List<ActorInput>(GetPCsInsideSelRect());
+            PCsInSelRect = new List<Actor>(GetPCsInsideSelRect());
 
             if(PCsInSelRect.Count > 0)
             {
@@ -455,11 +455,11 @@ public class SelectionManager
         }
     }
 
-    ActorInput[] GetPCsInsideSelRect()
+    Actor[] GetPCsInsideSelRect()
     {
-        List<ActorInput> pcsInsideSelRect = new List<ActorInput>();
+        List<Actor> pcsInsideSelRect = new List<Actor>();
 
-        foreach(ActorInput selectable in GameInterface.Instance.GetCurrentGame().PCs)
+        foreach(Actor selectable in GameInterface.Instance.GetCurrentGame().PCs)
         {
             Vector3 screenPos = cameraMain.WorldToScreenPoint(selectable.transform.position);
             screenPos.z = 0;
@@ -476,7 +476,7 @@ public class SelectionManager
     {
         int currNumInSelRect = 0;
         List<ActorUI> pcsInsideSelRect = new List<ActorUI>();
-        foreach(ActorInput selectable in GameInterface.Instance.GetCurrentGame().PCs)
+        foreach(Actor selectable in GameInterface.Instance.GetCurrentGame().PCs)
         {
             Vector3 screenPos = cameraMain.WorldToScreenPoint(selectable.transform.position);
             screenPos.z = 0;
@@ -511,7 +511,7 @@ public class SelectionManager
         }
 
         int count = 0;
-        foreach(ActorInput pc in GameInterface.Instance.GetCurrentGame().PCs)
+        foreach(Actor pc in GameInterface.Instance.GetCurrentGame().PCs)
         {
             if(pc.dead)
             {

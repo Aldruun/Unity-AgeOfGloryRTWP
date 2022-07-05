@@ -180,9 +180,14 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
         rectTransform.Find("portrait").GetComponent<Image>().sprite = sprite;
     }
 
+    internal void Disable()
+    {
+        throw new NotImplementedException();
+    }
+
     //void ShowHealthInfo(bool on)
     //{
-    //    _onOverHPText.text = _linkedActor.GetBaseStat(Stat.HITPOINTS) + "/" + _linkedActor.GetBaseStat(Stat.MAXHITPOINTS);
+    //    _onOverHPText.text = _linkedActorUtility.GetBaseStat(ActorStat.HITPOINTS) + "/" + _linkedActorUtility.GetBaseStat(ActorStat.MAXHITPOINTS);
     //    _onOverHPText.enabled = on;
     //}
     public void UpdateColor(bool update, bool talking)
@@ -220,7 +225,7 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
         highlighted = on;
     }
 
-    private void UpdateActionIcon(Skill action)
+    private void UpdateActionIcon(Spell action)
     {
         //action.OnDone -= ClearActionIcon;
         //action.OnDone += ClearActionIcon;
@@ -242,7 +247,7 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
         //}
         //else if(action is AIActions.Action_Attack atk)
         //{
-        //    Weapon weapon = _linkedActor.gearData.equippedWeapon.weaponData;
+        //    Weapon weapon = _linkedActor.Equipment.equippedWeapon.Weapon;
         //    _actionIcon.sprite = weapon.identifier == "fist" ? ResourceManager.cursor_attack : ResourceManager.GetItemSprite(weapon.identifier);
         //}
 

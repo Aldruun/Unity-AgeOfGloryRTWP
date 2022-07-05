@@ -90,7 +90,8 @@ public enum DamageType
     HOLY,
     UNHOLY,
     HEAL,
-    RADIANT
+    RADIANT,
+    ACID
 }
 
 public enum WeaponType
@@ -107,57 +108,51 @@ public enum WeaponType
     Magic
 }
 
+public enum WeaponProficiency
+{
+    NONE,
+    BOWS,
+    SPIKEDWEAPONS,
+    SMALLSWORDS,
+    LARGESWORDS,
+    AXES,
+    BLUNTWEAPONS,
+    MISSILEWEAPONS,
+    SPEARS
+}
+
 [Serializable]
 public class Weapon : Item
 {
-    public int damage;
-    public float range;
-    public int maxHitTargets = 1;
+    public int NumDice = 1;
+    public int NumDieSides = 3;
+    public int BonusAPR;
+    public int BaseDamageRoll => DnD.Roll(NumDice, NumDieSides);
+
+    public float Range;
+    public int MaxHitTargets = 1;
 
     public WeaponCategory weaponCategory;
 
     public List<ActorStatData> requiredStats = new List<ActorStatData>();
     public List<ActorStatData> bonusStats = new List<ActorStatData>();
     //public Stat[] bonusStats;
-    public AnimationSet animationPack;
-    public CombatType combatType;
+    public AnimationSet AnimationPack;
+    public CombatType CombatType;
     public DamageType damageType;
     public WeaponType weaponType;
     public EquipType equipType;
-
+    public WeaponProficiency weaponProficiency;
     public string projectileIdentifier;
     
-    //public bool m_drawn;
-
-    //public EquipType equipType = EquipType.RightHand;
-
     [Tooltip("The animator will use this number to\n" +
              "choose the correct Draw, Sheath and Attack animations")]
-    //public int motionIndex;
-    /* -------------
-     * Motion Index
-     * -------------
-     * 0 = None
-     * 1 = Unarmed
-     * 2 = Dagger
-     * 3 = 1H
-     * 4 = 1H Shield
-     * 5 = Dual
-     * 6 = 2H
-     * 7 = Bow
-     * 8 = Crossbow
-     * 90 = Magic - Fire & Forget
-     * 91 = Magic - Concentration
-     * 92 = Magic - Self - Fire & Forget
-     * 93 = Magic - Self - Concentration
-     * 94 = Magic - Dual Casting
-     */
+  
     public WeaponImpactType impactSFXType;
 
     public float speed = 1f;
 
     public AmmoType ammoType;
-
     internal bool IsRanged { get; private set; }
 
     public override void Init()
@@ -167,12 +162,80 @@ public class Weapon : Item
 
     public void InitWeaponValues()
     {
-        animationPack = GetAnimationPackageType();
+        weaponProficiency = GetProficiencyType();
+        BonusAPR = GetAPRBonus();
+        AnimationPack = GetAnimationPackageType();
         ammoType = GetAmmoType();
-        range = GetRange();
-        combatType = GetCombatType();
+        Range = GetRange();
+        CombatType = GetCombatType();
         impactSFXType = GetImpactType();
         damageType = GetDamageType();
+    }
+
+    WeaponProficiency GetProficiencyType()
+    {
+        switch(weaponCategory)
+        {
+            case WeaponCategory.Shortbow:
+            case WeaponCategory.Longbow:
+                return WeaponProficiency.BOWS;
+            case WeaponCategory.XBow:
+            case WeaponCategory.Sling:
+            case WeaponCategory.Dart:
+            case WeaponCategory.ThrowingKnife:
+                return WeaponProficiency.MISSILEWEAPONS;
+            case WeaponCategory.Dagger:
+            case WeaponCategory.ShortSword:
+                return WeaponProficiency.SMALLSWORDS;
+            case WeaponCategory.LongSword:
+            case WeaponCategory.BastardSword:
+            case WeaponCategory.GreatSword:
+                return WeaponProficiency.LARGESWORDS;
+            case WeaponCategory.Club:
+            case WeaponCategory.Hammer:
+                return WeaponProficiency.BLUNTWEAPONS;
+            case WeaponCategory.Flail:
+            case WeaponCategory.Morningstar:
+                return WeaponProficiency.SPIKEDWEAPONS;
+            case WeaponCategory.Axe:
+                return WeaponProficiency.AXES;
+            case WeaponCategory.Spear:
+                return WeaponProficiency.SPEARS;
+        }
+        return WeaponProficiency.NONE;
+    }
+
+    int GetAPRBonus()
+    {
+        switch(weaponCategory)
+        {
+            case WeaponCategory.ThrowingKnife:
+            case WeaponCategory.Shortbow:
+            case WeaponCategory.Longbow:
+                return 1;
+            //case WeaponCategory.XBow:
+            //case WeaponCategory.Sling:
+            case WeaponCategory.Dart:
+                return 2;
+                //case WeaponCategory.Dagger:
+                //case WeaponCategory.ShortSword:
+                //    return WeaponProficiency.SMALLSWORDS;
+                //case WeaponCategory.LongSword:
+                //case WeaponCategory.BastardSword:
+                //case WeaponCategory.GreatSword:
+                //    return WeaponProficiency.LARGESWORDS;
+                //case WeaponCategory.Club:
+                //case WeaponCategory.Hammer:
+                //    return WeaponProficiency.BLUNTWEAPONS;
+                //case WeaponCategory.Flail:
+                //case WeaponCategory.Morningstar:
+                //    return WeaponProficiency.SPIKEDWEAPONS;
+                //case WeaponCategory.Axe:
+                //    return WeaponProficiency.AXES;
+                //case WeaponCategory.Spear:
+                //    return WeaponProficiency.SPEARS;
+        }
+        return 0;
     }
 
     private AmmoType GetAmmoType()

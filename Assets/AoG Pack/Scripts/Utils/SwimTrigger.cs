@@ -18,14 +18,14 @@ public class SwimTrigger : MonoBehaviour
     [SerializeField] private float m_swimYOffset;
     [SerializeField] private float m_blendTime = 0.5f;
     //List<MxM_AIController> swimmers;
-    public Dictionary<ActorInput, KeyValuePair<SwimmerData, List<ParticleSystem>>> swimmerMap;
+    public Dictionary<Actor, KeyValuePair<SwimmerData, List<ParticleSystem>>> swimmerMap;
     // Start is called before the first frame update
 
     private CharacterController _cc;
 
     private void Start()
     {
-        swimmerMap = new Dictionary<ActorInput, KeyValuePair<SwimmerData, List<ParticleSystem>>>();
+        swimmerMap = new Dictionary<Actor, KeyValuePair<SwimmerData, List<ParticleSystem>>>();
         //GetComponent<Collider>().ignore
     }
 
@@ -70,7 +70,7 @@ public class SwimTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider col)
     {
-        ActorInput collidee = col.GetComponent<ActorInput>();
+        Actor collidee = col.GetComponent<Actor>();
 
         if(collidee != null && collidee.inWater == false)
         {
@@ -247,7 +247,7 @@ public class SwimTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        ActorInput agent = other.GetComponent<ActorInput>();
+        Actor agent = other.GetComponent<Actor>();
         
         if(agent != null)
         {
@@ -257,7 +257,7 @@ public class SwimTrigger : MonoBehaviour
 
     }
 
-    private void RemoveSwimmer(ActorInput agent)
+    private void RemoveSwimmer(Actor agent)
     {
         if(swimmerMap.ContainsKey(agent) == false)
         {

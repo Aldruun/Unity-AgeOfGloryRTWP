@@ -21,7 +21,7 @@ public class ActorConfiguration : ScriptableObject
     public int levelMin = 1;
     public int levelMax = 1;
     public Sprite portraitSprite;
-    public SkillBook Skillbook;
+    public SpellBook Spellbook;
 
     public float ActorRadius = 0.3f;
 

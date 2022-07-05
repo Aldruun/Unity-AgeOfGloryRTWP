@@ -8,17 +8,17 @@ public class StatusEffect_Slow : StatusEffect
     {
     }
 
-    protected override void Tick(ActorInput actor)
+    protected override void Tick(Actor actor)
     {
         
     }
 
-    protected override void OnBegin(ActorInput actor)
+    protected override void OnBegin(Actor actor)
     {
         actor.Animation.Animator.speed = 0.5f;
     }
 
-    public override void OnEnd(ActorInput actor)
+    public override void OnEnd(Actor actor)
     {
         actor.Animation.Animator.speed = 1;
     }

@@ -13,23 +13,23 @@ public enum SpellTargetType
 public class SpellTargetProjector : MonoBehaviour
 {
     private SpellTargetType _spellTargetType;
-    private ActorInput _caster;
+    private Actor _caster;
     public float radius { get; private set; }
     //SphereCollider _sphereCollider;
-    private List<ActorInput> _targetMap; // target, distance
+    private List<Actor> _targetMap; // target, distance
     private Transform _projectorDecal;
 
     public void Init()
     {
            _projectorDecal = transform.Find("Projector");
         //_sphereCollider = _projectorDecal.GetComponent<SphereCollider>();
-        _targetMap = new List<ActorInput>();
+        _targetMap = new List<Actor>();
         Toggle(false);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        ActorInput actorHit = other.GetComponent<ActorInput>();
+        Actor actorHit = other.GetComponent<Actor>();
         if(actorHit == null || actorHit.dead)
         {
             Debug.Log("<color=orange>Nothing hit</color>");
@@ -87,7 +87,7 @@ public class SpellTargetProjector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        ActorInput actorHit = other.GetComponent<ActorInput>();
+        Actor actorHit = other.GetComponent<Actor>();
         if(_targetMap.Contains(actorHit))
         {
             actorHit.ActorUI.Unhighlight();
@@ -129,16 +129,16 @@ public class SpellTargetProjector : MonoBehaviour
     {
         _projectorDecal.gameObject.SetActive(on);
     }
-    public void SetAoE(ActorInput caster, float radius, SpellTargetType spellTargetType)
+    public void SetAoE(Actor caster, float radius, SpellTargetType spellTargetType)
     {
         _caster = caster;
         _spellTargetType = spellTargetType;
         //this.radius = _sphereCollider.radius = radius;
-        _targetMap = new List<ActorInput>();
+        _targetMap = new List<Actor>();
         _projectorDecal.transform.localScale = new Vector3(radius, 1, radius);
         _projectorDecal.gameObject.SetActive(true);
     }
-    public void SetBeam(ActorInput caster, float length, float outerRadius, SpellTargetType spellTargetType)
+    public void SetBeam(Actor caster, float length, float outerRadius, SpellTargetType spellTargetType)
     {
         _caster = caster;
         _spellTargetType = spellTargetType;
@@ -146,7 +146,7 @@ public class SpellTargetProjector : MonoBehaviour
         //capsColl.radius = radius;
         //capsColl.height = length;
 
-        _targetMap = new List<ActorInput>();
+        _targetMap = new List<Actor>();
         _projectorDecal.transform.localScale = new Vector3(outerRadius, 1, length);
         _projectorDecal.gameObject.SetActive(true);
     }

@@ -14,15 +14,15 @@ public class AAddStatusEffect : StateMachineBehaviour
     public StatusEffectType statusEffectType;
     public bool onEnter;
     public bool statusEffectEnabled;
-    private ActorInput _self;
+    private Actor _self;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _self = animator.GetComponent<ActorInput>();
+        _self = animator.GetComponent<Actor>();
 
         if(onEnter)
         {
-            _self.StartCoroutine(CR_AddStatusEffect(animator));
+            AoG.Core.CoroutineRunner.Instance.StartCoroutine(CR_AddStatusEffect(animator));
         }
     }
 
@@ -59,7 +59,7 @@ public class AAddStatusEffect : StateMachineBehaviour
     {
         if(onEnter == false)
         {
-            _self.StartCoroutine(CR_AddStatusEffect(animator));
+            AoG.Core.CoroutineRunner.Instance.StartCoroutine(CR_AddStatusEffect(animator));
         }
     }
 }

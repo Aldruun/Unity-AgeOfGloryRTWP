@@ -46,9 +46,14 @@ public class Container : Highlightable
 
     internal int Health = 100;
 
+    public Transform transform;
+    public GameObject gameObject;
+
     public Container(HighlightableMonoObject scrMono, ContainerType type, int lockDifficulty,
         bool locked, int trapDetectionDiff, int trapRemovalDiff, int trapped, int trapDetected)
     {
+        transform = scrMono.transform;
+        gameObject = scrMono.gameObject;
         highlightObject = scrMono;
         Type = type;
         LockDifficulty = lockDifficulty;
@@ -82,7 +87,7 @@ public class Container : Highlightable
         return true;
     }
 
-    internal void TryPickLock(ActorInput actor)
+    internal void TryPickLock(Actor actor)
     {
         if(LockDifficulty == 100)
         {
@@ -130,7 +135,7 @@ public class Container : Highlightable
         //game->ShareXP(xp, SX_DIVIDE);
     }
 
-    internal void TryBashLock(ActorInput actor)
+    internal void TryBashLock(Actor actor)
     {
         //Get the strength bonus agains lock difficulty
         //int bonus;
@@ -143,7 +148,7 @@ public class Container : Highlightable
         //}
         //else
         //{
-        int str = ActorUtility.GetModdedAttribute(actor.ActorStats, ActorStat.STRENGTH);
+        int str = ActorUtility.GetModdedStat(actor.ActorStats, ActorStat.STRENGTH);
         //int strEx = actor.GetStat(Stat.STRENGTHEXTRA);
         //bonus = DnD.AttributeModifier(str); //BEND_BARS_LIFT_GATES
         //roll = actor.LuckyRoll(1, 10, bonus, 0);
@@ -171,14 +176,14 @@ public class Container : Highlightable
         //ImmediateEvent();
     }
 
-    internal bool TryUnlock(ActorInput actor)
+    internal bool TryUnlock(Actor actor)
     {
         if(Flags.HasFlag(ContainerFlags.LOCKED) == false)
             return true;
 
         return TryUnlock(actor, false);
     }
-    bool TryUnlock(ActorInput actor, bool removekey)
+    bool TryUnlock(Actor actor, bool removekey)
     {
         string Key = keyRef;
         //Actor haskey = null;

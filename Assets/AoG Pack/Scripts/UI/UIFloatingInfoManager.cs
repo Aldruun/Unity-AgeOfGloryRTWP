@@ -9,7 +9,7 @@ namespace AoG.UI
 {
     public class UIFloatingInfoManager
     {
-        private Dictionary<ActorInput, UIFloatingInfo> uiInfoMap;
+        private Dictionary<Actor, UIFloatingInfo> uiInfoMap;
 
         private Camera camera;
 
@@ -32,7 +32,7 @@ namespace AoG.UI
             prefab_floatingAgentInfo = Resources.Load<GameObject>("Prefabs/UI/Floating Actor Info");
             this.camera = camera;
 
-            uiInfoMap = new Dictionary<ActorInput, UIFloatingInfo>();
+            uiInfoMap = new Dictionary<Actor, UIFloatingInfo>();
         }
        
         public void Clear()
@@ -42,15 +42,15 @@ namespace AoG.UI
                 return;
             }
 
-            foreach(KeyValuePair<ActorInput, UIFloatingInfo> uiInfoPair in uiInfoMap.ToArray())
+            foreach(KeyValuePair<Actor, UIFloatingInfo> uiInfoPair in uiInfoMap.ToArray())
             {
                 GameObject floatingObj = uiInfoPair.Value.parentPanel.gameObject;
                 Object.Destroy(floatingObj);
             }
-            uiInfoMap = new Dictionary<ActorInput, UIFloatingInfo>();
+            uiInfoMap = new Dictionary<Actor, UIFloatingInfo>();
         }
 
-        private void PrepareActorInfoUI(ActorInput actor)
+        private void PrepareActorInfoUI(Actor actor)
         {
             if(actor.debugAnimation)
             {
@@ -140,14 +140,14 @@ namespace AoG.UI
             if(Input.GetKeyUp(KeyCode.Q))
             {
                 _showAllUIInfo = false;
-                foreach(KeyValuePair<ActorInput, UIFloatingInfo> kvp in uiInfoMap)
+                foreach(KeyValuePair<Actor, UIFloatingInfo> kvp in uiInfoMap)
                     kvp.Value.parentPanel.gameObject.SetActive(false);
             }
 
-            foreach(KeyValuePair<ActorInput, UIFloatingInfo> uiInfoPair in uiInfoMap.ToArray())
+            foreach(KeyValuePair<Actor, UIFloatingInfo> uiInfoPair in uiInfoMap.ToArray())
             {
                 GameObject floatingObj = uiInfoPair.Value.parentPanel.gameObject;
-                ActorInput character = uiInfoPair.Key;
+                Actor character = uiInfoPair.Key;
                 if(uiInfoPair.Value.enabled)
                 {
                     if(character == null)
@@ -163,7 +163,7 @@ namespace AoG.UI
             }
         }
 
-        private void RemoveUI(ActorInput actor)
+        private void RemoveUI(Actor actor)
         {
             if(uiInfoMap.ContainsKey(actor))
             {
@@ -226,7 +226,7 @@ namespace AoG.UI
     public class UIFloatingInfo
     {
         //Text text_Mana;
-        public ActorInput agent;
+        public Actor agent;
         public Transform parentPanel;
 
         private readonly Slider hpBar;
@@ -242,7 +242,7 @@ namespace AoG.UI
         private readonly Image[] images_aiStates;
 
 
-        public UIFloatingInfo(ActorInput agent, Transform parentPanel)
+        public UIFloatingInfo(Actor agent, Transform parentPanel)
         {
             this.parentPanel = parentPanel;
             this.agent = agent;
@@ -313,7 +313,7 @@ namespace AoG.UI
             }
         }
 
-        private void UpdateUI_HitInfoText(ActorInput source, float damage, DamageType effectType, bool hitSuccess)
+        private void UpdateUI_HitInfoText(Actor source, float damage, DamageType effectType, bool hitSuccess)
         {
             if(agent.dead)
             {

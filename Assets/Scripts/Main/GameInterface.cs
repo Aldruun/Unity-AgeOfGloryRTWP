@@ -164,7 +164,7 @@ namespace AoG.Core
 
         private void TogglePartyAI(bool on)
         {
-            foreach(ActorInput pc in currentGame.PCs)
+            foreach(Actor pc in currentGame.PCs)
             {
                 if(pc.ActorUI.Selected)
                     pc.aiControlled = on;
@@ -228,6 +228,11 @@ namespace AoG.Core
         internal Game GetCurrentGame()
         {
             return currentGame;
+        }
+
+        internal UIHandler GetUIScript()
+        {
+            return uiHandler;
         }
     }
 }

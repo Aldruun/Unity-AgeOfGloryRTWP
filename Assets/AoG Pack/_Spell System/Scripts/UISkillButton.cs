@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UISpellButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private ActorInput _caster;
-    internal Skill skill;
+    private Actor _caster;
+    internal Spell spell;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -19,10 +19,10 @@ public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         GameEventSystem.RequestShowTooltip(GetComponent<RectTransform>().position, new Vector3(0, 25, 0),
-            "<color=cyan>" + skill.skillName + "</color>\n\n" +
-            skill.description + "\n\n" +
-            "Range: " + skill.activationRange + "\n\n" +
-            "Dmg: " + skill.effectValue
+            "<color=cyan>" + spell.Name + "</color>\n\n" +
+            spell.description + "\n\n" +
+            "Range: " + spell.activationRange + "\n\n" +
+            "Dmg: " + spell.damageRollDice
             );
         //GetComponent<TooltipTrigger>().text = "<color=cyan>" + skill.skillName + "</color>\n\n" +
         //    skill.description + "\n\n" +

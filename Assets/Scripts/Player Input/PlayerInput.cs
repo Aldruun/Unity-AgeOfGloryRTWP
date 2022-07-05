@@ -167,13 +167,13 @@
 //                    Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, true, true);
 //                }
 
-//                if(Equipment.equippedWeapon.WeaponData == null)
+//                if(Equipment.equippedWeapon.Weapon == null)
 //                {
-//                    if(Equipment.equippedWeapon.WeaponData == null)
+//                    if(Equipment.equippedWeapon.Weapon == null)
 //                        Equipment.SetUpFist();
 //                }
 //                else
-//                    Debug.Log("<color=orange>PlayerInput: Weapon id was </color>" + Equipment.equippedWeapon.WeaponData.identifier);
+//                    Debug.Log("<color=orange>PlayerInput: Weapon id was </color>" + Equipment.equippedWeapon.Weapon.identifier);
 
 //                if(Combat.SpellDrawn)
 //                {
@@ -186,7 +186,7 @@
 //                    Combat.Execute_DrawWeapon();
 //                }
 
-//                CalculateWeaponVariables(Equipment.equippedWeapon.WeaponData);
+//                CalculateWeaponVariables(Equipment.equippedWeapon.Weapon);
 //            }
 //        }
 
@@ -358,7 +358,7 @@
 
 //    //        if(target != null)
 //    //        {
-//    //            target.Combat.ApplyDamage(this, Equipment.equippedWeapon.weaponData, null, false, true);
+//    //            target.Combat.ApplyDamage(this, Equipment.equippedWeapon.Weapon, null, false, true);
 //    //        }
 //    //    }
 //    //}
@@ -547,7 +547,7 @@
 //        Profiler.EndSample();
 
 //        //! If in combat, look at mouse position
-//        if(Combat.WeaponDrawn && Equipment.equippedWeapon.WeaponData.animationPack != AnimationSet.DEFAULT)
+//        if(Combat.WeaponDrawn && Equipment.equippedWeapon.Weapon.animationPack != AnimationSet.DEFAULT)
 //        {
 //            targetRotation = Quaternion.LookRotation(groundedCursorPosition - cc.transform.position);
 //        } //! If not in combat, look at camera direction while moving

@@ -30,12 +30,12 @@ public class QuestBoard : Interactable
         return true;
     }
 
-    public Quest GetQuest(ActorInput agent)
+    public Quest GetQuest(Actor agent)
     {
         return availableQuests.FirstOrDefault();
     }
 
-    public override void Interact(ActorInput agent)
+    public override void Interact(Actor agent)
     {
         if (agent.IsPlayer)
         {

@@ -759,7 +759,7 @@
 //        //if(checks & REST_AREA)
 //        //{
 //        //    //you cannot rest here
-//        //    if(area->AreaFlags & AF_NOSAVE)
+//        //    if(area->ArActorFlags & AF_NOSAVE)
 //        //    {
 //        //        return displaymsg->GetStringReference(STR_MAYNOTREST);
 //        //    }
@@ -768,17 +768,17 @@
 //        //    {
 //        //        // pst doesn't care about area types (see comments near AF_NOSAVE definition)
 //        //        // and repurposes these area flags!
-//        //        if((area->AreaFlags & (AF_TUTORIAL | AF_DEADMAGIC)) == (AF_TUTORIAL | AF_DEADMAGIC))
+//        //        if((area->ArActorFlags & (AF_TUTORIAL | AF_DEADMAGIC)) == (AF_TUTORIAL | AF_DEADMAGIC))
 //        //        {
 //        //            // you must obtain permission
 //        //            return 38587;
 //        //        }
-//        //        else if(area->AreaFlags & AF_TUTORIAL)
+//        //        else if(area->ArActorFlags & AF_TUTORIAL)
 //        //        {
 //        //            // you cannot rest in this area
 //        //            return 34601;
 //        //        }
-//        //        else if(area->AreaFlags & AF_DEADMAGIC)
+//        //        else if(area->ArActorFlags & AF_DEADMAGIC)
 //        //        {
 //        //            // you cannot rest right now
 //        //            return displaymsg->GetStringReference(STR_MAYNOTREST);

@@ -7,7 +7,7 @@ public static class GameMechanics
 {
     public static int GetArmorRating(ActorStats actor)
     {
-        return ActorUtility.GetModdedAttribute(actor, ActorStat.AC);
+        return ActorUtility.GetModdedStat(actor, ActorStat.AC);
     }
 
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using AoG.Core;
 
 public enum ProjectileType
 {
+    Clamp,
     Missile, // Fireball
     Lobber, // Bomb
     Beam, // Lightning Spell
@@ -15,51 +12,135 @@ public enum ProjectileType
     MagicMissile
 }
 
-public enum ImpactType
+public enum ProjectilePathType
 {
-    Blade
+    Straight,
+    Parabolic,
+    ParabolicStatic
 }
 
 public class Projectile : MonoBehaviour
 {
-    private bool traveling;
+    public AnimationCurve yPath;
+    public AnimationCurve xPath;
+    public AnimationCurve speedCurve;
+    public float lerpTime = 1;
+    public float lifeTimeFactor = 1;
 
-    private bool _done;
-    //public DamageType damageType { get; private set; }
-    private DeliveryType DeliveryType;
-    private ActorMeshEffectType ActorMeshEffectType;
-    //private ImpactType impactType;
+    float _lifeTime = 0;
+    float _timeToDeath = 10;
+
+    Collider[] _aoeEnemyList;
+    RaycastHit[] _beamEnemyList;
+    //bool _destroyOnImpact;
+    float _arcHeight = 1.3f;
+    float _speed;
+    Vector3 _startPos;
+    Actor target;
+    Quaternion _startRotation;
+
+    internal bool ReachedTarget(Vector3 facingPoint, Vector3 targetPosition, float speed)
+    {
+        transform.rotation = Quaternion.LookRotation(facingPoint - transform.position);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+
+        if(Vector3.Distance(targetPosition, transform.position) < 0.2f)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    Vector3 _targetPosition;
+    public bool traveling;
+    public DamageType effectType { get; private set; }
+    public SavingThrowType savingThrowType { get; private set; }
+    ProjectilePathType _projectilePathType;
+    ProjectileType _projectileType;
+    DeliveryType _deliveryType;
+    SpellTargetType _targetType;
+    SpellAttackRollType _attackRollType;
+    StatusEffectData _statusEffect;
+
     public Action OnImpact;
-    public ActorInput owner { get; private set; }
-    public float damage { get; private set; }
+    public Actor owner { get; private set; }
+    public Dice damageDice { get; private set; }
     public float aoeRadius { get; private set; }
     public float beamDiameter { get; private set; }
     public float beamRange { get; private set; }
-    public ProjectileType ProjectileType { get; private set; }
-    public float lerpTime = 1;
-    public float lifeTimeFactor = 1;
-    
-    private bool debugSkillAOEProjectile;
-    private bool debugSkillBeamProjectile;
 
-    private Collider[] _aoeEnemyList;
-    private RaycastHit[] _beamEnemyList;
-    private bool destroyOnImpact;
-    private readonly float _evadeChance;
-    private float _firingAngle = 45.0f;
-    private readonly float _gravity = 9.8f;
-    private bool _homing;
-    private bool ignoreGroundCollision;
-    private float _lifeTime = 5;
-    private float _speed;
-    private Vector3 _startPos;
-    private ActorInput target;
-    private Vector3 _targetPosition;
-    private float lifeTime = 5;
+    public bool targetIsGround;
+    bool _done;
+    SpellTargetLogic _projectileTargetLogic;
 
-    public void Init(ProjectileType projectileType)
+    public void Launch(SpellTargetLogic projectileTargetLogic, Actor owner, Vector3 startPosition, Actor target,
+        StatusEffectData statusEffect,
+        SpellTargetType targetType,
+        DeliveryType deliveryType,
+        ProjectileType projectileType,
+        DamageType effectType,
+        SavingThrowType savingThrowType,
+        SpellAttackRollType attackRollType, Dice damageDice, float speed, float aoeRadius, float beamDiameter, float beamRange)
     {
-        this.ProjectileType = projectileType;
+        _projectileTargetLogic = projectileTargetLogic;
+        //transform.LookAt(target.transform);
+        _statusEffect = statusEffect;
+
+        this.owner = owner;
+        transform.position = _startPos = startPosition;
+
+        _lifeTime = 0;
+        this.target = target;
+        _targetType = targetType;
+        _deliveryType = deliveryType;
+        _projectileType = projectileType;
+        this.effectType = effectType;
+        this.savingThrowType = savingThrowType;
+        _attackRollType = attackRollType;
+        this.damageDice = damageDice;
+        _speed = speed;
+        this.aoeRadius = aoeRadius;
+        this.beamDiameter = beamDiameter;
+        this.beamRange = beamRange;
+        _done = false;
+        _timeToDeath = 10;
+
+    }
+
+    public void Launch(SpellTargetLogic projectileTargetLogic, Actor owner, Vector3 startPosition, Vector3 targetPosition,
+        StatusEffectData statusEffect,
+        SpellTargetType targetType,
+        DeliveryType deliveryType,
+        ProjectileType projectileType,
+        DamageType effectType,
+        SavingThrowType savingThrowType,
+        SpellAttackRollType attackRollType, Dice damageDice, float speed, float aoeRadius, float beamDiameter, float beamRange)
+    {
+        _projectileTargetLogic = projectileTargetLogic;
+
+        _statusEffect = statusEffect;
+
+        this.owner = owner;
+        transform.position = _startPos = startPosition;
+        transform.rotation = Quaternion.LookRotation(targetPosition - transform.position);
+        _targetPosition = targetPosition;
+        _lifeTime = 0;
+        _targetType = targetType;
+        _deliveryType = deliveryType;
+        _projectileType = projectileType;
+        this.effectType = effectType;
+        this.savingThrowType = savingThrowType;
+        _attackRollType = attackRollType;
+        this.damageDice = damageDice;
+        _speed = speed;
+        this.aoeRadius = aoeRadius;
+        this.beamDiameter = beamDiameter;
+        this.beamRange = beamRange;
+        _done = false;
+        _timeToDeath = 10;
+
+        //transform.rotation = _startRotation = Quaternion.LookRotation(Vector3.up + owner.transform.right * UnityEngine.Random.Range(0.5f, -0.5f));
     }
 
     public void StopAndDisable(string debug = "")
@@ -71,21 +152,20 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Awake()
+    void OnEnable()
     {
         _aoeEnemyList = new Collider[5];
         _beamEnemyList = new RaycastHit[5];
-
     }
 
-    private void Start()
-    {
-        debugSkillAOEProjectile = GameInterface.Instance.DatabaseService.GameSettings.DebugSkillAOEProjectile;
-        debugSkillBeamProjectile = GameInterface.Instance.DatabaseService.GameSettings.DebugSkillBeamProjectile;
-    }
 
-    private void Update()
+    void Update()
     {
+        //if(projectileType == ProjectileType.Beam || projectileType == ProjectileType.Spray)
+        //    return;
+
+        bool targetAlive = true;
+
         //if(_projectileTargetLogic != null)
         //{
         //    if(_projectileTargetLogic.Done())
@@ -93,15 +173,16 @@ public class Projectile : MonoBehaviour
         //    return;
         //}
 
-        lifeTime -= Time.deltaTime;
-        if(lifeTime <= 0)
+        _timeToDeath -= Time.deltaTime;
+        if(_timeToDeath <= 0)
         {
             StopAndDisable();
 
             return;
         }
 
-        switch(DeliveryType)
+
+        switch(_deliveryType)
         {
             case DeliveryType.None:
                 //Debug.Log("Projectile: None");
@@ -110,28 +191,43 @@ public class Projectile : MonoBehaviour
                 //Debug.Log("Projectile: Contact");
                 break;
             case DeliveryType.SeekActor:
-              
-            case DeliveryType.SeekLocation:
-                //Debug.Log("Projectile: Seek location");
-                //if(Vector3.Distance(_targetPosition, transform.position) < 0.2f)
-                //{
-                //    OnImpact?.Invoke();
-                //    if(aoeRadius > 0)
-                //        HandleAOE(aoeRadius);
-
-                //    if(destroyOnImpact)
-                //        StopAndDisable("Instant Location -> Target reached");
-                //}
-                
-                switch(ProjectileType)
+                //Debug.Log("Projectile: Seek actor");
+                Actor trgt = target;
+                targetAlive = trgt != null && trgt.dead == false;
+                if(targetAlive)
                 {
-                    case ProjectileType.Arrow:
+                    _targetPosition = trgt.Combat.GetAttackVector() /* + Vector3.up * 1*/;
+
+                    if(Vector3.Distance(_targetPosition, transform.position) < 0.2f)
+                    {
+                        trgt.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, DnD.Roll(damageDice.numDice, damageDice.numSides), false);
+                        if(_statusEffect.rounds > 0)
+                        {
+                            trgt.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+                        }
+
+                        OnImpact?.Invoke();
+                        StopAndDisable("Seek actor -> Target reached");
+                    }
+                }
+                else
+                {
+                    StopAndDisable("Seek actor -> Target null");
+                    //Debug.LogError("Target null");
+                }
+
+                switch(_projectileType)
+                {
+                    case ProjectileType.Clamp:
+                        break;
                     case ProjectileType.Missile:
                         HelperFunctions.RotateTo(transform, _targetPosition, 180);
                         transform.position = Vector3.MoveTowards(transform.position, _targetPosition, Time.deltaTime * _speed);
                         break;
                     case ProjectileType.Lobber:
+                        //TravelArc(_targetPosition);
                         TravelArc(_targetPosition);
+                        //transform.position = LaunchVelocity(_targetPosition) * Time.deltaTime * _speed;//BallisticVel(_target.transform.position, 30) * Time.deltaTime * _speed;
                         break;
                     case ProjectileType.Beam:
                         break;
@@ -140,12 +236,64 @@ public class Projectile : MonoBehaviour
                     case ProjectileType.MagicMissile:
                         TravelMM(_targetPosition);
                         break;
+                    default:
+                        break;
                 }
-                
+
+
+                //
+
                 break;
             case DeliveryType.InstantSelf:
             case DeliveryType.InstantActor:
+                if(_done == false)
+                {
+                    _done = true;
+                    //Debug.Log("Projectile: Instant Actor");
+                    trgt = (Actor)target;
+                    _targetPosition = trgt.transform.position;
+
+                    if(targetAlive)
+                    {
+                        transform.position = _targetPosition;
+                        if(target != null)
+                        {
+                            trgt.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
+                            if(_statusEffect.rounds > 0)
+                            {
+                                trgt.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+                            }
+                        }
+                        OnImpact?.Invoke();
+
+                    }
+
+                }
+                //StopAndDisable();
+
+                break;
             case DeliveryType.InstantLocation:
+                //Debug.Log("Projectile: Instant location");
+                transform.position = _targetPosition;
+                OnImpact?.Invoke();
+                if(aoeRadius > 0)
+                    HandleAOE(aoeRadius);
+
+                StopAndDisable("Instant Location");
+
+                break;
+            case DeliveryType.SeekLocation:
+                //Debug.Log("Projectile: Seek location");
+                if(Vector3.Distance(_targetPosition, transform.position) < 0.2f)
+                {
+                    OnImpact?.Invoke();
+                    if(aoeRadius > 0)
+                        HandleAOE(aoeRadius);
+                    StopAndDisable("Instant Location -> Target reached");
+                }
+                HelperFunctions.RotateTo(transform, _targetPosition, 180);
+                transform.position = Vector3.MoveTowards(transform.position, _targetPosition, Time.deltaTime * _speed);
+                //TravelArc(_targetPosition, 0);
                 break;
             case DeliveryType.Spray:
                 //Debug.Log("Projectile: Beam");
@@ -155,15 +303,12 @@ public class Projectile : MonoBehaviour
                 if(_done == false)
                 {
                     _done = true;
-                    Vector3 beamDir = owner.transform.forward;
+                    Vector3 beamDir = owner.Equipment.spellAnchor.forward;
                     beamDir.y = 0;
                     HandleSprayEffect(beamDir, beamDiameter, beamRange);
                 }
-                if(owner != null)
-                {
-                    transform.position = owner.Equipment.spellAnchor.position;
-                    transform.rotation = Quaternion.LookRotation(/*_spellAnchor.position + */owner.transform.forward); 
-                }
+                transform.position = owner.Equipment.spellAnchor.position;
+                transform.rotation = Quaternion.LookRotation(/*_spellAnchor.position + */owner.transform.forward);
                 //}
                 //else
                 //{
@@ -180,95 +325,72 @@ public class Projectile : MonoBehaviour
                 //    StopAndDisable();
                 //}
                 break;
-
             default:
-                Debug.LogError("Projectile DeliveryType '<color=white>" + DeliveryType + "</color>' not recognized");
+                Debug.LogError("Projectile DeliveryType not recognized");
                 break;
         }
     }
 
-    public void UpdateStatic(Vector3 startPosition, Vector3 direction)
+    void HandleAOE(float aoeRadius)
     {
-        transform.position = startPosition;
-        transform.rotation = Quaternion.LookRotation(direction);
+        Debug.Log(owner.GetName() + ": Handling AOE");
+        int numHits = Physics.OverlapSphereNonAlloc(transform.position, aoeRadius, _aoeEnemyList, 1 << LayerMask.NameToLayer("Actors"));
+
+        for(int i = 0; i < numHits; i++)
+        {
+            Actor aoeTarget = _aoeEnemyList[i].GetComponent<Actor>();
+
+            if(aoeTarget == target)
+            {
+                continue;
+            }
+
+            aoeTarget.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
+            if(_statusEffect.rounds > 0)
+            {
+                aoeTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+            }
+        }
     }
 
-    public void ActivateAtPoint(ActorInput owner,
-        Vector3 targetPosition, Quaternion targetRotation, ActorMeshEffectType effectType,
-        float damage, float aoeRadius)
+    void HandleSprayEffect(Vector3 direction, float diameter, float range)
     {
-        transform.rotation = targetRotation;
-        transform.position = targetPosition;
-        this.owner = owner;
-        this.damage = damage;
-        this.aoeRadius = aoeRadius;
-        ActorMeshEffectType = effectType;
-        DeliveryType = DeliveryType.InstantLocation;
-        _homing = false;
-        //_targetPosition = targetPosition;
-        //_startPos = transform.position;
-        lifeTime = 10;
+        Debug.Log(owner.GetName() + ": Handling Beam");
+        int numHits = Physics.SphereCastNonAlloc(transform.position, diameter, direction.normalized, _beamEnemyList, range, 1 << LayerMask.NameToLayer("Actors"));
 
-        Impact();
-        if(aoeRadius > 0)
-            HandleAOE(aoeRadius);
-        //else
-        //    aoeTarget.Combat.ApplyDamage(owner, null, null, false);
+        for(int i = 0; i < numHits; i++)
+        {
+            Actor beamTarget = _beamEnemyList[i].collider.GetComponent<Actor>();
 
-        if(destroyOnImpact)
-            StopAndDisable("Instant Location");
+            if(beamTarget == owner) // A mage casting burnings hands shall never ignite himself
+                continue;
+
+            if(beamTarget == target)
+            {
+                continue;
+            }
+
+            beamTarget.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
+            if(_statusEffect.rounds > 0)
+            {
+                beamTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+            }
+        }
     }
 
-    public void LaunchStraight(Vector3 startPosition, ActorInput owner,
-        Vector3 targetPosition, ActorMeshEffectType effectType, DeliveryType deliveryType, bool destroyOnImpact, float speed,
-        float damage, float aoeRadius, float beamDiameter, float beamRange, bool ignoreGroundCollision)
+    Vector3 CircularMod()
     {
-        transform.position = startPosition;
-        transform.rotation = Quaternion.LookRotation(targetPosition - transform.position);
-        //this.damageType = damageType;
-        this.destroyOnImpact = destroyOnImpact;
-        this.owner = owner;
-        _speed = speed;
-        this.damage = damage;
-        this.aoeRadius = aoeRadius;
-        ActorMeshEffectType = effectType;
-        ProjectileType = ProjectileType.Missile;
-        DeliveryType = deliveryType;
-        _homing = false;
-        _targetPosition = targetPosition;
-        //_startPos = transform.position;
-        lifeTime = 10;
-        this.beamDiameter = beamDiameter;
-        this.beamRange = beamRange;
-        this.ignoreGroundCollision = ignoreGroundCollision;
+        float circleSpeed = 1f;
+        float forwardSpeed = .1f; // Assuming negative Z is towards the camera
+        float circleSize = 2f;
+        //var circleGrowSpeed = 0.1;
+        float xPos = Mathf.Sin(Time.time * circleSpeed) * circleSize;
+        float yPos = Mathf.Cos(Time.time * circleSpeed) * circleSize;
+        return new Vector3(xPos, yPos, forwardSpeed);
     }
 
-    
-    public void LaunchWithArc(Vector3 startPosition, ActorInput owner,
-        Vector3 targetPosition, ActorMeshEffectType effectType, DeliveryType deliveryType, bool destroyOnImpact, float speed,
-        float damage, float aoeRadius, float launchAngle)
-    {
-        transform.position = startPosition;
-        transform.rotation = Quaternion.LookRotation(targetPosition - transform.position);
-        //this.damageType = damageType;
-        this.destroyOnImpact = destroyOnImpact;
-        this.owner = owner;
-        _speed = speed;
-        this.damage = damage;
-        this.aoeRadius = aoeRadius;
-        ActorMeshEffectType = effectType;
-        ProjectileType = ProjectileType.Lobber;
-        DeliveryType = deliveryType;
-        _homing = false;
-        _targetPosition = targetPosition;
-        //_startPos = transform.position;
-        lifeTime = 10;
-    }
-    
-    private float _arcHeight = 1.3f;
-    private Vector3 nextPos;
-
-    private void TravelArc(Vector3 targetPoint)
+    Vector3 nextPos;
+    void TravelArc(Vector3 targetPoint)
     {
         float dist = (targetPoint - _startPos).magnitude;
         Vector3 nextZ = Vector3.MoveTowards(transform.position, targetPoint, _speed * Time.deltaTime);
@@ -280,7 +402,7 @@ public class Projectile : MonoBehaviour
         transform.position = nextPos;
     }
 
-    private void TravelMM(Vector3 targetPoint)
+    void TravelMM(Vector3 targetPoint)
     {
         Vector3 desiredProjDir = (targetPoint - transform.position);
         //float startTgtDist = (targetPoint - _startPos).magnitude;
@@ -301,168 +423,4 @@ public class Projectile : MonoBehaviour
         transform.position += transform.forward * Time.deltaTime * _speed;
 
     }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        //bool targetAlive = _target != null && _target.dead == false;
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Actors") && (owner != null))
-        {
-            //Debug.Log("### hit");
-            target = collision.gameObject.GetComponent<ActorInput>();
-
-            if(target.gameObject == owner.gameObject)
-            {
-                return;
-            }
-
-            if(aoeRadius > 0)
-                HandleAOE(aoeRadius);
-            else
-                target.Combat.ApplyDamage(owner, null, null, false);
-         
-            Impact();
-            if(GameInterface.Instance.DatabaseService.GameSettings.DebugProjectileOnTrigger)
-                Debug.Log(owner.GetName() + ":<color=orange>__PROJECTILE (" + gameObject.name + ") HIT 1</color> " + collision.gameObject.name);
-            if(destroyOnImpact)
-                StopAndDisable();
-        }
-        else if(/*(collision.gameObject.layer == LayerMask.NameToLayer("Actors") && collision.GetComponent<ActorInput>().gameObject != owner.gameObject) ||*/
-            collision.gameObject.layer == LayerMask.NameToLayer("Obstacles") ||
-            (ignoreGroundCollision == false && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            /*|| collision.gameObject.layer == LayerMask.NameToLayer("Projectiles")*/)
-        {
-            //Debug.Log("### hit object");
-
-            if(aoeRadius > 0)
-                HandleAOE(aoeRadius);
-            if(GameInterface.Instance.DatabaseService.GameSettings.DebugProjectileOnTrigger)
-                Debug.Log(owner.GetName() + ": <color=orange>__PROJECTILE (" + gameObject.name + ") HIT 2</color> " + collision.gameObject.name);
-
-            //GameObject _fakeArrowObject = ItemDatabase.InstantiatePhysicalItem("iron arrow", collision.transform);
-            //_fakeArrowObject.transform.position = transform.position;
-            //_fakeArrowObject.transform.rotation = transform.rotation;
-            //_fakeArrowObject.AddComponent<GarbageFader>();
-
-            Impact();
-
-            StopAndDisable();
-        }
-    }
-
-    private void HandleSprayEffect(Vector3 direction, float diameter, float range)
-    {
-        Debug.Log(owner.GetName() + ": Handling Beam Projectile (" + gameObject.name + ")");
-        int numHits = Physics.SphereCastNonAlloc(transform.position, diameter, direction.normalized, _beamEnemyList, range, 1 << LayerMask.NameToLayer("Actors"));
-
-        for(int i = 0; i < numHits; i++)
-        {
-            ActorInput beamTarget = _beamEnemyList[i].collider.GetComponent<ActorInput>();
-
-            if(beamTarget == owner) // A mage casting burnings hands shall never ignite himself
-                continue;
-
-            if(beamTarget == target)
-            {
-                continue;
-            }
-
-            if(ActorMeshEffectType != ActorMeshEffectType.None)
-                VFXPlayer.TriggerActorVFX(beamTarget, ActorMeshEffectType, 3);
-
-            beamTarget.Combat.ApplyDamage(owner, null, null, false);
-            //if(_statusEffect.rounds > 0)
-            //{
-            //    beamTarget.Execute_ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-            //}
-        }
-    }
-
-    private void HandleAOE(float aoeRadius)
-    {
-        Debug.Log(owner.GetName() + ": <color=orange>Handling AOE Projectile (" + gameObject.name + ") with radius</color>: " + aoeRadius);
-        int numHits = Physics.OverlapSphereNonAlloc(transform.position, aoeRadius, _aoeEnemyList, 1 << LayerMask.NameToLayer("Actors"));
-
-        for(int i = 0; i < numHits; i++)
-        {
-            ActorInput aoeTarget = _aoeEnemyList[i].GetComponent<ActorInput>();
-
-            if(aoeTarget == owner)
-            {
-                continue;
-            }
-
-            if(ActorMeshEffectType != ActorMeshEffectType.None)
-                VFXPlayer.TriggerActorVFX(aoeTarget, ActorMeshEffectType, 3);
-
-            aoeTarget.Combat.ApplyDamage(owner, null, null, false);
-            //if(_statusEffect.rounds > 0)
-            //{
-            //    aoeTarget.Execute_ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-            //}
-        }
-    }
-
-    private void Impact()
-    {
-        OnImpact?.Invoke();
-    }
-
-    //Vector3 CircularMod()
-    //{
-    //    int circleSpeed = 5;
-    //    int forwardSpeed = 1; // Assuming negative Z is towards the camera
-    //    float circleSize = 1.5f;
-    //    //var circleGrowSpeed = 0.1;
-    //    float xPos = Mathf.Sin(Time.time * circleSpeed) * circleSize;
-    //    float yPos = Mathf.Cos(Time.time * circleSpeed) * circleSize;
-
-    //    //circleSize += circleGrowSpeed;
-    //    return new Vector3(xPos, yPos, forwardSpeed);
-
-    //    //var circleSpeed = 1;
-    //    //var forwardSpeed = -1; // Assuming negative Z is towards the camera
-    //    //var circleSize = 1;
-    //    //var circleGrowSpeed = 0.1;
-
-    //    //var xPos = Mathf.Sin(Time.time * circleSpeed) * circleSize;
-    //    //var yPos = Mathf.Cos(Time.time * circleSpeed) * circleSize;
-    //    //var zPos += forwardSpeed * Time.deltaTime;
-
-    //    //circleSize += circleGrowSpeed;
-    //}
-
-    //float SinMod()
-    //{
-    //    return Mathf.Sin(Time.time * 1) * 2;
-    //}
-
-    //IEnumerator SimulateProjectile()
-    //{
-    //    // Calculate distance to target
-    //    float target_Distance = Vector3.Distance(transform.position, _targetPosition);
-
-    //    // Calculate the velocity needed to throw the object to the target at specified angle.
-    //    float projectile_Velocity = target_Distance / (Mathf.Sin(2 * _firingAngle * Mathf.Deg2Rad) / _gravity);
-
-    //    // Extract the X  Y componenent of the velocity
-    //    float Vx = Mathf.Sqrt(projectile_Velocity) * Mathf.Cos(_firingAngle * Mathf.Deg2Rad);
-    //    float Vy = Mathf.Sqrt(projectile_Velocity) * Mathf.Sin(_firingAngle * Mathf.Deg2Rad);
-
-    //    // Calculate flight time.
-    //    float flightDuration = target_Distance / Vx;
-
-    //    // Rotate projectile to face the target.
-    //    transform.rotation = Quaternion.LookRotation(_targetPosition - transform.position);
-
-    //    float elapse_time = 0;
-
-    //    while(_lifeTime > 0)
-    //    {
-    //        transform.Translate(0, (Vy - _gravity * elapse_time) * Time.deltaTime, Vx * Time.deltaTime);
-
-    //        elapse_time += Time.deltaTime;
-
-    //        yield return null;
-    //    }
-    //}
 }

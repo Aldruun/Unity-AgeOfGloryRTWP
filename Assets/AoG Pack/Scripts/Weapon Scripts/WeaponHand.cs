@@ -15,7 +15,7 @@ public class WeaponHand : MonoBehaviour
     //public float recoveryCountdown { get; set; }
     public Transform attackVFXPoint { get; private set; }
 
-    public void OnAttack(ActorInput owner, ActorInput target)
+    public void OnAttack(Actor owner, Actor target)
     {
         //Debug.Log(owner.agentData.Name + ": OnAttack");
         OnActivateSpell?.Invoke();

@@ -3,7 +3,7 @@
 public class NPCDebugBillboard : MonoBehaviour
 {
     private SpriteRenderer _actionSpriteRenderer;
-    private ActorInput _agent;
+    private Actor _agent;
 
     private Camera _camera;
     //SpriteRenderer _planStateSpriteRenderer;
@@ -12,7 +12,7 @@ public class NPCDebugBillboard : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        _agent = GetComponentInParent<ActorInput>();
+        _agent = GetComponentInParent<Actor>();
         //_agent.SetAttackState += ChangeStateSpriteColor;
 
         //_npcCTRL.behaviours.actionSelector.OnActionChanged += ChangeActionSpriteColor;

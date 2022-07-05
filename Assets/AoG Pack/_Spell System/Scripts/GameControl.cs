@@ -77,9 +77,9 @@ namespace AoG.Controls
         private SpellTargetProjector _aimProjector;
         private SelectionManager selectionManager;
 
-        private ActorInput _caster;
-        private ActorInput _target;
-        private Skill _clickedSpell;
+        private Actor _caster;
+        private Actor _target;
+        private Spell _clickedSpell;
         private Collider[] _highlightedTargets;
 
         private ScreenFlags _screenFlags;
@@ -88,7 +88,7 @@ namespace AoG.Controls
         private ClickActionType _clickActionType;
         private CursorType _currCursorType;
 
-        private ActorInput portraitActorUnderCursor;
+        private Actor portraitActorUnderCursor;
         public static int lastActorID;
         public static bool mouseDisabled;
 
@@ -98,7 +98,7 @@ namespace AoG.Controls
         private bool overInfoPoint;
         private bool overUI;
 
-        private UISkillButton _lastPressedSpellButton;
+        private UISpellButton _lastPressedSpellButton;
 
         private Camera cameraMain;
 
@@ -112,14 +112,14 @@ namespace AoG.Controls
             _aoeProjector.Init();
             _aimProjector.Init();
 
-            GameEventSystem.OnPlayerSkillButtonClicked = HandleSpellButtonPress;
+            GameEventSystem.OnPlayerSpellButtonClicked = HandleSpellButtonPress;
             GameEventSystem.OnSetPCUnderCursorForGameControl = SetPortraitActorUnderCursor;
             _highlightedTargets = new Collider[10];
         }
 
         public void Release()
         {
-            GameEventSystem.OnPlayerSkillButtonClicked = null;
+            GameEventSystem.OnPlayerSpellButtonClicked = null;
         }
 
         public void Update()
@@ -141,7 +141,7 @@ namespace AoG.Controls
             else if(SelectionManager.actorUnderCursor != null)
             {
 
-                if(SelectionManager.actorUnderCursor.PartyIndex > 0)
+                if(SelectionManager.actorUnderCursor.PartySlot > 0)
                 {
                     SetCursor(CursorType.NORMAL);
                     _targetMode = TargetMode.NONE;
@@ -242,14 +242,12 @@ namespace AoG.Controls
 
         }
 
-        private void HandleSpellTargeting(ActorInput actorUnderMouse) // Can be null in case of target location
+        private void HandleSpellTargeting(Actor actorUnderMouse) // Can be null in case of target location
         {
-            //SetTargetActor(); // Setting '_target'
-
             Vector3 targetPosition = Vector3.one; // Using Vector3.one as false condition since ground y is always 0
             Ray cursorGroundRay = cameraMain.ScreenPointToRay(Input.mousePosition);
 
-            ActorInput targetActor = null;
+            Actor targetActor = null;
 
             switch(_spellActivationMode)
             {
@@ -259,7 +257,7 @@ namespace AoG.Controls
                 case DeliveryType.InstantSelf:
                 case DeliveryType.InstantActor:
 
-                    if(actorUnderMouse == _caster && _clickedSpell.DamageType != DamageType.HEAL)
+                    if(actorUnderMouse == _caster && _clickedSpell.effectType != DamageType.HEAL)
                         return;
                     targetActor = actorUnderMouse;
                     break;
@@ -364,18 +362,17 @@ namespace AoG.Controls
                 if(targetActor != null)
                 {
                     TryToCast(_caster, targetActor);
-                    FinishTargeting();
                 }
                 else if(targetPosition != Vector3.one)
                 {
                     TryToCast(_caster, targetPosition);
-                    FinishTargeting();
                 }
 
+                FinishTargeting();
             }
         }
 
-        private void PerformActionOn(ActorInput actor)
+        private void PerformActionOn(Actor actor)
         {
             if(FactionExentions.IsEnemy(actor.ActorStats, Faction.Heroes))
             {
@@ -440,7 +437,7 @@ namespace AoG.Controls
 
                     //if(actor.ValidTarget(ActorFlags.TALK, null) == false)
                     //    return;
-                    ActorInput pc = null;
+                    Actor pc = null;
                     if(SelectionManager.selected.Count > 0)
                         pc = SelectionManager.selected[0];
 
@@ -454,7 +451,7 @@ namespace AoG.Controls
 
                     _clickActionType = ClickActionType.ATTACK;
 
-                    foreach(ActorInput selectedActor in SelectionManager.selected)
+                    foreach(Actor selectedActor in SelectionManager.selected)
                     {
                         TryToAttack(selectedActor, actor);
                     }
@@ -464,7 +461,7 @@ namespace AoG.Controls
 
                     if(SelectionManager.selected.Count == 1)
                     {
-                        ActorInput cstr = SelectionManager.selected[0];
+                        Actor cstr = SelectionManager.selected[0];
                         if(cstr != null)
                         {
                             TryToCast(cstr, actor);
@@ -479,10 +476,10 @@ namespace AoG.Controls
             }
         }
 
-        private void HandleSpellButtonPress(ActorInput caster, Skill skill, UISkillButton _activeSpellButton)
+        private void HandleSpellButtonPress(Actor caster, Spell spell, UISpellButton _activeSpellButton)
         {
             FinishTargeting();
-            if(skill.cooldownTimer > 0)
+            if(spell.cooldownTimer > 0)
             {
                 return;
             }
@@ -490,13 +487,13 @@ namespace AoG.Controls
             _lastPressedSpellButton.ToggleSelected(true);
 
             _caster = caster;
-            _clickedSpell = skill;
+            _clickedSpell = spell;
             GameEventSystem.isAimingSpell = true;
             _aoeProjector.Toggle(false);
             _aoeProjector.enabled = false;
             _aimProjector.Toggle(false);
             _aimProjector.enabled = false;
-            _spellActivationMode = skill.DeliveryType;
+            _spellActivationMode = spell.deliveryType;
             SetTargetMode(TargetMode.CAST);
             switch(_spellActivationMode)
             {
@@ -524,28 +521,19 @@ namespace AoG.Controls
                 case DeliveryType.SeekLocation:
 
 
-                    if(skill is Skill_Projectile_Damage s)
+                    if(spell.aoeRadius >= 1)
                     {
-                        if(s.aoeRadius >= 1)
-                        {
-                            _aoeProjector.transform.position = cameraMain.ScreenPointToRay(Input.mousePosition).origin;
-                            _aoeProjector.enabled = true;
-                            _aoeProjector.SetAoE(caster, s.aoeRadius, s.SpellTargetType);
-                        }
+                        _aoeProjector.transform.position = cameraMain.ScreenPointToRay(Input.mousePosition).origin;
+                        _aoeProjector.enabled = true;
+                        _aoeProjector.SetAoE(caster, spell.aoeRadius, spell.spellTargetType);
                     }
-                    //if(spell.aoeRadius >= 1)
-                    //{
-                    //    _aoeProjector.transform.position = GameStateManager.Instance.GetCameraScript().camera.ScreenPointToRay(Input.mousePosition).origin;
-                    //    _aoeProjector.enabled = true;
-                    //    _aoeProjector.SetAoE(caster, spell.rad, spell.spellTargetType);
-                    //}
 
                     break;
                 case DeliveryType.Spray:
                     {
                         _aimProjector.transform.position = caster.transform.position;
                         _aimProjector.enabled = true;
-                        //_aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
+                        _aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
                         break;
                     }
                 case DeliveryType.Beam:
@@ -604,62 +592,54 @@ namespace AoG.Controls
         //! TryTo***
         #region TryTo*** Code
 
-        private void TryToAttack(ActorInput attacker, ActorInput target)
+        void TryToAttack(Actor attacker, Actor target)
         {
             //FormationController.ClearFormationVisual(attacker.InParty);
-            //attacker.SetHostileTarget(target);
-            //AIActions.Action_Attack act = new AIActions.Action_Attack(attacker);
-            //act.Set(target);
-            //attacker.CommandActor(act);
-            attacker.skillController.SetDefaultAttackSkill(target);
+            attacker.Combat.SetHostileTarget(target);
+            AIActions.Action_Attack act = new AIActions.Action_Attack(attacker);
+            act.Set(target);
+            attacker.CommandActor(act);
         }
 
-        private void TryToCast(ActorInput caster, ActorInput target)
+        void TryToCast(Actor caster, Actor target)
         {
-            Debug.Log("<color=cyan>Player trying cast at target/<color>");
             if(caster.Animation.Animator.GetCurrentAnimatorStateInfo(2).IsName("New State") == false)
             {
-                Debug.Log("<color=orange>TryToCast at target: Not in 'New State'</color>");
                 return;
             }
             caster.Animation.Animator.Play("CancelAttack", 1);
             //FormationController.ClearFormationVisual(caster.InParty);
 
-            //AIActions.Action_CastSpellAtActor action = new AIActions.Action_CastSpellAtActor(caster);
-            //caster.CommandActor(action.Set(target, _clickedSpell));
-            caster.skillController.SetSkill(_clickedSpell, target, Vector3.zero);
-
+            AIActions.Action_CastSpellAtActor action = new AIActions.Action_CastSpellAtActor(caster);
+            caster.CommandActor(action.Set(target, _clickedSpell));
             if(FactionExentions.IsEnemy(target.ActorStats, Faction.Heroes))
             {
                 caster.Combat.SetHostileTarget(target);
             }
         }
 
-        private void TryToCast(ActorInput caster, Vector3 point)
+        void TryToCast(Actor caster, Vector3 point)
         {
-            Debug.Log("<color=cyan>Player trying cast at point</color>");
             if(caster.Animation.Animator.GetCurrentAnimatorStateInfo(2).IsName("New State") == false)
             {
-                Debug.Log("<color=orange>TryToCast at point: Not in 'New State'</color>");
                 return;
             }
+            caster.Combat.SetHostileTarget(null);
             //FormationController.ClearFormationVisual(caster.InParty);
 
-            //AIActions.Action_CastSpellAtLocation action = new AIActions.Action_CastSpellAtLocation(caster);
-            //caster.CommandActor(action.Set(point, _clickedSpell));
-            caster.skillController.SetSkill(_clickedSpell, null, point);
-
+            AIActions.Action_CastSpellAtLocation action = new AIActions.Action_CastSpellAtLocation(caster);
+            caster.CommandActor(action.Set(point, _clickedSpell));
         }
 
-        private void TryToTalk(ActorInput talkingPC, ActorInput dialogOwner)
+        void TryToTalk(Actor talkingPC, Actor dialogOwner)
         {
-            FormationController.ClearFormationVisual(talkingPC.PartyIndex);
+            FormationController.ClearFormationVisual(talkingPC.PartySlot);
             //TODO Implement dialog stuff
-            //talkingPC.CommandActor(new AIActions.Action_PCTalkTo(talkingPC, dialogOwner));
-            //GameStateManager.Instance.GetUIScript().
+            talkingPC.CommandActor(new AIActions.Action_PCTalkTo(talkingPC, dialogOwner));
+            //Interface.GetUIScript().
         }
 
-        void HandleContainer(Container container, ActorInput actor)
+        void HandleContainer(Container container, Actor actor)
         {
             //if(actor->GetStat(IE_SEX) == SEX_ILLUSION)
             //    return;
@@ -709,7 +689,7 @@ namespace AoG.Controls
         // generate action code for source actor to try to pick pockets of a target (if an actor)
         // else if door/container try to pick a lock/disable trap
         // The -1 flag is a placeholder for dynamic target IDs
-        private void TryToPick(ActorInput source, Scriptable tgt)
+        private void TryToPick(Actor source, Scriptable tgt)
         {
 
             //source.SetModal(MS_NONE);
@@ -801,5 +781,5 @@ namespace AoG.Controls
         //        "Cursor type: " + (_currCursorType));
 
         //}
-    } 
+    }
 }
