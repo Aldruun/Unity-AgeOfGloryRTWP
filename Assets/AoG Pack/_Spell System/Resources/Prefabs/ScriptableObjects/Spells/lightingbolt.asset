@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
   m_Name: lightingbolt
   m_EditorClassIdentifier: 
-  isBeingCasted: 0
   ID: lightningbolt
   Name: Lightning Bolt
   description: "Casting Time: 1 action\r\nRange: Self (100-foot line)\r\nComponents:
@@ -25,7 +24,7 @@ MonoBehaviour:
     Levels: When you cast this spell using a spell slot of 4th level or higher, the
     damage increases by 1d6 for each slot above 3rd.\r\n\r\n"
   spellIcon: {fileID: 21300000, guid: 8503354471d365b4da2519972f78f6e7, type: 3}
-  grade: 3
+  Grade: 0
   targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 0

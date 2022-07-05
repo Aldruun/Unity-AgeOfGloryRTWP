@@ -42,11 +42,11 @@ public static class VFXPlayer
             case DamageType.ELECTRICITY:
                 TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_lightning", ObjectPoolingCategory.VFX), position, Quaternion.identity);
                 break;
-            case DamageType.HOLY:
-                TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_holy", ObjectPoolingCategory.VFX), position, Quaternion.identity);
-                break;
-            case DamageType.UNHOLY:
-                TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_unholy", ObjectPoolingCategory.VFX), position, Quaternion.identity);
+            //case DamageType.HOLY:
+            //    TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_holy", ObjectPoolingCategory.VFX), position, Quaternion.identity);
+            //    break;
+            //case DamageType.UNHOLY:
+            //    TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_unholy", ObjectPoolingCategory.VFX), position, Quaternion.identity);
                 break;
             case DamageType.POISON:
                 TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_poison", ObjectPoolingCategory.VFX), position, Quaternion.identity);

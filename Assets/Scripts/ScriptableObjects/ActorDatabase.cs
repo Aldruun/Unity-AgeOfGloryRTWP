@@ -22,13 +22,6 @@ public class ActorDatabase : ScriptableObject
                 GameObject actorObj = Instantiate(config.ActorPrefab, position, rotation);
                 NPCInput npcInput = actorObj.AddComponent<NPCInput>();
 
-                //actor.ActorStats.StatsBase[ActorStat.HEALTH] = Health;
-                //actor.ActorStats.StatsBase[ActorStat.MAXHEALTH] = Health;
-                //actor.ActorStats.StatsModified = new Dictionary<ActorStat, int>(actor.ActorStats.StatsBase);
-              
-
-                List<Spell> skills = new List<Spell>();
-                config.Spellbook.Init(npcInput);
                 //npcInput.set(skills);
                 npcInput.FinalizeActor(config);
                 

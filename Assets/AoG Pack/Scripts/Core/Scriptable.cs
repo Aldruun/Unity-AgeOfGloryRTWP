@@ -49,6 +49,9 @@ public abstract class Scriptable : MonoBehaviour
     {
 		this.type = type;
 		_globalID = ++globalScriptableCounter;
+
+		scripts = new GameScript[8];
+		actionQueue = new LinkedList<GameAction>();
 	}
 
 	public virtual void UpdateScriptTicks()

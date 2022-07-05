@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using GenericFunctions;
+using AoG.Core;
 
 [CreateAssetMenu(menuName = "Create SpellSlotTable", fileName = "SpellSlotTable")]
 public class SpellCompendium : ScriptableObject
@@ -31,10 +32,50 @@ public class SpellCompendium : ScriptableObject
         return data.levels[characterLevel - 1].slots[spellGrade];
     }
 
+    public List<Spell> GetSpellsForClass(Class actorClass)
+    {
+        List<Spell> foundSpells = new List<Spell>();
+
+        foreach(Spell spell in spells)
+        {
+            for(int i = 0; i < spell.targetClasses.Length; i++)
+            {
+                if(actorClass == spell.targetClasses[i])
+                {
+                    foundSpells.Add(spell);
+                }
+            }
+        }
+
+        return foundSpells;
+    }
+
+    public List<Spell> GetSpellsForClassAtLevel(Class actorClass, int level)
+    {
+        List<Spell> foundSpells = new List<Spell>();
+
+        foreach(Spell spell in spells)
+        {
+            for(int i = 0; i < spell.targetClasses.Length; i++)
+            {
+                if(actorClass == spell.targetClasses[i])
+                {
+                    if(UsableAtLvl(actorClass, level, spell.Grade) == false)
+                    {
+                        continue;
+                    }
+
+                    foundSpells.Add(spell);
+                    break;
+                }
+            }
+        }
+
+        return foundSpells;
+    }
+
     public int[] GetAllSpellSlotsAtLevel(Class characterClass, int characterLevel)
     {
-        
-       
         SpellSlotTableData data = spellSlotTable.Where(d => d.characterClass == characterClass).FirstOrDefault();
 
         if(data == null)
@@ -51,6 +92,59 @@ public class SpellCompendium : ScriptableObject
         }
 
         return data.levels[characterLevel - 1].slots; //! spell levels from index 1 - 9
+    }
+
+    private bool UsableAtLvl(Class actorClass, int level, int spellGrade)
+    {
+        if(GetSpellSlotsAtLevel(actorClass, level, spellGrade) <= 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private List<Spell> GetAllSpellsOfMaxGrade(Actor actor)
+    {
+        bool arcane = false;
+
+        switch(actor.ActorStats.Class)
+        {
+            case Class.BARBARIAN:
+                break;
+            case Class.CLERIC:
+                break;
+            case Class.DRUID:
+                break;
+            case Class.FIGHTER:
+                break;
+            case Class.MONK:
+                break;
+            case Class.PALADIN:
+                break;
+            case Class.RANGER:
+                break;
+            case Class.THIEF:
+                break;
+            case Class.ALCHEMIST:
+                break;
+            case Class.BARD:
+            case Class.SORCERER:
+            case Class.SHAMAN:
+            case Class.MAGE:
+                arcane = true;
+                break;
+        }
+
+        return null;
+    }
+
+    public static void UpdateMaxSpellUsages(List<SpellData> spellData)
+    {
+        foreach(SpellData data in spellData)
+        {
+            data.usages = data.maxUsages;
+        }
     }
 }
 

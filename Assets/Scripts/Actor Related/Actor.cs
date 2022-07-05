@@ -1,9 +1,6 @@
 ﻿using AoG.Serialization;
-using GenericFunctions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Profiling;
@@ -40,7 +37,7 @@ public abstract class Actor : Scriptable
 
     public SpawnPoint spawnpoint;
     public ActorStats ActorStats;
-    public readonly SpellBook Spellbook;
+    public SpellBook Spellbook;
     public ActorCombat Combat;
     public ActorEquipment Equipment;
     public Inventory Inventory;
@@ -58,7 +55,7 @@ public abstract class Actor : Scriptable
     public ActorUI ActorUI { get; set; }
 
     public HighlightPlus.HighlightEffect HighlightEffect { get; set; }
- 
+
     protected MovementSpeed CurrentMovementSpeed;
 
     protected Vector3 colliderRoot;
@@ -72,31 +69,22 @@ public abstract class Actor : Scriptable
     public bool IsAlly => ActorStats.HasActorFlag(ActorFlags.ALLY);
     public bool IsSummon => ActorStats.HasActorFlag(ActorFlags.SUMMONED);
 
-    ///////////////////////////
-    // Events
-    ///////////////////////////
-    // TODO
-    //public System.Action<ActorRecord> OnLevelProgressIncreased;
-    //public System.Action<int> OnLevelUp; // new level
-    //public System.Action<int, int, int, int, int, int, int, int, int> OnStatsChanged; // new value of all 4 stats
-
+    public bool IsRanged { get; set; }
     internal bool aiControlled;
     internal bool hasMovementOrder;
     protected Action OnMovementOrderDone;
     protected Vector3 desiredTargetReachedDirection;
-    private Vector3 currentDestination;
     internal bool inWater;
-    public bool IsRanged { get; set; }
+    private Vector3 currentDestination;
+    private StatusEffectSystem statusEffectSystem;
 
-    StatusEffectSystem statusEffectSystem;
-
-    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void FinalizeActor(ActorConfiguration config)
     {
         InitScriptable(ScriptableType.ACTOR);
 
         ActorStats = new ActorStats();
-        
+        statusEffectSystem = new StatusEffectSystem(this);
+        RoundSystem = new AoGRoundSystem(this, statusEffectSystem);
         UniqueID = config.UniqueID;
         InitializeStats(config);
 
@@ -142,11 +130,11 @@ public abstract class Actor : Scriptable
 
         AudioSource voiceAudioSource = transform.Find("Audio/AS Voice").GetComponent<AudioSource>();
         CharacterVoiceSet = ResourceManager.voiceSetDatabase.GetVoiceSetByID(ActorStats.voicesetID);
-        
+
         Combat.Initialize(this, ActorStats, Equipment, Animation, CharacterVoiceSet, voiceAudioSource);
-        
+
         HighlightEffect = GetComponent<HighlightPlus.HighlightEffect>();
-        
+
         ActorUI = new ActorUI(this, voiceAudioSource, HighlightEffect);
         ActorUI.ChangeRelationColor(ActorStats.GetActorFlags());
 
@@ -162,7 +150,6 @@ public abstract class Actor : Scriptable
         companions = new List<NPCInput>();
         summonedCreatures = new List<NPCInput>();
 
-        statusEffectSystem = new StatusEffectSystem(this);
 
         ChangeMovementSpeed(MovementSpeed.Run);
 
@@ -418,14 +405,6 @@ public abstract class Actor : Scriptable
     private void InitializeSpellBook()
     {
         Profiler.BeginSample("Spellbook.Init");
-        //if (ActorRecord.m_class == Class.Wizard)
-        //{
-        //    spellbook = Instantiate(Resources.Load<SpellBook>("ScriptableObjects/Spellbooks/SpellBook_Wizard"));
-        //}
-        //else if (ActorRecord.m_class == Class.Priest)
-        //{
-        //    spellbook = Instantiate(Resources.Load<SpellBook>("ScriptableObjects/Spellbooks/SpellBook_Priest"));
-        //}
 
         //if (spellbook != null)
         //{
@@ -437,6 +416,14 @@ public abstract class Actor : Scriptable
         //    Debug.Log($"{ActorRecord.GetName()}: <color=grey>No spellbook found. Loading the default one.</color>");
         //}
         Profiler.EndSample();
+    }
+
+    internal void InititializeSpellbook(List<Spell> spells)
+    {
+        Spellbook = new SpellBook();
+        Spellbook.SetSpells(spells);
+
+        HasSpells = spells.Count > 0;
     }
 
     //public List<SpellData> GetSpells()

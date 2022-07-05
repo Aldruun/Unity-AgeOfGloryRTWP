@@ -2,19 +2,19 @@
 
 public class StatusEffect_Damage : StatusEffect
 {
-    private DamageType _effectType;
+    private DamageType effectType;
     public StatusEffect_Damage(DamageType effectType, int effectValue, bool percentage, float interval, int rounds)
     {
-        _effectType = effectType;
+        this.effectType = effectType;
         this.effectValue = effectValue;
-        _percentage = percentage;
+        this.percentage = percentage;
         this.tickTime = interval;
         this.rounds = rounds;
     }
 
     protected override void Tick(Actor actor)
     {
-        actor.ActorStats.ApplyStatusEffectDamage(_effectType, effectValue);
+        actor.Combat.ApplyStatusEffectDamage(effectType, effectValue, percentage);
     }
 
     protected override void OnBegin(Actor actor)

@@ -149,11 +149,11 @@ public static class SFXPlayer
             case DamageType.ELECTRICITY:
                 TriggerSFX(ResourceManager.sfx_list_hits_lightning[Random.Range(0, ResourceManager.sfx_list_hits_lightning.Length)], position);
                 break;
-            case DamageType.HOLY:
-                TriggerSFX(ResourceManager.sfx_list_hits_holy[Random.Range(0, ResourceManager.sfx_list_hits_holy.Length)], position);
-                break;
-            case DamageType.UNHOLY:
-                TriggerSFX(ResourceManager.sfx_list_hits_unholy[Random.Range(0, ResourceManager.sfx_list_hits_unholy.Length)], position);
+            //case DamageType.HOLY:
+            //    TriggerSFX(ResourceManager.sfx_list_hits_holy[Random.Range(0, ResourceManager.sfx_list_hits_holy.Length)], position);
+            //    break;
+            //case DamageType.UNHOLY:
+            //    TriggerSFX(ResourceManager.sfx_list_hits_unholy[Random.Range(0, ResourceManager.sfx_list_hits_unholy.Length)], position);
                 break;
             case DamageType.POISON:
                 TriggerSFX(ResourceManager.sfx_list_hits_poison[Random.Range(0, ResourceManager.sfx_list_hits_poison.Length)], position);

@@ -5,12 +5,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIspellbar : MonoBehaviour
+public class UISkillbar : MonoBehaviour
 {
     public bool debug;
     private Transform spellParentPanel;
-    private List<UISpellButton> spellButtons;
-    private UISpellButton _lastSelectedButton;
+    private List<UISkillButton> spellButtons;
+    private UISkillButton _lastSelectedButton;
 
     public bool vertical;
     public float mainPanelScrollTime = 1;
@@ -24,15 +24,15 @@ public class UIspellbar : MonoBehaviour
         GameEventSystem.OnPartyMemberSelected -= Populatespellbar;
         GameEventSystem.OnPartyMemberSelected += Populatespellbar;
 
-        spellParentPanel = transform.Find("Content - spell Buttons");
+        spellParentPanel = transform.Find("Content - Skill Buttons");
         _transform = GetComponent<RectTransform>();
-        spellButtons = new List<UISpellButton>();
+        spellButtons = new List<UISkillButton>();
 
         for(int i = 0; i < 5; i++)
         {
-            GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/spell Button"), transform.Find("Content - spell Buttons"));
+            GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Skill Button"), transform.Find("Content - Skill Buttons"));
             obj.SetActive(false);
-            spellButtons.Add(obj.GetComponent<UISpellButton>());
+            spellButtons.Add(obj.GetComponent<UISkillButton>());
         }
 
         StartCoroutine("CR_ScrollSpellBar", true);
@@ -58,7 +58,7 @@ public class UIspellbar : MonoBehaviour
         _lastSelectedButton = null;
         if(debug)
             Debug.Log("<color=cyan>Populating spell bar</color>");
-        foreach(UISpellButton item in spellButtons)
+        foreach(UISkillButton item in spellButtons)
         {
             item.ToggleSelected(false);
             item.gameObject.SetActive(false);
@@ -80,7 +80,7 @@ public class UIspellbar : MonoBehaviour
             if(debug)
                 Debug.Log("<color=cyan>Configuring spell hotkey</color>");
           
-            UISpellButton sBtn = GetSpellButton();
+            UISkillButton sBtn = GetSpellButton();
             sBtn.spell = spell;
             Button spellButton = sBtn.GetComponent<Button>();
 
@@ -99,7 +99,7 @@ public class UIspellbar : MonoBehaviour
                     Debug.Log(caster.GetName() + ":<color=orange>Key " + spell.Name + " pressed</color>");             
                 GameEventSystem.OnPlayerSpellButtonClicked?.Invoke(caster, spell, sBtn);
 
-                foreach(UISpellButton spellBtn in spellButtons)
+                foreach(UISkillButton spellBtn in spellButtons)
                 {
                     spellBtn.ToggleSelected(false);
                 }
@@ -118,7 +118,7 @@ public class UIspellbar : MonoBehaviour
     {
         int numSelectedPCs = SelectionManager.NumSelectedPCs();
 
-        foreach(UISpellButton item in spellButtons)
+        foreach(UISkillButton item in spellButtons)
         {
             item.transform.Find("glow frame").GetComponent<Image>().enabled = false;
             item.gameObject.SetActive(false);
@@ -136,11 +136,11 @@ public class UIspellbar : MonoBehaviour
         }
     }
 
-    private UISpellButton GetSpellButton()
+    private UISkillButton GetSpellButton()
     {
-        UISpellButton spellButton = null;
+        UISkillButton spellButton = null;
 
-        foreach(UISpellButton cachedObj in spellButtons)
+        foreach(UISkillButton cachedObj in spellButtons)
         {
 
             // Pick an inactive object from the pool and leave the loop
@@ -156,8 +156,8 @@ public class UIspellbar : MonoBehaviour
         // No inactive popup was found in the pool, so let's create a new one
         if(spellButton == null)
         {
-            GameObject spellBtn = Instantiate(Resources.Load<GameObject>("Prefabs/UI/spell Button"), spellParentPanel);
-            spellButton = spellBtn.GetComponent<UISpellButton>();
+            GameObject spellBtn = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Skill Button"), spellParentPanel);
+            spellButton = spellBtn.GetComponent<UISkillButton>();
 
             Debug.Assert(spellBtn != null, "spell button null");
 

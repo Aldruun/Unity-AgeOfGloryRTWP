@@ -12,7 +12,7 @@ namespace AoG.Core
     }
 
     [System.Serializable]
-    public class Game : Scriptable
+    public class Game /*: Scriptable*/
     {
         private bool doQuit;
         internal List<Actor> PCs = new List<Actor>();
@@ -31,7 +31,7 @@ namespace AoG.Core
             controlStatus = new ControlStatus();
 
             Debug.Log("# <color=green>Setting initial game</color>");
-            InitScriptable(ScriptableType.GLOBAL);
+            //InitScriptable(ScriptableType.GLOBAL);
             maps = new Dictionary<string, Map>();
 
             GameEventSystem.RequestGetPCByPartyIndex = GetPCByPartyIndex;
@@ -90,9 +90,9 @@ namespace AoG.Core
             {
                 SpawnPoint spawnpoint = spawnpoints[i];
                 Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
-                ActorUtility.Initialization.CalculateDnDStats(spawned.ActorStats, 1);
+                ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
+                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 1));
 
-                //ActorUtility.GenerateRandomStats(spawned.ActorStats, 1);
                 spawned.aiControlled = true;
 
                 Debug.Assert(spawned != null, "Spawn from spawnpoint '" + spawnpoint.name + "' null");
@@ -240,7 +240,8 @@ namespace AoG.Core
             foreach(ActorData actorData in data.PCs)
             {
                 Actor spawnedActor = databaseService.ActorDatabase.InstantiateAndSetUpActor(actorData.UniqueID, actorData.WorldPosition.ToVector(), Quaternion.Euler(actorData.WorldEulerAngles.ToVector()));
-                ActorUtility.Initialization.CalculateDnDStats(spawnedActor.ActorStats, actorData.Level);
+                ActorUtility.Initialization.CalculateCharacterStats(spawnedActor.ActorStats, actorData.Level);
+                spawnedActor.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawnedActor.ActorStats.Class, actorData.Level));
             }
         }
         #endregion Serialization End

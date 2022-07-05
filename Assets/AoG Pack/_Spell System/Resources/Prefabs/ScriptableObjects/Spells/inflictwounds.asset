@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
   m_Name: inflictwounds
   m_EditorClassIdentifier: 
-  isBeingCasted: 0
   ID: 
   Name: 
   description: 'Casting Time: 1 action
@@ -36,7 +35,7 @@ MonoBehaviour:
 
 '
   spellIcon: {fileID: 21300000, guid: a1fd9e1d678acf542a116c3d85d955a9, type: 3}
-  grade: 1
+  Grade: 0
   targetClasses: 03000000
   subCategory: 0
   attackRollType: 1

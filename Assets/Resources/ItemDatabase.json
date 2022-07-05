@@ -202,7 +202,7 @@
     "rarity": 0,
     "weight": 2.0,
     "equippable": false,
-    "BaseDamageRoll": 3
+    "BaseDamageRoll": 1
   },
   {
     "$type": "Weapon, Assembly-CSharp",
@@ -233,7 +233,7 @@
     "rarity": 0,
     "weight": 7.0,
     "equippable": false,
-    "BaseDamageRoll": 2
+    "BaseDamageRoll": 3
   },
   {
     "$type": "Weapon, Assembly-CSharp",
@@ -276,7 +276,7 @@
     "rarity": 0,
     "weight": 0.3,
     "equippable": false,
-    "BaseDamageRoll": 3
+    "BaseDamageRoll": 2
   },
   {
     "$type": "Valuable, Assembly-CSharp",

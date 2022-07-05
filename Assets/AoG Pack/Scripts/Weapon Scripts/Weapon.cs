@@ -74,26 +74,6 @@ public enum AnimationSet
     SWIM = 9
 }
 
-public enum DamageType
-{
-    CRUSHING,
-    PIERCING,
-    SLASHING,
-    MAGIC,
-    MISSILE,
-    MAGICFIRE,
-    FIRE,
-    MAGICCOLD,
-    COLD,
-    ELECTRICITY,
-    POISON,
-    HOLY,
-    UNHOLY,
-    HEAL,
-    RADIANT,
-    ACID
-}
-
 public enum WeaponType
 {
     None,

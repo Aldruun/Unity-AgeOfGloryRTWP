@@ -16,25 +16,42 @@ MonoBehaviour:
   Name: Lightning Orb
   description: 
   spellIcon: {fileID: 21300000, guid: 8503354471d365b4da2519972f78f6e7, type: 3}
-  spellType: 5
+  Grade: 0
+  targetClasses: 
+  subCategory: 0
+  attackRollType: 0
+  effectType: 3
+  savingThrowType: 0
+  projectileType: 0
   magicSchool: 0
   equipType: 1
   castingType: 0
   deliveryType: 2
+  spellTargetType: 0
+  keywords: 0
   magicEffects:
   - {fileID: 11400000, guid: f7a6fa673d28d1244a8ec92f452a4ba8, type: 2}
-  magicEffectsData: []
   targetLogic: {fileID: 11400000, guid: 1a084147b71ddec449dece018118877a, type: 2}
-  spellcastMotionIndex: 2
-  releaseMotionIndex: 2
-  needsPreparation: 0
-  needsToStopMoving: 0
-  cost: 10
+  attackRollRequired: 0
+  castingTime: 0
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 1
+  numDamageRollDieSides: 3
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 15
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
   activationRange: 10
-  chargeTimeMult: 1
-  castTimeMult: 1
   cooldownTime: 2.5
   recoveryTime: 2
-  travelSpeed: 15
-  grade: 0
-  castingTime: 0
+  spellcastMotionIndex: 2
+  releaseMotionIndex: 2
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1
+  castTimeMult: 1

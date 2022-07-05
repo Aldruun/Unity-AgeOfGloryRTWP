@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd959b8199d726b4596ec901ad7b26dc, type: 3}
   m_Name: firebolt
   m_EditorClassIdentifier: 
-  isBeingCasted: 0
   ID: firebolt
   Name: Fire Bolt
   description: "Make a ranged spell attack against the target. On a hit, the target
@@ -20,7 +19,7 @@ MonoBehaviour:
     being worn or carried.\nThis spell\u2019s damage increases by 1d10 when you reach
     5th level (2d10), 11th level (3d10), and 17th level (4d10)."
   spellIcon: {fileID: 21300000, guid: a1c7a7ea6e38d904b98b74fb02275681, type: 3}
-  grade: 0
+  Grade: 0
   targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 2

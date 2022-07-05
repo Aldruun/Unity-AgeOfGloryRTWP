@@ -18,110 +18,20 @@ public enum SpellList
 public class SpellBook
 {
     public List<SpellData> SpellData;
-
-    //public List<SpellPropertyDrawer> spellPropertyDrawers;
-
     public SpellSlotTableData slotTable;
 
-    public void Init(Actor actor)
+    public void SetSpells(List<Spell> spells)
     {
         SpellData = new List<SpellData>();
-        List<Spell> classSpells = GetSpellsForClass(actor.ActorStats.Class);
 
-        // At runtime, instantiate skills so you don't modify design-time originals.
-        // Assumes this SkillDatabase is itself already an instantiated copy.
-        for(int i = 0; i < classSpells.Count; i++)
+        for(int i = 0; i < spells.Count; i++)
         {
-            if(UsableAtLvl(classSpells[i], actor) == false)
-            {
-                continue;
-            }
+            Spell spell = Object.Instantiate(spells[i]);
 
-            Spell spell = Object.Instantiate(classSpells[i]);
-
-            spell.priority = classSpells[i].priority;
-            spell.Init(actor);
+            spell.priority = spells[i].priority;
+            spell.Init();
             SpellData.Add(new SpellData(spell, false, 0, 0));
         }
-    }
-
-    public void RefreshSpellUsages()
-    {
-        foreach(SpellData spellData in SpellData)
-        {
-            spellData.usages = spellData.maxUsages;
-        }
-    }
-
-    void UpdateMaxSpellUsages()
-    {
-        foreach(SpellData spellData in SpellData)
-        {
-            spellData.usages = spellData.maxUsages;
-        }
-    }
-
-    bool UsableAtLvl(Spell spell, Actor actor)
-    {
-        if(GameInterface.Instance.DatabaseService.SpellCompendium.GetSpellSlotsAtLevel(actor.ActorStats.Class, actor.ActorStats.Level, spell.grade) <= 0)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    List<Spell> GetAllSpellsOfMaxGrade(Actor actor)
-    {
-        bool arcane = false;
-
-        switch(actor.ActorStats.Class)
-        {
-            case Class.BARBARIAN:
-                break;
-            case Class.CLERIC:
-                break;
-            case Class.DRUID:
-                break;
-            case Class.FIGHTER:
-                break;
-            case Class.MONK:
-                break;
-            case Class.PALADIN:
-                break;
-            case Class.RANGER:
-                break;
-            case Class.THIEF:
-                break;
-            case Class.ALCHEMIST:
-                break;
-            case Class.BARD:
-            case Class.SORCERER:
-            case Class.SHAMAN:
-            case Class.MAGE:
-                arcane = true;
-                break;
-        }
-
-        return null;
-    }
-
-    List<Spell> GetSpellsForClass(Class actorClass)
-    {
-        List<Spell> foundSpells = new List<Spell>();
-
-        foreach(Spell spell in GameInterface.Instance.DatabaseService.SpellCompendium.spells)
-        {
-            for(int i = 0; i < spell.targetClasses.Length; i++)
-            {
-                if(actorClass == spell.targetClasses[i])
-                {
-                    foundSpells.Add(spell);
-                }
-            }
-        }
-
-        return foundSpells;
     }
 }
 

@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public abstract class StatusEffect
 {
-    protected float _intervalTime;
-    protected bool _percentage;
-    private float _tickTimer;
+    protected float intervalTime;
+    protected bool percentage;
+    private float tickTimer;
     public int rounds;
     public int effectValue;
     public float tickTime;
-    protected bool _done;
+    protected bool done;
 
     public Status statusEffect;
 
@@ -28,12 +28,12 @@ public abstract class StatusEffect
         if(tickTime <= 0)
             return;
 
-        _tickTimer += Time.deltaTime;
+        tickTimer += Time.deltaTime;
 
-        if(_tickTimer >= tickTime)
+        if(tickTimer >= tickTime)
         {
             Tick(actor);
-            _tickTimer = 0;
+            tickTimer = 0;
         }
     }
 

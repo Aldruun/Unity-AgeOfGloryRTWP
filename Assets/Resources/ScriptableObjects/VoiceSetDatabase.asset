@@ -15,7 +15,6 @@ MonoBehaviour:
   characterVoiceSets:
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroApril
     voiceSet:
       areaDangerous: []
@@ -61,7 +60,6 @@ MonoBehaviour:
       Name: FHeroApril
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroAria
     voiceSet:
       areaDangerous: []
@@ -107,7 +105,6 @@ MonoBehaviour:
       Name: FHeroAria
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroBrandy
     voiceSet:
       areaDangerous: []
@@ -147,7 +144,6 @@ MonoBehaviour:
       Name: FHeroBrandy
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroCelia
     voiceSet:
       areaDangerous: []
@@ -232,7 +228,6 @@ MonoBehaviour:
       Name: FHeroCelia
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroKaren
     voiceSet:
       areaDangerous: []
@@ -316,7 +311,6 @@ MonoBehaviour:
       Name: FHeroKaren
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroKerlih
     voiceSet:
       areaDangerous: []
@@ -372,7 +366,6 @@ MonoBehaviour:
       Name: FHeroKerlih
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroYoungKaren
     voiceSet:
       areaDangerous: []
@@ -465,7 +458,6 @@ MonoBehaviour:
       Name: FHeroYoungKaren
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FHeroYoungKerlih
     voiceSet:
       areaDangerous: []
@@ -515,7 +507,6 @@ MonoBehaviour:
       Name: FHeroYoungKerlih
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FUnityChan
     voiceSet:
       areaDangerous: []
@@ -581,7 +572,6 @@ MonoBehaviour:
       Name: FUnityChan
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: FWitchRichard
     voiceSet:
       areaDangerous: []
@@ -630,7 +620,6 @@ MonoBehaviour:
       Name: FWitchRichard
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MCaveManAlex
     voiceSet:
       areaDangerous: []
@@ -692,7 +681,6 @@ MonoBehaviour:
       Name: MCaveManAlex
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroDavid
     voiceSet:
       areaDangerous: []
@@ -747,7 +735,6 @@ MonoBehaviour:
       Name: MHeroDavid
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroEpicDavid
     voiceSet:
       areaDangerous: []
@@ -800,7 +787,6 @@ MonoBehaviour:
       Name: MHeroEpicDavid
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroJamaal
     voiceSet:
       areaDangerous: []
@@ -888,7 +874,6 @@ MonoBehaviour:
       Name: MHeroJamaal
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroNile
     voiceSet:
       areaDangerous: []
@@ -970,7 +955,6 @@ MonoBehaviour:
       Name: MHeroNile
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroPatrick
     voiceSet:
       areaDangerous: []
@@ -1026,7 +1010,6 @@ MonoBehaviour:
       Name: MHeroPatrick
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MHeroRichard
     voiceSet:
       areaDangerous: []
@@ -1081,7 +1064,6 @@ MonoBehaviour:
       Name: MHeroRichard
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: MVampireRichard
     voiceSet:
       areaDangerous: []
@@ -1127,7 +1109,6 @@ MonoBehaviour:
       Name: MVampireRichard
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: VoiceSet Amy
     voiceSet:
       areaDangerous: []
@@ -1180,7 +1161,6 @@ MonoBehaviour:
       Name: VoiceSet Amy
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset female brave
     voiceSet:
       areaDangerous:
@@ -1353,7 +1333,6 @@ MonoBehaviour:
       Name: voiceset female brave
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset female confident
     voiceSet:
       areaDangerous:
@@ -1765,7 +1744,6 @@ MonoBehaviour:
       Name: voiceset female confident
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset female mysterious
     voiceSet:
       areaDangerous:
@@ -2037,7 +2015,6 @@ MonoBehaviour:
       Name: voiceset female mysterious
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset female reserved
     voiceSet:
       areaDangerous:
@@ -2284,7 +2261,6 @@ MonoBehaviour:
       Name: voiceset female reserved
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset female young
     voiceSet:
       areaDangerous:
@@ -2515,7 +2491,6 @@ MonoBehaviour:
       Name: voiceset female young
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic female
     voiceSet:
       areaDangerous: []
@@ -2568,7 +2543,6 @@ MonoBehaviour:
       Name: voiceset generic female
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic female 2
     voiceSet:
       areaDangerous: []
@@ -2616,7 +2590,6 @@ MonoBehaviour:
       Name: voiceset generic female 2
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic male
     voiceSet:
       areaDangerous: []
@@ -2662,7 +2635,6 @@ MonoBehaviour:
       Name: voiceset generic male
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic male 2
     voiceSet:
       areaDangerous: []
@@ -2706,7 +2678,6 @@ MonoBehaviour:
       Name: voiceset generic male 2
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic male 3
     voiceSet:
       areaDangerous: []
@@ -2742,7 +2713,6 @@ MonoBehaviour:
       Name: voiceset generic male 3
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset generic wizard
     voiceSet:
       areaDangerous: []
@@ -2779,7 +2749,6 @@ MonoBehaviour:
       Name: voiceset generic wizard
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male bold
     voiceSet:
       areaDangerous:
@@ -2852,7 +2821,6 @@ MonoBehaviour:
       Name: voiceset male bold
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male brutal
     voiceSet:
       areaDangerous: []
@@ -2950,7 +2918,6 @@ MonoBehaviour:
       Name: voiceset male brutal
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male cautious
     voiceSet:
       areaDangerous:
@@ -3122,7 +3089,6 @@ MonoBehaviour:
       Name: voiceset male cautious
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male energetic
     voiceSet:
       areaDangerous:
@@ -3299,7 +3265,6 @@ MonoBehaviour:
       Name: voiceset male energetic
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male methodical
     voiceSet:
       areaDangerous: []
@@ -3375,7 +3340,6 @@ MonoBehaviour:
       Name: voiceset male methodical
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male mysterious
     voiceSet:
       areaDangerous:
@@ -3485,7 +3449,6 @@ MonoBehaviour:
       Name: voiceset male mysterious
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male pragmatic
     voiceSet:
       areaDangerous:
@@ -3776,7 +3739,6 @@ MonoBehaviour:
       Name: voiceset male pragmatic
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male reserved
     voiceSet:
       areaDangerous:
@@ -3893,7 +3855,6 @@ MonoBehaviour:
       Name: voiceset male reserved
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male supportive
     voiceSet:
       areaDangerous:
@@ -4344,7 +4305,6 @@ MonoBehaviour:
       Name: voiceset male supportive
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: voiceset male young
     voiceSet:
       areaDangerous:
@@ -4536,7 +4496,6 @@ MonoBehaviour:
   creatureVoiceSets:
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Bear
     voiceSet:
       areaDangerous: []
@@ -4566,7 +4525,6 @@ MonoBehaviour:
       Name: Bear
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Boar
     voiceSet:
       areaDangerous: []
@@ -4608,7 +4566,6 @@ MonoBehaviour:
       Name: Boar
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Goblin
     voiceSet:
       areaDangerous: []
@@ -4683,7 +4640,6 @@ MonoBehaviour:
       Name: Goblin
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Goblin02
     voiceSet:
       areaDangerous: []
@@ -4749,7 +4705,6 @@ MonoBehaviour:
       Name: Goblin02
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: OgreJamaal
     voiceSet:
       areaDangerous: []
@@ -4826,7 +4781,6 @@ MonoBehaviour:
       Name: OgreJamaal
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Spider
     voiceSet:
       areaDangerous: []
@@ -4866,7 +4820,6 @@ MonoBehaviour:
       Name: Spider
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Wesp
     voiceSet:
       areaDangerous: []
@@ -4897,7 +4850,6 @@ MonoBehaviour:
       Name: Wesp
   - Gender: 0
     Race: 0
-    CreatureVoiceType: 0
     folder: Zombie
     voiceSet:
       areaDangerous: []

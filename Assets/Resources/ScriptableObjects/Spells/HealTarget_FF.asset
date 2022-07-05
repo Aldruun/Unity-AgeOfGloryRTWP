@@ -16,25 +16,42 @@ MonoBehaviour:
   Name: HealTarget
   description: 
   spellIcon: {fileID: 21300000, guid: 286ca9888395384469e2e18f62ff2d48, type: 3}
-  spellType: 5
+  Grade: 0
+  targetClasses: 
+  subCategory: 0
+  attackRollType: 0
+  effectType: 17
+  savingThrowType: 0
+  projectileType: 0
   magicSchool: 1
   equipType: 0
   castingType: 0
   deliveryType: 3
+  spellTargetType: 0
+  keywords: 0
   magicEffects:
   - {fileID: 11400000, guid: bbb34d0db59ffbf42920cb4870b005fe, type: 2}
-  magicEffectsData: []
   targetLogic: {fileID: 11400000, guid: f1f03280aa427454086b482e4fa4b0cf, type: 2}
-  spellcastMotionIndex: 1
-  releaseMotionIndex: 0
-  needsPreparation: 0
-  needsToStopMoving: 0
-  cost: 5
+  attackRollRequired: 0
+  castingTime: 0
+  duration: 0
+  concentrationTime: 0
+  specialRollDice: 0
+  numSpecialRollDieSides: 0
+  damageRollDice: 1
+  numDamageRollDieSides: 3
+  higherSlotBonusDice: 1
+  aoeRadius: 0
+  travelSpeed: 0
+  percentMagnitude: 0
+  usages: 0
+  maxUsages: 0
   activationRange: 10
-  chargeTimeMult: 1
-  castTimeMult: 1
   cooldownTime: 2
   recoveryTime: 1
-  travelSpeed: 0
-  grade: 0
-  castingTime: 0
+  spellcastMotionIndex: 1
+  releaseMotionIndex: 0
+  effectDiameter: 0
+  effectRange: 0
+  chargeTimeMult: 1
+  castTimeMult: 1

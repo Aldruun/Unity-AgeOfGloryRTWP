@@ -83,7 +83,7 @@ public static class GameEventSystem
     public static System.Action<Actor> OnActorDespawned;
     public static System.Action<Actor> OnNumActorsChanged;
     public static System.Action<Actor> OnPlayerCreated;
-    public static System.Action<Actor, Spell, UISpellButton> OnPlayerSpellButtonClicked;
+    public static System.Action<Actor, Spell, UISkillButton> OnPlayerSpellButtonClicked;
     public static System.Action<Actor, QuestBoard> OnPlayerInteraction_Questboard;
 
     public static System.Action<PickupItem> OnPickUpItemSpawned;

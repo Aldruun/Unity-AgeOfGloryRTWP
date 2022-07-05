@@ -8,13 +8,177 @@ public static class ActorUtility
 {
     public static class Initialization
     {
-        //public static void AddInitialActorMonoBehaviours(GameObject actor)
-        //{
-        //    actor.ForceGetComponent<ActorCombat>();
-        //    actor.ForceGetComponent<NavMeshAgent>();
-        //}
+        internal static void GenerateRandomLvlOneCharacterSheet(Gender gender, ActorRace race, Class characterClass, ref Dictionary<ActorStat, int> statDict, ref int speed)
+        {
+            int str = 0;
+            int dex = 0;
+            int con = 0;
+            int intl = 0;
+            int wis = 0;
+            int cha = 0;
 
-        public static void CalculateDnDStats(ActorStats stats, int level)
+            //if(race == ActorRace.GOBLIN && race != ActorRace.ANIMAL)
+            //{
+            str = DnD.StartingAttributeRoll();
+            dex = DnD.StartingAttributeRoll();
+            con = DnD.StartingAttributeRoll();
+            intl = DnD.StartingAttributeRoll();
+            wis = DnD.StartingAttributeRoll();
+            cha = DnD.StartingAttributeRoll();
+            //}
+
+            int[] attributes = new int[] { str, dex, con, intl, wis, cha };
+
+            int baseHitDie = DnD.GetHitDie(characterClass, race);
+
+            int rndAttributeIndex = 0;
+
+            switch(race)
+            {
+                case ActorRace.HUMAN:
+                // Human Features: Size (Medium),
+                // Base Speed (30 ft.),
+                // Languages (Common, one extra language of your choice)
+                // Proficiency Bonus: + 2
+
+                case ActorRace.HALFORC:
+                // Half-Orc Features: Ability Score Increase (Str +2; Con +1),
+                // Size (Medium),
+                // Base Speed (30 ft.),
+                // Darkvision (60 ft.),
+                // Menacing (proficiency in Intimidation),
+                // Relentless Endurance (1/long rest),
+                // Savage Attacks,
+                // Languages (Common, Orc)
+                // Proficiency Bonus: +2
+
+                case ActorRace.HALFELF:
+                    // Half-Elf Features: Ability Score Increase (Cha +2;
+                    // +1 to two other ability scores of your choice),
+                    // Size (Medium), Base Speed (30 ft.), Darkvision (60 ft.),
+                    // Fey Ancestry (advantage on saving throws against being charmed;
+                    // magic can't put you to sleep), Skill Versatility (proficiency in two skills of your choice),
+                    // Languages (Common, Elvish, one extra language of your choice)
+                    // Proficiency Bonus: + 2
+
+                    rndAttributeIndex = Random.Range(0, 6);
+                    attributes[rndAttributeIndex] += 2;
+
+                    speed = 30;
+
+                    break;
+                case ActorRace.ELF:
+                    // Elf Features: Ability Score Increase (Dex +2), Size (Medium), Base Speed (30 ft.), Darkvision (60 ft.), Keen Senses (proficiency in Perception),
+                    // Fey Ancestry (advantage on saving throws against being charmed; magic can't put you to sleep),
+                    // Trance (elves meditate for 4 hours instead of sleeping), Languages (Common, Elvish)
+
+                    // Wood Elf Features: Ability Score Increase (Wis +1), Elf Weapon Training (proficiency with longsword, shortsword, shortbow and longbow),
+                    // Fleet of Foot (base speed is 35 ft.), Mask of the Wild (attempt to hide when lightly obscured by foliage, heavy rain, falling snow, mist, etc)
+
+                    // High Elf Features: Ability Score Increase (Int +1), Elf Weapon Training (proficiency with longsword, shortsword, shortbow and longbow),
+                    // Cantrip (cast one cantrip of your choice from wizard list; spellcasting ability is Int), Extra Language (one extra language of your choice)
+
+                    // Dark Elf(Drow) Features: Ability Score Increase(Cha + 1), Superior Darkvision(120 ft.), Sunlight Sensitivity, Drow Magic(cast dancing lights cantrip;
+                    // spellcasting ability is Charisma)
+
+                    speed = 30;
+
+                    break;
+                case ActorRace.DWARF:
+                    // Dwarf Features: Ability Score Increase (Con +2), Size (Medium), Base Speed (25 ft.),
+                    // Darkvision (60 ft.), Dwarven Resilience (advantage on saving throws against poison; resistance to poison damage),
+                    // Dwarven Combat Training (proficiency with battleaxe, handaxe, light hammer and warhammer),
+                    // Tool Proficiency, Stonecunning, Languages (Common, Dwarvish)
+
+                    // Hill Dwarf Features: Ability Score Increase (Wis +1), Dwarven Toughness (+1 hit point maximum per level)
+
+                    // Mountain Dwarf Features: Ability Score Increase (Str +1), Dwarven Armour Training (proficiency with light and medium armour)
+
+                    baseHitDie = 8;
+                    speed = 25;
+                    wis += 1;
+                    break;
+                case ActorRace.GNOME:
+                    break;
+                case ActorRace.HALFLING:
+                    // Halfling Features: Ability Score Increase(Dex + 2),
+                    // Size(Small), Base Speed(25 ft.),
+                    // Lucky (reroll 1 on d20 roll of attack roll, ability check or saving throw),
+                    // Brave(advantage on saving throws against being frightened),
+                    // Halfling Nimbleness(move through space of any creature larger than you),
+                    // Languages(Common, Halfling)
+                    // Proficiency Bonus: +2
+                    rndAttributeIndex = Random.Range(0, 6);
+                    attributes[rndAttributeIndex] += 2;
+                    dex += 2;
+                    speed = 25;
+
+
+                    break;
+                case ActorRace.TIEFLING:
+                    break;
+                case ActorRace.GOBLIN:
+                    // Nimble Escape. The goblin can take the Disengage or Hide action as a bonus action on each of its turns.
+                    // Scimitar. Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: (1d6 + 2) slashing damage.
+                    // Shortbow. Ranged Weapon Attack: +4 to hit, reach 80/320 ft., one target. Hit: (1d6 + 2) piercing damage.
+                    speed = 30;
+
+                    str = 8;
+                    dex = 14;
+                    con = 10;
+                    intl = 10;
+                    wis = 8;
+                    cha = 8;
+
+                    break;
+                case ActorRace.ANIMAL:
+                    break;
+            }
+
+            switch(characterClass)
+            {
+                case Class.ALCHEMIST:
+
+                    break;
+                case Class.BARBARIAN:
+                    break;
+                case Class.BARD:
+                    break;
+                case Class.CLERIC:
+                    break;
+                case Class.DRUID:
+                    break;
+                case Class.FIGHTER:
+                    break;
+                case Class.MONK:
+                    break;
+                case Class.PALADIN:
+                    break;
+                case Class.RANGER:
+                    break;
+                case Class.THIEF:
+                    break;
+                case Class.SORCERER:
+                    break;
+                case Class.SHAMAN:
+                    break;
+                case Class.MAGE:
+                    break;
+            }
+
+            statDict[ActorStat.STRENGTH] = str;
+            statDict[ActorStat.DEXTERITY] = dex;
+            statDict[ActorStat.CONSTITUTION] = con;
+            statDict[ActorStat.INTELLIGENCE] = intl;
+            statDict[ActorStat.WISDOM] = wis;
+            statDict[ActorStat.CHARISMA] = cha;
+
+            statDict[ActorStat.HITDIE] = baseHitDie;
+            statDict[ActorStat.HITPOINTS] = statDict[ActorStat.MAXHITPOINTS] = CalculateFirstLevelHitpoints(baseHitDie, con);
+            statDict[ActorStat.AC] = 10 + DnD.AttributeModifier(dex);
+        }
+
+        public static void CalculateCharacterStats(ActorStats stats, int level)
         {
             stats.proficiencyBonus = Mathf.CeilToInt((level / 4) + 1);
             //if(debug)
@@ -22,7 +186,9 @@ public static class ActorUtility
 
             ActorUtility.SetBaseStat(stats, ActorStat.HITDIE, DnD.GetHitDie(stats.Class, stats.Race) + level - 1);
             if((level - 1) < 0)
+            {
                 Debug.LogError("Oh oh");
+            }
 
             stats.strMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.STRENGTH));
             stats.dexMod = DnD.AttributeModifier(ActorUtility.GetStatBase(stats, ActorStat.DEXTERITY));
@@ -57,7 +223,7 @@ public static class ActorUtility
             //if(debug)
             //    DevConsole.Log(Name + ": <color=grey>Recalc spellAttackBonus: SCA " + spellcastingAbility + " + PB " + proficiencyBonus + " = " + spellAttackModifier + "</color>");
 
-            ActorUtility.SetBaseStat(stats, ActorStat.HITPOINTS, DnD.CalculateHitpointsAll(level, ActorUtility.GetStatBase(stats, ActorStat.HITDIE), ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION)));
+            ActorUtility.SetBaseStat(stats, ActorStat.HITPOINTS, CalculateHitpointsAll(level, ActorUtility.GetStatBase(stats, ActorStat.HITDIE), ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION)));
             ActorUtility.SetBaseStat(stats, ActorStat.MAXHITPOINTS, ActorUtility.GetStatBase(stats, ActorStat.HITPOINTS));
 
             //if(debug)
@@ -82,6 +248,41 @@ public static class ActorUtility
                      //}
             ActorUtility.SetBaseStat(stats, ActorStat.APR, newAPR);
         }
+
+        private static int CalculateHitpointsAll(int level, int baseHitDie, int constitution)
+        {
+            if(baseHitDie < 1)
+            {
+                Debug.LogError("baseHitDie too low");
+            }
+
+            int hp = CalculateFirstLevelHitpoints(baseHitDie, constitution);
+            int conMod = DnD.AttributeModifier(constitution);
+
+            //continue;
+            //}
+            //else
+            //{
+            int numLevelsGained = level - 1; // minus first level
+            int avgHD = (baseHitDie / 2) + 1;
+            int ssqHP = numLevelsGained * Mathf.Clamp(avgHD + conMod, 1, 1000);
+            Debug.Log("CalculateHitpointsAll: Subsequent HP: " + numLevelsGained + " levels * (" + baseHitDie + " (avg hd) + 1) / 2 = " + avgHD + " + " + conMod + " (conMod) = " + ssqHP);
+            hp += ssqHP;
+            //}
+            //}
+            Debug.Log("CalculateHitpointsAll: New HP = " + hp);
+            return hp;
+        }
+
+        private static int CalculateFirstLevelHitpoints(int hitDie, int constitution)
+        {
+            int conMod = DnD.AttributeModifier(constitution);
+            int hp = hitDie + conMod;
+            Debug.Log("First level HP: " + hitDie + " (hd) + " + conMod + " (conMod) = " + hp);
+
+            return hp;
+        }
+
     }
 
     public static class Navigation
@@ -118,9 +319,9 @@ public static class ActorUtility
 
             if(isRanged)
             {
-                float fleeStrength = (1 - HelperFunctions.GetLinearDistanceAttenuation(self.transform.position, targetPos, 2, 10));
+                float fleeStrength = 1 - HelperFunctions.GetLinearDistanceAttenuation(self.transform.position, targetPos, 2, 10);
                 //float centerStrength = (HelperFunctions.GetLinearDistanceAttenuation(agent.transform.position, CoverGrid.mapCenter, 2, 10));
-                newTacticalPosition += (fleeDir.normalized * Random.Range(3, 15)) * fleeStrength;
+                newTacticalPosition += fleeDir.normalized * Random.Range(3, 15) * fleeStrength;
                 //newTacticalPosition += (CoverGrid.mapCenter - agent.transform.position).normalized * centerStrength * (fleeStrength);
             }
 
@@ -175,7 +376,7 @@ public static class ActorUtility
                 newTacticalPosition = navHit.position;
             }
 
-            Debug.DrawLine(self.transform.position + Vector3.up * 1, newTacticalPosition + Vector3.up * 1, Color.red, 1);
+            Debug.DrawLine(self.transform.position + (Vector3.up * 1), newTacticalPosition + (Vector3.up * 1), Color.red, 1);
 
             self.SetDestination(newTacticalPosition, 0.1f, "", 1);
             //}
@@ -203,7 +404,9 @@ public static class ActorUtility
     public static void ApplyEffect(Actor actor, Status status, int rounds)
     {
         if(actor.HasStatusEffect(status))
+        {
             return;
+        }
 
         actor.ApplyStatusEffect(status, rounds);
     }
@@ -233,7 +436,7 @@ public static class ActorUtility
     {
         int hp = GetModdedStat(stats, ActorStat.HITPOINTS);
         int hpMax = GetModdedStat(stats, ActorStat.MAXHITPOINTS);
-        float result = ((float)hp / hpMax) * 100;
+        float result = (float)hp / hpMax * 100;
         //Debug.Log("HEALTH PERCENTAGE: " + hp + " / " + hpMax + " = " + result);
         return result;
     }
@@ -337,7 +540,7 @@ public static class ActorUtility
     {
         int oldmod = stats.StatsBase[baseStat];
 
-        switch (modifierType)
+        switch(modifierType)
         {
             case ModType.ADDITIVE:
                 SetAttributeBase(stats, baseStat, stats.StatsBase[baseStat] + modValue);
@@ -348,7 +551,7 @@ public static class ActorUtility
                 break;
 
             case ModType.PERCENT:
-                SetAttributeBase(stats, baseStat, stats.StatsBase[baseStat] + modValue / 100);
+                SetAttributeBase(stats, baseStat, stats.StatsBase[baseStat] + (modValue / 100));
                 break;
         }
 
@@ -365,7 +568,7 @@ public static class ActorUtility
     {
         int oldmod = stats.StatsModified[stat];
 
-        switch (modifierType)
+        switch(modifierType)
         {
             case ModType.ADDITIVE:
                 SetAttributeMod(stats, stat, stats.StatsModified[stat] + modValue);
@@ -376,7 +579,7 @@ public static class ActorUtility
                 break;
 
             case ModType.PERCENT:
-                SetAttributeMod(stats, stat, stats.StatsBase[stat] + modValue / 100);
+                SetAttributeMod(stats, stat, stats.StatsBase[stat] + (modValue / 100));
                 break;
 
             case ModType.MULTIPLICATIVE:

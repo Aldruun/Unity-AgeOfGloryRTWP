@@ -378,7 +378,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         }
 
         int con = ActorUtility.GetStatBase(stats, ActorStat.CONSTITUTION);
-        bool staggerSuccess = isCasting ? ((10 + equippedSpell.grade - Mathf.FloorToInt(stats.Level / 2) - Mathf.FloorToInt(con / 2) - 2) > DnD.D20()) : (noStagger ? false : hitSuccess); //critHitSuccess ? true : false; // Random.value > 0.3f;
+        bool staggerSuccess = isCasting ? ((10 + equippedSpell.Grade - Mathf.FloorToInt(stats.Level / 2) - Mathf.FloorToInt(con / 2) - 2) > DnD.D20()) : (noStagger ? false : hitSuccess); //critHitSuccess ? true : false; // Random.value > 0.3f;
         if(staggerSuccess && self.isDowned == false)
         {
             Animation.PlayMotion_Stagger();

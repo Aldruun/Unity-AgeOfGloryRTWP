@@ -98,7 +98,7 @@ namespace AoG.Controls
         private bool overInfoPoint;
         private bool overUI;
 
-        private UISpellButton _lastPressedSpellButton;
+        private UISkillButton _lastPressedSpellButton;
 
         private Camera cameraMain;
 
@@ -476,7 +476,7 @@ namespace AoG.Controls
             }
         }
 
-        private void HandleSpellButtonPress(Actor caster, Spell spell, UISpellButton _activeSpellButton)
+        private void HandleSpellButtonPress(Actor caster, Spell spell, UISkillButton _activeSpellButton)
         {
             FinishTargeting();
             if(spell.cooldownTimer > 0)

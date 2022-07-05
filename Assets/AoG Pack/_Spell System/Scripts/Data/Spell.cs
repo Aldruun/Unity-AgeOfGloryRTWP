@@ -100,28 +100,28 @@ public enum SubCategory
     // All of the effects on a Spell must have the same casting type.
 }
 
-//public enum DamageType
-//{
-//    CRUSHING,
-//    ACID,
-//    COLD,
-//    ELECTRICITY,
-//    FIRE,
-//    PIERCING,
-//    POISON,
-//    MAGIC,
-//    MISSILE,
-//    SLASHING,
-//    MAGICFIRE,
-//    MAGICCOLD,
-//    STUNNING,
-//    DESEASE,
-//    BLEEDING,
-//    NECROTIC,
-//    RADIANT,
-//    HEAL,
-//    SLEEP
-//}
+public enum DamageType
+{
+    CRUSHING,
+    ACID,
+    COLD,
+    ELECTRICITY,
+    FIRE,
+    PIERCING,
+    POISON,
+    MAGIC,
+    MISSILE,
+    SLASHING,
+    MAGICFIRE,
+    MAGICCOLD,
+    STUNNING,
+    DESEASE,
+    BLEEDING,
+    NECROTIC,
+    RADIANT,
+    HEAL,
+    SLEEP
+}
 
 public enum SpellAttackRollType
 {
@@ -180,7 +180,7 @@ public class Spell : ScriptableObject
     public Sprite spellIcon;
 
     [Range(0, 9)] //! 0 = cantrip
-    public int grade;
+    public int Grade;
     internal int slotLevel;
     public Class[] targetClasses;
     public SubCategory subCategory;
@@ -230,7 +230,7 @@ public class Spell : ScriptableObject
 
     public float priority { get; set; }
 
-    public virtual void Init(Actor self)
+    public virtual void Init()
     {
         if(deliveryType != DeliveryType.InstantSelf && targetLogic == null)
         {
@@ -256,7 +256,7 @@ public class Spell : ScriptableObject
             case CastingType.ConstantEffect:
                 break;
         }
-        slotLevel = grade;
+        slotLevel = Grade;
     }
 
     public void StartCooldown()

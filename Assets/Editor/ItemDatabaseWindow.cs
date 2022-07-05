@@ -570,8 +570,9 @@ public class ItemDatabaseWindow : EditorWindow
 
         if(selectedElement != null) //! Settings Inspector
         {
-            using(var scrollPos = new GUILayout.ScrollViewScope(itemInspectorScrollPosition, false, true, GUILayout.MinHeight(200), GUILayout.MaxHeight(600)))
+            using(var scrollView = new GUILayout.ScrollViewScope(itemInspectorScrollPosition, false, true, GUILayout.MinHeight(200), GUILayout.MaxHeight(600)))
             {
+                itemInspectorScrollPosition = scrollView.scrollPosition;
                 switch(selectedElementIndex)
                 {
                     case 0: // Items
@@ -1265,7 +1266,7 @@ public class ItemDatabaseWindow : EditorWindow
         //    GUILayout.Space(5);
         //}
 
-        selectedSpell.grade = EditorGUILayout.IntField("Grade:", Mathf.Clamp(selectedSpell.grade, 0, 9), GUILayout.Width(150));
+        selectedSpell.Grade = EditorGUILayout.IntField("Grade:", Mathf.Clamp(selectedSpell.Grade, 0, 9), GUILayout.Width(150));
         SerializedProperty sTargetClasses = srlSpell.FindProperty("targetClasses");
         EditorGUILayout.PropertyField(sTargetClasses, true, GUILayout.Width(300));
 

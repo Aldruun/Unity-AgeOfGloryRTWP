@@ -235,29 +235,6 @@ public class ActorStats
         return (_actorFlags & (int)eaValue) != 0;
     }
 
-    public void ApplyStatusEffectDamage(DamageType damageType, float amount)
-    {
-        //int def = isMagicAttack ? m_mDefence : m_pDefence;
-
-        int finalAmount = 0;
-
-        /*if(percentage)
-        {
-            //finalAmount = m_maxHealth * ((int)amount + (1 * (100 / (100 + def)))); // Exmpl: 5 * 100 / 100 * 0
-            //finalAmount *= GameMaster.gameSettings.globalDmgMult;
-        }
-        else
-        {
-            //finalAmount = amount + (1 * (100 / (100 + def))); // Exmpl: 5 * 100 / 100 * 0
-            //finalAmount *= GameMaster.gameSettings.globalDmgMult;
-        }*/
-        //VerbalConstant(VerbalConstantType.HURT);
-        if (finalAmount > 0)
-        {
-            finalAmount = Mathf.CeilToInt(finalAmount);
-        }
-    }
-
     //! Spell Related # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     public void Execute_ModifyCurrentXP(float amount, ModType modType)
