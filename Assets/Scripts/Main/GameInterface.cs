@@ -62,9 +62,9 @@ namespace AoG.Core
 
 
                 uiHandler = new UIHandler(camera, transform.Find("PP Volume").GetComponent<Volume>());
+                gameControl = new GameControl(camera, uiHandler.selectionBoxVisual);
                 LoadArea(StartPlaySceneName);
 
-                gameControl = new GameControl(camera, uiHandler.selectionBoxVisual);
 
 
                 ScreenFader = transform.Find("UIMaster/Fader").GetComponent<UIScreenFader>();
@@ -103,7 +103,7 @@ namespace AoG.Core
 
             if(currentGame == null)
             {
-                currentGame = new Game(DatabaseService);
+                currentGame = new Game(DatabaseService, uiHandler);
                 GameObject[] pcObjects = currentGame.GetPCObjects();
 
                 foreach(GameObject pcObj in pcObjects)

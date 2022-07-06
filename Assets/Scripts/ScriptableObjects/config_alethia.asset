@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: config_alethia
   m_EditorClassIdentifier: 
   AICombatProfile: {fileID: 11400000, guid: 813cba377b24c7e4a8de131cda799cee, type: 2}
-  ActorPrefab: {fileID: 5016249287824669278, guid: d013b2d02e85cd744b929027aa9e7e22, type: 3}
+  ActorPrefab: {fileID: 6931963087151721191, guid: ac75b7ff9c1002d44af6354c497ffb1b, type: 3}
   BakedWeapon: 0
   UniqueID: 0c729bf1-d78b-48a4-81f7-a0c3a46dff1c
   Name: Alethia
-  InventoryTemplate: {fileID: 11400000, guid: e61f52d8a7b2602479347cb89e782062, type: 2}
+  InventoryTemplate: {fileID: 11400000, guid: 449032662a45772429abcefebff343b9, type: 2}
   ActorFlags: 2
-  levelMin: 1
-  levelMax: 1
   portraitSprite: {fileID: 21300000, guid: 88e01637216b9874e8a299f482aa135e, type: 3}
-  Skillbook: {fileID: 11400000, guid: ece6331be87f9434b9a742d1218a33f5, type: 2}
   ActorRadius: 0.3
   Health: 100
   VoicesetID: voiceset female mysterious

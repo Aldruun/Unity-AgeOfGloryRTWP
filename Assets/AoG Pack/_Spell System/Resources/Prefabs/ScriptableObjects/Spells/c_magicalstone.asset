@@ -14,26 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: acidarrow
   Name: Acid Arrow
-  description: 'A shimmering green arrow streaks toward a target within range and
-    bursts in a spray of acid.
+  description: 'Level: 1
 
-    Make a ranged spell attack against the target.
+    School: Enchantment
 
-    On
-    a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the
-    end of its next turn.
+    Sphere: Combat
 
-    On a miss, the arrow splashes the target with acid
-    for half as much of the initial damage and no damage at the end of its next turn.
+    Range:
+    Personal
 
+    Duration: 2 turns
 
-    At
-    Higher Levels: When you cast this spell using a spell slot of 3rd level or higher,
-    the damage (both initial and later) increases by 1d4 for each slot level above
-    2nd.'
+    Casting Time: 1
+
+    Area of Effect:
+    Special
+
+    Saving Throw: None
+
+    
+
+    Using this spell, the priest can
+    temporarily enchant ten small stones, no larger than sling bullets. The character
+    using them can then hurl up to three stones per round at an opponent, with a
+    +1 bonus to attack rolls. Each stone that hits inflicts 1d4+2 points of damage
+    (1d4+5 against undead), and is considered to be of +1 enchantment to determine
+    what it can hit. The magic in each stone expires after 2 turns or when used.
+
+'
   spellIcon: {fileID: 21300000, guid: cdb0036e0e912164e90c2c9f41ac76d8, type: 3}
-  Grade: 0
-  targetClasses: 03000000
+  Grade: 1
+  targetClasses: 0300000007000000
   subCategory: 0
   attackRollType: 0
   effectType: 0

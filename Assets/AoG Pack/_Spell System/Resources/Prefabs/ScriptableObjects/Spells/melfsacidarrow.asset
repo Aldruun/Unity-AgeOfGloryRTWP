@@ -32,7 +32,7 @@ MonoBehaviour:
     the damage (both initial and later) increases by 1d4 for each slot level above
     2nd.'
   spellIcon: {fileID: 21300000, guid: 12580a9e8343d9e4194c7784f90c3b4b, type: 3}
-  Grade: 0
+  Grade: 2
   targetClasses: 0c000000
   subCategory: 0
   attackRollType: 0

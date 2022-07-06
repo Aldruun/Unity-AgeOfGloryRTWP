@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AoG.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,13 +24,15 @@ namespace AoG.Core
         private Map currentMap;
         internal ControlStatus controlStatus;
         private DatabaseService databaseService;
+        private UIHandler uiHandler;
 
         public bool PartyAttack { get; set; }
         public int CombatCounter { get; private set; }
 
-        public Game(DatabaseService databaseService) // Called in Awake
+        public Game(DatabaseService databaseService, UIHandler uiHandler) // Called in Awake
         {
             this.databaseService = databaseService;
+            this.uiHandler = uiHandler;
             controlStatus = new ControlStatus();
 
             Debug.Log("# <color=green>Setting initial game</color>");
@@ -47,10 +50,10 @@ namespace AoG.Core
             {
                 SpawnPoint spawnpoint = spawnpoints[i];
                 Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
-                spawned.ActorStats.GenerateNPCLevel(1);
+                spawned.ActorStats.GenerateNPCLevel(3);
                 spawned.Equipment.EquipBestArmor();
                 //ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
-                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 1));
+                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 3));
 
                 spawned.aiControlled = true;
 
@@ -59,24 +62,17 @@ namespace AoG.Core
                 spawned.debugGear = spawnpoint.debugActorGear;
                 spawned.debugInitialization = spawnpoint.debugInitialization;
 
-                Debug.Assert(spawned != null, "Spawn from spawnpoint '" + spawnpoint.name + "' null");
-
                 if(spawned.IsPlayer)
                 {
-                    // Needs to be done before actor.Initialize()
-                    // because here the partyIndex gets set
                     CreatePartyMember(spawned);
                 }
 
                 map.AddActor(spawned);
-                //worldUpdater.AddNPC(spawned);
             }
         }
 
         private void CreatePartyMember(Actor pc) // Called in Start of SpawnPoint.cs
         {
-            SpawnPoint playerSpawnpoint = GameObject.FindWithTag("PlayerSpawnpoint").GetComponent<SpawnPoint>();
-
             pc.gameObject.tag = "Player";
             pc.PartySlot = PCs.Count + 1;
             if(pc.IsSummon == false)
@@ -94,8 +90,10 @@ namespace AoG.Core
             {
                 //! Select first actor
                 //GameEventSystem.OnHeroPortraitClicked?.Invoke(pc, true);
+                pc.ActorUI.Select();
+                uiHandler.PopulateSkillbar(pc);
                 GameEventSystem.RequestCameraJumpToPosition?.Invoke(pc.transform.position);
-                GameEventSystem.OnPCSelectionStateChanged?.Invoke(pc, true);
+                //GameEventSystem.OnPCSelectionStateChanged?.Invoke(pc, true);
             }
         }
 

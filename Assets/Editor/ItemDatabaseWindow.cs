@@ -1229,8 +1229,7 @@ public class ItemDatabaseWindow : EditorWindow
         selectedSpell.description = EditorGUILayout.TextArea(selectedSpell.description, GUILayout.ExpandHeight(true), GUILayout.Height(100));
 
         selectedSpell.spellIcon = (Sprite)EditorGUILayout.ObjectField("Icon:", selectedSpell.spellIcon, typeof(Sprite), false, GUILayout.ExpandWidth(false));
-        //selectedSpell.projectileType = (ProjectileType)EditorGUILayout.EnumPopup("Projectile Type: ", selectedSpell.projectileType);
-        //selectedSpell.activationMode = (SpellActivationMode)EditorGUILayout.EnumPopup("Activation Mode: ", selectedSpell.activationMode, GUILayout.Width(270));
+    
         selectedSpell.subCategory = (SubCategory)EditorGUILayout.EnumPopup("Subcategory: ", selectedSpell.subCategory, GUILayout.Width(270));
         selectedSpell.attackRollType = (SpellAttackRollType)EditorGUILayout.EnumPopup("Attack Roll: ", selectedSpell.attackRollType, GUILayout.Width(270));
         selectedSpell.effectType = (DamageType)EditorGUILayout.EnumPopup("Effect Type: ", selectedSpell.effectType, GUILayout.Width(270));
@@ -1243,42 +1242,12 @@ public class ItemDatabaseWindow : EditorWindow
 
         selectedSpell.keywords = (Keyword)EditorGUILayout.EnumFlagsField("Keywords; ", selectedSpell.keywords, GUILayout.Width(300));
 
-        //GUILayout.BeginHorizontal();
-        //GUILayout.Label("Class Requirements", GUILayout.Width(116));
-        //if(GUILayout.Button("+", GUILayout.Width(20)))
-        //{
-        //    selectedSpell.spellRules.Add(new SpellRule());
-        //}
-        //GUILayout.EndHorizontal();
-
-        //selectedSpell.targetClasses = (Class[])EditorGUILayout.EnumPopup("Target Classes", selectedSpell.targetClasses, GUILayout.Width(150));
-        //foreach(SpellRule spellRule in selectedSpell.spellRules.ToArray())
-        //{
-        //    GUILayout.BeginHorizontal();
-        //    spellRule = (Class)EditorGUILayout.EnumPopup("", spellRule.targetClass, GUILayout.Width(150));
-        //    spellRule.requiredLevel = EditorGUILayout.IntField("Req. Level:", spellRule.requiredLevel, GUILayout.Width(150));
-        //    if(GUILayout.Button("-", GUILayout.Width(20)))
-        //    {
-        //        selectedSpell.spellRules.Remove(spellRule);
-        //    }
-        //    GUILayout.EndHorizontal();
-
-        //    GUILayout.Space(5);
-        //}
-
         selectedSpell.Grade = EditorGUILayout.IntField("Grade:", Mathf.Clamp(selectedSpell.Grade, 0, 9), GUILayout.Width(150));
         SerializedProperty sTargetClasses = srlSpell.FindProperty("targetClasses");
         EditorGUILayout.PropertyField(sTargetClasses, true, GUILayout.Width(300));
 
-        //if(selectedSpell.magicEffects.Count == 0 || selectedSpell.magicEffects[0] == null)
-        //{
-        //    GUI.contentColor = Color.red;
-        //}
-
         SerializedProperty sMagicEffects = srlSpell.FindProperty("magicEffects");
         EditorGUILayout.PropertyField(sMagicEffects, true, GUILayout.Width(300));
-
-        //GUI.contentColor = Color.white;
 
         selectedSpell.targetLogic = (SpellTargetLogic)EditorGUILayout.ObjectField("Target Logic:", selectedSpell.targetLogic, typeof(SpellTargetLogic), false, GUILayout.Width(300)/*, GUILayout.ExpandWidth(false)*/);
         selectedSpell.castingTime = EditorGUILayout.IntField("Casting Time:", selectedSpell.castingTime, GUILayout.Width(150));

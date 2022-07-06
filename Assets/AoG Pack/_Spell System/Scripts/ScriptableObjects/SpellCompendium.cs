@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GenericFunctions;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using GenericFunctions;
-using AoG.Core;
 
 [CreateAssetMenu(menuName = "Create SpellSlotTable", fileName = "SpellSlotTable")]
 public class SpellCompendium : ScriptableObject
@@ -52,23 +51,23 @@ public class SpellCompendium : ScriptableObject
 
     public List<Spell> GetSpellsForClassAtLevel(Class actorClass, int level)
     {
+        List<Spell> targetClassSpells = new List<Spell>(GetSpellsForClass(actorClass));
         List<Spell> foundSpells = new List<Spell>();
-
-        foreach(Spell spell in spells)
+        Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Getting spells for class '{actorClass}' at level '{level}'</color>");
+        
+        foreach(Spell spell in targetClassSpells)
         {
-            for(int i = 0; i < spell.targetClasses.Length; i++)
+            Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Checking spell '{spell.name}'</color>");
+            if(UsableAtLvl(actorClass, level, spell.Grade) == false)
             {
-                if(actorClass == spell.targetClasses[i])
-                {
-                    if(UsableAtLvl(actorClass, level, spell.Grade) == false)
-                    {
-                        continue;
-                    }
-
-                    foundSpells.Add(spell);
-                    break;
-                }
+                Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.YellowCrayola)}>Spell '{spell.name}' of grade {spell.Grade} not usable by class '{actorClass}' at level '{level}'</color>");
+                continue;
             }
+
+            Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.GreenCyan)}>Adding spell '{spell.name}' of grade {spell.Grade} for class '{actorClass}' at level '{level}'</color>");
+
+            foundSpells.Add(spell);
+            break;
         }
 
         return foundSpells;

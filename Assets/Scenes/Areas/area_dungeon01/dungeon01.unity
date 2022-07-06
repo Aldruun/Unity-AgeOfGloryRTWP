@@ -30375,7 +30375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1385628169
 Transform:
   m_ObjectHideFlags: 0
@@ -30384,7 +30384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385628168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.4, y: 0, z: 11.19}
+  m_LocalPosition: {x: -5.8186374, y: 0.0000009536743, z: 2.20161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30408,7 +30408,7 @@ MonoBehaviour:
   debugInitialization: 0
   debugActorGear: 0
   debugActions: 0
-  actorConfiguration: {fileID: 0}
+  actorConfiguration: {fileID: 11400000, guid: 8973418bc0a51e8479a7e3461aa21fcf, type: 2}
   canRespawn: 0
   respawnTimer: 10
   randomFacing: 0
@@ -83304,7 +83304,7 @@ MonoBehaviour:
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
-  debugActions: 1
+  debugActions: 0
   actorConfiguration: {fileID: 11400000, guid: ca0a129df3a65714d90b617494efdf51, type: 2}
   canRespawn: 0
   respawnTimer: 10

@@ -394,34 +394,15 @@ public abstract class Actor : Scriptable
         NavAgent.isStopped = false;
     }
 
-    private void InitializeSpellBook()
-    {
-        Profiler.BeginSample("Spellbook.Init");
-
-        //if (spellbook != null)
-        //{
-        //    spellbook.Init(ActorRecord, ref lowestSpellMagickaCost, ref spellCastingFlags);
-        //    HasSpells = true;
-        //}
-        //else
-        //{
-        //    Debug.Log($"{ActorRecord.GetName()}: <color=grey>No spellbook found. Loading the default one.</color>");
-        //}
-        Profiler.EndSample();
-    }
-
     internal void InititializeSpellbook(List<Spell> spells)
     {
+        Profiler.BeginSample("Spellbook.Init");
         Spellbook = new SpellBook();
         Spellbook.SetSpells(spells);
 
         HasSpells = spells.Count > 0;
+        Profiler.EndSample();
     }
-
-    //public List<SpellData> GetSpells()
-    //{
-    //    return Spellbook.SpellData;
-    //}
 
     public void ChangeMovementSpeed(MovementSpeed movementState)
     {

@@ -21,8 +21,8 @@ MonoBehaviour:
     There is no Saving Throw against this spell, though anti-fire capabilities such
     as Fire Resistance will apply and may reduce or eliminate the damage.
   spellIcon: {fileID: 21300000, guid: 3227525327c8df746821f5a0a6785de1, type: 3}
-  Grade: 0
-  targetClasses: 
+  Grade: 2
+  targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 0
   effectType: 10

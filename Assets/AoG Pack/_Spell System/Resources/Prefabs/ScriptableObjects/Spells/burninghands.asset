@@ -22,8 +22,8 @@ MonoBehaviour:
     or half as much damage on a successful one. The fire ignites any flammable objects
     in the area that aren\u2019t being worn or carried."
   spellIcon: {fileID: 21300000, guid: d2cb297d0f55e2544a0ad46253d61b76, type: 3}
-  Grade: 0
-  targetClasses: 
+  Grade: 1
+  targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 0
   effectType: 10

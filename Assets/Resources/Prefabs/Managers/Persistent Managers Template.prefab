@@ -5776,18 +5776,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1634578488818410020
 GameObject:
   m_ObjectHideFlags: 0
@@ -5840,6 +5839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a2fefe870c52541bbdd55e88011d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registeredRuntimeActors: []
 --- !u!114 &1369369466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6711,18 +6711,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183435367172
 GameObject:
   m_ObjectHideFlags: 0
@@ -6849,18 +6848,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183456676783
 GameObject:
   m_ObjectHideFlags: 0
@@ -7163,18 +7161,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183485584187
 GameObject:
   m_ObjectHideFlags: 0
@@ -8147,18 +8144,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183551881555
 GameObject:
   m_ObjectHideFlags: 0
@@ -8410,18 +8406,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183562176475
 GameObject:
   m_ObjectHideFlags: 0
@@ -8850,18 +8845,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183608972128
 GameObject:
   m_ObjectHideFlags: 0
@@ -10017,18 +10011,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183705394030
 GameObject:
   m_ObjectHideFlags: 0
@@ -10731,18 +10724,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183754426261
 GameObject:
   m_ObjectHideFlags: 0
@@ -11556,18 +11548,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183897907672
 GameObject:
   m_ObjectHideFlags: 0
@@ -11904,18 +11895,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668183942061428
 GameObject:
   m_ObjectHideFlags: 0
@@ -12796,18 +12786,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184016251357
 GameObject:
   m_ObjectHideFlags: 0
@@ -13022,18 +13011,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184028261776
 GameObject:
   m_ObjectHideFlags: 0
@@ -13070,7 +13058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 8, y: 0}
   m_SizeDelta: {x: 174, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1994668184028261780
@@ -13407,18 +13395,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184120236494
 GameObject:
   m_ObjectHideFlags: 0
@@ -13508,18 +13495,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184126738501
 GameObject:
   m_ObjectHideFlags: 0
@@ -13820,18 +13806,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184143125592
 GameObject:
   m_ObjectHideFlags: 0
@@ -14188,8 +14173,8 @@ RectTransform:
   m_Father: {fileID: 1994668185085462894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14713,18 +14698,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184265772533
 GameObject:
   m_ObjectHideFlags: 0
@@ -14970,18 +14954,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184275580877
 GameObject:
   m_ObjectHideFlags: 0
@@ -15334,18 +15317,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184366274804
 GameObject:
   m_ObjectHideFlags: 0
@@ -16058,18 +16040,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184421873624
 GameObject:
   m_ObjectHideFlags: 0
@@ -17039,18 +17020,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184521090211
 GameObject:
   m_ObjectHideFlags: 0
@@ -17253,18 +17233,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184558779945
 GameObject:
   m_ObjectHideFlags: 0
@@ -17446,18 +17425,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184604675975
 GameObject:
   m_ObjectHideFlags: 0
@@ -17850,7 +17828,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18178,18 +18156,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184676602761
 GameObject:
   m_ObjectHideFlags: 0
@@ -20047,18 +20024,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184842902422
 GameObject:
   m_ObjectHideFlags: 0
@@ -20473,18 +20449,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668184877756864
 GameObject:
   m_ObjectHideFlags: 0
@@ -22307,18 +22282,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185015129212
 GameObject:
   m_ObjectHideFlags: 0
@@ -22408,18 +22382,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185016343160
 GameObject:
   m_ObjectHideFlags: 0
@@ -23097,18 +23070,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185068161970
 GameObject:
   m_ObjectHideFlags: 0
@@ -23198,18 +23170,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185074944547
 GameObject:
   m_ObjectHideFlags: 0
@@ -24176,18 +24147,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185137258843
 GameObject:
   m_ObjectHideFlags: 0
@@ -24314,18 +24284,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185149210197
 GameObject:
   m_ObjectHideFlags: 0
@@ -24946,18 +24915,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185208244866
 GameObject:
   m_ObjectHideFlags: 0
@@ -25182,18 +25150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185240110076
 GameObject:
   m_ObjectHideFlags: 0
@@ -25407,18 +25374,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185246615190
 GameObject:
   m_ObjectHideFlags: 0
@@ -26987,18 +26953,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57880e15b7de8234bbb5f4d9113062fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotType: 0
-  inventoryItem:
+  InventoryItem:
     ID: 
     slotIndex: 0
     itemType: 0
     equipped: 0
     stackSize: 0
     flags: 0
-  equippedToggle: {fileID: 0}
-  identifier: 
-  cellIndex: 0
-  m_rectTransform: {fileID: 0}
+  EquippedToggle: {fileID: 0}
+  Identifier: 
+  CellIndex: 0
+  RectTransform: {fileID: 0}
 --- !u!1 &1994668185437469211
 GameObject:
   m_ObjectHideFlags: 0
@@ -27815,7 +27780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2448947764619403285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27835,9 +27800,9 @@ RectTransform:
   m_Father: {fileID: 7412025656928193878}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 45, y: -45}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6844808598974036264
@@ -28245,6 +28210,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras:
+  - {fileID: 9202001153055113730}
   - {fileID: 9202001153055113730}
   m_RendererIndex: 0
   m_VolumeLayerMask:
@@ -39409,7 +39375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  vertical: 0
+  vertical: 1
   mainPanelScrollTime: 0.28
 --- !u!1 &7860224299691713186
 GameObject:
@@ -39746,7 +39712,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

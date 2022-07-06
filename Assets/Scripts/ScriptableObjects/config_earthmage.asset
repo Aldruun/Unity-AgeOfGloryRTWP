@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: config_earthmage
   m_EditorClassIdentifier: 
   AICombatProfile: {fileID: 11400000, guid: 01d302d9714060041be09d3ffdce98b8, type: 2}
-  ActorPrefab: {fileID: 3096157561262641461, guid: 49a66f3f21939f44caf133869447f86f, type: 3}
+  ActorPrefab: {fileID: 6931963087151721191, guid: ac75b7ff9c1002d44af6354c497ffb1b, type: 3}
   BakedWeapon: 0
   UniqueID: df0e28f6-95f8-4223-a135-2c2c83206d82
   Name: Magele
-  InventoryTemplate: {fileID: 11400000, guid: e61f52d8a7b2602479347cb89e782062, type: 2}
+  InventoryTemplate: {fileID: 11400000, guid: 449032662a45772429abcefebff343b9, type: 2}
   ActorFlags: 2
-  levelMin: 1
-  levelMax: 1
   portraitSprite: {fileID: 21300000, guid: 88e01637216b9874e8a299f482aa135e, type: 3}
-  Skillbook: {fileID: 11400000, guid: 40c9c97a53f59e84aa833f5c2549695f, type: 2}
   ActorRadius: 0.3
   Health: 100
   VoicesetID: VoiceSet Amy

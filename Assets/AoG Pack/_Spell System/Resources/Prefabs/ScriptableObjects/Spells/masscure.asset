@@ -23,7 +23,7 @@ MonoBehaviour:
     you cast this spell using a spell slot of 6th level or higher, the Healing increases
     by 1d8 for each slot level above 5th.\r"
   spellIcon: {fileID: 21300000, guid: 2b0c12dc3a3af6646a608f65456b95ca, type: 3}
-  Grade: 0
+  Grade: 5
   targetClasses: 020000000300000004000000
   subCategory: 0
   attackRollType: 0

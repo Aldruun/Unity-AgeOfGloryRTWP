@@ -22,7 +22,7 @@ MonoBehaviour:
     Higher Levels: When you cast this spell using a spell slot of 2nd level or higher,
     the spell creates one more dart for each slot above 1st.\r"
   spellIcon: {fileID: 21300000, guid: 6d0f440f1a283ed4fa3ce87ffc283a6e, type: 3}
-  Grade: 0
+  Grade: 1
   targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 0

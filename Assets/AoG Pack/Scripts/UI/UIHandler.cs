@@ -88,6 +88,7 @@ namespace AoG.UI
         private readonly UIDialogBox dialogBox;
         private Canvas mainCanvas;
         private GameObject ingameInterface;
+        private UISkillbar uiSkillbar;
         private Toggle tgl_partyai;
         private int gameSpeedIndex;
 
@@ -157,6 +158,8 @@ namespace AoG.UI
             btn_timefaster.onClick.RemoveAllListeners();
             btn_timefaster.onClick.AddListener(() => GameSpeedIncrease());
 
+            uiSkillbar = playerControls.transform.Find("Skillbar Panel").GetComponent<UISkillbar>();
+
             tgl_partyai = playerControls.transform.Find("Toggle Party AI/Toggle").GetComponent<Toggle>();
             tgl_partyai.onValueChanged.RemoveAllListeners();
             tgl_partyai.onValueChanged.AddListener((on) => GameEventSystem.RequestTogglePartyAI(on));
@@ -182,6 +185,11 @@ namespace AoG.UI
             GameEventSystem.OnSetTacticalPause += SetTacticalPause;
 
             inventory.SetActive(false);
+        }
+
+        internal void PopulateSkillbar(Actor actor)
+        {
+            uiSkillbar.PopulateSkillbar(actor);
         }
 
         public static bool UIOnScreen(Vector2 uiScreenPosition)

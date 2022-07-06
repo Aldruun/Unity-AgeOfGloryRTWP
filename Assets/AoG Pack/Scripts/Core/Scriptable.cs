@@ -101,13 +101,14 @@ public abstract class Scriptable : MonoBehaviour
     public void ReleaseCurrentAction()
     {
         if(debugActions)
-            Debug.Log(name + ": <color=cyan>Attempting to release current action</color>");
+            Debug.Log($"{name}:<color=cyan>A/</color> Attempting to release current action");
+
         if(CurrentAction != null)
         {
             //CurrentAction.OnDone?.Invoke();
 
             if(debugActions)
-                Debug.Log(name + ": <color=cyan>Releasing action '" + CurrentAction.ToString() + "'</color>");
+                Debug.Log($"{name}:<color=cyan>A/</color> Releasing action '{CurrentAction}'");
             CurrentAction.Release();
             CurrentAction = null;
         }
@@ -134,7 +135,7 @@ public abstract class Scriptable : MonoBehaviour
         if(instant /*&& CurrentAction == null && GetNextAction() == null*/)
         {
             if(debugActions)
-                Debug.Log("<color=cyan>Instant action '" + newAction.ToString() + "' started</color>");
+                Debug.Log($"{name}<color=cyan>A/</color> Instant action '{newAction}' started");
             ReleaseCurrentAction();
             //CurrentAction = newAction;
             //ExecuteAction(this, CurrentAction); //Why? Current action will be performed instantly either way
@@ -142,7 +143,7 @@ public abstract class Scriptable : MonoBehaviour
         }
 
         if(debugActions)
-            Debug.Log("<color=cyan>Enqueueing action '" + newAction.ToString() + "'</color>");
+            Debug.Log($"{name}<color=cyan>A/</color> Enqueueing action '{newAction}'");
 
         ActionQueue.AddLast(newAction);
     }
@@ -160,7 +161,7 @@ public abstract class Scriptable : MonoBehaviour
         }
 
         if(debugActions)
-            Debug.Log("<color=cyan>Adding action " + newAction.ToString() + " in front</color>");
+            Debug.Log($"{name}<color=cyan>A/</color> Adding action {newAction.ToString()} in front");
 
         ActionQueue.AddFirst(newAction);
     }
@@ -184,15 +185,15 @@ public abstract class Scriptable : MonoBehaviour
     {
         if(ActionQueue == null)
         {
-            if(debugActions)
-                Debug.Log($"{name}<color=orange>A-></color>: Can't pop -> action queue null");
+            //if(debugActions)
+            //    Debug.Log($"{name}<color=orange>A-></color>: Can't pop -> action queue null");
             return null;
         }
 
         if(ActionQueue.Count == 0)
         {
-            if(debugActions)
-                Debug.Log($"{name}<color=orange>A-></color>: Can't pop -> action queue empty");
+            //if(debugActions)
+            //    Debug.Log($"{name}<color=orange>A-></color>: Can't pop -> action queue empty");
             return null;
         }
 
@@ -209,12 +210,12 @@ public abstract class Scriptable : MonoBehaviour
     protected void ClearActions()
     {
         if(debugActions)
-            Debug.Log(name + ": <color=cyan>Clearing action queue</color>");
+            Debug.Log($"{name}:<color=cyan>A/</color> Clearing action queue");
         ReleaseCurrentAction();
         foreach(var a in ActionQueue.ToArray())
         {
             if(debugActions)
-                Debug.Log(name + ": <color=cyan>Clearing action queue: Releasing action '" + a.ToString() + "'</color>");
+                Debug.Log($"{name}:<color=cyan>A/</color> Clearing action queue: Releasing action '{a}'");
             ActionQueue.Remove(a);
             a.Release();
         }
@@ -238,7 +239,7 @@ public abstract class Scriptable : MonoBehaviour
         }
 
         if(debugActions)
-            Debug.Log(name + ": <color=orange>PA: Exec CurrAction '" + CurrentAction.ToString() + "'</color>");
+            Debug.Log($"{name}:<color=cyan>A/</color> PA: Exec CurrAction '{CurrentAction}'");
 
         ExecuteAction(this, CurrentAction);
 

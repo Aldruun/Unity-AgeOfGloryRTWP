@@ -24,7 +24,7 @@ MonoBehaviour:
     Levels: When you cast this spell using a spell slot of 4th level or higher, the
     damage increases by 1d6 for each slot above 3rd.\r\n\r\n"
   spellIcon: {fileID: 21300000, guid: 8503354471d365b4da2519972f78f6e7, type: 3}
-  Grade: 0
+  Grade: 3
   targetClasses: 0a0000000c000000
   subCategory: 0
   attackRollType: 0

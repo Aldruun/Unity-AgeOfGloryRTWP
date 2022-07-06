@@ -17,12 +17,12 @@ public class UISkillbar : MonoBehaviour
 
     private RectTransform _transform;
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         GameEventSystem.OnPartyMemberDeselected -= AdjustSpellbarVisibilityStatus;
         GameEventSystem.OnPartyMemberDeselected += AdjustSpellbarVisibilityStatus;
-        GameEventSystem.OnPartyMemberSelected -= Populatespellbar;
-        GameEventSystem.OnPartyMemberSelected += Populatespellbar;
+        GameEventSystem.OnPartyMemberSelected -= PopulateSkillbar;
+        GameEventSystem.OnPartyMemberSelected += PopulateSkillbar;
 
         spellParentPanel = transform.Find("Content - Skill Buttons");
         _transform = GetComponent<RectTransform>();
@@ -50,10 +50,10 @@ public class UISkillbar : MonoBehaviour
     private void OnDisable()
     {
         GameEventSystem.OnPartyMemberDeselected -= AdjustSpellbarVisibilityStatus;
-        GameEventSystem.OnPartyMemberSelected -= Populatespellbar;
+        GameEventSystem.OnPartyMemberSelected -= PopulateSkillbar;
     }
 
-    private void Populatespellbar(Actor caster)
+    internal void PopulateSkillbar(Actor caster)
     {
         _lastSelectedButton = null;
         if(debug)
@@ -179,7 +179,7 @@ public class UISkillbar : MonoBehaviour
 
         if(vertical)
         {
-            float targetScrollValue = scrollIn ? 106.5f : 40;
+            float targetScrollValue = scrollIn ? 90 : 40;
             while(_transform.anchoredPosition.y != targetScrollValue)
             {
 

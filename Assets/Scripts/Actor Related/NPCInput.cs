@@ -62,13 +62,12 @@ public class NPCInput : Actor, IActivatable
 {
     public NPCState npcState;
     public System.Action<float> spellCheckIntervalCallback;
-    public System.Action<float, float> recoveryTimeCallback;
-    // updated value, recovery time
+    public System.Action<float, float> recoveryTimeCallback; // updated value, recovery time
     public System.Action<float> skillCheckIntervalCallback;
     public Vector3 startPosition;
     public Vector3 startEulerAngles;
     private float _checkForCloseActorsTimer;
-    private Actor _closestLookAtActor;
+    private readonly Actor _closestLookAtActor;
     public AIProfile AIProfile { get; set; }
 
     public Actor EscortTarget { get; private set; }
@@ -90,37 +89,45 @@ public class NPCInput : Actor, IActivatable
         {
             waitTimer -= Time.deltaTime;
             if(waitTimer > 0)
+            {
                 return;
+            }
         }
 
         if(CurrentAction == null)
         {
             if(debugActions)
-                Debug.Log($"{GetName()}<color=orange>A</color>: CurrAction null -> popping next");
+            {
+                Debug.Log($"{GetName()}:<color=orange>A/</color> CurrAction null -> popping next");
+            }
+
             CurrentAction = PopNextAction();
 
             if(debugActions)
             {
                 if(CurrentAction == null)
-                    Debug.Log($"{GetName()}<color=orange>A</color>: Popping next action failed");
+                {
+                    Debug.Log($"{GetName()}:<color=orange>A/</color> Popping next action failed");
+                }
             }
 
             return;
         }
 
         if(debugActions)
-            Debug.Log($"{GetName()}<color=orange>A</color>: Exec CurrAction '{CurrentAction}'");
+        {
+            Debug.Log($"{GetName()}:<color=orange>A/</color> Exec CurrAction '{CurrentAction}'");
+        }
+
         if(CurrentAction.Done(this))
         {
             if(debugActions)
-                Debug.Log($"{GetName()}<color=orange>A</color>: CurrAction '{CurrentAction} done");
-
+            {
+                Debug.Log($"{GetName()}:<color=orange>A/</color> CurrAction '{CurrentAction} done");
+            }
 
             ReleaseCurrentAction();
-
         }
-        //actionRoutine = CR_ExecuteAction();
-        //scrMono.StartCoroutine(actionRoutine);
     }
 
     internal override void Stop()
@@ -150,7 +157,9 @@ public class NPCInput : Actor, IActivatable
     public void ClearEscortTarget()
     {
         if(EscortTarget == null)
+        {
             return;
+        }
 
         EscortTarget.ActorStats.escortsCount--;
         EscortIndex = 0;
@@ -160,9 +169,10 @@ public class NPCInput : Actor, IActivatable
     public override void UpdateActiveCellBehaviours()
     {
         if(dead)
+        {
             return;
+        }
 
-        UpdateStates();
         UpdateLocomotion();
         UpdateSummonedCreatureStates();
 
@@ -210,7 +220,9 @@ public class NPCInput : Actor, IActivatable
     public override void Signal_ProjectileIncoming(Transform projectile, float aoeRadius)
     {
         if(debugAnimation)
+        {
             Debug.Log($"{GetName()}: Projectile incoming");
+        }
 
         Vector3 sideStepPos = transform.position + (aoeRadius > 0 ? -projectile.right * aoeRadius : -projectile.right) + UnityEngine.Random.onUnitSphere;
         NavMeshHit navHit;
@@ -234,7 +246,7 @@ public class NPCInput : Actor, IActivatable
 
     public override Vector3 GetLookAtPoint()
     {
-        return Animation.head.position + Vector3.up * 0.1f;
+        return Animation.head.position + (Vector3.up * 0.1f);
     }
 
     public override void UpdateLookAtIK()
@@ -244,9 +256,6 @@ public class NPCInput : Actor, IActivatable
         if(_checkForCloseActorsTimer <= 0)
         {
             _checkForCloseActorsTimer = 1;
-
-            //_closestLookAtActor = HelperFunctions.GetClosestActor_WithJobs(this, 5, );
-
         }
         if(Combat.GetHostileTarget() != null && ActorUtility.IsValidTarget(Combat.GetHostileTarget()))
         {
@@ -258,7 +267,7 @@ public class NPCInput : Actor, IActivatable
         }
         else
         {
-            UpdateAimIKTarget(transform.position + transform.forward + Vector3.up * 1.7f);
+            UpdateAimIKTarget(transform.position + transform.forward + (Vector3.up * 1.7f));
         }
     }
 
@@ -287,103 +296,6 @@ public class NPCInput : Actor, IActivatable
         return NavAgent.radius;
     }
 
-    private void UpdateStates()
-    {
-        if(ActorStats == null)
-        {
-            //Destroy(this);
-            Debug.Log(gameObject.name + ":<color=red>Actor record null</color>");
-        }
-
-        if(debugAnimation)
-            Debug.Log(GetName() + ":<color=cyan>*</color> Updating NPC Input");
-        //if(isDowned || Animation.inBleedOutState)
-        //{
-        //    HeadTracking.SetIsAimingRangedWeapon(false);
-        //    HeadTracking.SetLooAtWeight(0);
-        //    return;
-        //}
-        //HeadTracking.SetLooAtWeight(1);
-
-        //ActorInput enemy = HelperFunctions.GetClosestEnemy_WithJobs(this, 20);
-        //Combat.SetHostileTarget(enemy);
-
-        //if(enemy != null)
-        //{
-        //    //if(HasSpells && outOfMana == false && Vector3.Distance(transform.position, Combat.GetHostileTarget().transform.position) > 5)
-        //    //{
-        //    //    ChangeState(NPCState.MOVECAST);
-        //    //}
-        //    //else
-        //    //{
-        //    //    ChangeState(NPCState.MOVEATTACK);
-        //    //}
-
-        //    //if(tauntTimer <= Time.time)
-        //    //{
-        //    //    tauntTimer = Time.time + Random.Range(5f, 15f);
-        //    //    SoundManager.ActorSFX.VerbalConstant(CharacterVoiceSet, voiceAudioSource, transform.position, VerbalConstantType.TAUNT);
-        //    //}
-        //    if(Combat.WeaponDrawn == false)
-        //    {
-        //        Combat.Execute_DrawWeapon();
-        //    }
-        //    ChangeMovementSpeed(MovementSpeed.Run);
-        //    skillController.UpdateAI();
-        //}
-        //else
-        //{
-        //    if(EscortTarget != null)
-        //    {
-        //        ChangeState(NPCState.ESCORT);
-        //    }
-        //    else
-        //    {
-        //        ChangeState(NPCState.WANDER);
-        //    }
-        //    _npcStateMachine.Update(this);
-        //}
-
-        if(Immobile())
-        {
-            return;
-        }
-
-        if(hasMovementOrder)
-        {
-            bool done = false;
-
-            if(AtDestination()) //! At target location
-            {
-                if(debugInput)
-                {
-                    Debug.DrawRay(transform.position, desiredTargetReachedDirection * 3, Color.yellow);
-                    Debug.DrawRay(transform.position, transform.forward * 3, Color.red);
-                }
-
-                if(Mathf.Abs(Vector3.SignedAngle(transform.forward, desiredTargetReachedDirection, Vector3.up)) > 2f) //! Align facing
-                {
-                    HelperFunctions.RotateTo(transform, transform.position + desiredTargetReachedDirection, 300, "AtDest");
-                    done = false;
-                }
-                else
-                {
-                    done = true;
-                }
-
-                NavAgent.avoidancePriority = 100;
-                NavAgent.destination = transform.position;
-                OnMovementOrderDone?.Invoke();
-                OnMovementOrderDone = null;
-            }
-            else
-            {
-                HelperFunctions.RotateTo(transform, NavAgent.steeringTarget, 300, "NPCController: Steer");
-            }
-
-            hasMovementOrder = !done;
-        }
-    }
     private ActorStats GetSpellTarget()
     {
 

@@ -19,10 +19,7 @@ MonoBehaviour:
   Name: Skeleton
   InventoryTemplate: {fileID: 11400000, guid: e61f52d8a7b2602479347cb89e782062, type: 2}
   ActorFlags: 8
-  levelMin: 1
-  levelMax: 1
   portraitSprite: {fileID: 21300000, guid: 9a8e5ee91abbfd14a87d6ec32854be24, type: 3}
-  Skillbook: {fileID: 11400000, guid: 792863615565ff7498ebe57c4ceadc13, type: 2}
   ActorRadius: 0.3
   Health: 100
   VoicesetID: 

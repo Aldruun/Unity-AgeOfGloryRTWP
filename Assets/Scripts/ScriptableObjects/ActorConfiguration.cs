@@ -18,8 +18,6 @@ public class ActorConfiguration : ScriptableObject
     public string Name;
     public InventoryTemplate InventoryTemplate;
     public ActorFlags ActorFlags;
-    public int levelMin = 1;
-    public int levelMax = 1;
     public Sprite portraitSprite;
     public SpellBook Spellbook;
 
@@ -43,7 +41,6 @@ public class ActorConfiguration : ScriptableObject
             InventoryTemplate = Resources.Load<InventoryTemplate>("ScriptableObjects/InventoryTemplateDummy");
         }
         
-        stats.Execute_ModifyLevel(Random.Range(levelMin, levelMax), ModType.ABSOLUTE);
         stats.SetActorFlags(ActorFlags);
         stats.Gender = Gender;
         stats.Faction = Faction;

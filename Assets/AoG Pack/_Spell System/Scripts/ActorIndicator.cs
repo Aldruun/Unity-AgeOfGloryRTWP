@@ -81,12 +81,10 @@ public class ActorIndicator
         if(on)
         {
             circleOutline.outlineColor = selectedColor;
-
         }
         else
         {
             circleOutline.outlineColor = defaultColor;
-
         }
     }
 

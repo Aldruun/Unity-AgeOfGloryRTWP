@@ -276,7 +276,7 @@
     "rarity": 0,
     "weight": 0.3,
     "equippable": false,
-    "BaseDamageRoll": 2
+    "BaseDamageRoll": 3
   },
   {
     "$type": "Valuable, Assembly-CSharp",
