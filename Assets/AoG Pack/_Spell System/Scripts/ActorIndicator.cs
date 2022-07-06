@@ -29,7 +29,7 @@ public class ActorIndicator
 
         circleOutline = indicatorMainPanel.Find("circle").GetComponent<HighlightPlus.HighlightEffect>();
         circleOutline.SetHighlighted(true);
-        circleRenderer = indicatorMainPanel.Find("circle").GetComponent<Renderer>();
+        circleRenderer = circleOutline.GetComponent<Renderer>();
         targetReticleRenderer = indicatorMainPanel.Find("targetreticle").GetComponent<Renderer>();
         _targetReticleAnimator = targetReticleRenderer.GetComponent<SpriteAnimationController>();
 
@@ -65,34 +65,18 @@ public class ActorIndicator
 
     internal void ResetHighlighting()
     {
-        Debug.Log("Indicator reset highlighting");
         lerp_time = 0;
     }
 
     internal void SetHighlighted(bool on)
     {
-        //if(highlighted == on || isSpeaking)
-        //{
-        //    return;
-        //}
-        Debug.Log("Highlight indicator " + on);
         highlighted = on;
-
-        //lerp_time = 0;
-        //if(on)
-        //{
-        //    circleOutline.outlineColor = selectedColor;
-        //}
-        //else
-        //{
-        //    circleOutline.outlineColor = defaultColor;
-        //}
     }
 
     internal void SetSelected(bool on)
     {
         selected = on;
-        Debug.Log("Highlight set selected " + on);
+
         circleOutline.outline = 1;
         lerp_time = 0;
         if(on)
@@ -166,14 +150,12 @@ public class ActorIndicator
         if(on)
         {
             circleOutline.outlineColor = Color.white;
-            Debug.Log("AnimateTalkCircle on");
         }
         else
         {
             circleOutline.outlineColor = selected ? selectedColor : defaultColor;
             circleRenderer.transform.localScale = Vector3.one;
             pingpongTime = 0.5f;
-            Debug.Log("AnimateTalkCircle off");
         }
     }
 
