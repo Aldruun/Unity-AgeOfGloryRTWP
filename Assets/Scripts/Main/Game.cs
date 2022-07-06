@@ -51,9 +51,9 @@ namespace AoG.Core
                 SpawnPoint spawnpoint = spawnpoints[i];
                 Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
                 spawned.ActorStats.GenerateNPCLevel(3);
-                spawned.Equipment.EquipBestArmor();
                 //ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
                 spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 3));
+                spawned.Equipment.EquipBestArmor();
 
                 spawned.aiControlled = true;
 

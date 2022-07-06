@@ -201,6 +201,9 @@ public class ActorStats
 
     public Action<int, int, int, int, int, int> OnStatsChanged;
   
+    /// <summary>
+    /// Initializes stuff that absolutely needs to be ready from the start.
+    /// </summary>
     public ActorStats()
     {
         InitializeStatDictionaries();

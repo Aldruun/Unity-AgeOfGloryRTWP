@@ -126,9 +126,6 @@ namespace AoG.Core
 
         private void GameLoop()
         {
-            //selectionManager.Update();
-            //uiScript.Update();
-            //player.UpdateActiveCellBehaviours();
             bool uiPanelActive = false;
             Profiler.BeginSample("uiHandler.Update");
             uiHandler.Update(ref uiPanelActive);

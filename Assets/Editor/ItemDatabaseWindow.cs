@@ -528,10 +528,11 @@ public class ItemDatabaseWindow : EditorWindow
                     if(check.changed)
                     {
                         EditorUtility.SetDirty(selectedActor);
+                        srlActor.ApplyModifiedProperties();
                     }
                 }
 
-                srlActor.ApplyModifiedProperties();
+
             }
         }
         //}
@@ -1229,7 +1230,7 @@ public class ItemDatabaseWindow : EditorWindow
         selectedSpell.description = EditorGUILayout.TextArea(selectedSpell.description, GUILayout.ExpandHeight(true), GUILayout.Height(100));
 
         selectedSpell.spellIcon = (Sprite)EditorGUILayout.ObjectField("Icon:", selectedSpell.spellIcon, typeof(Sprite), false, GUILayout.ExpandWidth(false));
-    
+
         selectedSpell.subCategory = (SubCategory)EditorGUILayout.EnumPopup("Subcategory: ", selectedSpell.subCategory, GUILayout.Width(270));
         selectedSpell.attackRollType = (SpellAttackRollType)EditorGUILayout.EnumPopup("Attack Roll: ", selectedSpell.attackRollType, GUILayout.Width(270));
         selectedSpell.effectType = (DamageType)EditorGUILayout.EnumPopup("Effect Type: ", selectedSpell.effectType, GUILayout.Width(270));

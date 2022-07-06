@@ -15,7 +15,7 @@ public class JsonDataService : IDataService
         {
             if(File.Exists(path))
             {
-                Debug.Log("Data exists. Deleting old file and writing a new one");
+                Debug.Log("Save data exists. Deleting old file and writing a new one");
 
                 File.Delete(path);
             }

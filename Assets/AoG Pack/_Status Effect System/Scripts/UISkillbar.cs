@@ -38,15 +38,6 @@ public class UISkillbar : MonoBehaviour
         StartCoroutine("CR_ScrollSpellBar", true);
     }
 
-    private void DeselectActivespellButton()
-    {
-        if(_lastSelectedButton != null)
-        {
-            _lastSelectedButton.ToggleSelected(false);
-            _lastSelectedButton = null;
-        }
-    }
-
     private void OnDisable()
     {
         GameEventSystem.OnPartyMemberDeselected -= AdjustSpellbarVisibilityStatus;
@@ -56,17 +47,20 @@ public class UISkillbar : MonoBehaviour
     internal void PopulateSkillbar(Actor caster)
     {
         _lastSelectedButton = null;
-        if(debug)
-            Debug.Log("<color=cyan>Populating spell bar</color>");
+
+        //if(debug)
+        //    Debug.Log("<color=cyan>Populating spell bar</color>");
+
         foreach(UISkillButton item in spellButtons)
         {
             item.ToggleSelected(false);
             item.gameObject.SetActive(false);
         }
+
         StopCoroutine("CR_ScrollSpellBar");
+
         if(SelectionManager.NumSelectedPCs() > 1)
         {
-
             StartCoroutine("CR_ScrollSpellBar", false);
             return;
         }
@@ -74,6 +68,7 @@ public class UISkillbar : MonoBehaviour
         StartCoroutine("CR_ScrollSpellBar", true);
 
         int spellCount = caster.Spellbook.SpellData.Count;
+
         for(int i = 0; i < spellCount; i++)// Skill skill in agent.behaviours.skillController.GetSkills())
         {
             Spell spell = caster.Spellbook.SpellData[i].spell;
@@ -93,17 +88,18 @@ public class UISkillbar : MonoBehaviour
             spellButton.GetComponent<Image>().sprite = spell.spellIcon;
         
             spellButton.onClick.RemoveAllListeners();
+
             spellButton.onClick.AddListener(delegate
             {
                 if(debug)
                     Debug.Log(caster.GetName() + ":<color=orange>Key " + spell.Name + " pressed</color>");             
-                GameEventSystem.OnPlayerSpellButtonClicked?.Invoke(caster, spell, sBtn);
-
                 foreach(UISkillButton spellBtn in spellButtons)
                 {
                     spellBtn.ToggleSelected(false);
                 }
-                sBtn.ToggleSelected(true);
+                sBtn.ToggleSelected(sBtn.Active == false);
+                GameEventSystem.OnPlayerSpellButtonClicked?.Invoke(caster, spell, sBtn);
+
                 _lastSelectedButton = sBtn;
             });
             Image radImage = sBtn.transform.Find("cooldown").GetComponent<Image>();
@@ -142,7 +138,6 @@ public class UISkillbar : MonoBehaviour
 
         foreach(UISkillButton cachedObj in spellButtons)
         {
-
             // Pick an inactive object from the pool and leave the loop
             if(cachedObj.gameObject.activeSelf == false)
             {

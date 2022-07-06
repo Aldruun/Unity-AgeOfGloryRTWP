@@ -33,38 +33,55 @@ public class ActorUI
     private void HighlightIndicator(bool on)
     {
         actorIndicator.SetHighlighted(on);
+
+        if(on == false)
+        {
+            actorIndicator.SetSelected(Selected);
+        }
+    }
+
+    private void HighlightPortrait(bool on)
+    {
+        actorPortrait?.SetHighlighted(on);
+
+        if(on == false)
+        {
+            if(actorPortrait != null)
+                actorPortrait.Active = Selected;
+        }
     }
 
     public void Highlight()
     {
         HighlightIndicator(true);
-        actorPortrait?.SetHighlighted(true);
+        HighlightPortrait(true);
     }
 
     public void Unhighlight()
     {
         HighlightIndicator(false);
-        actorPortrait?.SetHighlighted(false);
+        HighlightPortrait(false);
 
-        if(Selected)
-        {
-            actorIndicator.SetSelected(true);
-            if(actorPortrait != null)
-                actorPortrait.Active = true;
-        }
-        else
-        {
-            actorIndicator.SetSelected(false);
-            if(actorPortrait != null)
-                actorPortrait.Active = false;
-        }
+        //if(Selected)
+        //{
+        //    actorIndicator.SetSelected(true);
+        //    if(actorPortrait != null)
+        //        actorPortrait.Active = true;
+        //}
+        //else
+        //{
+        //    actorIndicator.SetSelected(false);
+        //    if(actorPortrait != null)
+        //        actorPortrait.Active = false;
+        //}
     }
 
     public void Update()
     {
         bool talking = voiceAudioSource != null && voiceAudioSource.priority == 127 && voiceAudioSource.isPlaying;
         actorIndicator.UpdateColor(talking);
-        actorPortrait?.UpdateColor(actor.IsPlayer, talking);
+        if(actor.IsPlayer)
+            actorPortrait?.UpdateColor(talking);
     }
 
     //public void SetTargetReticle(bool on)

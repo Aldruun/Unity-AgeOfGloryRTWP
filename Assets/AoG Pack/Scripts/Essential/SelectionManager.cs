@@ -1,6 +1,4 @@
 ﻿using AoG.Core;
-using AoG.UI;
-using GenericFunctions;
 using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -16,7 +14,6 @@ public class SelectionManager
 
     //public static List<ActorInput> selectedUnits;
     public List<Actor> PCsInSelRect;
-    public static List<Actor> selected;
 
     public static Actor actorUnderCursor;
 
@@ -37,13 +34,14 @@ public class SelectionManager
 
     private Vector2 squareStartPos;
     private Vector2 squareEndPos;
-    private Camera cameraMain;
-    private RectTransform selectionBoxVisual;
+    internal static List<Actor> selected;
+    private readonly Camera cameraMain;
+    private readonly RectTransform selectionBoxVisual;
     public SelectionManager(Camera camera, RectTransform selectionBoxVisual)
     {
         cameraMain = camera;
         this.selectionBoxVisual = selectionBoxVisual;
-      
+
         PCsInSelRect = new List<Actor>();
         selected = new List<Actor>();
         selectionBoxVisual.gameObject.SetActive(false);
@@ -79,7 +77,9 @@ public class SelectionManager
         }
 
         if(Input.GetMouseButtonDown(0))
+        {
             startedOverGUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(-1);
+        }
 
         // If we are above a GUI element, bail out
         if(startedOverGUI)
@@ -108,14 +108,17 @@ public class SelectionManager
             if(Physics.Raycast(cameraMain.ScreenPointToRay(Input.mousePosition), out hitUnitClick, 100, 1 << LayerMask.NameToLayer("Actors")))
             {
                 if(debug)
+                {
                     Debug.Log("<color=orange>Click on actor</color>");
+                }
+
                 Actor clickedAgent = hitUnitClick.collider.GetComponentInParent<Actor>();
 
                 if(clickedAgent is Actor ac)
                 {
                     if(ac.IsPlayer)
                     {
-                        SelectPC(ac, /*ac.ActorRecord.faction == Faction.Bandits || ac.ActorRecord.faction == Faction.Monsters,*/ (Input.GetKey(KeyCode.LeftShift) == false));
+                        SelectPC(ac, /*ac.ActorRecord.faction == Faction.Bandits || ac.ActorRecord.faction == Faction.Monsters,*/ Input.GetKey(KeyCode.LeftShift) == false);
                     }
                 }
             }
@@ -272,7 +275,9 @@ public class SelectionManager
         }
 
         if(actors.Count > 0)
+        {
             GameEventSystem.UIRequestShowAIToggleAsOn(actors[actors.Count - 1].aiControlled); //TODO Update complete ui info of this actor
+        }
     }
 
     internal static void DeselectPC(Actor actor)
@@ -324,7 +329,7 @@ public class SelectionManager
         }
         else
         {
-            DeselectPC(actor); 
+            DeselectPC(actor);
         }
 
         GameEventSystem.OnPCSelectionStateChanged?.Invoke(actor, actor.aiControlled); //TODO Update all ui info of this actor
@@ -357,7 +362,7 @@ public class SelectionManager
     //    }
     //}
 
-    void HandleMarqueeSelection()
+    private void HandleMarqueeSelection()
     {
         if(Input.GetMouseButtonDown(0))
         {
@@ -407,7 +412,7 @@ public class SelectionManager
         }
     }
 
-    void DrawSelectionRectVisual()
+    private void DrawSelectionRectVisual()
     {
         selectionBoxVisual.gameObject.SetActive(true);
         Vector2 boxStart = squareStartPos;
@@ -455,7 +460,7 @@ public class SelectionManager
         }
     }
 
-    Actor[] GetPCsInsideSelRect()
+    private Actor[] GetPCsInsideSelRect()
     {
         List<Actor> pcsInsideSelRect = new List<Actor>();
 
@@ -465,14 +470,16 @@ public class SelectionManager
             screenPos.z = 0;
 
             if(selectionRect.Contains(screenPos))
+            {
                 pcsInsideSelRect.Add(selectable);
+            }
         }
 
         return pcsInsideSelRect.ToArray();
     }
 
     private int numInSelRect;
-    void HighlightPCsInSelectionRect()
+    private void HighlightPCsInSelectionRect()
     {
         int currNumInSelRect = 0;
         List<ActorUI> pcsInsideSelRect = new List<ActorUI>();
@@ -519,7 +526,9 @@ public class SelectionManager
             }
 
             if(pc.ActorUI.Selected)
+            {
                 count++;
+            }
         }
 
         return count;

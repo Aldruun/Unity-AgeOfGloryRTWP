@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Profiling;
 
-[System.Serializable]
 [CreateAssetMenu(fileName = "NPCConfiguration", menuName = "ScriptableObjects/NPC Configuration/NPCConfiguration")]
 public class ActorConfiguration : ScriptableObject
 {
@@ -23,16 +22,13 @@ public class ActorConfiguration : ScriptableObject
 
     public float ActorRadius = 0.3f;
 
-    [Header("Stats")]
-    public int Health = 100;
-
     public string VoicesetID;
 
-    public int Level { get; set; }
-    public Gender Gender { get; set; }
-    public ActorRace Race { get; set; }
-    public Class ActorClass { get; set; }
-    public Faction Faction { get; set; }
+    public int Level;
+    public Gender Gender;
+    public ActorRace Race;
+    public Class ActorClass;
+    public Faction Faction;
 
     public void InitializeStats(ActorStats stats)
     {

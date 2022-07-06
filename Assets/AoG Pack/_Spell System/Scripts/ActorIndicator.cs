@@ -65,33 +65,36 @@ public class ActorIndicator
 
     internal void ResetHighlighting()
     {
+        Debug.Log("Indicator reset highlighting");
         lerp_time = 0;
     }
 
     internal void SetHighlighted(bool on)
     {
-        if(highlighted == on || isSpeaking)
-        {
-            return;
-        }
-
+        //if(highlighted == on || isSpeaking)
+        //{
+        //    return;
+        //}
+        Debug.Log("Highlight indicator " + on);
         highlighted = on;
 
-        lerp_time = 0;
-        if(on)
-        {
-            circleOutline.outlineColor = selectedColor;
-        }
-        else
-        {
-            circleOutline.outlineColor = defaultColor;
-        }
+        //lerp_time = 0;
+        //if(on)
+        //{
+        //    circleOutline.outlineColor = selectedColor;
+        //}
+        //else
+        //{
+        //    circleOutline.outlineColor = defaultColor;
+        //}
     }
 
     internal void SetSelected(bool on)
     {
         selected = on;
-
+        Debug.Log("Highlight set selected " + on);
+        circleOutline.outline = 1;
+        lerp_time = 0;
         if(on)
         {
             if(isSpeaking == false)

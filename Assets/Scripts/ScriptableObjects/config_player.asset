@@ -15,11 +15,15 @@ MonoBehaviour:
   AICombatProfile: {fileID: 11400000, guid: 95dd0b450a9344042952b38a60f61d46, type: 2}
   ActorPrefab: {fileID: 6931963087151721191, guid: ac75b7ff9c1002d44af6354c497ffb1b, type: 3}
   BakedWeapon: 0
-  UniqueID: 5c016e05-8e20-4001-bdc5-1eee2a54e494
+  UniqueID: b11eeea4-a44b-46a4-b195-dd2a211fe12e
   Name: Player
   InventoryTemplate: {fileID: 11400000, guid: 449032662a45772429abcefebff343b9, type: 2}
   ActorFlags: 2
   portraitSprite: {fileID: 21300000, guid: 7cfb5fb7b683c2149a751396b7c57a21, type: 3}
-  ActorRadius: 0.3
-  Health: 100
+  ActorRadius: 0.2
   VoicesetID: voiceset female confident
+  Level: 1
+  Gender: 0
+  Race: 0
+  ActorClass: 10
+  Faction: 0

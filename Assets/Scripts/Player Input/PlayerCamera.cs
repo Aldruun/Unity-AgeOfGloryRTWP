@@ -96,7 +96,7 @@ public class PlayerCamera
             HandleZooming();
         }
 
-        HandleResetRotation();
+        //HandleResetRotation();
 
         if(camTarget != null)
         {
@@ -211,9 +211,11 @@ public class PlayerCamera
             return;
         }
 
-        mult = 0.2f;
-        mouseY = Mathf.MoveTowards(mouseY, 45f, Time.unscaledDeltaTime * 35f);
-        mouseX = Mathf.MoveTowards(mouseX, 45f, Time.unscaledDeltaTime * 35f);
+        mult = 0.1f;
+
+        mouseY = mouseX = 45f;
+        //mouseY = Mathf.MoveTowards(mouseY, 45f, Time.unscaledDeltaTime * 35f);
+        //mouseX = Mathf.MoveTowards(mouseX, 45f, Time.unscaledDeltaTime * 35f);
     }
 
     private void HandleZooming()

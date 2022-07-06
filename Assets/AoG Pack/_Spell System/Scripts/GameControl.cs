@@ -72,14 +72,14 @@ namespace AoG.Controls
     {
         public bool debug;
 
-        private DeliveryType _spellActivationMode;
-        private SpellTargetProjector _aoeProjector;
-        private SpellTargetProjector _aimProjector;
+        private DeliveryType spellActivationMode;
+        private SpellTargetProjector aoeProjector;
+        private SpellTargetProjector aimProjector;
         private SelectionManager selectionManager;
 
-        private Actor _caster;
+        private Actor caster;
         private Actor _target;
-        private Spell _clickedSpell;
+        private Spell clickedSpell;
         private Collider[] _highlightedTargets;
 
         private ScreenFlags _screenFlags;
@@ -98,7 +98,7 @@ namespace AoG.Controls
         private bool overInfoPoint;
         private bool overUI;
 
-        private UISkillButton _lastPressedSpellButton;
+        private UISkillButton lastPressedSpellButton;
 
         private Camera cameraMain;
 
@@ -107,10 +107,10 @@ namespace AoG.Controls
         {
             cameraMain = camera;
             selectionManager = new SelectionManager(camera, selectionBox);
-            _aoeProjector = UnityEngine.Object.Instantiate(ResourceManager.indicator_aoeprojector).GetComponent<SpellTargetProjector>();
-            _aimProjector = UnityEngine.Object.Instantiate(ResourceManager.indicator_aimprojector).GetComponent<SpellTargetProjector>();
-            _aoeProjector.Init();
-            _aimProjector.Init();
+            aoeProjector = UnityEngine.Object.Instantiate(ResourceManager.indicator_aoeprojector).GetComponent<SpellTargetProjector>();
+            aimProjector = UnityEngine.Object.Instantiate(ResourceManager.indicator_aimprojector).GetComponent<SpellTargetProjector>();
+            aoeProjector.Init();
+            aimProjector.Init();
 
             GameEventSystem.OnPlayerSpellButtonClicked = HandleSpellButtonPress;
             GameEventSystem.OnSetPCUnderCursorForGameControl = SetPortraitActorUnderCursor;
@@ -249,7 +249,7 @@ namespace AoG.Controls
 
             Actor targetActor = null;
 
-            switch(_spellActivationMode)
+            switch(spellActivationMode)
             {
                 case DeliveryType.None:
 
@@ -257,31 +257,31 @@ namespace AoG.Controls
                 case DeliveryType.InstantSelf:
                 case DeliveryType.InstantActor:
 
-                    if(actorUnderMouse == _caster && _clickedSpell.effectType != DamageType.HEAL)
+                    if(actorUnderMouse == caster && clickedSpell.effectType != DamageType.HEAL)
                         return;
                     targetActor = actorUnderMouse;
                     break;
                 case DeliveryType.SeekActor:
 
-                    if(actorUnderMouse == _caster)
+                    if(actorUnderMouse == caster)
                         return;
                     targetActor = actorUnderMouse;
                     break;
                 case DeliveryType.InstantLocation:
                 case DeliveryType.SeekLocation:
 
-                    if(actorUnderMouse == _caster)
+                    if(actorUnderMouse == caster)
                         return;
 
-                    if(_aoeProjector.gameObject.activeInHierarchy)
+                    if(aoeProjector.gameObject.activeInHierarchy)
                     {
                         if(portraitActorUnderCursor == null && overUI)
                         {
-                            _aoeProjector.Toggle(false);
+                            aoeProjector.Toggle(false);
                             return;
                         }
 
-                        _aoeProjector.Toggle(true);
+                        aoeProjector.Toggle(true);
 
                         RaycastHit hit;
 
@@ -294,7 +294,7 @@ namespace AoG.Controls
                         {
                             aoeLocation = hit.point;
                         }
-                        _aoeProjector.transform.position = aoeLocation;
+                        aoeProjector.transform.position = aoeLocation;
                         //int numTargetHits = Physics.OverlapSphereNonAlloc(aoeLocation, _aoeProjector.radius, _highlightedTargets, 1 << LayerMask.NameToLayer("Actors"));
                         //for(int i = 0; i < numTargetHits; i++)
                         //{
@@ -311,7 +311,7 @@ namespace AoG.Controls
                         //{
                         if(overUI)
                         {
-                            _aimProjector.Toggle(false);
+                            aimProjector.Toggle(false);
                             return;
                         }
 
@@ -348,7 +348,7 @@ namespace AoG.Controls
                             return;
                         }
 
-                        if(actorUnderMouse == null || actorUnderMouse == _caster/* && _clickedSpell.effectType != DamageType.HEAL*/)
+                        if(actorUnderMouse == null || actorUnderMouse == caster/* && _clickedSpell.effectType != DamageType.HEAL*/)
                             return;
                         targetActor = actorUnderMouse;
                         break;
@@ -361,11 +361,11 @@ namespace AoG.Controls
 
                 if(targetActor != null)
                 {
-                    TryToCast(_caster, targetActor);
+                    TryToCast(caster, targetActor);
                 }
                 else if(targetPosition != Vector3.one)
                 {
-                    TryToCast(_caster, targetPosition);
+                    TryToCast(caster, targetPosition);
                 }
 
                 FinishTargeting();
@@ -478,24 +478,34 @@ namespace AoG.Controls
 
         private void HandleSpellButtonPress(Actor caster, Spell spell, UISkillButton _activeSpellButton)
         {
+            ColoredDebug.Log("Handling spell button press", Color.white, FontStyle.Bold);
             FinishTargeting();
-            if(spell.cooldownTimer > 0)
+
+            if(_activeSpellButton.Active == false)
             {
                 return;
             }
-            _lastPressedSpellButton = _activeSpellButton;
-            _lastPressedSpellButton.ToggleSelected(true);
 
-            _caster = caster;
-            _clickedSpell = spell;
+            if(spell.cooldownTimer > 0)
+            {
+                ColoredDebug.Log("Handling spell button press failed: In spell cooldown", Color.yellow, FontStyle.Bold);
+                return;
+            }
+            lastPressedSpellButton = _activeSpellButton;
+            //lastPressedSpellButton.ToggleSelected(true);
+
+            this.caster = caster;
+            clickedSpell = spell;
             GameEventSystem.isAimingSpell = true;
-            _aoeProjector.Toggle(false);
-            _aoeProjector.enabled = false;
-            _aimProjector.Toggle(false);
-            _aimProjector.enabled = false;
-            _spellActivationMode = spell.deliveryType;
+            //_aoeProjector.Toggle(false);
+            //_aoeProjector.enabled = false;
+            //_aimProjector.Toggle(false);
+            //_aimProjector.enabled = false;
+            spellActivationMode = spell.deliveryType;
             SetTargetMode(TargetMode.CAST);
-            switch(_spellActivationMode)
+
+            ColoredDebug.Log("Switching spell activation mode", Color.white, FontStyle.Bold);
+            switch(spellActivationMode)
             {
                 case DeliveryType.None:
                     Debug.LogError("Spell delivery type = none");
@@ -503,7 +513,7 @@ namespace AoG.Controls
                     break;
                 case DeliveryType.InstantSelf: // AoE possible, i.e. bards songs
 
-                    TryToCast(_caster, _caster);
+                    TryToCast(this.caster, this.caster);
                     FinishTargeting();
 
                     break;
@@ -523,17 +533,17 @@ namespace AoG.Controls
 
                     if(spell.aoeRadius >= 1)
                     {
-                        _aoeProjector.transform.position = cameraMain.ScreenPointToRay(Input.mousePosition).origin;
-                        _aoeProjector.enabled = true;
-                        _aoeProjector.SetAoE(caster, spell.aoeRadius, spell.spellTargetType);
+                        aoeProjector.transform.position = cameraMain.ScreenPointToRay(Input.mousePosition).origin;
+                        aoeProjector.enabled = true;
+                        aoeProjector.SetAoE(caster, spell.aoeRadius, spell.spellTargetType);
                     }
 
                     break;
                 case DeliveryType.Spray:
                     {
-                        _aimProjector.transform.position = caster.transform.position;
-                        _aimProjector.enabled = true;
-                        _aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
+                        aimProjector.transform.position = caster.transform.position;
+                        aimProjector.enabled = true;
+                        aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
                         break;
                     }
                 case DeliveryType.Beam:
@@ -550,14 +560,14 @@ namespace AoG.Controls
         {
             if(GameEventSystem.isAimingSpell == false)
                 return;
-            _lastPressedSpellButton.ToggleSelected(false);
+            lastPressedSpellButton.ToggleSelected(false);
             //_caster = null;
-            _aoeProjector.Toggle(false);
-            _aoeProjector.enabled = false;
-            _aimProjector.Toggle(false);
-            _aimProjector.enabled = false;
+            aoeProjector.Toggle(false);
+            aoeProjector.enabled = false;
+            aimProjector.Toggle(false);
+            aimProjector.enabled = false;
             GameEventSystem.isAimingSpell = false;
-            _spellActivationMode = DeliveryType.None;
+            spellActivationMode = DeliveryType.None;
             SetTargetMode(TargetMode.NONE);
         }
 
@@ -611,7 +621,7 @@ namespace AoG.Controls
             //FormationController.ClearFormationVisual(caster.InParty);
 
             AIActions.Action_CastSpellAtActor action = new AIActions.Action_CastSpellAtActor(caster);
-            caster.CommandActor(action.Set(target, _clickedSpell));
+            caster.CommandActor(action.Set(target, clickedSpell));
             if(FactionExentions.IsEnemy(target.ActorStats, Faction.Heroes))
             {
                 caster.Combat.SetHostileTarget(target);
@@ -628,7 +638,7 @@ namespace AoG.Controls
             //FormationController.ClearFormationVisual(caster.InParty);
 
             AIActions.Action_CastSpellAtLocation action = new AIActions.Action_CastSpellAtLocation(caster);
-            caster.CommandActor(action.Set(point, _clickedSpell));
+            caster.CommandActor(action.Set(point, clickedSpell));
         }
 
         void TryToTalk(Actor talkingPC, Actor dialogOwner)

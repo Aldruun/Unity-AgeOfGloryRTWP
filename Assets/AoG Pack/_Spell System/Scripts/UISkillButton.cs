@@ -8,8 +8,9 @@ using UnityEngine.UI.Extensions;
 
 public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private Actor _caster;
+    public bool Active;
     internal Spell spell;
+    private Actor _caster;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -37,6 +38,7 @@ public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     internal void ToggleSelected(bool select)
     {
+        Active = select;
         transform.Find("glow frame").GetComponent<Image>().enabled = select;
     }
 }

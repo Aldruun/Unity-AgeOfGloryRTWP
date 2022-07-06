@@ -190,13 +190,8 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
     //    _onOverHPText.text = _linkedActorUtility.GetBaseStat(ActorStat.HITPOINTS) + "/" + _linkedActorUtility.GetBaseStat(ActorStat.MAXHITPOINTS);
     //    _onOverHPText.enabled = on;
     //}
-    public void UpdateColor(bool update, bool talking)
+    public void UpdateColor(bool talking)
     {
-        if(update == false)
-        {
-            return;
-        }
-
         //Debug.Log("Updating portrait color");
         ToggleSpeaking(talking);
 
