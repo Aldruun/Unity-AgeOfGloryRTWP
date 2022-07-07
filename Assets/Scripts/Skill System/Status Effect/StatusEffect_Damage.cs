@@ -14,7 +14,7 @@ public class StatusEffect_Damage : StatusEffect
 
     protected override void Tick(Actor actor)
     {
-        actor.Combat.ApplyStatusEffectDamage(effectType, effectValue, percentage);
+        actor.Combat.ApplyStatusEffectDamage(statusEffect, effectType, effectValue, percentage);
     }
 
     protected override void OnBegin(Actor actor)

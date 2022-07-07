@@ -231,5 +231,10 @@ namespace AoG.Core
         {
             return uiHandler;
         }
+
+        internal void SetCursor(CursorType cursorType)
+        {
+            uiHandler.SetCursor(cursorType);
+        }
     }
 }

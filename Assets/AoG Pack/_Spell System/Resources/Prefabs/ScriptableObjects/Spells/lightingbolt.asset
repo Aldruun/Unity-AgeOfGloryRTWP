@@ -36,7 +36,7 @@ MonoBehaviour:
   castingType: 0
   deliveryType: 7
   spellTargetType: 0
-  keywords: 4
+  keywords: 8
   magicEffects:
   - {fileID: 11400000, guid: f7a6fa673d28d1244a8ec92f452a4ba8, type: 2}
   targetLogic: {fileID: 0}

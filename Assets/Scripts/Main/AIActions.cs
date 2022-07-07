@@ -15,12 +15,12 @@ public static class AIActions
 {
     public class Action_DrawWeapon : GameAction
     {
-        float _actTimer = 1;
-        bool _done;
+        private float _actTimer = 1;
+        private readonly bool done;
 
         public Action_DrawWeapon(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         public Action_DrawWeapon Set(bool draw)
@@ -41,9 +41,9 @@ public static class AIActions
             _actTimer -= Time.deltaTime;
             if(_actTimer <= 0)
             {
-                return _done;
+                return done;
             }
-            return _done;
+            return done;
         }
 
         public override bool InRange()
@@ -53,22 +53,22 @@ public static class AIActions
 
         public override void Release()
         {
-            
+
         }
     }
 
     public class Action_Attack : GameAction
     {
-        bool _done;
+        private bool done;
 
         public Action_Attack(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         public override bool Done(Actor self)
         {
-            if(_target == null || _target.dead)
+            if(target == null || target.dead)
             {
                 return true;
             }
@@ -78,7 +78,7 @@ public static class AIActions
             }
 
 
-            if(Actions.MoveIntoRange(self, _target.transform.position, requiredRange, requiresFacing))
+            if(Actions.MoveIntoRange(self, target.transform.position, requiredRange, requiresFacing))
             {
                 if(self.RoundSystem.CanPerformAttack())
                 {
@@ -89,32 +89,34 @@ public static class AIActions
 
             }
 
-            return _done;
+            return done;
         }
 
         internal GameAction Set(Actor target)
         {
-            if(_self.debug)
-                Debug.Log(_self.GetName() + ": Attack Action");
-
-            if(_self.Equipment.equippedWeapon.Weapon == null)
+            if(self.debug)
             {
-                _self.Equipment.SetUpFist();
+                Debug.Log(self.GetName() + ": Attack Action");
+            }
+
+            if(self.Equipment.equippedWeapon.Weapon == null)
+            {
+                self.Equipment.SetUpFist();
                 //_self.Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, true, true);
             }
 
-            Debug.Assert(_self.Equipment != null);
-            Debug.Assert(_self.Equipment.equippedWeapon != null);
-            Debug.Assert(_self.Equipment.equippedWeapon.Weapon != null);
-            requiredRange = _self.Equipment.equippedWeapon.Weapon.Range;
-            _done = false;
-            _target = target;
+            Debug.Assert(self.Equipment != null);
+            Debug.Assert(self.Equipment.equippedWeapon != null);
+            Debug.Assert(self.Equipment.equippedWeapon.Weapon != null);
+            requiredRange = self.Equipment.equippedWeapon.Weapon.Range;
+            done = false;
+            this.target = target;
             return this;
         }
 
         public override Vector3 GetActionTargetPosition()
         {
-            return base.GetActionTargetPosition();
+            return GetActionTargetPosition();
 
         }
 
@@ -126,22 +128,22 @@ public static class AIActions
         public override void Release()
         {
             //_self.Animation.Animator.SetTrigger("tCancelAttack");
-            _done = true;
+            done = true;
         }
     }
     public class Action_Attack_Once : GameAction
     {
-        bool _attacked;
-        bool _done;
+        private bool attacked;
+        private bool done;
 
         public Action_Attack_Once(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         public override bool Done(Actor self)
         {
-            if(_target == null || _target.dead)
+            if(target == null || target.dead)
             {
                 return true;
             }
@@ -150,55 +152,54 @@ public static class AIActions
                 return true;
             }
 
-
-            if(_attacked == false && Actions.MoveIntoRange(self, _target.transform.position, requiredRange, requiresFacing))
+            if(attacked == false && Actions.MoveIntoRange(self, target.transform.position, requiredRange, requiresFacing))
             {
                 if(self.RoundSystem.CanPerformAttack())
                 {
-                    _attacked = true;
+                    attacked = true;
                     self.StartCoroutine(CR_Attack(self));
                 }
 
             }
 
-            return _done;
+            return done;
         }
 
-        IEnumerator CR_Attack(Actor self)
+        private IEnumerator CR_Attack(Actor self)
         {
-
             self.HoldPosition();
             self.Combat.Execute_BlockAggro(1.5f);
             self.Combat.Execute_Attack();
             yield return new WaitForSeconds(1.5f);
-            _done = true;
-
+            done = true;
         }
 
         internal GameAction Set(Actor target)
         {
-            if(_self.debug)
+            if(self.debug)
+            {
                 Debug.Log("Attack Action");
-
-            if(_self.Combat.GetEquippedWeapon() == null)
-            {
-                _self.Equipment.SetUpFist();
-            }
-            else if(_self.Combat.GetEquippedWeapon().weaponCategory == WeaponCategory.Unarmed)
-            {
-
             }
 
-            requiredRange = _self.Equipment.equippedWeapon.Weapon.Range;
-            _attacked = false;
-            _done = false;
-            _target = target;
+            if(self.Combat.GetEquippedWeapon() == null)
+            {
+                self.Equipment.SetUpFist();
+            }
+            else if(self.Combat.GetEquippedWeapon().weaponCategory == WeaponCategory.Unarmed)
+            {
+
+            }
+
+            requiredRange = self.Equipment.equippedWeapon.Weapon.Range;
+            attacked = false;
+            done = false;
+            this.target = target;
             return this;
         }
 
         public override Vector3 GetActionTargetPosition()
         {
-            return base.GetActionTargetPosition();
+            return GetActionTargetPosition();
         }
 
         public override bool InRange()
@@ -209,7 +210,7 @@ public static class AIActions
         public override void Release()
         {
             //_self.Animation.Animator.SetTrigger("tCancelAttack");
-            _done = true;
+            done = true;
             //_self.Animation.Animator.SetTrigger("tCancelAttack");
         }
     }
@@ -217,71 +218,79 @@ public static class AIActions
     public class Action_CastSpellAtActor : GameAction
     {
         public CastSate castState = CastSate.Preparation;
-        float _preCastTimer = 2f;
-        float _postCastTimer = 3f;
-        float _castingTime;
-        float _duration;
+        private float _preCastTimer = 2f;
+        private float _postCastTimer = 3f;
+        private float _castingTime;
+        private float _duration;
 
-        internal Spell _spell;
+        internal Spell spell;
 
         public Action_CastSpellAtActor(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         internal GameAction Set(Actor target, Spell spell)
         {
-            _spell = _self.Combat.equippedSpell = spell;
+            this.spell = self.Combat.equippedSpell = spell;
             requiredRange = spell.activationRange;
-            _target = target;
+            this.target = target;
             castState = CastSate.Preparation;
             _preCastTimer = 1f;
             _postCastTimer = 3f;
-            _self.Combat.noStagger = false;
+            self.Combat.noStagger = false;
             _duration = spell.duration * 6;
             return this;
         }
 
         public override bool Done(Actor self)
         {
-            if(_target == null || _target.dead)
+            if(target == null || target.dead)
             {
                 return true;
             }
 
-            if(self.debug)
+            if(self.debugSpellCastStates)
+            {
                 Debug.Log(self.GetName() + ": Updating castspellatactor");
+            }
 
             switch(castState)
             {
                 case CastSate.Preparation:
 
-                    if(self.debug)
+                    if(self.debugSpellCastStates)
+                    {
                         Debug.Log(self.GetName() + ": <color=cyan>CastSpellAtActor: Preparation</color>");
+                    }
 
-                    if(_spell == null)
+                    if(spell == null)
                     {
-                        if(self.debug)
+                        if(self.debugSpellCastStates)
+                        {
                             Debug.Log(self.GetName() + ": <color=red>Spell null</color>");
+                        }
                     }
 
-                    if(_target == null)
+                    if(target == null)
                     {
-                        if(self.debug)
+                        if(self.debugSpellCastStates)
+                        {
                             Debug.Log(self.GetName() + ": <color=red>Target null</color>");
+                        }
                     }
 
-                    if(_self.isCasting)
+                    if(self.isCasting)
                     {
                         return false;
                     }
 
-                    if(Actions.MoveIntoRange(self, _target.transform.position, _spell.activationRange, requiresFacing))
+                    if(Actions.MoveIntoRange(self, target.transform.position, spell.activationRange, requiresFacing))
                     {
                         //_preCastTimer -= Time.deltaTime;
                         //if(_preCastTimer > 0)
                         //{
-                            self.Combat.Execute_SheathWeapon();
+                        self.Combat.Execute_SheathWeapon();
                         //    return false;
                         //}
 
@@ -289,12 +298,14 @@ public static class AIActions
                         {
                             self.HoldPosition();
                             self.Combat.Execute_BlockAggro(2);
-                            _castingTime = _spell.castingTime * 0.6f;
+                            _castingTime = spell.castingTime * 0.6f;
                             _castingTime += 0.4f;
-                            _self.Combat.Execute_HandleSpell(_spell, 0, _castingTime <= 1 ? 0 : 1);
+                            self.Animation.PlayMotion_HandleSpell(0, _castingTime <= 1 ? 0 : 1);
                             castState = CastSate.Incantation;
-                            if(self.debug)
+                            if(self.debugSpellCastStates)
+                            {
                                 Debug.Log(self.GetName() + ": <color=green>CastSpellAtActor: Preparation done</color>");
+                            }
                         }
                     }
 
@@ -302,15 +313,21 @@ public static class AIActions
 
                 case CastSate.Incantation:
 
-                    if(self.debug)
+                    if(self.debugSpellCastStates)
+                    {
                         Debug.Log(self.GetName() + ": <color=cyan>CastSpellAtActor: Incantation</color>");
+                    }
+
                     self.isCasting = true;
                     _castingTime -= Time.deltaTime;
 
                     if(_castingTime <= 0)
                     {
-                        if(self.debug)
+                        if(self.debugSpellCastStates)
+                        {
                             Debug.Log(self.GetName() + ": <color=green>CastSpellAtActor: Incantation done</color>");
+                        }
+
                         castState = CastSate.Release;
                     }
 
@@ -318,21 +335,28 @@ public static class AIActions
 
                 case CastSate.Release:
 
-                    self.Combat.Execute_HandleSpell(_spell, 1, _spell.releaseMotionIndex);
-                    if(_spell != null)
-                        _self.Combat.OnReleaseSpell = () =>
+                    self.Animation.PlayMotion_HandleSpell(1, spell.releaseMotionIndex);
+                    if(spell != null)
+                    {
+                        self.Combat.OnReleaseSpell = () =>
                         {
 
-                            if(_self.IsPlayer)
-                                GameEventSystem.SetPortraitActionIcon?.Invoke(_self.PartySlot, null);
+                            if(self.IsPlayer)
+                            {
+                                GameEventSystem.SetPortraitActionIcon?.Invoke(self.PartySlot, null);
+                            }
 
-                            Activate(_self, _self.Equipment.spellAnchor, _target, null);
+                            Activate(self, self.Equipment.spellAnchor, target, null);
                         };
-                    _spell = null;
-                    _self.Combat.noStagger = true;
+                    }
 
-                    if(_self.debug)
-                        Debug.Log(_self.GetName() + ": <color=green>CastSpellAtActor: Releasing done</color>");
+                    spell = null;
+                    self.Combat.noStagger = true;
+
+                    if(self.debugSpellCastStates)
+                    {
+                        Debug.Log(self.GetName() + ": <color=green>CastSpellAtActor: Releasing done</color>");
+                    }
 
                     castState = CastSate.Cooldown;
 
@@ -342,19 +366,20 @@ public static class AIActions
 
                     if(_postCastTimer > 0)
                     {
-                        if(_self.debug)
-                            Debug.Log(_self.GetName() + ": <color=cyan>CastSpellAtActor: Cooldown</color>");
+                        if(self.debugSpellCastStates)
+                        {
+                            Debug.Log(self.GetName() + ": <color=cyan>CastSpellAtActor: Cooldown</color>");
+                        }
+
                         _postCastTimer -= Time.deltaTime;
                     }
                     else
                     {
-                        if(_self.debug)
-                            Debug.Log(_self.GetName() + ": <color=green>CastSpellAtActor: Cooldown done</color>");
-                        //self.Unroot();
-                        //self.Combat.Execute_BlockAggro(0);
-                        //self.isCasting = false;
-                        //self.noStagger = false;
-                        //self.SetSpellPause();
+                        if(self.debugSpellCastStates)
+                        {
+                            Debug.Log(self.GetName() + ": <color=green>CastSpellAtActor: Cooldown done</color>");
+                        }
+
                         return true;
                     }
                     break;
@@ -363,7 +388,7 @@ public static class AIActions
             return false;
         }
 
-        void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
+        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
         {
             foreach(MagicEffect magicEffect in self.Combat.equippedSpell.magicEffects)
             {
@@ -393,20 +418,20 @@ public static class AIActions
 
         public override void Release()
         {
-            if(_self.isCasting)
+            if(self.isCasting)
             {
                 castState = CastSate.Cooldown;
-                //_self.Animation.Animator.ResetTrigger("tCancelSpell");
-                if(_self.Animation.Animator.HasState(2, Animator.StringToHash("CancelSpell")))
-                    _self.Animation.Animator.Play("CancelSpell", 2);
-                //_self.Animation.Animator.Play("Idle", 0);
-                if(_self.debug)
-                    Debug.Log(_self.GetName() + ": <color=green>CastSpellAtPoint: Cancelling action</color>");
-                _self.Unroot();
-                _self.Combat.Execute_BlockAggro(0);
-                _self.RoundSystem.SetSpellPause();
-                _self.Combat.noStagger = false;
-                _self.isCasting = false;
+                self.Animation.Animator.Play("Cancel", 2);
+                if(self.debugSpellCastStates)
+                {
+                    Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Cancelling action</color>");
+                }
+
+                self.Unroot();
+                self.Combat.Execute_BlockAggro(0);
+                self.RoundSystem.SetSpellPause();
+                self.Combat.noStagger = false;
+                self.isCasting = false;
             }
         }
     }
@@ -414,27 +439,27 @@ public static class AIActions
     public class Action_CastSpellAtLocation : GameAction
     {
         public CastSate castState = CastSate.Preparation;
-        float _preCastTimer;
-        float _postCastTimer = 3f;
-        float _castingTime;
+        private float _preCastTimer;
+        private float _postCastTimer = 3f;
+        private float _castingTime;
 
-        internal Spell _spell;
+        internal Spell spell;
 
         public Action_CastSpellAtLocation(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         internal GameAction Set(Vector3 targetLocation, Spell spell)
         {
-            _spell = _self.Combat.equippedSpell = spell;
+            this.spell = self.Combat.equippedSpell = spell;
             requiredRange = spell.activationRange;
             _targetPosition = targetLocation;
             castState = CastSate.Preparation;
             _preCastTimer = 1f;
             _postCastTimer = 3f;
 
-            _self.Combat.noStagger = false;
+            self.Combat.noStagger = false;
             return this;
         }
 
@@ -449,17 +474,19 @@ public static class AIActions
             {
                 case CastSate.Preparation:
 
-                    if(_spell == null)
+                    if(spell == null)
                     {
-                        if(self.debug)
+                        if(self.debugSpellCastStates)
+                        {
                             Debug.Log(self.GetName() + ": <color=red>Spell null</color>");
+                        }
                     }
 
                     if(self.isCasting)
                     {
                         return false;
                     }
-                    if(Actions.MoveIntoRange(self, _targetPosition, _spell.activationRange, requiresFacing))
+                    if(Actions.MoveIntoRange(self, _targetPosition, spell.activationRange, requiresFacing))
                     {
                         self.Combat.Execute_SheathWeapon();
 
@@ -468,13 +495,14 @@ public static class AIActions
                             self.HoldPosition();
 
                             self.Combat.Execute_BlockAggro(2);
-                            _castingTime = _spell.castingTime * 0.6f;
+                            _castingTime = spell.castingTime * 0.6f;
                             _castingTime += 0.4f;
-                            _self.Combat.Execute_HandleSpell(_spell, 0, _castingTime <= 1 ? 0 : 1);
+                            self.Animation.PlayMotion_HandleSpell(0, _castingTime <= 1 ? 0 : 1);
                             castState = CastSate.Incantation;
-                            if(self.debug)
+                            if(self.debugSpellCastStates)
+                            {
                                 Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Preparation done</color>");
-
+                            }
                         }
                     }
 
@@ -482,15 +510,21 @@ public static class AIActions
 
                 case CastSate.Incantation:
 
-                    if(self.debug)
+                    if(self.debugSpellCastStates)
+                    {
                         Debug.Log(self.GetName() + ": <color=cyan>CastSpellAtPoint: Incantation</color>");
+                    }
+
                     self.isCasting = true;
                     _castingTime -= Time.deltaTime;
 
                     if(_castingTime <= 0)
                     {
-                        if(self.debug)
+                        if(self.debugSpellCastStates)
+                        {
                             Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Incantation done</color>");
+                        }
+
                         castState = CastSate.Release;
                     }
 
@@ -498,39 +532,47 @@ public static class AIActions
 
                 case CastSate.Release:
 
-                    self.Combat.Execute_HandleSpell(_spell, 1, _spell.releaseMotionIndex);
-                    if(_spell != null)
-                        _self.Combat.OnReleaseSpell = () =>
+                    self.Animation.PlayMotion_HandleSpell(1, spell.releaseMotionIndex);
+                    if(spell != null)
+                    {
+                        self.Combat.OnReleaseSpell = () =>
                         {
+                            if(self.IsPlayer)
+                            {
+                                GameEventSystem.SetPortraitActionIcon?.Invoke(self.PartySlot, null);
+                            }
 
-                            if(_self.IsPlayer)
-                                GameEventSystem.SetPortraitActionIcon?.Invoke(_self.PartySlot, null);
-
-                            Activate(_self, _self.Equipment.spellAnchor, null, _targetPosition);
+                            Activate(self, self.Equipment.spellAnchor, null, _targetPosition);
                         };
-                    _spell = null;
-                    _self.Combat.noStagger = true;
-                    if(_self.debug)
-                        Debug.Log(_self.GetName() + ": <color=green>CastSpellAtPoint: Releasing done</color>");
+                    }
+
+                    spell = null;
+                    self.Combat.noStagger = true;
+                    if(self.debugSpellCastStates)
+                    {
+                        Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Releasing done</color>");
+                    }
+
                     castState = CastSate.Cooldown;
                     break;
 
                 case CastSate.Cooldown:
                     if(_postCastTimer > 0)
                     {
-                        if(_self.debug)
-                            Debug.Log(_self.GetName() + ": <color=cyan>CastSpellAtPoint: Cooldown</color>");
+                        if(self.debugSpellCastStates)
+                        {
+                            Debug.Log(self.GetName() + ": <color=cyan>CastSpellAtPoint: Cooldown</color>");
+                        }
+
                         _postCastTimer -= Time.deltaTime;
                     }
                     else
                     {
-                        if(_self.debug)
-                            Debug.Log(_self.GetName() + ": <color=green>CastSpellAtPoint: Cooldown done</color>");
-                        //self.Unroot();
-                        //self.Combat.Execute_BlockAggro(0);
-                        //self.isCasting = false;
-                        //self.noStagger = false;
-                        //self.SetSpellPause();
+                        if(self.debugSpellCastStates)
+                        {
+                            Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Cooldown done</color>");
+                        }
+
                         return true;
                     }
                     break;
@@ -539,8 +581,7 @@ public static class AIActions
             return false;
         }
 
-
-        void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
+        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
         {
             foreach(MagicEffect magicEffect in self.Combat.equippedSpell.magicEffects)
             {
@@ -590,19 +631,20 @@ public static class AIActions
         public override void Release()
         {
 
-            if(_self.isCasting)
+            if(self.isCasting)
             {
                 castState = CastSate.Cooldown;
-                //_self.Animation.Animator.ResetTrigger("tCancelSpell");
-                _self.Animation.Animator.SetTrigger("tCancelSpell");
-                //_self.Animation.Animator.Play("Idle", 0);
-                if(_self.debug)
-                    Debug.Log(_self.GetName() + ": <color=green>CastSpellAtPoint: Cancelling action</color>");
-                _self.Unroot();
-                _self.Combat.Execute_BlockAggro(0);
-                _self.RoundSystem.SetSpellPause();
-                _self.Combat.noStagger = false;
-                _self.isCasting = false;
+                self.Animation.Animator.Play("Cancel", 2);
+                if(self.debugSpellCastStates)
+                {
+                    Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Cancelling action</color>");
+                }
+
+                self.Unroot();
+                self.Combat.Execute_BlockAggro(0);
+                self.RoundSystem.SetSpellPause();
+                self.Combat.noStagger = false;
+                self.isCasting = false;
             }
         }
     }
@@ -611,7 +653,7 @@ public static class AIActions
     {
         public Action_UseItem(Actor self) : base(self)
         {
-            _self = self;
+            this.self = self;
         }
 
         public Action_UseItem Init()
@@ -637,7 +679,7 @@ public static class AIActions
 
     public class Action_NPCTalkTo : GameAction
     {
-        Actor _targetPC;
+        private readonly Actor _targetPC;
         public Action_NPCTalkTo(Actor dialogOwner, Actor targetPC) : base(dialogOwner)
         {
             Debug.Assert(targetPC.conversationData != null, "Conversation null");
@@ -673,7 +715,7 @@ public static class AIActions
 
     public class Action_PCTalkTo : GameAction
     {
-        Actor _dialogNPC;
+        private readonly Actor _dialogNPC;
         public Action_PCTalkTo(Actor PC, Actor targetNPC) : base(PC)
         {
             Debug.Assert(targetNPC.conversationData != null, "Conversation null");
@@ -721,12 +763,12 @@ public static class AIActions
 
 public class MoveAction : GameAction
 {
-    Action OnTargetReached;
-    Vector3 _finalFacing;
+    private Action OnTargetReached;
+    private Vector3 _finalFacing;
 
     public MoveAction(Actor self) : base(self)
     {
-        _self = self;
+        this.self = self;
     }
 
     public MoveAction Set(Vector3 point, Vector3 finalFacing, float requiredDistance, System.Action OnTargetReached)
@@ -752,7 +794,7 @@ public class MoveAction : GameAction
             }
             else
             {
-                HelperFunctions.RotateTo(_self.transform, self.transform.position + _finalFacing, 300);
+                HelperFunctions.RotateTo(self.transform, self.transform.position + _finalFacing, 300);
             }
         }
         return false;
@@ -765,7 +807,7 @@ public class MoveAction : GameAction
 
     public override void Release()
     {
-        _self.HoldPosition();
+        self.HoldPosition();
     }
 }
 
@@ -778,8 +820,8 @@ public class MoveAction : GameAction
 public abstract class GameAction
 {
     //public string debugString;
-    protected Actor _self;
-    protected Actor _target;
+    protected Actor self;
+    protected Actor target;
     protected Vector3 _targetPosition;
     protected float requiredRange;
 
@@ -790,7 +832,7 @@ public abstract class GameAction
 
     public GameAction(Actor self)
     {
-        _self = self;
+        this.self = self;
     }
 
     public abstract bool Done(Actor self);
@@ -807,8 +849,11 @@ public abstract class GameAction
 
     public virtual Vector3 GetActionTargetPosition()
     {
-        if(_target != null)
-            _targetPosition = _target.transform.position;
+        if(target != null)
+        {
+            _targetPosition = target.transform.position;
+        }
+
         return _targetPosition;
     }
 

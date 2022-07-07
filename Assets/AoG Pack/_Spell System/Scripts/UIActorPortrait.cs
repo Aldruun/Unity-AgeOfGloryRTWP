@@ -42,7 +42,7 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
 
             active = value;
             RectTransform rt = rectTransform;
-
+            lerp_time = 0;
             // Make selected portrait a little bit bigger
             rt.localScale = active ? new Vector3(1.03f, 1.03f, 1) : new Vector3(1, 1, 1);
             //GetComponent<Image>().set = active ? 2f : 1.5f;
@@ -213,6 +213,17 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
                 lerp_time = 0f;
             }
         }
+    }
+
+    internal void OverrideAlignmentColor(Color color)
+    {
+        ActorUI.SetFlashGradientColor(flashGradient, color);
+    }
+
+
+    internal void RevertToAlignmentColor()
+    {
+        ActorUI.SetFlashGradientColor(flashGradient, selectedColor);
     }
 
     internal void SetHighlighted(bool on)

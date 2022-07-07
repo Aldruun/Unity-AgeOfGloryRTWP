@@ -4940,6 +4940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8554293397270930486}
   - component: {fileID: 6405422716351489480}
+  - component: {fileID: 472479964597162466}
   m_Layer: 0
   m_Name: vfx_spell_inflictwounds
   m_TagString: Untagged
@@ -5059,6 +5060,130 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &472479964597162466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2629971584533229713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da15589b52e1484f82cb5befe0b13b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yPath:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 4.791214
+      outSlope: 4.791214
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03258656
+    - serializedVersion: 3
+      time: 0.5025588
+      value: 1
+      inSlope: -0.010235608
+      outSlope: -0.010235608
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -4.8931518
+      outSlope: -4.8931518
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.032921832
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  xPath:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 4.791214
+      outSlope: 4.791214
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03258656
+    - serializedVersion: 3
+      time: 0.5025588
+      value: 1
+      inSlope: -0.010235608
+      outSlope: -0.010235608
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -4.8931518
+      outSlope: -4.8931518
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.032921832
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0015170574
+      value: 0.5059624
+      inSlope: 1.8050592
+      outSlope: 1.8050592
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.21383673
+      value: 0.88921195
+      inSlope: -0.46987247
+      outSlope: -0.46987247
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50604594
+      value: 0.08715494
+      inSlope: -0.49512446
+      outSlope: -0.49512446
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9954834
+      value: 0.94589996
+      inSlope: 0.9835298
+      outSlope: 0.9835298
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10185342
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lerpTime: 1
+  lifeTimeFactor: 1
+  traveling: 0
+  targetIsGround: 0
 --- !u!1 &6972025002902156578
 GameObject:
   m_ObjectHideFlags: 0

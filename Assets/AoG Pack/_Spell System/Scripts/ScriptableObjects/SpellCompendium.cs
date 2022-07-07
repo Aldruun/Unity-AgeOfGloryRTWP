@@ -53,21 +53,20 @@ public class SpellCompendium : ScriptableObject
     {
         List<Spell> targetClassSpells = new List<Spell>(GetSpellsForClass(actorClass));
         List<Spell> foundSpells = new List<Spell>();
-        Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Getting spells for class '{actorClass}' at level '{level}'</color>");
+        //Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Getting spells for class '{actorClass}' at level '{level}'</color>");
         
         foreach(Spell spell in targetClassSpells)
         {
-            Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Checking spell '{spell.name}'</color>");
+            //Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.AntiFlashWhite)}>Checking spell '{spell.name}'</color>");
             if(UsableAtLvl(actorClass, level, spell.Grade) == false)
             {
-                Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.YellowCrayola)}>Spell '{spell.name}' of grade {spell.Grade} not usable by class '{actorClass}' at level '{level}'</color>");
+                //Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.YellowCrayola)}>Spell '{spell.name}' of grade {spell.Grade} not usable by class '{actorClass}' at level '{level}'</color>");
                 continue;
             }
 
-            Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.GreenCyan)}>Adding spell '{spell.name}' of grade {spell.Grade} for class '{actorClass}' at level '{level}'</color>");
+            //Debug.Log($"<color={ColorExtensions.ToRGBHex(Colors.GreenCyan)}>Adding spell '{spell.name}' of grade {spell.Grade} for class '{actorClass}' at level '{level}'</color>");
 
             foundSpells.Add(spell);
-            break;
         }
 
         return foundSpells;

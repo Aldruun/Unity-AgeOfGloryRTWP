@@ -4874,6 +4874,7 @@ GameObject:
   - component: {fileID: 8554293397270930486}
   - component: {fileID: 6405422716351489480}
   - component: {fileID: 2426839083973294289}
+  - component: {fileID: 339720019012560357}
   m_Layer: 0
   m_Name: vfx_spell_curewounds
   m_TagString: Untagged
@@ -4907,7 +4908,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f037c00f93331404d9aa8db8a8c59772, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 81484827751423f4aa75125b24a6533c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -5009,6 +5010,40 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &339720019012560357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2629971584533229713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da15589b52e1484f82cb5befe0b13b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yPath:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  xPath:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lerpTime: 1
+  lifeTimeFactor: 1
+  traveling: 0
+  targetIsGround: 0
 --- !u!1 &3434898709411186675
 GameObject:
   m_ObjectHideFlags: 0

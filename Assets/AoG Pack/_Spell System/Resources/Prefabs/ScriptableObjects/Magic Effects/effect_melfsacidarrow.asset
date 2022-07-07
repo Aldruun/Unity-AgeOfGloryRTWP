@@ -12,35 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
   m_Name: effect_melfsacidarrow
   m_EditorClassIdentifier: 
-  ID: effect_acidarrow
-  Name: Acid Arrow
-  magicSchool: 0
-  actor_skill_ref: 
   affectedAttribute: 0
-  effectType: 0
-  effect: 0
-  keywords: 0
-  projectileType: 1
-  isPermanent: 0
-  magnitude: 0
+  _statusEffect:
+    rounds: 0
+    statusType: 0
   duration: 0
-  projectileDiameter: 0
   aoeRadius: 0
-  struckChance: 0
+  effectDiameter: 0
+  effectRange: 0
+  id_VFXProjectile: vfx_melfsacidarrow_projectile
+  id_VFXOnHit: 
   id_VFXHandIdle: 
   id_VFXHandCharge: 
   id_VFXHandRelease: 
-  id_VFXOnInflict: 
-  id_VFXOnImpact: 
-  id_VFXProjectile: vfx_melfsacidarrow_projectile
+  projectileType: 1
   projectileSpeed: 10
   destroyOnImpact: 1
   clampVFXToTarget: 0
-  damageType: 0
-  sfxDraw: {fileID: 0}
-  sfxSheath: {fileID: 0}
-  sfxCharge: {fileID: 0}
-  sfxReady: {fileID: 0}
-  sfxRelease: {fileID: 0}
-  sfxCastLoop: {fileID: 0}
+  impactSFXType: 0
+  sfxOnRelease: []
   sfxOnHit: []
+  sfxChargeSpell: {fileID: 0}
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 

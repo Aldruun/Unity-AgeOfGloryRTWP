@@ -76,7 +76,7 @@ public class StatusEffect_Panicked : StatusEffect
         Actor enemy = actor.Combat.GetHostileTarget();
         if(enemy != null)
         {
-            //actor.SetDestination(actor.transform.position + (actor.transform.position - enemy.transform.position) * 10, 1);
+            actor.SetDestination(actor.transform.position + (actor.transform.position - enemy.transform.position) * 10, 1);
         }
     }
 }

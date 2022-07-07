@@ -27,19 +27,19 @@ MonoBehaviour:
 
     Casting Time: 1
 
-    Area of Effect:
-    Special
+    Area of Effect: Special
 
-    Saving Throw: None
+    Saving
+    Throw: None
 
-    
 
-    Using this spell, the priest can
-    temporarily enchant ten small stones, no larger than sling bullets. The character
-    using them can then hurl up to three stones per round at an opponent, with a
-    +1 bonus to attack rolls. Each stone that hits inflicts 1d4+2 points of damage
-    (1d4+5 against undead), and is considered to be of +1 enchantment to determine
-    what it can hit. The magic in each stone expires after 2 turns or when used.
+
+    Using this spell, the priest can temporarily enchant ten small
+    stones, no larger than sling bullets. The character using them can then hurl
+    up to three stones per round at an opponent, with a +1 bonus to attack rolls.
+    Each stone that hits inflicts 1d4+2 points of damage (1d4+5 against undead),
+    and is considered to be of +1 enchantment to determine what it can hit. The magic
+    in each stone expires after 2 turns or when used.
 
 '
   spellIcon: {fileID: 21300000, guid: cdb0036e0e912164e90c2c9f41ac76d8, type: 3}
@@ -55,7 +55,7 @@ MonoBehaviour:
   castingType: 0
   deliveryType: 2
   spellTargetType: 2
-  keywords: 0
+  keywords: 384
   magicEffects:
   - {fileID: 11400000, guid: d2654c27999e56a469af53132e84b329, type: 2}
   targetLogic: {fileID: 0}

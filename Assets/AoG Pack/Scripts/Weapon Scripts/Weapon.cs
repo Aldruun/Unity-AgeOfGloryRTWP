@@ -70,8 +70,7 @@ public enum AnimationSet
     TWOHANDED = 5,
     BOW = 6,
     XBOW = 7,
-    MAGIC = 8,
-    SWIM = 9
+    MAGIC = 8
 }
 
 public enum WeaponType

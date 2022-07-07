@@ -136,7 +136,7 @@ public class StatusEffectSystem
                 break;
             case Status.PANIC:
                 statusEffect = new StatusEffect_Panicked();
-
+                self.ActorUI.OverrideAlignmentColor(Colors.Yellow);
                 break;
             case Status.PETRIFIED:
                 break;
@@ -183,8 +183,8 @@ public class StatusEffectSystem
             if(kvp.Value.rounds == 0)
             {
                 _statusEffects[kvp.Key].OnEnd(self);
-
                 _statusEffects.Remove(kvp.Key);
+                self.ActorUI.RevertToAlignmentColor();
             }
         }
     }
@@ -201,6 +201,7 @@ public class StatusEffectSystem
             kvp.Value.OnEnd(self);
             _statusEffects[kvp.Key] = null;
         }
+        self.ActorUI.RevertToAlignmentColor();
         self.isDowned = false;
         self.stunned = false;
         self.panicked = false;

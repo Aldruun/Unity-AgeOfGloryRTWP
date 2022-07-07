@@ -50,13 +50,15 @@ namespace AoG.Core
             {
                 SpawnPoint spawnpoint = spawnpoints[i];
                 Actor spawned = databaseService.ActorDatabase.InstantiateAndSetUpActor(spawnpoint.UniqueID, spawnpoint.transform.position, spawnpoint.transform.rotation);
-                spawned.ActorStats.GenerateNPCLevel(3);
+                spawned.name = $"ref_{spawned.ActorStats.Name}";
+                spawned.ActorStats.GenerateNPCLevel(10);
                 //ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
-                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 3));
+                spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 10));
                 spawned.Equipment.EquipBestArmor();
 
                 spawned.aiControlled = true;
 
+                spawned.debugSpellCastStates = spawnpoint.debugSpellCastStates;
                 spawned.debugAnimation = spawnpoint.debugAnimation;
                 spawned.debugActions = spawnpoint.debugActions;
                 spawned.debugGear = spawnpoint.debugActorGear;
@@ -92,6 +94,7 @@ namespace AoG.Core
                 //GameEventSystem.OnHeroPortraitClicked?.Invoke(pc, true);
                 pc.ActorUI.Select();
                 uiHandler.PopulateSkillbar(pc);
+                SelectionManager.selected.Add(pc);
                 GameEventSystem.RequestCameraJumpToPosition?.Invoke(pc.transform.position);
                 //GameEventSystem.OnPCSelectionStateChanged?.Invoke(pc, true);
             }

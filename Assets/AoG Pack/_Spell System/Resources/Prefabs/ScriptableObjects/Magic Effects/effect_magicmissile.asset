@@ -32,3 +32,6 @@ MonoBehaviour:
   impactSFXType: 7
   sfxOnRelease: []
   sfxOnHit: []
+  sfxChargeSpell: {fileID: 0}
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 

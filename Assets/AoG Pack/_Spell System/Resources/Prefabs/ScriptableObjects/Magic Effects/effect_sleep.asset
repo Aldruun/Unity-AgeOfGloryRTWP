@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
   m_Name: effect_sleep
   m_EditorClassIdentifier: 
-  ID: effect_sleep
-  Name: Heal
   affectedAttribute: 0
   _statusEffect:
     rounds: 5
@@ -32,4 +30,8 @@ MonoBehaviour:
   destroyOnImpact: 0
   clampVFXToTarget: 0
   impactSFXType: 9
+  sfxOnRelease: []
   sfxOnHit: []
+  sfxChargeSpell: {fileID: 0}
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 

@@ -44,7 +44,7 @@ MonoBehaviour:
   castingType: 0
   deliveryType: 2
   spellTargetType: 2
-  keywords: 32
+  keywords: 64
   magicEffects:
   - {fileID: 11400000, guid: b50aca43d93d0dc43bd178e353721000, type: 2}
   targetLogic: {fileID: 0}

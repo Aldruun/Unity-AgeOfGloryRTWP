@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
   m_Name: effect_fireball
   m_EditorClassIdentifier: 
-  ID: effect_fireball
-  Name: Fireball Effect
   affectedAttribute: 0
   _statusEffect:
     rounds: 0
@@ -32,5 +30,9 @@ MonoBehaviour:
   destroyOnImpact: 1
   clampVFXToTarget: 0
   impactSFXType: 6
+  sfxOnRelease: []
   sfxOnHit:
   - {fileID: 8300000, guid: ab3ae1f2a9c5f2e4b9227acf4b5b9a17, type: 3}
+  sfxChargeSpell: {fileID: 0}
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 

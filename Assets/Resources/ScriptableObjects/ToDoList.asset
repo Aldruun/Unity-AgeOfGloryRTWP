@@ -44,6 +44,9 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
   - title: Solved Bugs
     textList:
+    - s: 'Note: ActorIndicator didn''t reset to default/selected color, because Highlighter
+        outline value and lerpTime needed to reset to 1 when indicator was unhighlighted'
+      color: {r: 0, g: 1, b: 0, a: 1}
     - s: 'Note: Animator.Trigger not triggering? Make sure resetting trigger isn''t
         done in the same frame after setting it'
       color: {r: 0, g: 1, b: 0, a: 1}
@@ -106,25 +109,6 @@ MonoBehaviour:
     - s: skills should have a list of attributes they affect
       color: {r: 1, g: 1, b: 1, a: 1}
     - s: Make torch vfx look better [DONE]
-      color: {r: 1, g: 1, b: 1, a: 1}
-  - title: Observations
-    textList:
-    - s: 'Scene transitions:
-
-
-        - In initial scene, player is spawned via
-        spawnpoint
-
-        - When transition to next scene, a player is still spawned
-        via spawnpoint and is then controlled while the transitioned player is left
-        behind at the area transition
-
-
-        Conclusion:
-
-
-        Player is still
-        created in awake of GameStateManager.cs when it shouldn''t'
       color: {r: 1, g: 1, b: 1, a: 1}
   - title: TODO Long-Term
     textList:

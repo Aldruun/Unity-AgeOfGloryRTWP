@@ -15,6 +15,7 @@ public enum SpellCastingFlags
 
 public abstract class Actor : Scriptable
 {
+    public bool debugSpellCastStates;
     public bool debugAnimation;
     internal bool debugInput;
     internal bool debugGear;
@@ -87,29 +88,6 @@ public abstract class Actor : Scriptable
         RoundSystem = new AoGRoundSystem(this, statusEffectSystem);
         UniqueID = config.UniqueID;
         InitializeStats(config);
-
-        /*TODO Get rid of this switch statement and create a database
-        * to fetch scripts and stats depending on actor class
-        */
-        switch(ActorStats.Class)
-        {
-            case Class.FIGHTER:
-            case Class.THIEF:
-                SetScript(new AIScripts.AI_StandardMelee(this), 1);
-                break;
-            case Class.RANGER:
-                IsRanged = true;
-                SetScript(new AIScripts.AI_StandardRanged(this), 1);
-                break;
-            case Class.SORCERER:
-                IsRanged = true;
-                SetScript(new AIScripts.AI_WizardAggressive(this), 1);
-                break;
-            case Class.CLERIC:
-            case Class.PALADIN:
-                SetScript(new AIScripts.AI_ClericHealer(this), 1);
-                break;
-        }
 
         InitializeEquipment(ActorStats);
 
@@ -206,6 +184,24 @@ public abstract class Actor : Scriptable
 
     internal void ApplyStatusEffect(Status status, int rounds)
     {
+        switch(status)
+        {
+            case Status.BERSERK:
+            case Status.CONFUSED:
+            case Status.ENTANGLED:
+            case Status.FEEBLEMINDED:
+            case Status.HELD:
+            case Status.PANIC:
+            case Status.PETRIFIED:
+            case Status.POLYMORPHED:
+            case Status.UNCONSCIOUS:
+            case Status.STUN:
+            case Status.SLEEP:
+            case Status.WEBBED:
+                ClearActions();
+                break;
+        }
+
         statusEffectSystem.ApplyStatusEffect(status, rounds);
     }
 

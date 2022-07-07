@@ -4875,7 +4875,7 @@ GameObject:
   - component: {fileID: 8554293397270930486}
   - component: {fileID: 6405422716351489480}
   m_Layer: 0
-  m_Name: vfx_skill_healtarget
+  m_Name: vfx_spell_heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -109,10 +109,6 @@ public class ActorIndicator
             float curveValue = Mathf.Lerp(-0.1f, 1f, Mathf.PingPong(pingpongTime, 0.3f));
             circleRenderer.transform.localScale = Vector3.one * (1 + curveValue);
         }
-        else if(self.panicked)
-        {
-            defaultColor = Color.yellow;
-        }
         else if(targetReticleRenderer.enabled)
         {
             _targetReticleAnimator.UpdateFrames();
@@ -177,6 +173,16 @@ public class ActorIndicator
         {
             targetReticleRenderer.material.color = Color.green;
         }
+    }
+
+    internal void OverrideAlignmentColor(Color color)
+    {
+        ActorUI.SetFlashGradientColor(flashGradient, color);
+    }
+
+    internal void RevertToAlignmentColor()
+    {
+        ActorUI.SetFlashGradientColor(flashGradient, selectedColor);
     }
 
     internal void Disable()

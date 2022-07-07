@@ -170,7 +170,13 @@ public class ActorUI
         actorPortrait?.ChangeRelationColor(alignmentColor);
     }
 
-    internal void ResetHighlighting()
+    internal void OverrideAlignmentColor(Color color)
+    {
+        actorIndicator.OverrideAlignmentColor(color);
+        actorPortrait?.OverrideAlignmentColor(color);
+    }
+
+    internal void ResetFlashTiming()
     {
         actorIndicator.ResetHighlighting();
         actorPortrait?.ResetHighlighting();
@@ -188,10 +194,16 @@ public class ActorUI
         gradient.SetKeys(colorKeys, gradient.alphaKeys);
     }
 
+    internal void RevertToAlignmentColor()
+    {
+        actorIndicator.RevertToAlignmentColor();
+        actorPortrait?.RevertToAlignmentColor();
+    }
+
     internal void Disable()
     {
         actorIndicator.Disable();
-        actorPortrait.Disable();
+        actorPortrait?.Disable();
         Clear();
     }
 

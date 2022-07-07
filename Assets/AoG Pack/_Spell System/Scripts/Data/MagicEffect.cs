@@ -209,7 +209,7 @@ public class MagicEffect : ScriptableObject
         }
         else
         {
-            Debug.LogError("Projectile null");
+            Debug.LogError("'" + id_VFXProjectile + "' projectile null");
         }
     }
     public void SpawnEffectLocation(Actor self, Vector3? target, Transform spellAnchor)

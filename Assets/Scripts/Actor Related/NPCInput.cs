@@ -76,6 +76,36 @@ public class NPCInput : Actor, IActivatable
     public override void FinalizeActor(ActorConfiguration config)
     {
         base.FinalizeActor(config);
+
+        /*TODO Get rid of this switch statement and create a database
+       * to fetch scripts and stats depending on actor class
+       */
+        switch(ActorStats.Class)
+        {
+            case Class.FIGHTER:
+            case Class.MONK:
+            case Class.PALADIN:
+            case Class.THIEF:
+            case Class.BARBARIAN:
+                SetScript(new AIScripts.AI_StandardMelee(this), 0);
+                break;
+            case Class.RANGER:
+                IsRanged = true;
+                SetScript(new AIScripts.AI_StandardRanged(this), 0);
+                break;
+            case Class.SORCERER:
+            case Class.SHAMAN:
+            case Class.MAGE:
+                IsRanged = true;
+                SetScript(new AIScripts.AI_WizardAggressive(this), 0);
+                break;
+            case Class.BARD:
+            case Class.CLERIC:
+            case Class.DRUID:
+                SetScript(new AIScripts.AI_ClericHealer(this), 0);
+                break;
+        }
+
         NavAgent = GetComponent<NavMeshAgent>();
         config.ConfigureNavAgent(NavAgent);
 
@@ -123,7 +153,7 @@ public class NPCInput : Actor, IActivatable
         {
             if(debugActions)
             {
-                Debug.Log($"{GetName()}:<color=orange>A/</color> CurrAction '{CurrentAction} done");
+                Debug.Log($"{GetName()}:<color=orange>A/</color> CurrAction '{CurrentAction}' done");
             }
 
             ReleaseCurrentAction();

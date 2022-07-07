@@ -151,23 +151,24 @@ public enum SavingThrowType
 [Flags]
 public enum Keyword
 {
-    PhysicalDamage = 0,
-    FireDamage = 1,
-    FrostDamage = 1 << 1,
-    LightningDamage = 1 << 2,
-    HolyDamage = 1 << 3,
-    UnholyDamage = 1 << 4,
-    PoisonDamage = 1 << 5,
-    RadiantDamage = 1 << 6,
-    ForceDamage = 1 << 7,
-    Damage = 1 << 8,
-    Heal = 1 << 9,
-    HealSelf = 1 << 10,
-    HealOther = 1 << 11,
-    DebuffHealth = 1 << 12,
-    DebuffMana = 1 << 13,
-    BuffHealth = 1 << 14,
-    BuffMana = 1 << 15
+    None = 0,
+    PhysicalDamage = 1,
+    FireDamage = 1 << 1,
+    FrostDamage = 1 << 2,
+    LightningDamage = 1 << 3,
+    HolyDamage = 1 << 4,
+    UnholyDamage = 1 << 5,
+    PoisonDamage = 1 << 6,
+    RadiantDamage = 1 << 7,
+    ForceDamage = 1 << 8,
+    Damage = 1 << 9,
+    Heal = 1 << 10,
+    HealSelf = 1 << 11,
+    HealOther = 1 << 12,
+    DebuffHealth = 1 << 13,
+    DebuffMana = 1 << 14,
+    BuffHealth = 1 << 15,
+    BuffMana = 1 << 16
 }
 
 [CreateAssetMenu(menuName = "Spell System/Spell")]

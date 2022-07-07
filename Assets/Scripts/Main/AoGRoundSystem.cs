@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class AoGRoundSystem
 {
-    public float ROUNDTIME = 6f;
+    public const float ROUNDTIME = 6f;
     public int actionCounter;
     public int attackCounter;
     public float timeToNextRound;
@@ -73,10 +73,10 @@ public class AoGRoundSystem
 
     public bool CanPerformAttack()
     {
-        if(self.IsPlayer)
-        {
-            AoG.Core.GameInterface.Instance.GetCurrentGame().PartyAttack = true;
-        }
+        //if(self.IsPlayer)
+        //{
+        //    AoG.Core.GameInterface.Instance.GetCurrentGame().PartyAttack = true;
+        //}
 
         if(attackCounter <= 0 || ROUNDTIME / GetTotalAPR() < timeToNextRound)
         {
@@ -100,11 +100,6 @@ public class AoGRoundSystem
         }
 
         return false;
-    }
-
-    int GetRoundSize()
-    {
-        return (int)((6f - timeToNextRound) + 0.5f);
     }
 
     public int GetTotalAPR()

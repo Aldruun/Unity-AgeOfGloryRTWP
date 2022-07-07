@@ -2,8 +2,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Profiling;
 
 public enum MovementSpeed
 {
@@ -16,18 +14,14 @@ public class ActorAnimation : MonoBehaviour
 {
     public Actor self { get; protected set; }
     public Animator Animator { get; protected set; }
-    //public LocomotionState locomotionState { get; protected set; }
     public MovementSpeed m_movementSpeed;
     protected AnimationSet currentAnimSet;
     public bool m_grounded = true;
     private Rigidbody[] _rigidbodies;
 
     internal bool isAttacking;
-    internal bool isEvading;
-    internal bool isBlocking;
     internal bool isStaggered;
-    private bool isDowned;
-    internal bool inBleedOutState;
+    private readonly bool isDowned;
 
     private Vector3 velocity;
     private float movementSpeed;
@@ -36,23 +30,68 @@ public class ActorAnimation : MonoBehaviour
     public Transform chest;
     public bool inSpellChargeLoop { get; set; }
 
+    private int hash_float_velocityx;
+    private int hash_float_velocityz;
+    private int hash_float_speed;
+
     private int animatorHash_AimLoopBow;
 
-    private float _checkForCloseActorsTimer = 1;
-    //private RaycastHit[] _waterHits;
+    private int hash_int_animationsetindex;
+
+    private int hash_int_attackvariant;
+    private int hash_state_attack;
+    private int hash_state_attackunarmed;
+
+    private int hash_int_castmotionindex;
+    private int hash_state_chargepell;
+    private int hash_state_chargepellfast;
+    private int hash_state_castspell;
+    private int hash_state_idle;
+    private int hash_state_idleunarmed;
+    private int hash_state_idle1h;
+    private int hash_state_idlebow;
+    private int hash_state_idlemagic;
+    private int hash_state_cancelspell;
+    private int hash_state_cancelattack;
+    private int hash_state_cancelbow;
 
     public virtual void Initialize(Actor actor, Animator animator)
     {
         if(actor.debugInitialization)
+        {
             Debug.Log($"<color=grey>{actor.GetName()}: Initializing Animation Component</color>");
+        }
 
+        //_rigidbodies = GetComponentsInChildren<Rigidbody>();
         self = actor;
         this.Animator = animator;
+
+        hash_float_velocityx = Animator.StringToHash("VelocityX");
+        hash_float_velocityz = Animator.StringToHash("VelocityZ");
+        hash_float_speed = Animator.StringToHash("Speed");
+
         animatorHash_AimLoopBow = Animator.StringToHash("Bow Layer.Bow_IdleDrawn");
-        _rigidbodies = GetComponentsInChildren<Rigidbody>();
 
-        //_waterHits = new RaycastHit[5];
+        hash_int_animationsetindex = Animator.StringToHash("iAnimationSetIndex");
 
+        hash_int_attackvariant = Animator.StringToHash("iAttackVariant");
+        hash_state_attack = Animator.StringToHash("Attack Layer.Attack 1H.Attack");
+        hash_state_attackunarmed = Animator.StringToHash("Attack Layer.Attack 1H.Attack Unarmed");
+
+        hash_int_castmotionindex = Animator.StringToHash("iCastMotionIndex");
+        hash_state_chargepell = Animator.StringToHash("Spellcasting Layer.ChargeSpell");
+        hash_state_chargepellfast = Animator.StringToHash("Spellcasting Layer.ChargeSpellFast");
+        hash_state_castspell = Animator.StringToHash("Spellcasting Layer.CastSpell");
+
+        hash_state_cancelspell = Animator.StringToHash("Spellcasting Layer.Cancel");
+        hash_state_cancelattack = Animator.StringToHash("Attack Layer.Cancel");
+        hash_state_cancelbow = Animator.StringToHash("Bow Layer.Cancel");
+
+        hash_state_idle = Animator.StringToHash("Base Layer.Default.Idle");
+        hash_state_idleunarmed = Animator.StringToHash("Base Layer.Unarmed Combat.UC Idle");
+        hash_state_idle1h = Animator.StringToHash("Base Layer.1H.1H Idle");
+        hash_state_idlebow = Animator.StringToHash("Base Layer.Bow.Bow Idle");
+        hash_state_idlemagic = Animator.StringToHash("Base Layer.Spellcasting.Magic Idle");
 
         FindActorBodyparts();
     }
@@ -74,38 +113,35 @@ public class ActorAnimation : MonoBehaviour
         {
             case AnimationSet.XBOW:
             case AnimationSet.BOW:
-                Animator.Play("Cancel", 3);
+                Animator.Play(hash_state_cancelbow, 3);
                 break;
             case AnimationSet.MAGIC:
-                Animator.Play("Cancel", 2);
+                Animator.Play(hash_state_cancelspell, 2);
                 break;
         }
 
         switch(formID)
         {
             case AnimationSet.DEFAULT:
-                Animator.CrossFade("Idle", 0.1f, 0);
+                Animator.CrossFade(hash_state_idle, 0.1f, 0);
                 break;
             case AnimationSet.UNARMED:
-                Animator.CrossFade("UC Idle", 0.1f, 0);
+                Animator.CrossFade(hash_state_idleunarmed, 0.1f, 0);
                 break;
             case AnimationSet.ONEHANDED:
-                Animator.CrossFade("1H Idle", 0.1f, 0);
+                Animator.CrossFade(hash_state_idle1h, 0.1f, 0);
                 break;
             case AnimationSet.TWOHANDED:
                 Debug.LogError("ChangeForm(): 2H AnimationPackage not implemented yet");
                 break;
             case AnimationSet.BOW:
-                Animator.CrossFade("Bow Idle", 0.1f, 0);
+                Animator.CrossFade(hash_state_idlebow, 0.1f, 0);
                 break;
             case AnimationSet.XBOW:
                 Debug.LogError("ChangeForm(): XBow AnimationPackage not implemented yet");
                 break;
             case AnimationSet.MAGIC:
-                Animator.CrossFade("Magic Idle", 0.1f, 0);
-                break;
-            case AnimationSet.SWIM:
-                Animator.CrossFade("Swim Idle", 0.1f, 0);
+                Animator.CrossFade(hash_state_idlemagic, 0.1f, 0);
                 break;
             default:
                 Debug.LogError("Invalid formID");
@@ -113,24 +149,21 @@ public class ActorAnimation : MonoBehaviour
         }
     }
 
-    public bool InBowAimingLoop()
-    {
-        return Animator.GetCurrentAnimatorStateInfo(3).fullPathHash == animatorHash_AimLoopBow;
-    }
-
     //public void UpdatePlayerMovementAnimation()
     private void OnAnimatorMove()
     {
         if(self == null || self.dead)
+        {
             return;
+        }
 
         //HandleRootmotion();
 
         ApplyTranslationFromCurve();
 
-        Animator.SetFloat("VelocityX", velocity.x, 0.04f, Time.deltaTime);
-        Animator.SetFloat("VelocityZ", velocity.z, 0.04f, Time.deltaTime);
-        Animator.SetFloat("Speed", movementSpeed, 0.1f, Time.deltaTime);
+        Animator.SetFloat(hash_float_velocityx, velocity.x, 0.04f, Time.deltaTime);
+        Animator.SetFloat(hash_float_velocityz, velocity.z, 0.04f, Time.deltaTime);
+        Animator.SetFloat(hash_float_speed, movementSpeed, 0.1f, Time.deltaTime);
     }
 
     public void UpdateMovementAnimations(Vector3 velocity, float speed)
@@ -173,7 +206,7 @@ public class ActorAnimation : MonoBehaviour
     {
         if(Animator.GetBool("bApplyRootMotion"))
         {
-            
+
             if(self.NavAgent != null)
             {
                 Animator.applyRootMotion = true;
@@ -184,7 +217,7 @@ public class ActorAnimation : MonoBehaviour
         }
         else
         {
-            
+
             if(self.NavAgent != null)
             {
                 Animator.applyRootMotion = false;
@@ -218,75 +251,38 @@ public class ActorAnimation : MonoBehaviour
     //    ChangeForm(animationPackage);
     //}
 
-    internal void PlaySpellAnimation(int motionIndex)
+    /// <summary>
+    /// Stage 0: Start charging, Stage 2: cast
+    /// </summary>
+    /// <param name="spell"></param>
+    /// <param name="stage"></param>
+    /// <param name="motionIndex"></param>
+    public void PlayMotion_HandleSpell(int stage, int castMotionIndex)
     {
         // handIndex: 0 = left, 1 = right
-
-        //if(inSpellChargeLoop)
-        //{
-        //    Debug.LogError(gameObject.name + ": InSpellChargeLoop");
-        //    return;
-        //}
-
-        Animator.SetInteger("iCastMotionIndex", motionIndex);
-
-        if(self.debugAnimation)
-            Debug.Log(self.GetName() + ": ### Motion start -> Motion Index: " + motionIndex);
-
-        Animator.CrossFade("CastSpell", 0.1f, 2);
-        if(motionIndex == -1)
+        if(castMotionIndex > -1)
         {
-            Animator.CrossFade("Cancel", 0.1f, 2);
-            //inSpellChargeLoop = false;
+            Animator.SetInteger(hash_int_castmotionindex, castMotionIndex);
         }
-        else if(motionIndex >= 0)
+
+        if(self.debug)
         {
-            if(currentAnimSet != AnimationSet.MAGIC)
-            {
-                ChangeForm(AnimationSet.MAGIC);
-                //return;
-            }
-
-            //inSpellChargeLoop = true;
-            Animator.CrossFade("CastSpell", 0.1f, 2);
+            Debug.Log(self.GetName() + ": ### Motion start -> " + (stage == 0 ? "charging" : stage == 1 ? "releasing" : "cancelling") +
+                     " right" + " hand spell");
         }
-    }
 
-    internal void PlayMotion_ReadySpells()
-    {
-        //animator.SetInteger("iMotionIndex", 9);
-        //animator.CrossFade("Magic Idle", 0.2f, 0);
-        ChangeForm(AnimationSet.MAGIC);
-        Animator.CrossFade("SwitchSpell", 0.1f, 2);
-    }
-
-    internal void PlayMotion_SwitchSpell()
-    {
-        //animator.SetInteger("iMotionIndex", 9);
-        //animator.CrossFade("Magic Idle", 0.2f, 0);
-        Animator.CrossFade("SwitchSpell", 0.1f, 2);
-    }
-    //void PlayMotion_DrawSpell(int motionIndex, int handIndex)
-    //{
-    //    animator.SetInteger("iMotionIndex", motionIndex);
-
-    //    if(handIndex == 0)
-    //    {
-    //        animator.SetTrigger("tDrawSpellLH");
-    //    }
-    //    else
-    //    {
-    //        animator.SetTrigger("tDrawSpellRH");
-    //    }
-
-    //    ChangeForm(9);
-    //}
-
-    internal void PlayMotion_SheathSpell()
-    {
-        Animator.CrossFade("SwitchSpell", 0.1f, 2);
-        //animator.CrossFade("Idle", 0.2f, 0);
-        ChangeForm(AnimationSet.DEFAULT);
+        if(stage == 0)
+        {
+            Animator.CrossFade(castMotionIndex == 0 ? hash_state_chargepellfast : hash_state_chargepell, 0.2f, 2);
+        }
+        else if(stage == 1)
+        {
+            Animator.Play(hash_state_castspell);
+        }
+        else
+        {
+            Animator.Play(hash_state_cancelspell);
+        }
     }
 
     internal void PlayMotion_DrawWeapon(AnimationSet animSet)
@@ -310,10 +306,12 @@ public class ActorAnimation : MonoBehaviour
                 break;
         }
 
-        Animator.SetInteger("iAnimationSetIndex", animIndex);
+        Animator.SetInteger(hash_int_animationsetindex, animIndex);
 
         if(animIndex > -1)
+        {
             Animator.Play("Draw", 4);
+        }
     }
 
     internal void PlayMotion_SheathWeapon(AnimationSet animSet)
@@ -331,17 +329,17 @@ public class ActorAnimation : MonoBehaviour
                 break;
             case AnimationSet.BOW:
             case AnimationSet.XBOW:
-                Animator.Play("Cancel", 3);
+                Animator.Play(hash_state_cancelbow, 3);
                 animIndex = 2;
                 break;
         }
 
-
-
-        Animator.SetInteger("iAnimationSetIndex", animIndex);
+        Animator.SetInteger(hash_int_animationsetindex, animIndex);
 
         if(animIndex > -1)
+        {
             Animator.Play("Sheath", 4);
+        }
     }
 
     internal void PlayMotion_Attack(AnimationSet animationSet)
@@ -360,41 +358,26 @@ public class ActorAnimation : MonoBehaviour
         isAttacking = true;
 
         if(self.debugAnimation)
+        {
             Debug.Log("3. (Animation) " + self.GetName() + ": Playing attack motion for weapon category '" + animationSet + "'");
-        //int numAttackMotions = 0; // If num doesn't change -> attack with index of 0
-        //if(motionIndex > -1)
-        //{
-        //    var weaponIndex = motionIndex;
-        //    animator.SetInteger("iMotionIndex", weaponIndex);
-        //}
-        //if(weaponIndex == 1 || weaponIndex == 2) {
-        //    numAttackMotions = GetBlendTreeMotionsCount(2);
-        //    int wIdx = Random.Range(0, numAttackMotions);
-
-        //    _animator.SetInteger("iAttackIndex_1H", wIdx);
-        //}
-
+        }
+   
         if(self.ActorStats.isBeast)
         {
-            Animator.CrossFade("Attack", 0.2f, 1);
+            Animator.CrossFade(hash_state_attack, 0.2f, 1);
             return;
         }
-
-        //if(animator.GetFloat("fIdleStance") == 0)
-        //{
-        //    animator.SetFloat("fIdleStance", 1/*, 0.2f, Time.deltaTime*/);
-        //}
 
         switch(animationSet)
         {
             case AnimationSet.UNARMED:
-                Animator.SetInteger("iAttackVariant", UnityEngine.Random.Range(0, 6));
-                Animator.CrossFade("Attack Unarmed", 0.1f, 1);
+                Animator.SetInteger(hash_int_attackvariant, UnityEngine.Random.Range(0, 6));
+                Animator.CrossFade(hash_state_attackunarmed, 0.1f, 1);
                 break;
             case AnimationSet.ONEHANDED:
             case AnimationSet.DAGGER:
-                Animator.SetInteger("iAttackVariant", UnityEngine.Random.Range(0, 7));
-                Animator.CrossFade("Attack", 0.1f, 1);
+                Animator.SetInteger(hash_int_attackvariant, UnityEngine.Random.Range(0, 7));
+                Animator.CrossFade(hash_state_attack, 0.1f, 1);
                 break;
             //case WeaponCategory.Dual:
             //    break;
@@ -411,22 +394,6 @@ public class ActorAnimation : MonoBehaviour
                 break;
         }
         StartCoroutine(CR_AttackingDone(1));
-        //m_agent.Execute_BlockAggro(2);
-        //Debug.Log("3. (Animation) " + gameObject.name + ": Playing attack motion and waiting for animation event to call 'Attack'");
-        //int numAttackMotions = 0; // If num doesn't change -> attack with index of 0
-        //if(motionIndex > -1)
-        //{
-        //    int weaponIndex = motionIndex;
-        //    animator.SetInteger("iMotionIndex", weaponIndex);
-        //}
-        //if(weaponIndex == 1 || weaponIndex == 2) {
-
-        //    numAttackMotions = GetBlendTreeMotionsCount(2);
-        //    int wIdx = Random.Range(0, numAttackMotions);
-
-        //    _animator.SetInteger("iAttackIndex_1H", wIdx);
-        //}
-
     }
 
     private IEnumerator CR_AttackingDone(float delay)
@@ -441,7 +408,9 @@ public class ActorAnimation : MonoBehaviour
         // Stage 0: Draw
         // Stage 1: Release
         if(stage == -1)
-            Animator.Play("Cancel", 3);
+        {
+            Animator.Play(hash_state_cancelbow);
+        }
         else if(stage == 0)
         {
             //if(isAttacking)
@@ -453,80 +422,9 @@ public class ActorAnimation : MonoBehaviour
             //StartCoroutine(CR_AttackingDone(1));
         }
         else if(stage == 1)
+        {
             Animator.SetTrigger("tAttack");
-
-    }
-
-    public void PlayMotion_Evade(float height)
-    {
-        if(isAttacking || IsIncapacitated())
-        {
-            return;
         }
-
-        Animator.SetFloat("fEvadeHeight", height);
-        Animator.Play("Evade", 8);
-        isEvading = true;
-        StartCoroutine(CR_EvadingDone());
-    }
-
-    private IEnumerator CR_EvadingDone()
-    {
-        yield return new WaitForSeconds(1);
-        isEvading = false;
-    }
-
-    public void PlayMotion_Block(AnimationSet animationSet)
-    {
-        if(isAttacking || IsIncapacitated())
-        {
-            return;
-        }
-        
-        //animator.SetFloat("fEvadeHeight", height);
-        Animator.Play("Block", 8);
-        isBlocking = true;
-    }
-
-    public void PlayMotion_StopBlocking()
-    {
-        Animator.Play("CancelBlock", 8);
-        isBlocking = false;
-    }
-
-    public void PlayMotion_BlockAttack(int blockerWeaponTypeIndex)
-    {
-
-        Animator.SetTrigger("tBlockAttack");
-    }
-
-    public void PlayMotion_BleedOut(int stage)
-    {
-        if(inBleedOutState)
-            return;
-
-        if(self.NavAgent != null)
-            self.NavAgent.isStopped = true;
-
-        inBleedOutState = true;
-
-        CancelAllAttackAnimations();
-
-        Animator.CrossFade("BleedOut", 0.2f, 10);
-
-        StartCoroutine(CR_BleedOutDone());
-    }
-
-    private IEnumerator CR_BleedOutDone()
-    {
-        yield return new WaitForSeconds(4);
-        Animator.Play("Cancel BleedOut", 10);
-        //yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => Animator.GetCurrentAnimatorStateInfo(10).IsName("New State"));
-        inBleedOutState = false;
-
-        if(self.NavAgent != null)
-            self.NavAgent.isStopped = false;
     }
 
     public void PlayMotion_Stagger()
@@ -535,18 +433,8 @@ public class ActorAnimation : MonoBehaviour
 
         CancelAllAttackAnimations();
 
-        if(inBleedOutState)
-        {
-            if(Animator.GetCurrentAnimatorStateInfo(10).IsName("BleedOut Humanoid 1 Loop") == false)
-            {
-                isStaggered = false;
-                return;
-            }
-            Animator.Play("BleedOut Hit", 10);
-        }
-        else
-            Animator.Play("Stagger", 11);
-
+        Animator.Play("Stagger", 11);
+        
         StartCoroutine(CR_StaggerDone());
     }
 
@@ -556,9 +444,14 @@ public class ActorAnimation : MonoBehaviour
         isStaggered = false;
     }
 
+    internal void PlaySpellCastAnimation(Spell spell, int releaseMotionIndex)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool IsIncapacitated()
     {
-        return isDowned || isEvading || isBlocking || inBleedOutState;
+        return isDowned;
     }
 
     public void PlayMotion_Jump(int stage/*Vector3 targetPosition*/)
@@ -583,8 +476,9 @@ public class ActorAnimation : MonoBehaviour
 
     private void CancelAllAttackAnimations()
     {
-        Animator.Play("Cancel", 1);
-        Animator.Play("Cancel", 2);
+        Animator.Play(hash_state_cancelattack);
+        Animator.Play(hash_state_cancelspell);
+        Animator.Play(hash_state_cancelbow);
     }
 
     //public override void Collapse(Agent source) {
@@ -595,7 +489,10 @@ public class ActorAnimation : MonoBehaviour
     public virtual void KnockDown(Vector3 force, float duration, bool markDead)
     {
         if(self.NavAgent != null)
+        {
             self.NavAgent.enabled = false;
+        }
+
         Animator.applyRootMotion = true;
         Animator.enabled = false;
         //animator.StopPlayback();
@@ -604,7 +501,7 @@ public class ActorAnimation : MonoBehaviour
 
         if(markDead)
         {
-            self.transform.gameObject.layer = LayerMask.NameToLayer("Corpse");
+            self.transform.gameObject.layer = LayerMask.NameToLayer("Corpses");
             //self.transform.gameObject.layer
             self.StartCoroutine(CR_LingerOnGroundEssential(duration));
         }
@@ -620,7 +517,10 @@ public class ActorAnimation : MonoBehaviour
 
         //animator.enabled = false;
         if(self.NavAgent != null)
+        {
             self.NavAgent.enabled = false;
+        }
+
         EnableRagdollPhysics(force);
         self.StartCoroutine(CR_LingerOnGround(1000));
         //animator.enabled = false;
@@ -667,9 +567,13 @@ public class ActorAnimation : MonoBehaviour
         bool onBack = Vector3.Dot(chest.forward, Vector3.up) > 0f;
         Animator.enabled = true;
         if(onBack)
+        {
             Animator.Play("Stand Up From Back", 6);
+        }
         else
+        {
             Animator.Play("Stand Up From Belly", 6);
+        }
 
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(6).length);
 
@@ -696,9 +600,13 @@ public class ActorAnimation : MonoBehaviour
         bool onBack = Vector3.Dot(chest.forward, Vector3.up) > 0f;
         Animator.enabled = true;
         if(onBack)
+        {
             Animator.Play("Stand Up From Back", 6);
+        }
         else
+        {
             Animator.Play("Stand Up From Belly", 6);
+        }
 
         yield return new WaitForEndOfFrame();
         self.transform.gameObject.layer = LayerMask.NameToLayer("Actors");
@@ -735,7 +643,9 @@ public class ActorAnimation : MonoBehaviour
             //}
 
             if(c != null)
+            {
                 c.isTrigger = false;
+            }
 
             rb.isKinematic = false;
             rb.useGravity = true;
@@ -753,7 +663,9 @@ public class ActorAnimation : MonoBehaviour
         {
             Collider c = rb.GetComponent<Collider>();
             if(c != null)
+            {
                 c.isTrigger = true;
+            }
 
             rb.isKinematic = true;
             //rb.useGravity = false;
@@ -791,9 +703,13 @@ public class ActorAnimation : MonoBehaviour
         }
 
         if(head == null)
+        {
             head = transform;
+        }
 
         if(chest == null)
+        {
             chest = transform;
+        }
     }
 }

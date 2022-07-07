@@ -362,13 +362,13 @@ namespace AoG.Controls
                 if(targetActor != null)
                 {
                     TryToCast(caster, targetActor);
+                    FinishTargeting();
                 }
                 else if(targetPosition != Vector3.one)
                 {
                     TryToCast(caster, targetPosition);
+                    FinishTargeting();
                 }
-
-                FinishTargeting();
             }
         }
 
@@ -478,17 +478,18 @@ namespace AoG.Controls
 
         private void HandleSpellButtonPress(Actor caster, Spell spell, UISkillButton _activeSpellButton)
         {
-            ColoredDebug.Log("Handling spell button press", Color.white, FontStyle.Bold);
+            Debug.Log("Handling spell button press");
             FinishTargeting();
 
             if(_activeSpellButton.Active == false)
             {
+                Debug.Log("_activeSpellButton.Active == false");
                 return;
             }
 
             if(spell.cooldownTimer > 0)
             {
-                ColoredDebug.Log("Handling spell button press failed: In spell cooldown", Color.yellow, FontStyle.Bold);
+                Debug.Log("Handling spell button press failed: In spell cooldown");
                 return;
             }
             lastPressedSpellButton = _activeSpellButton;
@@ -504,7 +505,7 @@ namespace AoG.Controls
             spellActivationMode = spell.deliveryType;
             SetTargetMode(TargetMode.CAST);
 
-            ColoredDebug.Log("Switching spell activation mode", Color.white, FontStyle.Bold);
+            //Debug.Log("Switching spell activation mode");
             switch(spellActivationMode)
             {
                 case DeliveryType.None:
@@ -573,6 +574,7 @@ namespace AoG.Controls
 
         private void SetTargetMode(TargetMode targetMode)
         {
+            Debug.Log("SetTargetMode");
             switch(targetMode)
             {
                 case TargetMode.NONE:
@@ -617,7 +619,7 @@ namespace AoG.Controls
             {
                 return;
             }
-            caster.Animation.Animator.Play("CancelAttack", 1);
+            caster.Animation.Animator.Play("Cancel", 1);
             //FormationController.ClearFormationVisual(caster.InParty);
 
             AIActions.Action_CastSpellAtActor action = new AIActions.Action_CastSpellAtActor(caster);
@@ -649,7 +651,7 @@ namespace AoG.Controls
             //Interface.GetUIScript().
         }
 
-        void HandleContainer(Container container, Actor actor)
+        private void HandleContainer(Container container, Actor actor)
         {
             //if(actor->GetStat(IE_SEX) == SEX_ILLUSION)
             //    return;
@@ -669,16 +671,16 @@ namespace AoG.Controls
 
             //core->SetEventFlag(EF_RESETTARGET);
 
-            //if(_targetMode == TargetMode.ATTACK)
-            //{
-            //    //actor.SetHostileTarget(container);
-            //    actor.CommandActor(new MoveAction(actor).Set(container.transform.position, container.transform.position - actor.transform.position, 2,
-            //    () =>
-            //    {
-            //        actor.Execute_Attack();
-            //    }));
-            //    return;
-            //}
+            if(_targetMode == TargetMode.ATTACK)
+            {
+                //actor.SetAttackTarget(container);
+                actor.CommandActor(new MoveAction(actor).Set(container.transform.position, container.transform.position - actor.transform.position, 2,
+                () =>
+                {
+                    actor.Combat.Execute_Attack();
+                }));
+                return;
+            }
 
             if(_targetMode == TargetMode.PICK)
             {
@@ -689,11 +691,11 @@ namespace AoG.Controls
             //container.AddTrigger(TriggerEntry(trigger_clicked, actor->GetGlobalID()));
             //core->SetCurrentContainer(actor, container);
             //actor->CommandActor(GenerateAction("UseContainer()"));
-            //actor.CommandActor(new MoveAction(actor).Set(container.transform.position, container.transform.position - actor.transform.position, 2,
-            //    () =>
-            //    {
-            //        actor.Execute_PickUpItem(null, true, true);
-            //    }));
+            actor.CommandActor(new MoveAction(actor).Set(container.transform.position, container.transform.position - actor.transform.position, 2,
+                () =>
+                {
+                    //actor.Execute_PickUpItem(null, true, true);
+                }));
         }
 
         // generate action code for source actor to try to pick pockets of a target (if an actor)
@@ -746,16 +748,16 @@ namespace AoG.Controls
 
         private void SetCursor(CursorType cursorType)
         {
-
+            //Debug.Log("SetCursor " + cursorType);
             if(_currCursorType == cursorType)
             {
+                //Debug.Log("_currCursorType is already " + cursorType);
                 return;
             }
 
             _currCursorType = cursorType;
 
-            //GameStateManager.Instance.uiScript.set(cursorType);
-            //! TODO -----------------------------------
+            GameInterface.Instance.SetCursor(cursorType);
         }
 
         CursorType GetCursorOverContainer(Container overContainer)

@@ -2,62 +2,62 @@
 
 public class EnableRootMotion : StateMachineBehaviour
 {
-    public bool applyRootMotion;
-    private const string boolName = "bApplyRootMotion";
-    public enum TargetState
-    {
-        Enter,
-        Update,
-        Exit
-    }
-    public TargetState targetState;
+    //public bool applyRootMotion;
+    //private const string boolName = "bApplyRootMotion";
+    //public enum TargetState
+    //{
+    //    Enter,
+    //    Update,
+    //    Exit
+    //}
+    //public TargetState targetState;
 
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if(targetState == TargetState.Enter)
-        {
-            //animator.applyRootMotion = applyRootMotion;
+    //public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    if(targetState == TargetState.Enter)
+    //    {
+    //        //animator.applyRootMotion = applyRootMotion;
 
-            if(boolName != "")
-            {
-                animator.SetBool(boolName, applyRootMotion);
-            }
-        }
-    }
+    //        if(boolName != "")
+    //        {
+    //            animator.SetBool(boolName, applyRootMotion);
+    //        }
+    //    }
+    //}
 
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if(targetState == TargetState.Update)
-        {
-            //animator.applyRootMotion = applyRootMotion;
+    //public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    if(targetState == TargetState.Update)
+    //    {
+    //        //animator.applyRootMotion = applyRootMotion;
 
-            if(boolName != "")
-            {
-                animator.SetBool(boolName, applyRootMotion);
-            }
-        }
-    }
+    //        if(boolName != "")
+    //        {
+    //            animator.SetBool(boolName, applyRootMotion);
+    //        }
+    //    }
+    //}
 
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if(targetState == TargetState.Exit)
-        {
-            //animator.applyRootMotion = applyRootMotion;
+    //public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    if(targetState == TargetState.Exit)
+    //    {
+    //        //animator.applyRootMotion = applyRootMotion;
 
-            if(boolName != "")
-            {
-                animator.SetBool(boolName, applyRootMotion);
-            }
-        }
+    //        if(boolName != "")
+    //        {
+    //            animator.SetBool(boolName, applyRootMotion);
+    //        }
+    //    }
 
-        foreach(var p in animator.parameters)
-        {
-            if(p.type == AnimatorControllerParameterType.Trigger)
-            {
-                animator.SetBool(boolName, applyRootMotion);
-            }
-        }
-    }
+    //    foreach(var p in animator.parameters)
+    //    {
+    //        if(p.type == AnimatorControllerParameterType.Trigger)
+    //        {
+    //            animator.SetBool(boolName, applyRootMotion);
+    //        }
+    //    }
+    //}
 }
 
 //public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)

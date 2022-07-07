@@ -421,6 +421,5 @@ public class Projectile : MonoBehaviour
             transform.LookAt(targetPoint);
         }
         transform.position += transform.forward * Time.deltaTime * _speed;
-
     }
 }

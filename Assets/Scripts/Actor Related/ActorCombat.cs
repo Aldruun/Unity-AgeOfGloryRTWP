@@ -357,20 +357,6 @@ public class ActorCombat : MonoBehaviour, IAttackable
             else
             {
                 Debug.Log(self.GetName() + ":<color=orange> DEAD</color>");
-                gameObject.layer = LayerMask.NameToLayer("Corpses");
-                Vector3 collapseForce = -transform.forward;
-                Animation.CollapseDead(null, collapseForce);
-
-                if(self.ActorStats.HasActorFlag(ActorFlags.ALLY))
-                {
-                    GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
-                }
-
-                GameEventSystem.RequestAddGarbage(gameObject);
-                self.spawnpoint.StartRespawnCountdown();
-
-                Callback_ActorDied();
-
                 DevConsole.Log("<color=cyan>" + self.GetName() + "</color> <color=orange>killed by <color=white>" + source.GetName() + "</color>.</color>");
                 Die();
                 return;
@@ -387,36 +373,14 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
     }
 
-    public void ApplyStatusEffectDamage(DamageType effectType, int attackRoll, bool percentage)
+    public void ApplyStatusEffectDamage(Status statusEffect, DamageType damageType, int attackRoll, bool percentage)
     {
         if(self.dead)
         {
             return;
         }
 
-        bool hitSuccess = true; // isProjectile || isMagicAttack ? true : UnityEngine.Random.value > 0.1f;
-
-        //hitSuccess = attackRoll <= MakeSavingThrow(savingThrowType);
-
         int finalAmount = attackRoll;
-
-        switch(effectType)
-        {
-            case DamageType.MAGIC:
-                break;
-            case DamageType.FIRE:
-                break;
-            case DamageType.COLD:
-                break;
-            case DamageType.ELECTRICITY:
-                break;
-            case DamageType.MAGICFIRE:
-                break;
-            case DamageType.HEAL:
-                break;
-            case DamageType.POISON:
-                break;
-        }
 
         //if(percentage)
         //{
@@ -452,20 +416,10 @@ public class ActorCombat : MonoBehaviour, IAttackable
             if(self.ActorStats.HasActorFlag(ActorFlags.ESSENTIAL) == false)
             {
                 //OnDestroyed?.Invoke(this, source, Vector3.zero);
-                Debug.Log(self.GetName() + ":<color=orange> DEAD</color>");
-                gameObject.layer = LayerMask.NameToLayer("Corpses");
-                Vector3 collapseForce = -transform.forward;
-                Animation.CollapseDead(null, collapseForce);
+                Debug.Log($"{self.GetName()}:<color=orange> DIED from status effect '{statusEffect}'</color>");
 
-                if(self.ActorStats.HasActorFlag(ActorFlags.ALLY))
-                {
-                    GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
-                }
-
-                GameEventSystem.RequestAddGarbage(gameObject);
-                self.spawnpoint.StartRespawnCountdown();
-
-                Callback_ActorDied();
+                //self.spawnpoint.StartRespawnCountdown();
+                Die();
             }
             else
             {
@@ -481,6 +435,20 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
     public virtual void Die()
     {
+        
+        gameObject.layer = LayerMask.NameToLayer("Corpses");
+        //Vector3 collapseForce = -transform.forward;
+        //Animation.CollapseDead(null, collapseForce);
+
+        Animation.Animator.Play("Die", 9);
+
+        if(self.ActorStats.HasActorFlag(ActorFlags.PC))
+        {
+            GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
+        }
+
+        Callback_ActorDied();
+
         SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.DEAD);
 
         if(stats.IsEssential == false)
@@ -685,80 +653,6 @@ public class ActorCombat : MonoBehaviour, IAttackable
     private bool IsAlly(Actor actor)
     {
         return actor.ActorStats.HasActorFlag(ActorFlags.ALLY) && self.ActorStats.HasActorFlag(ActorFlags.ALLY);
-    }
-
-    public void Execute_ChargeSpell(Spell spell)
-    {
-
-        //Debug.Log(gameObject.name + ": Drawing weapon");
-        Animation.PlaySpellAnimation(spell.spellcastMotionIndex);
-        //equippedWeaponRight.OnDraw();
-    }
-
-    public void SetEquippedSpell(Spell spell)
-    {
-        if(spell == null)
-        {
-            Debug.Log(self.GetName() + "<color=red>: SetEquippedSpell: NULL</color>");
-        }
-
-        if(spell == equippedSpell)
-        {
-            Debug.Log(self.GetName() + "<color=yellow>: SetEquippedSpell: Spell '" + spell.Name + "' already equipped</color>");
-            return;
-        }
-
-        equippedSpell = spell;
-
-        if(equippedSpell != null && SpellDrawn)
-        {
-            Animation.PlayMotion_SwitchSpell();
-            VFXPlayer.RemoveHandVFX(_handSpellVFX);
-            _handSpellVFX = VFXPlayer.SetSpellHandVFX(Equipment.spellAnchor, equippedSpell.magicEffects[0].id_VFXHandCharge);
-        }
-    }
-
-    public void Execute_ReadySpells()
-    {
-        if(SpellDrawn)
-        {
-            return;
-        }
-
-        if(equippedSpell != null)
-        {
-            SpellDrawn = true;
-            _handSpellVFX ??= VFXPlayer.SetSpellHandVFX(Equipment.spellAnchor, equippedSpell.magicEffects[0].id_VFXHandCharge);
-            SFXPlayer.PlaySound_DrawSpell(equippedSpell, transform.position);
-            Animation.PlayMotion_ReadySpells();
-        }
-    }
-
-    public void Execute_SheathSpells()
-    {
-        if(SpellDrawn == false)
-        {
-            return;
-        }
-        SpellDrawn = false;
-
-        Animation.PlayMotion_SheathSpell();
-        VFXPlayer.RemoveHandVFX(_handSpellVFX);
-        _handSpellVFX = null;
-        SFXPlayer.PlaySound_SheathSpell(equippedSpell, transform.position);
-        //}
-    }
-
-    public void Execute_HandleSpell(Spell spell, int stage, int motionIndex) // 0 = left, 1 = right
-    {
-        if(stage == 0 && Animation.Animator.GetCurrentAnimatorStateInfo(2).IsName("New State") == false)
-        {
-            return;
-        }
-        // stage: 0 = charge, 1 = release
-        //if(debug)
-        //    Debug.Log(GetName() + ": ### " + (stage == 0 ? "charging" : "releasing") + (" right") + " hand spell");
-        Animation.PlaySpellAnimation(motionIndex);
     }
 
     public void Execute_UnequipArmor(Armor armor, bool silent = false)

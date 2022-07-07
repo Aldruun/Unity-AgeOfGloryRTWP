@@ -505,7 +505,7 @@ public class SelectionManager
             numInSelRect = currNumInSelRect;
             foreach(ActorUI actorUI in pcsInsideSelRect)
             {
-                actorUI.ResetHighlighting();
+                actorUI.ResetFlashTiming();
             }
         }
     }

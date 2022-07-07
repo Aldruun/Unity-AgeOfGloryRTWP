@@ -11077,6 +11077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -30404,6 +30405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -30584,6 +30586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -61456,8 +61459,8 @@ Transform:
   - {fileID: 923375916937077856}
   - {fileID: 923375918321871186}
   - {fileID: 923375917949103736}
-  m_Father: {fileID: 1751879015569578450}
-  m_RootOrder: 3
+  m_Father: {fileID: 1775103587304509427}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: -19.866001, z: 0}
 --- !u!1 &923375917358356324
 GameObject:
@@ -66788,6 +66791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -67037,7 +67041,6 @@ Transform:
   - {fileID: 543450652848125566}
   - {fileID: 1783470289}
   - {fileID: 1604429138}
-  - {fileID: 923375917358356322}
   - {fileID: 1520986633}
   - {fileID: 1446387172}
   - {fileID: 2133408899}
@@ -67060,6 +67063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -67201,6 +67205,7 @@ Transform:
   - {fileID: 4261977518723330}
   - {fileID: 1429316474153659686}
   - {fileID: 5079273227847810131}
+  - {fileID: 923375917358356322}
   - {fileID: 1751879015569578450}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -81759,6 +81764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -82167,6 +82173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -82309,6 +82316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -82533,7 +82541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &8288494363065874693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82622,6 +82630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0
@@ -83301,6 +83310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugSpellCastStates: 1
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0

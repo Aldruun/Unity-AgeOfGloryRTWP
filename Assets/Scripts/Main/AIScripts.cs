@@ -176,9 +176,9 @@ public static class AIScripts
             DamageType.CRUSHING
         };
 
-        DamageType[] prefSupportEffects = new[]
+        Keyword[] prefSupportEffects = new[]
         {
-            DamageType.HEAL
+            Keyword.Heal
         };
 
         public AI_ClericHealer(Actor actor) : base(actor)
@@ -289,6 +289,7 @@ public abstract class AICombatScript : GameScript
         {
             return;
         }
+
         if (self.debugGear)
             Debug.Log(self.GetName() + ":<color=orange>1</color> AIScripts.EquipWeapon");
         self.Combat.Execute_EquipBestWeapon(WEAPON_TYPE, false, true);

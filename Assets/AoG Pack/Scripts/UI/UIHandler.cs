@@ -341,6 +341,12 @@ namespace AoG.UI
                 case CursorType.BLOCKED:
                     sprite = ResourceManager.cursor_blocked;
                     break;
+                case CursorType.TALK:
+                    sprite = ResourceManager.cursor_talk;
+                    break;
+                case CursorType.TALKCLICK:
+                    sprite = ResourceManager.cursor_talk_click;
+                    break;
                 case CursorType.ATTACK:
                     sprite = ResourceManager.cursor_attack;
                     break;
@@ -357,16 +363,21 @@ namespace AoG.UI
                     sprite = ResourceManager.cursor_resizevertical;
                     break;
                 case CursorType.GRAB:
+                    sprite = ResourceManager.cursor_grab;
+                    break;
                 case CursorType.TAKE:
                     sprite = ResourceManager.cursor_grab;
                     break;
+                case CursorType.WALK:
+                    sprite = ResourceManager.cursor_moveto;
+                    break;
                 default:
-                    Debug.LogError("Invalid cursor index");
+                    Debug.LogError($"Curosr type '{cursorType}' not found");
                     break;
             }
             cursorRect.GetComponentInChildren<Image>().overrideSprite = sprite;
             cursorRect.pivot = (sprite.pivot / sprite.rect.size);
-            Debug.Log("////// CURSOR -> " + cursorType);
+            //Debug.Log("////// CURSOR -> " + cursorType);
         }
 
         public void SaveGame()

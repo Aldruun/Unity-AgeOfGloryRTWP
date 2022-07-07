@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
   m_Name: effect_holyflame
   m_EditorClassIdentifier: 
-  ID: effect_holyflame
-  Name: Holy Flame
   affectedAttribute: 0
   _statusEffect:
     rounds: 0
@@ -32,8 +30,12 @@ MonoBehaviour:
   destroyOnImpact: 1
   clampVFXToTarget: 0
   impactSFXType: 9
+  sfxOnRelease: []
   sfxOnHit:
   - {fileID: 8300000, guid: 18e70938ca6234c4ea1dee5b1bd1d512, type: 3}
   - {fileID: 8300000, guid: 08a38c40b681f03409fa3d19f75546f1, type: 3}
   - {fileID: 8300000, guid: 3a32ecf6b88b2884cb0e0a7824110e87, type: 3}
   - {fileID: 8300000, guid: e7e7b69f545e38c4588a71e2377e9f23, type: 3}
+  sfxChargeSpell: {fileID: 0}
+  id_VFXOnInflict: 
+  id_VFXOnImpact: 

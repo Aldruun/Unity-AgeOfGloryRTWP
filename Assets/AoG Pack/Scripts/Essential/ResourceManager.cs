@@ -27,7 +27,10 @@ public static class ResourceManager
     private static Sprite[] _potraitSprites;
     public static Sprite cursor_default;
     public static Sprite cursor_grab;
+    public static Sprite cursor_moveto;
     public static Sprite cursor_blocked;
+    public static Sprite cursor_talk;
+    public static Sprite cursor_talk_click;
     public static Sprite cursor_attack;
     public static Sprite cursor_castspell;
     public static Sprite cursor_use;
@@ -98,6 +101,8 @@ public static class ResourceManager
     // Spell SFX
     public static AudioClip sfx_spell_charge_default;
     public static AudioClip sfx_spell_draw_default;
+    public static AudioClip[] sfx_list_spellchants_gibberish_f;
+    public static AudioClip[] sfx_list_spellchants_gibberish_m;
     public static AudioClip[] sfx_list_spellchants_fire_f;
     public static AudioClip[] sfx_list_spellchants_fire_m;
     public static AudioClip[] sfx_list_spellchants_heal_f;
@@ -231,6 +236,8 @@ public static class ResourceManager
         // Spell SFX
         sfx_spell_charge_default = Resources.Load<AudioClip>("SFX/Spell SFX/Charge/sfx_spell_charge_default");
         sfx_spell_draw_default = Resources.Load<AudioClip>("SFX/Spell SFX/Draw/spelldrawdefault");
+        sfx_list_spellchants_gibberish_f = Resources.LoadAll<AudioClip>("SFX/Chants/F/Gibberish/");
+        sfx_list_spellchants_gibberish_m = Resources.LoadAll<AudioClip>("SFX/Chants/M/Gibberish/");
         sfx_list_spellchants_fire_f = Resources.LoadAll<AudioClip>("SFX/Chants/F/Fire/");
         sfx_list_spellchants_fire_m = Resources.LoadAll<AudioClip>("SFX/Chants/M/Fire/");
         sfx_list_spellchants_heal_f = Resources.LoadAll<AudioClip>("SFX/Chants/F/Heal/");
@@ -299,13 +306,15 @@ public static class ResourceManager
         cursor_default = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_default");
         cursor_blocked = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_blocked");
         cursor_grab = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_grab");
+        cursor_moveto = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_moveto");
         cursor_castspell = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_castspell");
         cursor_attack = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_attack");
         cursor_use = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_use");
         cursor_pickup = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_pickup");
-        //Sprite[] talkCursors = Resources.LoadAll<Sprite>("Images/UI Sprites/Cursors/cursor_talk_sheet");
-        //cursor_talk = talkCursors[0];
-        //cursor_talk_click = talkCursors[1];
+        Sprite[] talkCursors = Resources.LoadAll<Sprite>("Images/UI Sprites/Cursors/cursor_talk_sheet");
+        cursor_talk = talkCursors[0];
+        cursor_talk_click = talkCursors[1];
+     
         cursor_resizevertical = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_resizevertical");
         cursor_resizehorizontal = Resources.Load<Sprite>("Images/UI Sprites/Cursors/cursor_resizehorizontal");
 

@@ -33,7 +33,7 @@ MonoBehaviour:
   castingType: 1
   deliveryType: 8
   spellTargetType: 0
-  keywords: 0
+  keywords: 2
   magicEffects:
   - {fileID: 11400000, guid: ac063b185566d684fab5f618a1090883, type: 2}
   targetLogic: {fileID: 11400000, guid: fa051786649e46d42ae875a6993682fa, type: 2}
