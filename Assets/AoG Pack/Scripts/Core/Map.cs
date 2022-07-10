@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Threading;
 
 public enum ScriptPriority
 {
@@ -20,17 +21,17 @@ public enum AreaType
 
 public class Map
 {
-    private float _garbageTimer = 1;
+    public List<Actor> actors = new List<Actor>();
     public Dictionary<GameObject, int> garbage { get; } = new Dictionary<GameObject, int>();
 
     private SpawnPoint[] _spawnPoints;
     private FootstepLink[] footstepLinks;
     public string SceneName;
     public bool IsInterior;
+    private float garbageTimer = 1;
 
     //public int gameTime;
     private bool pcInArea;
-    public List<Actor> actors = new List<Actor>();
     //public List<Container> containers = new List<Container>();
     //public List<Door> doors = new List<Door>();
 
@@ -55,10 +56,10 @@ public class Map
 
     public void UpdateScripts()
     {
-        _garbageTimer -= Time.deltaTime;
-        if(_garbageTimer <= 0)
+        garbageTimer -= Time.deltaTime;
+        if(garbageTimer <= 0)
         {
-            _garbageTimer = 1;
+            garbageTimer = 1;
             foreach(var key in garbage.Keys.ToArray())
             {
                 garbage[key]--;
@@ -100,38 +101,45 @@ public class Map
         //SortQueues();
 
         //gameTime++;
-        foreach(Actor actor in actors)
+        for(int i = 0; i < actors.Count; i++)
         {
+            Actor actor = actors[i];
             //if(actor.GetCurrentArea() != this)
             //{
             //    continue;
             //}
 
             actor.UpdateActiveCellBehaviours();
-        }
-    }
 
-    public void InitSpawns(SpawnPoint[] spawnPoints, ref List<Actor> spawnedPCs)
-    {
-        Debug.Log("# <color=green>Init Spawns</color>");
-        _spawnPoints = spawnPoints;
-        foreach(SpawnPoint sp in spawnPoints)
-        {
-            if(sp.SpawnType == SpawnType.ONSTART)
+            if((Time.frameCount) % (30 + i) == 0)
             {
-                Actor spawnedActor = sp.Spawn();
-
-                if(spawnedActor.ActorStats.HasActorFlag(ActorFlags.PC))
-                {
-                    GameEventSystem.OnPCSpawned?.Invoke(spawnedActor);
-                    pcInArea = true;
-                    spawnedPCs.Add(spawnedActor);
-                }
-
-                actors.Add(spawnedActor);
+                //Debug.Log("Loop " + i);
+                actor.UpdateScriptTicks();
             }
         }
     }
+
+    //public void InitSpawns(SpawnPoint[] spawnPoints, ref List<Actor> spawnedPCs)
+    //{
+    //    Debug.Log("# <color=green>Init Spawns</color>");
+    //    _spawnPoints = spawnPoints;
+    //    foreach(SpawnPoint sp in spawnPoints)
+    //    {
+    //        if(sp.SpawnType == SpawnType.ONSTART)
+    //        {
+    //            Actor spawnedActor = sp.Spawn();
+
+    //            if(spawnedActor.ActorStats.HasActorFlag(ActorFlags.PC))
+    //            {
+    //                GameEventSystem.OnPCSpawned?.Invoke(spawnedActor);
+    //                pcInArea = true;
+    //                spawnedPCs.Add(spawnedActor);
+    //            }
+
+    //            actors.Add(spawnedActor);
+    //        }
+    //    }
+    //}
 
     ////call this once, after area was loaded
     //internal void InitActors()
@@ -238,36 +246,36 @@ public class Map
         }
     }
 
-    //internal bool AnyEnemyNearPoint(Vector3 position)
-    //{
-    //    foreach(ActorInput actor in actors)
-    //    {
-    //        if(actor.dead)
-    //        {
-    //            continue;
-    //        }
+    internal bool AnyEnemyNearPoint(Vector3 position)
+    {
+        foreach(Actor actor in actors)
+        {
+            if(actor.dead)
+            {
+                continue;
+            }
 
-    //        if(FactionExentions.IsEnemy(actor, Faction.Heroes) == false)
-    //        {
-    //            continue;
-    //        }
+            if(actor.ActorStats.HasActorFlag(ActorFlags.HOSTILE) == false)
+            {
+                continue;
+            }
 
-    //        if(Vector3.Distance(actor.transform.position, position) > 10)
-    //        {
-    //            continue;
-    //        }
+            if(Vector3.Distance(actor.transform.position, position) > 10)
+            {
+                continue;
+            }
 
-    //        return true;
-    //    }
+            return true;
+        }
 
-    //    return false;
-    //}
+        return false;
+    }
 
     //public List<ActorInput> GetAllActorsInRadius(Vector3 p, ActorFlags flags, float radius, Scriptable see)
     //{
 
     //    List<ActorInput> neighbours = new List<ActorInput>();
-        
+
     //    foreach(ActorInput actor in actors)
     //    {
     //        if(HelperFunctions.WithinRange(actor, p, radius) == false)

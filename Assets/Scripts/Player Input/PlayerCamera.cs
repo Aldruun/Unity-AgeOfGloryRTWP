@@ -189,8 +189,8 @@ public class PlayerCamera
         float rotX = camRigRotator.eulerAngles.x;
         float rotY = camRigRotator.eulerAngles.y;
 
-        rotX = Mathf.LerpAngle(rotX, rotation.eulerAngles.x, Time.deltaTime * rotDampX * mult);
-        rotY = Mathf.LerpAngle(rotY, rotation.eulerAngles.y, Time.deltaTime * rotDampY * mult);
+        rotX = Mathf.LerpAngle(rotX, rotation.eulerAngles.x, Time.unscaledDeltaTime * rotDampX * mult);
+        rotY = Mathf.LerpAngle(rotY, rotation.eulerAngles.y, Time.unscaledDeltaTime * rotDampY * mult);
 
         camRigRotator.rotation = Quaternion.Euler(rotX, rotY, 0f);
     }

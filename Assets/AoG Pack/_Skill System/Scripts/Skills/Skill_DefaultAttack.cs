@@ -16,12 +16,12 @@
 //    public override bool ConditionsMetAI(NPCInput ai)
 //    {
 //        NPCInput self = ai;
-//        if(self.Equipment.equippedWeapon.Weapon.IsRanged == false && self.AIProfile.AIFlags.HasFlag(AIFlags.AllowMelee) == false)
+//        if(self.Combat.GetEquippedWeapon().IsRanged == false && self.AIProfile.AIFlags.HasFlag(AIFlags.AllowMelee) == false)
 //        {
 //            return false;
 //        }
 
-//        if(self.Equipment.equippedWeapon.Weapon.IsRanged && self.AIProfile.AIFlags.HasFlag(AIFlags.AllowRanged) == false)
+//        if(self.Combat.GetEquippedWeapon().IsRanged && self.AIProfile.AIFlags.HasFlag(AIFlags.AllowRanged) == false)
 //        {
 //            return false;
 //        }
@@ -47,9 +47,9 @@
 
 //        self.Combat.Execute_Attack();
         
-//        cooldown = self.Equipment.equippedWeapon.Weapon.speed;
+//        cooldown = self.Combat.GetEquippedWeapon().speed;
 
-//        if(self.Equipment.equippedWeapon.Weapon.IsRanged == false)
+//        if(self.Combat.GetEquippedWeapon().IsRanged == false)
 //        {
 //            if(Random.value > 0.6f)
 //            {
@@ -79,6 +79,6 @@
 
 //    internal override float GetActivationRange(Actor self)
 //    {
-//        return self.Equipment.equippedWeapon.Weapon.Range - 0.1f;
+//        return self.Combat.GetEquippedWeapon().Range - 0.1f;
 //    }
 //}

@@ -6,8 +6,26 @@ using UnityEngine;
 
 public class Editor_AoGUtilities : Editor
 {
+    [MenuItem("AoG Utilities/Item Database", false, 0)]
+    public static void ItemDatabase()
+    {
+        ItemDatabaseWindow itemDatabaseWindow = EditorWindow.GetWindow(typeof(ItemDatabaseWindow)) as ItemDatabaseWindow;
+        itemDatabaseWindow.minSize = new Vector2(540, 250);
+        itemDatabaseWindow.titleContent = new GUIContent("Item Database");
+        itemDatabaseWindow.Show();
+    }
+
+    [MenuItem("AoG Utilities/ToDoList", false, 3)]
+    public static void ToDoList()
+    {
+        ToDoListEditor toDoWindow = EditorWindow.GetWindow(typeof(ToDoListEditor)) as ToDoListEditor;
+        toDoWindow.minSize = new Vector2(200, 100);
+        toDoWindow.titleContent = new GUIContent("ToDoList");
+        toDoWindow.Show();
+    }
+
     [MenuItem("AoG Utilities/Agent Setup")]
-    public static void SetupHero()
+    public static void SetupActor()
     {
         Object obj = Selection.activeObject;
         string szPath = AssetDatabase.GetAssetPath(obj);
@@ -40,14 +58,6 @@ public class Editor_AoGUtilities : Editor
 
         return Selection.activeObject != null;
     }
-
-    //[MenuItem("AoG Utilities/NPC Configuration")]
-    //public static void NPCConfiguration()
-    //{
-
-    //    NPCConfigWindow configWindow = EditorWindow.GetWindow<NPCConfigWindow>();
-    //    configWindow.Show();
-    //}
 
     [MenuItem("AoG Utilities/Spawn Actor Template In Scene")]
     public static void CreateActorTemplateInScene()
@@ -87,15 +97,6 @@ public class Editor_AoGUtilities : Editor
         templatePrefab.GetComponent<Animator>().avatar = originalAvatar;
         DestroyImmediate(originalAnimator);
     }
-
-    //[UnityEditor.Callbacks.DidReloadScripts]
-    //private static void OnScriptsReloaded()
-    //{
-    //    GameTimeManager gtm = FindObjectOfType<GameTimeManager>();
-
-    //    if(gtm != null)
-    //        gtm.UpdateTimeComponents();
-    //}
 
     [MenuItem("AoG Utilities/Unity Specific/Fit BoxCollider")]
     private static void FitToChildren()

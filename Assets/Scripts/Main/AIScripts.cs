@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,14 +13,16 @@ public static class AIScripts
         public override void OnUpdate()
         {
             if(CanUpdate() == false)
+            {
                 return;
+            }
 
             Actor target = NearestEnemyOf(self, 10);
             if(target != null)
             {
                 EquipWeapon(Constants.EQUIP_MELEE);
 
-                //if(MovedInRange(target, self.Equipment.equippedWeapon.Weapon.Range()))
+                //if(MovedInRange(target, self.Combat.GetEquippedWeapon().Range()))
                 Attack(target);
             }
 
@@ -41,17 +42,21 @@ public static class AIScripts
         public override void OnUpdate()
         {
             if(CanUpdate() == false)
+            {
                 return;
+            }
 
             Actor target = LastSeenBy(self);
             if(target == null)
+            {
                 target = NearestEnemyOf(self, 10);
+            }
 
             if(target != null)
             {
                 EquipWeapon(Constants.EQUIP_MELEE);
 
-                //if(MovedInRange(target, self.Equipment.equippedWeapon.Weapon.Range()))
+                //if(MovedInRange(target, self.Combat.GetEquippedWeapon().Range()))
 
                 Attack(target);
             }
@@ -72,14 +77,16 @@ public static class AIScripts
         public override void OnUpdate()
         {
             if(CanUpdate() == false)
+            {
                 return;
-            
+            }
+
             Actor target = NearestEnemyOf(self, 10);
             if(target != null)
             {
                 EquipWeapon(Constants.EQUIP_RANGED);
 
-                //if(MovedInRange(target, self.Equipment.equippedWeapon.Weapon.Range()))
+                //if(MovedInRange(target, self.Combat.GetEquippedWeapon().Range()))
                 Attack(target);
             }
 
@@ -96,9 +103,8 @@ public static class AIScripts
     /// </summary>
     public class AI_WizardAggressive : AICombatScript
     {
-        Collider[] _enemyColliders;
-
-        DamageType[] prefOffensiveEffects = new[]
+        private readonly Collider[] _enemyColliders;
+        private readonly DamageType[] prefOffensiveEffects = new[]
         {
             //EffectType.FIRE,
             DamageType.MAGICCOLD,
@@ -117,20 +123,29 @@ public static class AIScripts
         public override void OnUpdate()
         {
             if(CanUpdate() == false)
+            {
                 return;
+            }
 
             Actor target = LastSeenBy(self);
             if(target == null || target.ValidTarget(0) == false)
+            {
                 target = NearestEnemyOf(self, 10);
+            }
+
             if(target != null)
             {
-                if(self.debug)
+                if(self.debugCombat)
+                {
                     Debug.Log(self.GetName() + ": * Got target");
+                }
 
                 if(self.RoundSystem.InSpellPause() == false)
                 {
-                    if(self.debug)
+                    if(self.debugCombat)
+                    {
                         Debug.Log(self.GetName() + ": * Checking spell");
+                    }
 
                     float distTargetToAlly = Actions.GetDistanceToNearestActor(self, target.transform.position, _enemyColliders, true);
                     Spell[] availableSpells = AIGetSpellsByEffectType(prefOffensiveEffects, new[] { DeliveryType.InstantActor, DeliveryType.InstantLocation, DeliveryType.SeekActor, DeliveryType.SeekLocation }, 3, distTargetToAlly / 3, 3);
@@ -147,20 +162,24 @@ public static class AIScripts
                 {
                     EquipWeapon(Constants.EQUIP_MELEE);
 
-                    if(_weapon != null && _weapon.CombatType == CombatType.MELEE)
+                    if(weapon != null && weapon.CombatType == CombatType.MELEE)
+                    {
                         Attack(target);
+                    }
                 }
                 else
                 {
                     EquipWeapon(Constants.EQUIP_RANGED);
 
-                    if(_weapon != null && _weapon.CombatType == CombatType.RANGED)
+                    if(weapon != null && weapon.CombatType == CombatType.RANGED)
+                    {
                         Attack(target);
+                    }
                 }
-                //if(MovedInRange(target, self.Equipment.equippedWeapon.Weapon.Range()))                
+                //if(MovedInRange(target, self.Combat.GetEquippedWeapon().Range()))                
             }
         }
-    
+
 
         public override void Release() { }
         public override bool Done() { return false; }
@@ -168,15 +187,14 @@ public static class AIScripts
 
     public class AI_ClericHealer : AICombatScript
     {
-        DamageType[] prefOffensiveEffects = new[]
+        private readonly DamageType[] prefOffensiveEffects = new[]
         {
             DamageType.RADIANT,
             DamageType.MAGICCOLD,
             DamageType.MAGICFIRE,
             DamageType.CRUSHING
         };
-
-        Keyword[] prefSupportEffects = new[]
+        private readonly Keyword[] prefSupportEffects = new[]
         {
             Keyword.Heal
         };
@@ -189,7 +207,9 @@ public static class AIScripts
         public override void OnUpdate()
         {
             if(CanUpdate() == false)
+            {
                 return;
+            }
 
             Actor wounded = GetMostWoundedFriend();
             if(wounded != null /*&& RunCooldown() == false*/)
@@ -204,7 +224,9 @@ public static class AIScripts
             {
                 Actor target = LastSeenBy(self);
                 if(target == null)
+                {
                     target = NearestEnemyOf(self, 10);
+                }
 
                 if(target != null)
                 {
@@ -215,8 +237,9 @@ public static class AIScripts
                         {
                             Spell[] availableSpells = null;
                             if(InRange(target, 2) == false)
+                            {
                                 availableSpells = AIGetSpellsByEffectType(prefOffensiveEffects, new[] { DeliveryType.InstantActor, DeliveryType.InstantLocation, DeliveryType.SeekActor, DeliveryType.SeekLocation }, 3, 0, 3);
-
+                            }
                         }
                         //Debug.Log("Found spell");
                         if(_currentSpell != null /*&& MovedInRange(target, _currentSpell.activationRange)*/ && self.RoundSystem.CanCast())
@@ -236,7 +259,7 @@ public static class AIScripts
                         EquipWeapon(Constants.EQUIP_RANGED);
                     }
 
-                    //if(MovedInRange(target, self.Equipment.equippedWeapon.Weapon.Range()))
+                    //if(MovedInRange(target, self.Combat.GetEquippedWeapon().Range()))
                     Attack(target);
 
                 }
@@ -250,17 +273,16 @@ public static class AIScripts
 public abstract class AICombatScript : GameScript
 {
     protected new Actor self;
-    protected Weapon _weapon;
+    protected Weapon weapon;
     protected Spell _currentSpell;
     protected float castCooldown = 2;
 
     protected Collider[] friendsCapacity = new Collider[7];
-    List<Actor> _cachedFriends = new List<Actor>();
+    private List<Actor> _cachedFriends = new List<Actor>();
     protected Collider[] foesCapacity = new Collider[7];
-    List<Actor> _cachedFoes = new List<Actor>();
-
-    float _drawSheathTimer = 2;
-    bool _busy;
+    private List<Actor> _cachedFoes = new List<Actor>();
+    private readonly float _drawSheathTimer = 2;
+    private readonly bool _busy;
 
     protected Class[] targetPriorityClass;
 
@@ -272,44 +294,48 @@ public abstract class AICombatScript : GameScript
     //IEnumerator CR_EquipAndDrawBestWeapon(int WEAPON_TYPE)
     //{
     //    //_busy = true;
-       
+
     //    self.Combat.Execute_EquipBestWeapon(WEAPON_TYPE, true, true);
-    //    //_weapon = self.Equipment.equippedWeapon.Weapon;
+    //    //_weapon = self.Combat.GetEquippedWeapon;
     //    //AIActions.Action_DrawWeapon act = new AIActions.Action_DrawWeapon(self).Set(true);
     //    //self.CommandActor(act);
     //    yield return new WaitForSeconds(0);
-    //    _weapon = self.Equipment.equippedWeapon.Weapon;
+    //    _weapon = self.Combat.GetEquippedWeapon;
     //    //_busy = false;
-    //    //Debug.Assert(self.Equipment.equippedWeapon.Weapon != null, "Actor.DrawWeapon::Weapon = null");
+    //    //Debug.Assert(self.Combat.GetEquippedWeapon()!= null, "Actor.DrawWeapon::Weapon = null");
     //}
 
     protected void EquipWeapon(int WEAPON_TYPE)
     {
-        if (/*_busy || */_weapon != null)
+        if(self.debugCombat)
+            Debug.Log($"{self.GetName()}: CombatScript.EquipWeapon");
+
+        if(/*_busy || */weapon != null)
         {
+            if(self.debugCombat)
+                Debug.Log($"{self.GetName()}: CombatScript.EquipWeapon weapon != null");
             return;
         }
+        else
+        {
+            weapon = self.Combat.GetEquippedWeapon()?.Data;
 
-        if (self.debugGear)
-            Debug.Log(self.GetName() + ":<color=orange>1</color> AIScripts.EquipWeapon");
+            if(weapon != null)
+            {
+                if(self.debugCombat)
+                    Debug.Log($"{self.GetName()}: CombatScript.EquipWeapon weapon != null 2");
+                return;
+            }
+        }
+
+        if(self.debugCombat)
+        {
+            Debug.Log(self.GetName() + ":<color=orange>1</color> CombatScript.EquipWeapon success");
+        }
+
         self.Combat.Execute_EquipBestWeapon(WEAPON_TYPE, false, true);
-        //self.Execute_DrawWeapon();
-        _weapon = self.Equipment.equippedWeapon.Weapon;
-        //switch (weaponType)
-        //{
-        //    case 0: // ANY
-        //        self.scrMono.StartCoroutine(CR_EquipAndDrawBestWeapon(Constants.EQUIP_MELEE));
-        //        break;
-        //    case 1: // MELEE
-        //        if((CombatType)weaponType == CombatType.MELEE)
-        //            self.scrMono.StartCoroutine(CR_EquipAndDrawBestWeapon(Constants.EQUIP_MELEE));
-        //        break;
-        //    case 2: // RANGED
-        //        if((CombatType)weaponType == CombatType.RANGED)
-        //            self.scrMono.StartCoroutine(CR_EquipAndDrawBestWeapon(Constants.EQUIP_RANGED));
-
-        //        break;
-        //}
+        self.Combat.Execute_DrawWeapon();
+        weapon = self.Combat.GetEquippedWeapon().Data;
     }
 
     public Spell AIGetSpellByKeyword(Keyword keyword)
@@ -384,13 +410,18 @@ public abstract class AICombatScript : GameScript
 
             if(currSpell.activationRange < minRange || currSpell.aoeRadius > maxAOE)
             {
-                if(self.debug)
+                if(self.debugCombat)
+                {
                     Debug.Log(self.GetName() + ": * " + currSpell.aoeRadius + " > " + maxAOE);
+                }
+
                 continue;
             }
 
-            if(self.debug)
+            if(self.debugCombat)
+            {
                 Debug.Log(self.GetName() + ": * Checking spell");
+            }
 
             for(int j = 0; j < effectTypes.Length; j++)
             {
@@ -425,7 +456,9 @@ public abstract class AICombatScript : GameScript
         }
 
         if(_cachedFriends.Count > 0)
+        {
             return _cachedFriends[0];
+        }
 
         return null;
     }
@@ -455,22 +488,14 @@ public abstract class AICombatScript : GameScript
         return null;
     }
 
-    protected Actor LastSeenBy(Actor actor)
-    {
-        return actor.Combat.GetHostileTarget();
-    }
-
-    protected Actor LastAttackerOf(Actor actor)
-    {
-        return actor.Combat.lastAttacker;
-    }
-
     protected Actor NearestEnemyOf(Actor actor, int maxRange)
     {
-        if(actor.debug)
+        if(actor.debugCombat)
         {
             Debug.Log(actor.GetName() + ": Setting attack target");
         }
+
+        //TODO Shouldn't be accessed while pcs not in combat
 
         actor.Combat.SetHostileTarget(HelperFunctions.GetClosestActor_WithJobs(actor, maxRange, actor.ActorStats.GetEnemyFlags()));
 
@@ -487,6 +512,16 @@ public abstract class AICombatScript : GameScript
         return HelperFunctions.GetClosestActor_WithJobs(self, 20, ActorFlags.PC | ActorFlags.ALLY);
     }
 
+    protected Actor LastSeenBy(Actor actor)
+    {
+        return actor.Combat.GetHostileTarget();
+    }
+
+    protected Actor LastAttackerOf(Actor actor)
+    {
+        return actor.Combat.lastAttacker;
+    }
+
     protected bool CheckStatGT(Actor actor, ActorStat stat, int threshold)
     {
         return actor.ActorStats.GetBaseStat(stat) > threshold;
@@ -494,7 +529,7 @@ public abstract class AICombatScript : GameScript
 
     protected bool CheckStatLT(Actor actor, ActorStat stat, int threshold)
     {
-        return actor.ActorStats.GetBaseStat( stat) < threshold;
+        return actor.ActorStats.GetBaseStat(stat) < threshold;
     }
 
     protected bool HPLT(Actor actor, int hpThreshold)
@@ -532,16 +567,23 @@ public abstract class AICombatScript : GameScript
         //self.AttackCore(target, _weapon);
 
         //DebugDraw.Cube(debugPointPrepare, Vector3.one * 0.2f, Quaternion.LookRotation(self.transform.forward), Colors.YellowOrange);
-        if(self.debug)
+        if(self.debugCombat)
+        {
             Debug.Log(self.GetName() + ": Adding attack action");
-        if(self.Equipment.equippedWeapon.Weapon != null)
+        }
+
+        if(self.Combat.GetEquippedWeapon() != null)
+        {
             self.AddAction(new AIActions.Action_Attack_Once(self).Set(target), false);
+        }
     }
 
     protected void CastSpell(Actor target, Spell spell, float cooldown)
     {
         if(self.RoundSystem.InSpellPause())
+        {
             return;
+        }
 
 
 

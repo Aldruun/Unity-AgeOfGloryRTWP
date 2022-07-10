@@ -305,6 +305,34 @@ public class FormationController : MonoBehaviour
                 {
                     move = GetFormationPoint(i, _formationApplicationPoint, _terrainClickPoint);
                 }
+
+                if(i == 1)
+                {
+                    int frequencySetting = 2;
+                    bool chatter = false;
+
+                    switch(frequencySetting)
+                    {
+                        case 1:
+                            chatter = DnD.RollBG(1, 100, 0) < 10;
+                            break;
+                        case 2:
+                            chatter = DnD.RollBG(1, 100, 0) < 20;
+                            break;
+                        case 3:
+                            chatter = DnD.RollBG(1, 100, 0) < 50;
+                            break;
+                        case 4:
+                            chatter = DnD.RollBG(1, 100, 0) < 60;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if(chatter)
+                        actor.VerbalConstant(VerbalConstantType.MOVECOMMANDYES);
+                }
+
                 GenericFunctions.DebugDraw.Circle(move, Vector3.up, 0.5f, 6, Colors.White, 5);
                 int retIndex = i - 1;
                 actor.MoveCommand(new MoveAction(actor).Set(HelperFunctions.GetSampledNavMeshPosition(move), _draggedDirection, 0.1f, () => { _cachedTargetReticles[retIndex].SetActive(false); }));

@@ -303,7 +303,7 @@ public static class ActorUtility
             Vector3 newTacticalPosition = self.transform.position;
             Vector3 targetPos = target.transform.position;
             Vector3 fleeDir = (self.transform.position - targetPos).normalized;
-            bool isRanged = self.ActorStats.isSpellCaster || (self.Equipment.equippedWeapon.Weapon != null && self.Equipment.equippedWeapon.Weapon.Range > 10);
+            bool isRanged = self.ActorStats.isSpellCaster || (self.Combat.GetEquippedWeapon()!= null && self.Combat.GetEquippedWeapon().Data.Range > 10);
 
             //blocked = true;
             //if(agent.attackTarget != null && inRange)

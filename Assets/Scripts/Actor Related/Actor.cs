@@ -15,6 +15,8 @@ public enum SpellCastingFlags
 
 public abstract class Actor : Scriptable
 {
+    internal bool debugCombat;
+    internal bool debugNavigation;
     public bool debugSpellCastStates;
     public bool debugAnimation;
     internal bool debugInput;
@@ -78,6 +80,8 @@ public abstract class Actor : Scriptable
     internal bool inWater;
     private Vector3 currentDestination;
     private StatusEffectSystem statusEffectSystem;
+    private AudioSource voiceAudioSource;
+  
 
     public virtual void FinalizeActor(ActorConfiguration config)
     {
@@ -106,7 +110,7 @@ public abstract class Actor : Scriptable
             Combat = gameObject.AddComponent<ActorCombat>();
         }
 
-        AudioSource voiceAudioSource = transform.Find("Audio/AS Voice").GetComponent<AudioSource>();
+        voiceAudioSource = transform.Find("Audio/AS Voice").GetComponent<AudioSource>();
         CharacterVoiceSet = ResourceManager.voiceSetDatabase.GetVoiceSetByID(ActorStats.voicesetID);
 
         Combat.Initialize(this, ActorStats, Equipment, Animation, CharacterVoiceSet, voiceAudioSource);
@@ -252,8 +256,6 @@ public abstract class Actor : Scriptable
         //SetPortraitActionIcon?.Invoke(action);
 
         AddAction(action, true);
-
-        //TODO Handle verbal constants and their probability
     }
 
     /// <summary>
@@ -268,10 +270,9 @@ public abstract class Actor : Scriptable
             return;
         }
         CancelAnimations();
-        //SetAttackTarget(null);
+        //Combat.SetHostileTarget(null);
         hasMovementOrder = true;
         CommandActor(action);
-        //TODO Handle verbal constants and their probability
     }
 
     public bool Immobile()
@@ -315,14 +316,14 @@ public abstract class Actor : Scriptable
     internal void CancelAnimations()
     {
         //animator.Play("Cancel");
-        Animation.Animator.Play("Cancel", 1);
+        Animation.CancelAttackAnimation();
         //animator.SetTrigger("tCancelAim");
         if(Animation.Animator.GetCurrentAnimatorStateInfo(2).IsName("New State") == false)
         {
-            Animation.Animator.Play("Cancel", 2);
+            Animation.CancelSpellcastAnimation();
         }
 
-        Animation.Animator.Play("Cancel", 3);
+        Animation.CancelBowAnimation();
         //animator.SetLayerWeight(3, 0);
 
         //ResetAnimatorTriggers();
@@ -404,6 +405,11 @@ public abstract class Actor : Scriptable
     {
         CurrentMovementSpeed = movementState;
         //OnChangedMovementState?.Invoke(movementState);
+    }
+
+    internal void VerbalConstant(VerbalConstantType verbalConstantType)
+    {
+        SFXPlayer.ActorSFX.VerbalConstant(CharacterVoiceSet, voiceAudioSource, verbalConstantType);
     }
 
     public abstract void UpdateActiveCellBehaviours();

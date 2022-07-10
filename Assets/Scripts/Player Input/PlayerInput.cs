@@ -162,18 +162,18 @@
 //            }
 //            else
 //            {
-//                if(Equipment.equippedWeapon.WeaponObject == null)
+//                if(Combat.GetEquippedWeaponObject == null)
 //                {
 //                    Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, true, true);
 //                }
 
-//                if(Equipment.equippedWeapon.Weapon == null)
+//                if(Combat.GetEquippedWeapon()== null)
 //                {
-//                    if(Equipment.equippedWeapon.Weapon == null)
+//                    if(Combat.GetEquippedWeapon()== null)
 //                        Equipment.SetUpFist();
 //                }
 //                else
-//                    Debug.Log("<color=orange>PlayerInput: Weapon id was </color>" + Equipment.equippedWeapon.Weapon.identifier);
+//                    Debug.Log("<color=orange>PlayerInput: Weapon id was </color>" + Combat.GetEquippedWeapon().identifier);
 
 //                if(Combat.SpellDrawn)
 //                {
@@ -186,7 +186,7 @@
 //                    Combat.Execute_DrawWeapon();
 //                }
 
-//                CalculateWeaponVariables(Equipment.equippedWeapon.Weapon);
+//                CalculateWeaponVariables(Combat.GetEquippedWeapon);
 //            }
 //        }
 
@@ -358,7 +358,7 @@
 
 //    //        if(target != null)
 //    //        {
-//    //            target.Combat.ApplyDamage(this, Equipment.equippedWeapon.Weapon, null, false, true);
+//    //            target.Combat.ApplyDamage(this, Combat.GetEquippedWeapon, null, false, true);
 //    //        }
 //    //    }
 //    //}
@@ -547,7 +547,7 @@
 //        Profiler.EndSample();
 
 //        //! If in combat, look at mouse position
-//        if(Combat.WeaponDrawn && Equipment.equippedWeapon.Weapon.animationPack != AnimationSet.DEFAULT)
+//        if(Combat.WeaponDrawn && Combat.GetEquippedWeapon().animationPack != AnimationSet.DEFAULT)
 //        {
 //            targetRotation = Quaternion.LookRotation(groundedCursorPosition - cc.transform.position);
 //        } //! If not in combat, look at camera direction while moving

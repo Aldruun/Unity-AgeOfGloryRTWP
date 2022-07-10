@@ -153,9 +153,9 @@
 //        else if(self.debugInput)
 //            Debug.Log(self.GetName() + ": Skill activated <color=white>" + skillName + "</color>");
 
-//        //if(self.Equipment.equippedWeapon.weaponObject != null)
+//        //if(self.Combat.GetEquippedWeaponObject != null)
 //        //{
-//        //    vfxPoint = self.Equipment.equippedWeapon.weaponObject.transform.Find("vfx");
+//        //    vfxPoint = self.Combat.GetEquippedWeaponObject.transform.Find("vfx");
 //        //}
 //        //else
 //        //{

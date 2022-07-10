@@ -93,7 +93,7 @@
 //            {
 //                a.ApplyDamage(_actor, _actor.GetEquippedWeapon().damageType, ImpactType.Blade, _actor.GetEquippedWeapon().DamageRoll(), false);
 //            }
-//            SFXPlayer.PlaySound_WeaponSwing(_actor, _actor.Equipment.equippedWeapon.Weapon.weaponCategory);
+//            SFXPlayer.PlaySound_WeaponSwing(_actor, _actor.Combat.GetEquippedWeapon().weaponCategory);
 //            //Debug.Log(agentData.Name + ": Applying damage");
 //        }
   

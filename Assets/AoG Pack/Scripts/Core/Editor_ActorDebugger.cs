@@ -149,17 +149,17 @@ public class Editor_ActorDebugger : EditorWindow
                                     else
                                         GUILayout.Label("Attack Target: " + _observee.Combat.GetHostileTarget().GetName());
                                     //GUILayout.Label("Enemy Flags: " + debugger.observedActor.GetEnemyFlags().ToString());
-                                    if(_observee.Equipment.equippedWeapon.Weapon != null)
+                                    if(_observee.Combat.GetEquippedWeapon() != null)
                                     {
-                                        GUILayout.Label("Weapon ID: " + _observee.Equipment.equippedWeapon.Weapon.identifier);
-                                        GUILayout.Label("  Weapon Type: " + _observee.Equipment.equippedWeapon.Weapon.weaponType);
-                                        GUILayout.Label("  Damage Type: " + _observee.Equipment.equippedWeapon.Weapon.damageType);
-                                        GUILayout.Label("  Weapon Range: " + _observee.Equipment.equippedWeapon.Weapon.Range);
-                                        GUILayout.Label("  Combat Type: " + _observee.Equipment.equippedWeapon.Weapon.CombatType);
-                                        GUILayout.Label("  Equip Type: " + _observee.Equipment.equippedWeapon.Weapon.equipType);
-                                        GUILayout.Label("  Animation Pack: " + _observee.Equipment.equippedWeapon.Weapon.AnimationPack);
-                                        GUILayout.Label("  Ammo Type: " + _observee.Equipment.equippedWeapon.Weapon.ammoType);
-                                        GUILayout.Label("  Projectile ID: " + _observee.Equipment.equippedWeapon.Weapon.projectileIdentifier);
+                                        GUILayout.Label("  Weapon ID: " + _observee.Combat.GetEquippedWeapon().Data.identifier);
+                                        GUILayout.Label("  Weapon Type: " + _observee.Combat.GetEquippedWeapon().Data.weaponType);
+                                        GUILayout.Label("  Damage Type: " + _observee.Combat.GetEquippedWeapon().Data.damageType);
+                                        GUILayout.Label("  Weapon Range: " + _observee.Combat.GetEquippedWeapon().Data.Range);
+                                        GUILayout.Label("  Combat Type: " + _observee.Combat.GetEquippedWeapon().Data.CombatType);
+                                        GUILayout.Label("  Equip Type: " + _observee.Combat.GetEquippedWeapon().Data.equipType);
+                                        GUILayout.Label("  Animation Pack: " + _observee.Combat.GetEquippedWeapon().Data.AnimationPack);
+                                        GUILayout.Label("  Ammo Type: " + _observee.Combat.GetEquippedWeapon().Data.ammoType);
+                                        GUILayout.Label("  Projectile ID: " + _observee.Combat.GetEquippedWeapon().Data.projectileIdentifier);
                                     }
                                     //GUILayout.Label("Global ID: " + observee.GetGlobalID());
                                     //GUILayout.Label("Selected: " + observee.selected);

@@ -273,7 +273,7 @@
 //            Vector3 newTacticalPosition = agent.transform.position;
 //            Vector3 targetPos = target.transform.position;
 //            Vector3 fleeDir = (agent.transform.position - targetPos).normalized;
-//            bool isRanged = agent.ActorStats.isSpellCaster || agent.Equipment.equippedWeapon.Weapon != null && agent.Equipment.equippedWeapon.Weapon.range > 10;
+//            bool isRanged = agent.ActorStats.isSpellCaster || agent.Combat.GetEquippedWeapon()!= null && agent.Combat.GetEquippedWeapon().range > 10;
 
 //            //blocked = true;
 //            //if(agent.attackTarget != null && inRange)

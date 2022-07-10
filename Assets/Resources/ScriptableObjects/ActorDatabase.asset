@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Characters:
   - {fileID: 11400000, guid: 8973418bc0a51e8479a7e3461aa21fcf, type: 2}
-  - {fileID: 11400000, guid: 579b4d3f3c44b28469a24ea69ecb1904, type: 2}
   - {fileID: 11400000, guid: 24d067a97ff281340870dace644bd8c4, type: 2}
+  - {fileID: 11400000, guid: 579b4d3f3c44b28469a24ea69ecb1904, type: 2}
   - {fileID: 11400000, guid: ca0a129df3a65714d90b617494efdf51, type: 2}
+  - {fileID: 11400000, guid: 601629cb544996e4282dfa154400da70, type: 2}
   - {fileID: 11400000, guid: 98c48151748c69f499225d0089bfadf4, type: 2}
   - {fileID: 11400000, guid: 7fc3cedd0de1db5409c012b4ca9185e5, type: 2}
   Creatures: []

@@ -86,7 +86,6 @@ public static class AIActions
                     self.Combat.Execute_BlockAggro(2);
                     self.Combat.Execute_Attack();
                 }
-
             }
 
             return done;
@@ -99,7 +98,7 @@ public static class AIActions
                 Debug.Log(self.GetName() + ": Attack Action");
             }
 
-            if(self.Equipment.equippedWeapon.Weapon == null)
+            if(self.Combat.GetEquippedWeapon()== null)
             {
                 self.Equipment.SetUpFist();
                 //_self.Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, true, true);
@@ -107,8 +106,8 @@ public static class AIActions
 
             Debug.Assert(self.Equipment != null);
             Debug.Assert(self.Equipment.equippedWeapon != null);
-            Debug.Assert(self.Equipment.equippedWeapon.Weapon != null);
-            requiredRange = self.Equipment.equippedWeapon.Weapon.Range;
+            Debug.Assert(self.Combat.GetEquippedWeapon()!= null);
+            requiredRange = self.Combat.GetEquippedWeapon().Data.Range;
             done = false;
             this.target = target;
             return this;
@@ -185,12 +184,12 @@ public static class AIActions
             {
                 self.Equipment.SetUpFist();
             }
-            else if(self.Combat.GetEquippedWeapon().weaponCategory == WeaponCategory.Unarmed)
+            else if(self.Combat.GetEquippedWeapon().Data.weaponCategory == WeaponCategory.Unarmed)
             {
 
             }
 
-            requiredRange = self.Equipment.equippedWeapon.Weapon.Range;
+            requiredRange = self.Combat.GetEquippedWeapon().Data.Range;
             attacked = false;
             done = false;
             this.target = target;
@@ -346,7 +345,7 @@ public static class AIActions
                                 GameEventSystem.SetPortraitActionIcon?.Invoke(self.PartySlot, null);
                             }
 
-                            Activate(self, self.Equipment.spellAnchor, target, null);
+                            Activate(self, self.Equipment.spellAnchor, target, Vector3.zero);
                         };
                     }
 
@@ -388,7 +387,7 @@ public static class AIActions
             return false;
         }
 
-        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
+        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3 location)
         {
             foreach(MagicEffect magicEffect in self.Combat.equippedSpell.magicEffects)
             {
@@ -421,7 +420,7 @@ public static class AIActions
             if(self.isCasting)
             {
                 castState = CastSate.Cooldown;
-                self.Animation.Animator.Play("Cancel", 2);
+                self.Animation.CancelAttackAnimation();
                 if(self.debugSpellCastStates)
                 {
                     Debug.Log(self.GetName() + ": <color=green>CastSpellAtPoint: Cancelling action</color>");
@@ -581,7 +580,7 @@ public static class AIActions
             return false;
         }
 
-        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3? location)
+        private void Activate(Actor self, Transform spellAnchor, Actor spellTarget, Vector3 location)
         {
             foreach(MagicEffect magicEffect in self.Combat.equippedSpell.magicEffects)
             {
@@ -592,7 +591,7 @@ public static class AIActions
                 }
                 else
                 {
-                    if(location == null)
+                    if(location == Vector3.zero)
                     {
                         Debug.LogError("Spell target location = null");
                     }

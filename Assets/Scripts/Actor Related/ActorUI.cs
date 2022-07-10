@@ -209,8 +209,12 @@ public class ActorUI
 
     internal void Clear()
     {
-        GameEventSystem.RequestRemovePortrait(actor.PartySlot);
-        actorPortrait = null;
+        if(actorPortrait != null)
+        {
+            GameEventSystem.RequestRemovePortrait?.Invoke(actor.PartySlot);
+            actorPortrait = null; 
+        }
+
         actorIndicator.Destroy();
         actorIndicator = null;
     }

@@ -200,6 +200,7 @@ public class Spell : ScriptableObject
     public SpellTargetLogic targetLogic;
 
     public bool attackRollRequired;
+    public bool percentMagnitude;
     public int castingTime = 1;
     public int duration;
     public int concentrationTime;
@@ -210,7 +211,6 @@ public class Spell : ScriptableObject
     public int higherSlotBonusDice = 1;
     public float aoeRadius;
     public float travelSpeed;
-    public bool percentMagnitude;
     public int usages;
     public int maxUsages;
     public int activationRange;
@@ -245,8 +245,10 @@ public class Spell : ScriptableObject
         }
 
         for(int i = 0; i < magicEffects.Count; i++)
+        {
             //magicEffects[i] = Object.Instantiate(magicEffects[i]);
             magicEffects[i].Init(this);
+        }
 
         switch(castingType)
         {

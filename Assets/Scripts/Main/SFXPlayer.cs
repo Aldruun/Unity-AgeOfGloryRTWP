@@ -14,7 +14,9 @@ public enum VerbalConstantType
     CHANT,
     ATTACK,
     ATTACKLONG,
-    JUMP
+    JUMP,
+    MOVECOMMANDYES,
+    MOVECOMMANDNO
 }
 
 public static class SFXPlayer
@@ -154,7 +156,7 @@ public static class SFXPlayer
             //    break;
             //case DamageType.UNHOLY:
             //    TriggerSFX(ResourceManager.sfx_list_hits_unholy[Random.Range(0, ResourceManager.sfx_list_hits_unholy.Length)], position);
-                break;
+                //break;
             case DamageType.POISON:
                 TriggerSFX(ResourceManager.sfx_list_hits_poison[Random.Range(0, ResourceManager.sfx_list_hits_poison.Length)], position);
                 break;
@@ -259,6 +261,12 @@ public static class SFXPlayer
                     break;
                 case VerbalConstantType.DEAD:
                     Say(audiosource, characterVoiceSet.death, 126);
+                    break;
+                case VerbalConstantType.MOVECOMMANDYES:
+                    Say(audiosource, characterVoiceSet.moveOrderYes, 127);
+                    break;
+                case VerbalConstantType.MOVECOMMANDNO:
+                    Say(audiosource, characterVoiceSet.moveOrderNo, 127);
                     break;
             }
         }

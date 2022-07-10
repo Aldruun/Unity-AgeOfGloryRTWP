@@ -108,9 +108,6 @@ public class NPCInput : Actor, IActivatable
 
         NavAgent = GetComponent<NavMeshAgent>();
         config.ConfigureNavAgent(NavAgent);
-
-        Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, false, true);
-        Combat.Execute_DrawWeapon();
     }
 
     public override void ProcessActions()
@@ -208,7 +205,7 @@ public class NPCInput : Actor, IActivatable
 
         ActorUI.Update();
         RoundSystem.ProcessRoundTime();
-        UpdateScriptTicks();
+        
         ProcessActions();
     }
 

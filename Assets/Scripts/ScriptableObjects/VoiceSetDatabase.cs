@@ -139,6 +139,8 @@ public class CharacterVoiceSet
     public AudioClip[] joinParty;
     public AudioClip[] jump;
     public AudioClip[] levelGained;
+    public AudioClip[] moveOrderNo;
+    public AudioClip[] moveOrderYes;
     public AudioClip[] selected;
     public AudioClip[] taunt;
     public AudioClip[] useItem;

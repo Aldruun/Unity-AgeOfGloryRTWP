@@ -265,6 +265,13 @@ public class ItemDatabaseWindow : EditorWindow
                     using(var horScope = new GUILayout.HorizontalScope(GUILayout.Width(226)))
                     {
                         foldoutState = Foldout(objectCategory, actorDatabase.Characters.Count);
+
+                        if(GUILayout.Button(new GUIContent("▾", "Sort by name"),  GUILayout.Width(20)))
+                        {
+                            actorDatabase.Characters = actorDatabase.Characters.OrderBy(c => c.Name).ToList();
+                            EditorUtility.SetDirty(actorDatabase);
+                        }
+
                         if(GUILayout.Button("+", GUILayout.Width(20)))
                         {
                             string savedPath = EditorUtility.SaveFilePanel("Create Character Config", Application.dataPath, "New Character Config", "asset");
@@ -287,7 +294,7 @@ public class ItemDatabaseWindow : EditorWindow
 
                     if(foldoutState)
                     {
-                        foreach(ActorConfiguration config in actorDatabase.Characters)
+                        foreach(ActorConfiguration config in actorDatabase.Characters.ToArray())
                         {
                             if(selectedActor == config)
                             {
@@ -307,7 +314,7 @@ public class ItemDatabaseWindow : EditorWindow
                                 GUI.contentColor = Color.red;
                             }
 
-                            if(GUILayout.Button(config.name == "" ? "New Character Config" : config.name, GUILayout.Width(170),
+                            if(GUILayout.Button(config.name == "" ? "New Character Config" : (config.Name != null ? config.Name : config.name), GUILayout.Width(170),
                                 GUILayout.Height(15)))
                             {
                                 GUI.FocusControl(null);

@@ -62,7 +62,7 @@ public class ActorAnimation : MonoBehaviour
             Debug.Log($"<color=grey>{actor.GetName()}: Initializing Animation Component</color>");
         }
 
-        //_rigidbodies = GetComponentsInChildren<Rigidbody>();
+        _rigidbodies = GetComponentsInChildren<Rigidbody>();
         self = actor;
         this.Animator = animator;
 
@@ -84,7 +84,7 @@ public class ActorAnimation : MonoBehaviour
         hash_state_castspell = Animator.StringToHash("Spellcasting Layer.CastSpell");
 
         hash_state_cancelspell = Animator.StringToHash("Spellcasting Layer.Cancel");
-        hash_state_cancelattack = Animator.StringToHash("Attack Layer.Cancel");
+        hash_state_cancelattack = Animator.StringToHash("Attack Layer.Attack 1H.Cancel");
         hash_state_cancelbow = Animator.StringToHash("Bow Layer.Cancel");
 
         hash_state_idle = Animator.StringToHash("Base Layer.Default.Idle");
@@ -241,16 +241,6 @@ public class ActorAnimation : MonoBehaviour
         //    animator.CrossFade("DropItem", 0.2f, 5);
     }
 
-    //void PlayMotion_PrepareAttack(AnimationPackage animationPackage)
-    //{
-    //Debug.Log("### playing prepare attack motion for id " + motionIndex);
-
-    //animator.SetInteger("iMotionIndex", motionIndex);
-
-    //    animator.SetTrigger("tPrepareAttack");
-    //    ChangeForm(animationPackage);
-    //}
-
     /// <summary>
     /// Stage 0: Start charging, Stage 2: cast
     /// </summary>
@@ -364,6 +354,10 @@ public class ActorAnimation : MonoBehaviour
    
         if(self.ActorStats.isBeast)
         {
+            if(self.debugAnimation)
+            {
+                Debug.Log("(Animation) " + self.GetName() + ": Is beast");
+            }
             Animator.CrossFade(hash_state_attack, 0.2f, 1);
             return;
         }
@@ -372,12 +366,12 @@ public class ActorAnimation : MonoBehaviour
         {
             case AnimationSet.UNARMED:
                 Animator.SetInteger(hash_int_attackvariant, UnityEngine.Random.Range(0, 6));
-                Animator.CrossFade(hash_state_attackunarmed, 0.1f, 1);
+                Animator.CrossFade(hash_state_attackunarmed, 0.1f);
                 break;
             case AnimationSet.ONEHANDED:
             case AnimationSet.DAGGER:
                 Animator.SetInteger(hash_int_attackvariant, UnityEngine.Random.Range(0, 7));
-                Animator.CrossFade(hash_state_attack, 0.1f, 1);
+                Animator.CrossFade(hash_state_attack, 0.1f);
                 break;
             //case WeaponCategory.Dual:
             //    break;
@@ -427,13 +421,20 @@ public class ActorAnimation : MonoBehaviour
         }
     }
 
+    public void PlayMotion_Die()
+    {
+        CancelAllAttackAnimations();
+
+        Animator.Play("Die", 8);
+    }
+
     public void PlayMotion_Stagger()
     {
         isStaggered = true;
 
         CancelAllAttackAnimations();
 
-        Animator.Play("Stagger", 11);
+        Animator.Play("Stagger", 9);
         
         StartCoroutine(CR_StaggerDone());
     }
@@ -474,18 +475,28 @@ public class ActorAnimation : MonoBehaviour
 
     }
 
-    private void CancelAllAttackAnimations()
+    internal void CancelAttackAnimation()
     {
         Animator.Play(hash_state_cancelattack);
+    }
+
+    internal void CancelSpellcastAnimation()
+    {
         Animator.Play(hash_state_cancelspell);
+    }
+
+    internal void CancelBowAnimation()
+    {
         Animator.Play(hash_state_cancelbow);
     }
 
-    //public override void Collapse(Agent source) {
+    private void CancelAllAttackAnimations()
+    {
+        CancelAttackAnimation();
+        CancelSpellcastAnimation();
+        CancelBowAnimation();
+    }
 
-    //base.Collapse(source);
-    //ChangeAgentState(DeadState.Instance);
-    //}
     public virtual void KnockDown(Vector3 force, float duration, bool markDead)
     {
         if(self.NavAgent != null)
@@ -509,20 +520,6 @@ public class ActorAnimation : MonoBehaviour
         {
             self.StartCoroutine(CR_LingerOnGround(duration));
         }
-        //animator.enabled = false;
-    }
-
-    public virtual void Collapse(Vector3 force)
-    {
-
-        //animator.enabled = false;
-        if(self.NavAgent != null)
-        {
-            self.NavAgent.enabled = false;
-        }
-
-        EnableRagdollPhysics(force);
-        self.StartCoroutine(CR_LingerOnGround(1000));
         //animator.enabled = false;
     }
 

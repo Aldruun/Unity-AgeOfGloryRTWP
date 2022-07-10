@@ -11043,12 +11043,12 @@ GameObject:
   - component: {fileID: 1036289940}
   - component: {fileID: 1036289939}
   m_Layer: 0
-  m_Name: SP Cleric Adv
+  m_Name: SP Human Ranger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1036289938
 Transform:
   m_ObjectHideFlags: 0
@@ -11077,12 +11077,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 1
   debugSpellCastStates: 0
-  debugAnimation: 0
+  debugAnimation: 1
   debugInitialization: 0
-  debugActorGear: 0
+  debugActorGear: 1
   debugActions: 0
-  actorConfiguration: {fileID: 0}
+  actorConfiguration: {fileID: 11400000, guid: 601629cb544996e4282dfa154400da70, type: 2}
   canRespawn: 0
   respawnTimer: 10
   randomFacing: 0
@@ -30376,7 +30378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1385628169
 Transform:
   m_ObjectHideFlags: 0
@@ -30405,6 +30407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -30586,6 +30590,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -66791,6 +66797,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -67063,6 +67071,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -81764,6 +81774,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -82173,6 +82185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -82316,6 +82330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -82630,6 +82646,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
+  debugNavigation: 0
+  debugCombat: 0
   debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
@@ -83296,7 +83314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &9201129127677311268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83310,7 +83328,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnType: 0
-  debugSpellCastStates: 1
+  debugNavigation: 0
+  debugCombat: 0
+  debugSpellCastStates: 0
   debugAnimation: 0
   debugInitialization: 0
   debugActorGear: 0

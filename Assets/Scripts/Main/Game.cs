@@ -27,7 +27,7 @@ namespace AoG.Core
         private UIHandler uiHandler;
 
         public bool PartyAttack { get; set; }
-        public int CombatCounter { get; private set; }
+        public float CombatCounter { get; private set; }
 
         public Game(DatabaseService databaseService, UIHandler uiHandler) // Called in Awake
         {
@@ -42,6 +42,16 @@ namespace AoG.Core
             GameEventSystem.RequestGetPCByPartyIndex = GetPCByPartyIndex;
         }
 
+        //public void StartThreading()
+        //{
+        //    currentMap.StartThreading();
+        //}
+
+        //public void StopThreading()
+        //{
+        //    currentMap.StopThreading();
+        //}
+
         private void SpawnActors(Map map, Transform mapHierarchy)
         {
             SpawnPoint[] spawnpoints = mapHierarchy.Find("Spawnpoints").GetComponentsInChildren<SpawnPoint>();
@@ -55,9 +65,13 @@ namespace AoG.Core
                 //ActorUtility.Initialization.CalculateCharacterStats(spawned.ActorStats, 1);
                 spawned.InititializeSpellbook(databaseService.SpellCompendium.GetSpellsForClassAtLevel(spawned.ActorStats.Class, 10));
                 spawned.Equipment.EquipBestArmor();
+                spawned.Combat.Execute_EquipBestWeapon(Constants.EQUIP_ANY, false, true);
+                spawned.Combat.Execute_DrawWeapon();
 
                 spawned.aiControlled = true;
 
+                spawned.debugNavigation = spawnpoint.debugNavigation;
+                spawned.debugCombat = spawnpoint.debugCombat;
                 spawned.debugSpellCastStates = spawnpoint.debugSpellCastStates;
                 spawned.debugAnimation = spawnpoint.debugAnimation;
                 spawned.debugActions = spawnpoint.debugActions;
@@ -151,9 +165,58 @@ namespace AoG.Core
 
         public void UpdateScripts()
         {
+            PartyAttack = false;
+
+            //foreach(var map in maps.Values)
+            //{
+            //    map.UpdateScripts();
+            //}
+
             Profiler.BeginSample("Game.currentMap.UpdateScripts");
             currentMap.UpdateScripts();
             Profiler.EndSample();
+
+            if(PartyAttack)
+            {
+                CombatCounter = 10;
+            }
+            else
+            {
+                if(CombatCounter > 0)
+                {
+                    CombatCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    if(Time.frameCount % 30 == 0)
+                    {
+                        foreach(var pc in PCs)
+                        {
+                            if(currentMap.AnyEnemyNearPoint(pc.transform.position))
+                            {
+                                CombatCounter = 10;
+                                return;
+                            }
+                        }
+
+                        foreach(var pc in PCs)
+                        {
+                            if(pc.ActorStats.isEssential && pc.dead)
+                            {
+                                pc.Combat.Execute_ModifyHealth(1, ModType.ABSOLUTE);
+                                //pc.Reactivate();
+
+                                if(pc.HasStatusEffect(Status.SLEEP) == false)
+                                    pc.Combat.Execute_StandUp();
+
+                                pc.Stop();
+                            }
+
+                            pc.Animation.ChangeForm(AnimationSet.DEFAULT);
+                        }
+                    }
+                }
+            }
         }
 
         public void AddMap(string sceneIdentifier)

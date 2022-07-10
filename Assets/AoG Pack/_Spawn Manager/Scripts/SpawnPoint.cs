@@ -16,6 +16,8 @@ public class SpawnPoint : MonoBehaviour
 {
     public SpawnType SpawnType;
 
+    public bool debugNavigation;
+    public bool debugCombat;
     public bool debugSpellCastStates;
     public bool debugAnimation;
     public bool debugInitialization;

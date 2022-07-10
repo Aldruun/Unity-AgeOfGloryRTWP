@@ -14,7 +14,6 @@ using UnityEngine.VFX;
 public class ActorEquipment
 {
     public Equipment EquipmentSlots;
-    public WeaponData equippedWeapon;
     public KeyValuePair<Armor, GameObject> equippedHeadwear;
     public KeyValuePair<Armor, GameObject> equippedCape;
     public Armor equippedNecklace;
@@ -28,22 +27,23 @@ public class ActorEquipment
     public KeyValuePair<Armor, GameObject> equippedUnderwear;
     public KeyValuePair<Armor, GameObject> equippedShield;
     public Ammo equippedAmmo;
+    internal WeaponData equippedWeapon;
 
     private readonly Actor self;
     private readonly Inventory Inventory;
     public int healthPotions;
-    private readonly Transform m_offhand;
-    public readonly Transform m_weaponHand;
-    private readonly Transform m_weaponHolsterHipLeft;
-    private readonly Transform m_weaponHolster2HSword;
-    private readonly Transform m_weaponHolster2HHammer;
-    private readonly Transform m_weaponHolsterRifle;
-    private readonly Transform m_weaponHolsterBow;
-    private readonly Transform m_weaponHolsterQuiver;
+    private readonly Transform mainhand;
+    private readonly Transform offhand;
+    public Transform m_weaponHand;
+    private readonly Transform weaponHolsterHipLeft;
+    private readonly Transform weaponHolster2HSword;
+    private readonly Transform weaponHolster2HHammer;
+    private readonly Transform weaponHolsterBow;
+    private readonly Transform weaponHolsterQuiver;
 
     public readonly Transform spellAnchor;
-    private GameObject _quiverObject;
-    private ActorStats stats;
+    private GameObject quiverObject;
+    private readonly ActorStats stats;
 
     // #############
 
@@ -54,21 +54,22 @@ public class ActorEquipment
         Debug.Assert(agent != null);
         self = agent;
         if(agent.debugGear)
+        {
             Debug.Log(agent.GetName() + " /Creating GearData");
+        }
 
         this.stats = stats;
         Inventory = inventory;
         Animator animator = agent.GetComponent<Animator>();
-        m_weaponHolsterHipLeft = animator.GetBoneTransform(HumanBodyBones.Hips).Find("anchor_hip");
+        weaponHolsterHipLeft = animator.GetBoneTransform(HumanBodyBones.Hips).Find("anchor_hip");
         Transform chest = animator.GetBoneTransform(HumanBodyBones.Chest);
-        m_weaponHolster2HSword = chest.Find("anchor_2hsword");
-        m_weaponHolster2HHammer = chest.Find("anchor_2hhammer");
-        m_weaponHolsterRifle = chest.Find("anchor_rifle");
-        m_weaponHolsterBow = chest.Find("anchor_bow");
-        m_weaponHolsterQuiver = chest.Find("anchor_quiver");
+        weaponHolster2HSword = chest.Find("anchor_2hsword");
+        weaponHolster2HHammer = chest.Find("anchor_2hhammer");
+        weaponHolsterBow = chest.Find("anchor_bow");
+        weaponHolsterQuiver = chest.Find("anchor_quiver");
 
-        m_offhand = animator.GetBoneTransform(HumanBodyBones.LeftHand).Find("anchor_hand.L");
-        m_weaponHand = animator.GetBoneTransform(HumanBodyBones.RightHand).Find("anchor_hand.R");
+        offhand = animator.GetBoneTransform(HumanBodyBones.LeftHand).Find("anchor_hand.L");
+        mainhand = animator.GetBoneTransform(HumanBodyBones.RightHand).Find("anchor_hand.R");
 
         equippedWeapon = new WeaponData();
         SetUpFist();
@@ -80,7 +81,10 @@ public class ActorEquipment
             {
                 case Gender.Female:
                     if(agent.debugGear)
+                    {
                         Debug.Log(agent.GetName() + ": Equipping underwear");
+                    }
+
                     break;
 
                 case Gender.Male:
@@ -90,7 +94,7 @@ public class ActorEquipment
             Transform rightHand = animator.GetBoneTransform(HumanBodyBones.RightHand);
 
             spellAnchor = new GameObject("vfxAnchor").transform;
-            spellAnchor.SetParent(m_weaponHand, false);
+            spellAnchor.SetParent(mainhand, false);
 
         }
         else
@@ -101,14 +105,14 @@ public class ActorEquipment
 
     internal bool WeaponInHand()
     {
-        return equippedWeapon.Weapon.AnimationPack == AnimationSet.UNARMED || equippedWeapon.WeaponObject.transform.parent == m_weaponHand;
+        return equippedWeapon.Data.AnimationPack == AnimationSet.UNARMED || equippedWeapon.WeaponObject.transform.parent == m_weaponHand;
     }
 
     private void SpawnAndHolsterWeapon(Weapon weapon)
     {
         if(equippedWeapon.WeaponObject != null)
         {
-            if(equippedWeapon.Weapon.identifier == weapon.identifier)
+            if(equippedWeapon.Data.identifier == weapon.identifier)
             {
                 return;
             }
@@ -116,19 +120,29 @@ public class ActorEquipment
         }
 
         if(weapon.identifier == "")
+        {
             Debug.LogError("weapon.identifier empty");
+        }
+
         GameObject weaponObject = ItemDatabase.InstantiatePhysicalItem(weapon.identifier);
         equippedWeapon.Set(weapon, weaponObject, weaponObject.GetComponentInChildren<Animator>());
 
         if(equippedWeapon.WeaponTrailVFX != null)
+        {
             equippedWeapon.WeaponTrailVFX.transform.SetParent(self.transform, false);
+        }
 
-        equippedWeapon.Weapon.Init();
+        equippedWeapon.Data.Init();
         if(weaponObject == null)
+        {
             Debug.LogError("weaponObject = null");
-        bool isBow = equippedWeapon.Weapon.weaponCategory is WeaponCategory.Longbow or WeaponCategory.Shortbow;
+        }
+
+        bool isBow = equippedWeapon.Data.weaponCategory is WeaponCategory.Longbow or WeaponCategory.Shortbow;
         if(isBow)
+        {
             CreateQuiver();
+        }
 
         ParentWeaponToHolster();
     }
@@ -137,21 +151,26 @@ public class ActorEquipment
     {
         if(equippedWeapon.WeaponObject == null)
         {
-            if(equippedWeapon.Weapon == null)
+            if(equippedWeapon.Data == null)
+            {
                 SetUpFist();
+            }
+
             return;
         }
 
         if(self.debugGear)
+        {
             Debug.Log(self.GetName() + ":<color=orange>4</color> ActorGearData.DrawWeapon");
+        }
 
-        Transform hand = equippedWeapon.Weapon.AnimationPack == AnimationSet.BOW ? m_offhand : m_weaponHand;
-        if(hand == null)
+        m_weaponHand = equippedWeapon.Data.AnimationPack == AnimationSet.BOW ? offhand : mainhand;
+        if(m_weaponHand == null)
         {
             Debug.LogError(self.GetName() + ": weaponHand null");
         }
 
-        equippedWeapon.WeaponObject.transform.SetParent(hand, false);
+        equippedWeapon.WeaponObject.transform.SetParent(m_weaponHand, false);
     }
 
     public void ParentWeaponToHolster()
@@ -159,24 +178,30 @@ public class ActorEquipment
         if(equippedWeapon.WeaponObject == null)
         {
             if(self.debugGear)
+            {
                 Debug.LogError(self.GetName() + ":<color=red>*</color> Cannot holster: weaponObject = null");
+            }
+
             return;
         }
         if(self.debugGear)
+        {
             Debug.Log(self.GetName() + ":<color=green>*</color> ActorGearData.HolsterEquippedWeapon");
+        }
+
         Transform holster = null;
-        switch(equippedWeapon.Weapon.AnimationPack)
+        switch(equippedWeapon.Data.AnimationPack)
         {
             case AnimationSet.DAGGER:
             case AnimationSet.ONEHANDED:
-                holster = m_weaponHolsterHipLeft;
+                holster = weaponHolsterHipLeft;
                 break;
             case AnimationSet.TWOHANDED:
-                holster = m_weaponHolster2HSword;
+                holster = weaponHolster2HSword;
                 break;
             case AnimationSet.XBOW:
             case AnimationSet.BOW:
-                holster = m_weaponHolsterBow;
+                holster = weaponHolsterBow;
                 break;
         }
 
@@ -185,10 +210,10 @@ public class ActorEquipment
 
     private void CreateQuiver()
     {
-        if(_quiverObject == null)
+        if(quiverObject == null)
         {
-            _quiverObject = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/Ranged/Bows/Quivers/standard quiver"));
-            _quiverObject.transform.SetParent(m_weaponHolsterQuiver, false);
+            quiverObject = Object.Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/Ranged/Bows/Quivers/standard quiver"), weaponHolsterQuiver, false);
+            quiverObject.transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -204,9 +229,9 @@ public class ActorEquipment
     {
         yield return new WaitForSeconds(0.3f);
 
-        if(equippedWeapon.Weapon.weaponCategory == WeaponCategory.Longbow || equippedWeapon.Weapon.weaponCategory == WeaponCategory.Shortbow)
+        if(equippedWeapon.Data.weaponCategory == WeaponCategory.Longbow || equippedWeapon.Data.weaponCategory == WeaponCategory.Shortbow)
         {
-            Object.Destroy(m_weaponHolsterBow.GetChild(0).gameObject);
+            Object.Destroy(weaponHolsterBow.GetChild(0).gameObject);
         }
 
         Object.Destroy(equippedWeapon.WeaponObject);
@@ -215,7 +240,9 @@ public class ActorEquipment
     public Weapon EquipBestWeapon(int EQUIP_TYPE)
     {
         if(self.debugGear)
+        {
             Debug.Log(self.GetName() + ":<color=orange>3</color> ActorGearData.EquipBestWeapon");
+        }
 
         if(self.ActorStats.isBeast)
         {
@@ -226,7 +253,7 @@ public class ActorEquipment
 
         if(self.Inventory.inventoryItems == null)
         {
-            //Debug.LogError(_self.ActorRecord.Name + ": inventory.items == null");
+            Debug.LogError(self.GetName() + ": inventory.items == null");
             return null;
         }
         else
@@ -239,7 +266,9 @@ public class ActorEquipment
                 //    return;
 
                 if(self.debugGear)
-                    Debug.Log(self.GetName() + ": <color=yellow>weapon null, setting up fist</color>");
+                {
+                    Debug.Log($"{self.GetName()}: <color=orange>GetBestWeaponOfTypeFromInventory failed -> setting up fist</color>");
+                }
 
                 return SetUpFist();
             }
@@ -262,8 +291,8 @@ public class ActorEquipment
         creatureClaw.NumDice = 1;
         creatureClaw.NumDieSides = 4;
         creatureClaw.Init();
-        equippedWeapon.Weapon = creatureClaw;
-        return equippedWeapon.Weapon;
+        equippedWeapon.Data = creatureClaw;
+        return equippedWeapon.Data;
     }
 
     internal Weapon SetUpFist()
@@ -277,8 +306,8 @@ public class ActorEquipment
         fist.NumDieSides = 3;
         fist.Range = 1.5f;
         fist.Init();
-        equippedWeapon.Weapon = fist;
-        return equippedWeapon.Weapon;
+        equippedWeapon.Data = fist;
+        return equippedWeapon.Data;
     }
 
     private Weapon GetBestWeaponOfTypeFromInventory(int EQUIP_TYPE)
@@ -292,7 +321,9 @@ public class ActorEquipment
             case Constants.EQUIP_ANY:
                 Weapon weapon = self.Inventory.GetBestRangedWeapon();
                 if(weapon == null)
+                {
                     return self.Inventory.GetBestMeleeWeapon();
+                }
                 else
                 {
                     return weapon;
@@ -306,14 +337,17 @@ public class ActorEquipment
     {
         if(equippedWeapon.WeaponObject != null)
         {
-            if(_quiverObject != null)
+            if(quiverObject != null)
             {
-                Object.DestroyImmediate(_quiverObject);
+                Object.DestroyImmediate(quiverObject);
             }
             Object.DestroyImmediate(equippedWeapon.WeaponObject);
             if(equippedWeapon.WeaponTrailVFX != null)
+            {
                 Object.DestroyImmediate(equippedWeapon.WeaponTrailVFX.gameObject);
-            equippedWeapon.Weapon = null;
+            }
+
+            equippedWeapon.Data = null;
         }
     }
 
@@ -369,7 +403,9 @@ public class ActorEquipment
         }
 
         if(Inventory.HasItemOfType<Armor>() == false)
+        {
             return;
+        }
 
         InventoryItem[] armorPieces = Inventory.inventoryItems.Where(i => i.itemData is Armor).ToArray();
 
@@ -401,12 +437,14 @@ public class ActorEquipment
             case EquipmentSlot.Feet:
                 break;
         }
-       
+
         if(Inventory.HasItemOfType<Armor>() == false)
+        {
             return;
+        }
 
         InventoryItem armorPiece = Inventory.inventoryItems.Where(i => i.itemData is Armor).FirstOrDefault();
-        
+
         //if(armorPieces == null)
         //{
         //    return;
@@ -641,10 +679,10 @@ public class WeaponData
 {
     public Animator Animator;
     public GameObject WeaponObject;
-    public Weapon Weapon;
+    public Weapon Data;
     public VisualEffect WeaponTrailVFX;
 
-    public bool IsRanged => Weapon?.IsRanged ?? false;
+    public bool IsRanged => Data?.IsRanged ?? false;
 
     public void Set(Weapon weaponData, GameObject weaponObject, Animator animator)
     {
@@ -652,15 +690,18 @@ public class WeaponData
         this.WeaponObject = weaponObject;
         Transform vfxTransform = weaponObject.transform.Find("WeaponTrailVFX");
         if(vfxTransform != null)
+        {
             WeaponTrailVFX = vfxTransform.GetComponent<VisualEffect>();
-        this.Weapon = weaponData;
+        }
+
+        this.Data = weaponData;
     }
 
     public WeaponData(Weapon weaponData, GameObject weaponObject, Animator animator)
     {
         this.Animator = animator;
         this.WeaponObject = weaponObject;
-        this.Weapon = weaponData;
+        this.Data = weaponData;
     }
 
     public WeaponData()
@@ -688,7 +729,7 @@ public class ArmorData
             Material material = armorSkinnedMesh.materials[i];
             Colors[i] = material.color;
         }
-        
+
         this.Armor = armorData;
     }
 
@@ -718,13 +759,13 @@ public class Equipment
     //private InventoryItem[] armorPieces;
     private ArmorData[] armorSlots;
     private WeaponData[] weaponSlots;
-    private InventoryItem[] quickSlots;
+    private readonly InventoryItem[] quickSlots;
 
     public Equipment()
     {
         armorSlots = new ArmorData[System.Enum.GetValues(typeof(BodySlot)).Length];
         //_owner = owner;
-        
+
 
         //this.quickSlots = quickSlots;
 
@@ -826,7 +867,7 @@ public class Equipment
 
         for(int i = 0; i < armorSlots.Length; i++)
         {
-            ArmorData  armorData = armorSlots[i];
+            ArmorData armorData = armorSlots[i];
 
             if(armorData.Colors.Length > 0)
             {

@@ -37,6 +37,16 @@ namespace AoG.Core
 
         private IDataService jsonDataService;
 
+        //public void Start()
+        //{
+        //    currentGame.StartThreading();
+        //}
+
+        //private void OnApplicationQuit()
+        //{
+        //    currentGame.StopThreading();
+        //}
+      
         private void Awake()
         {
             if(Instance != null && Instance != this)

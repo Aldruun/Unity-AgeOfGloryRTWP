@@ -53,6 +53,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 87117e1691352994eb29f4b9f4853783, type: 3}
       - {fileID: 8300000, guid: fdb6ac7d860b511458be54c688bc7be3, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -98,6 +100,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 00a257cf9fda1a94a9ba8e2b8b83877f, type: 3}
       - {fileID: 8300000, guid: 23ea8ca7a273d1242aca6142440b2e3c, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -137,6 +141,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: f9fc2ab08b7ca034b92212016bfc3350, type: 3}
       - {fileID: 8300000, guid: e2248c77c384b4a40b9e23408ebc5747, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -221,6 +227,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 8778d5b7578f1f443bb9fc54c5466746, type: 3}
       - {fileID: 8300000, guid: d9e617c6fc20b9641999e9d9cf5bdb46, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -304,6 +312,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: c6be34f5373a86048a8315b9343affb3, type: 3}
       - {fileID: 8300000, guid: 4dbd0ff0dda03cc4b9cbd1585a2b97b3, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -359,6 +369,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 349eed7ea62ce0140a3ffaf0a2a03acf, type: 3}
       - {fileID: 8300000, guid: 71bc0aef51cdbcd439e3e5bef723f572, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -451,6 +463,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 39f73b0bb742aa643a19a1b6804d368b, type: 3}
       - {fileID: 8300000, guid: e670b56793d71004f8ca77d066809710, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -500,6 +514,8 @@ MonoBehaviour:
       jump:
       - {fileID: 8300000, guid: 85271626f6eff87468f732b0c9086f65, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -557,6 +573,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt:
       - {fileID: 8300000, guid: d42eccd24e0ee4aef80df9398ec0747c, type: 3}
@@ -613,6 +631,8 @@ MonoBehaviour:
       jump:
       - {fileID: 8300000, guid: 86a502ef7fb614b4789fae91759a0374, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -674,8 +694,12 @@ MonoBehaviour:
       - {fileID: 8300000, guid: b923e1a9dd5d29b42ae38de24c53ccfe, type: 3}
       - {fileID: 8300000, guid: 1ad76b0ddb0e7cc4c9d4bf07a4cc2f0e, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
-      taunt: []
+      taunt:
+      - {fileID: 8300000, guid: a3521f77e4c5ef8438ac7cf9881a9b47, type: 3}
+      - {fileID: 8300000, guid: 75f0b90b4ffc1c140897f2bb671c7e8c, type: 3}
       useItem: []
       ID: 
       Name: MCaveManAlex
@@ -728,6 +752,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 89c50a786ed4c2b4baf600129e46f787, type: 3}
       - {fileID: 8300000, guid: 7eba442454140564ba1db03a721d66c0, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -780,6 +806,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 23996ccab7eb4734d92f20e51f0a159b, type: 3}
       - {fileID: 8300000, guid: ab9cf5059de04c04591d410f74908fad, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -867,6 +895,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 31366940b6a96f94891de7faa37831fd, type: 3}
       - {fileID: 8300000, guid: b92c600d5b38d044a9cc5e2b0f5be10c, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -948,6 +978,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 69a45efd8f22c20408016a807687e9e5, type: 3}
       - {fileID: 8300000, guid: 8f8a21e0ab78d7148927b90cc9a51d35, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -1003,6 +1035,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: cce510486399b4b4f86d8396c4b64940, type: 3}
       - {fileID: 8300000, guid: 664590fe46437b7488a93f0883043fe5, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -1057,6 +1091,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: be3dfd4fd92a3544d8cb561e62535b85, type: 3}
       - {fileID: 8300000, guid: d78823c6975637a459a732958eac3315, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -1102,6 +1138,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -1154,6 +1192,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 8e590e4c42cdc614f946fc478c88a8b4, type: 3}
       - {fileID: 8300000, guid: 4ebf7e95ab00e31489e662488f94c96d, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -1319,6 +1359,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: c1425acbe45bfc74ba9a2d8a3c6697b8, type: 3}
       - {fileID: 8300000, guid: f616ab085c36772439d598799289a53b, type: 3}
       - {fileID: 8300000, guid: 01af37149f9c3004bb715fe3cf2b2014, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: eafc81f9342bc5c41892b11aca1819c8, type: 3}
       taunt: []
@@ -1393,7 +1435,6 @@ MonoBehaviour:
       attackLong: []
       battleStart:
       - {fileID: 8300000, guid: b65ddab98071b8940a67fc618c8cc2c3, type: 3}
-      - {fileID: 8300000, guid: 3a6f9790435764c4085cdcd1da2e9191, type: 3}
       - {fileID: 8300000, guid: 6ca81402c7f41bf4b870597228bf4169, type: 3}
       - {fileID: 8300000, guid: 3b412613e7dd00e4e8d6f72e37ddb535, type: 3}
       - {fileID: 8300000, guid: 55ed5481364bcac4f98d8441b2d5c54e, type: 3}
@@ -1699,18 +1740,13 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 1493bf105189bf046905f6ad65f4f60d, type: 3}
       - {fileID: 8300000, guid: ccd94169b0ee77243a4f1f87d918c9d5, type: 3}
       jump: []
-      levelGained:
-      - {fileID: 8300000, guid: bce5bbd49eea3d44fb9add3530b19d5c, type: 3}
-      - {fileID: 8300000, guid: 1350089180f01ff48b081c9964a0e0d8, type: 3}
-      - {fileID: 8300000, guid: 15a2aecb0ce29534ba8e4b9bdfe4ab17, type: 3}
-      - {fileID: 8300000, guid: bd43cab954385004dab4fa43031981c8, type: 3}
-      - {fileID: 8300000, guid: bec2ed21435720e429c2e9099d6c691c, type: 3}
-      - {fileID: 8300000, guid: f6388fba258e96a43ab7e3e9ab4333f2, type: 3}
-      - {fileID: 8300000, guid: e77ef11cb140d714dbd8f84f49ad9a1f, type: 3}
-      - {fileID: 8300000, guid: 8fb6f0c1cd6d3854886a64233e0b9a27, type: 3}
-      - {fileID: 8300000, guid: c916e43df5b47c3419e96c8a9a5404cd, type: 3}
-      - {fileID: 8300000, guid: 8f00f2604f1207d4ea413d64f7283c74, type: 3}
-      - {fileID: 8300000, guid: ab7d2ea3f66a3c9418e42e832e9d262b, type: 3}
+      levelGained: []
+      moveOrderNo: []
+      moveOrderYes:
+      - {fileID: 8300000, guid: 3a6f9790435764c4085cdcd1da2e9191, type: 3}
+      - {fileID: 8300000, guid: dc0e07a7bbc139a498de74336686b335, type: 3}
+      - {fileID: 8300000, guid: 20387dc0dd1eaa844849281fca1d79c8, type: 3}
+      - {fileID: 8300000, guid: 383aed0d246d4a74090e8a02fae0aa16, type: 3}
       selected:
       - {fileID: 8300000, guid: de7f67eabc8c0594999c51ea2e1ac293, type: 3}
       taunt: []
@@ -1737,9 +1773,6 @@ MonoBehaviour:
       - {fileID: 8300000, guid: be865872c6a1141449f97d7425b99fb7, type: 3}
       - {fileID: 8300000, guid: 4a2c3e871c2727c41ab04996e0340f8a, type: 3}
       - {fileID: 8300000, guid: a8f14f30e71e69145969e4860ca7c9d9, type: 3}
-      - {fileID: 8300000, guid: dc0e07a7bbc139a498de74336686b335, type: 3}
-      - {fileID: 8300000, guid: 20387dc0dd1eaa844849281fca1d79c8, type: 3}
-      - {fileID: 8300000, guid: 383aed0d246d4a74090e8a02fae0aa16, type: 3}
       ID: 
       Name: voiceset female confident
   - Gender: 0
@@ -1747,7 +1780,6 @@ MonoBehaviour:
     folder: voiceset female mysterious
     voiceSet:
       areaDangerous:
-      - {fileID: 8300000, guid: 72d15b295aac7e44585a00a5b3dc1b02, type: 3}
       - {fileID: 8300000, guid: a211e4263051ba248a50b3b05c744d35, type: 3}
       - {fileID: 8300000, guid: 2fce78dccabba7d48916f4b9a43e85a0, type: 3}
       - {fileID: 8300000, guid: ec1ae3c50f995034dacae9f7dd45bf02, type: 3}
@@ -2000,6 +2032,10 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 0da0f87eeddc5b845831285fd2a096cf, type: 3}
       - {fileID: 8300000, guid: 966998517aab23e44b455824c9590e7b, type: 3}
       - {fileID: 8300000, guid: baded714bcc6f8849b2f4c64651d7bcf, type: 3}
+      moveOrderNo: []
+      moveOrderYes:
+      - {fileID: 8300000, guid: 72d15b295aac7e44585a00a5b3dc1b02, type: 3}
+      - {fileID: 8300000, guid: ad01d5ae43ea37e46bcfdc717f660914, type: 3}
       selected:
       - {fileID: 8300000, guid: 262cc16cb0d91e043a6519f0fbd659cb, type: 3}
       taunt: []
@@ -2010,7 +2046,6 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 9e5bf2616e20fad49b1bd743ace7bd11, type: 3}
       - {fileID: 8300000, guid: 698cd3a63b4138540ae441f3d9dfe715, type: 3}
       - {fileID: 8300000, guid: 22ee03cb7e94cfb41931aa43ea30bb16, type: 3}
-      - {fileID: 8300000, guid: ad01d5ae43ea37e46bcfdc717f660914, type: 3}
       ID: 
       Name: voiceset female mysterious
   - Gender: 0
@@ -2247,6 +2282,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: f418471bf135ed94e858f901f4ce9109, type: 3}
       - {fileID: 8300000, guid: bdb2300fcab14df409e092e6f2164678, type: 3}
       - {fileID: 8300000, guid: 294f77318dc8c2848895b562b2b9f54f, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 129445bc15b42794a86457baee759cc4, type: 3}
       taunt: []
@@ -2476,6 +2513,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 873f9533a7d056f49a14f346ae2b4024, type: 3}
       - {fileID: 8300000, guid: f458c82151f0b414eba66b4da6c59304, type: 3}
       - {fileID: 8300000, guid: 4a72d65efb8edb647a889b317ce94c3d, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: a3d6d05cfb01f3f43bee527b040a61f2, type: 3}
       - {fileID: 8300000, guid: 266bcc69822c6354f88c5bb588b6c954, type: 3}
@@ -2536,6 +2575,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 55f4859cb818dbe45b4a67a8b24765e5, type: 3}
       - {fileID: 8300000, guid: ecae2f9bb2825b04ca0659794cc3ff34, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2583,6 +2624,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: a1b6257f9d4bdca41858cf60bfe60412, type: 3}
       - {fileID: 8300000, guid: 7e049b2c4470fa042bcd1e4660d77de2, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2628,6 +2671,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: a7fe78cbdda34cb4a9e7152f3202be81, type: 3}
       - {fileID: 8300000, guid: 3bbb8f9b5756c94489c2989e228157ea, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2671,6 +2716,8 @@ MonoBehaviour:
       jump:
       - {fileID: 8300000, guid: d4ddc1dc8da10b44ea419535b1d354d4, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2706,6 +2753,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2742,6 +2791,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -2811,6 +2862,8 @@ MonoBehaviour:
       levelGained:
       - {fileID: 8300000, guid: 9ac4e4c96974b484d938e12308aefc65, type: 3}
       - {fileID: 8300000, guid: c540e20a2b2d73641914677dffe6dd23, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 5237d81ed1ed940489e58d9cb9edafc1, type: 3}
       taunt: []
@@ -2905,6 +2958,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: a034fae16ea15144aba6e35b05ee1283, type: 3}
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem:
@@ -3073,6 +3128,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: bee467d365358b0469e579b551eda9de, type: 3}
       - {fileID: 8300000, guid: 4c67de7113705584db86a081f7a102df, type: 3}
       - {fileID: 8300000, guid: 8c7351d7db7138d41b6777bfd72714a1, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 681df3aa9cdc1ec4bacbea42d38aeac8, type: 3}
       taunt: []
@@ -3250,6 +3307,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: baf82edd93f558d4987134f5647d52a1, type: 3}
       - {fileID: 8300000, guid: 7e89a94fc70911943bf8dd6660a1bdba, type: 3}
       - {fileID: 8300000, guid: 63342b204a865af46a42ac37fda2b9e3, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 90e87bc17e045804784484f57dfb8f75, type: 3}
       - {fileID: 8300000, guid: 8fc48353ddfd5924fa29fc891c1f2681, type: 3}
@@ -3329,6 +3388,8 @@ MonoBehaviour:
       jump: []
       levelGained:
       - {fileID: 8300000, guid: b435fc5bbf8353e4191029098693f685, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 1abf1b692c4d6ce4db5f72834434d782, type: 3}
       taunt: []
@@ -3438,6 +3499,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: c3af10fa0d0283648b64d15c3164dd0e, type: 3}
       - {fileID: 8300000, guid: aacff88e24e88ae45b36219df47ed1a4, type: 3}
       - {fileID: 8300000, guid: 2cf8b0df92af2964bb9a598fb764a075, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 3533cc1a55cc5fe4384b39ca1795abe7, type: 3}
       taunt: []
@@ -3720,6 +3783,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 57beb73e06b409b40918358e45d970a0, type: 3}
       - {fileID: 8300000, guid: 624bafa2100851244b46d61c17097c8d, type: 3}
       - {fileID: 8300000, guid: c3ca1b3ad62f44f4095be998b050123b, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 01ffcb1ad8aaf2b4f8ef2ec9a533a781, type: 3}
       taunt: []
@@ -3844,6 +3909,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 6575dc45e37612b43925fb5bf79cbafe, type: 3}
       - {fileID: 8300000, guid: 2835b5c7fc23f4f409247c3dbbcb178a, type: 3}
       - {fileID: 8300000, guid: 1d305e8c5b1734e46b68d6d285b549b6, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: bd4bc4a6019717b4aab36a45d0da9b68, type: 3}
       taunt: []
@@ -4274,6 +4341,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 17ff9c527b61bb043aa4c27c726b6314, type: 3}
       - {fileID: 8300000, guid: ae66cb0f497cf5749ae882d5df056646, type: 3}
       - {fileID: 8300000, guid: d18c1c5e29a15d04dbee54f10c2bb2bf, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected:
       - {fileID: 8300000, guid: 1d35e983e1842e34ebb60826e6888f3e, type: 3}
       - {fileID: 8300000, guid: 70e9d7d21079b0c4c8cdd3c7361dbba2, type: 3}
@@ -4483,6 +4552,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 34dc50b49cbb88746a70500797d77459, type: 3}
       - {fileID: 8300000, guid: f56030b258837204cbc620bb6b01753c, type: 3}
       - {fileID: 8300000, guid: d7c338f289ac0f246b7bc4aff1cd7e98, type: 3}
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem:
@@ -4518,6 +4589,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4559,6 +4632,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4633,6 +4708,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4698,6 +4775,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4774,6 +4853,8 @@ MonoBehaviour:
       - {fileID: 8300000, guid: a2c60bf9b86773b46b4eb17cc974c52a, type: 3}
       - {fileID: 8300000, guid: 3506b8207e1d86442975bfd13315674a, type: 3}
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4813,6 +4894,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4843,6 +4926,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []
@@ -4906,6 +4991,8 @@ MonoBehaviour:
       joinParty: []
       jump: []
       levelGained: []
+      moveOrderNo: []
+      moveOrderYes: []
       selected: []
       taunt: []
       useItem: []

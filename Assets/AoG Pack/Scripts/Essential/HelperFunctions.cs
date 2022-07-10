@@ -1,5 +1,4 @@
-﻿using AoG.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst;
 using Unity.Collections;
@@ -39,7 +38,9 @@ public static class HelperFunctions
         Vector3 dir = targetPosition - rotator.position;
 
         if(dir == Vector3.zero)
+        {
             return;
+        }
 
         Quaternion targetRot = Quaternion.LookRotation(dir);
         targetRot.x = 0;
@@ -61,29 +62,16 @@ public static class HelperFunctions
 
         for(int i = 0; i < numHit; i++)
         {
-            //Profiler.BeginSample("AggroCtrl: GetComponent");
             Actor a = agents[i].GetComponent<Actor>();
             if(a == actor)
+            {
                 continue;
-            //Profiler.EndSample();
-
-            //Profiler.BeginSample("AggroCtrl: FilterAgent");
-            //if(actor.debug)
-            //    Debug.Log(enemyFlags.ToString() + (a.ActorStats.GetActorFlags().HasFlag(enemyFlags) ? " is in " : " is not in ") + a.ActorStats.GetActorFlags().ToString());
-
+            }
+           
             if(a.ActorStats.GetActorFlags().HasFlag(enemyFlags) && /*a.isDowned == false &&*/ a.dead == false)
+            {
                 agentList.Add(a);
-            //else
-            //{
-            //    //Debug.Assert(a != actor);
-            //    Debug.Assert(a.isDowned == false);
-            //    Debug.Assert(a.healthDepleted == false);
-            //    Debug.Assert(a.ActorStats.GetActorFlags().HasFlag(enemyFlags));
-
-            //    if(actor.debug)
-            //        Debug.Log(actor.GetName() + ": Getting closest actor failed");
-            //}
-            //Profiler.EndSample();
+            }
         }
 
         float3[] enemyPositions = agentList.Select(e => (float3)e.transform.position).ToArray();
@@ -93,9 +81,6 @@ public static class HelperFunctions
 
         if(actor != null)
         {
-            //int searchDepth = positions.Length;
-            //if(searchDepth > 3)
-            //    searchDepth = UnityEngine.Random.Range(searchDepth, searchDepth - 1);
             DistanceCheckJob job = new DistanceCheckJob
             {
                 positions = positions,
@@ -107,17 +92,17 @@ public static class HelperFunctions
 
             float currDist = Mathf.Infinity;
             for(int i = 0; i < distances.Length; i++)
+            {
                 if(distances[i] < currDist)
                 {
                     currDist = distances[i];
                     closestActor = agentList[i];
                 }
+            }
         }
 
         distances.Dispose();
         positions.Dispose();
-        //transformAccessArray.Dispose();
-        //Profiler.EndSample();
 
         if(actor.debug)
         {
@@ -140,8 +125,6 @@ public static class HelperFunctions
             //Profiler.BeginSample("AggroCtrl: GetComponent");
             Actor a = agents[i].GetComponent<Actor>();
             //Profiler.EndSample();
-
-            //Profiler.BeginSample("AggroCtrl: FilterAgent");
             if(a != agent && /*agent.dead && */agent.ActorStats.IsEnemy(a.ActorStats))
             {
                 agentList.Add(a);
@@ -156,9 +139,6 @@ public static class HelperFunctions
 
         if(agent != null)
         {
-            //int searchDepth = positions.Length;
-            //if(searchDepth > 3)
-            //    searchDepth = UnityEngine.Random.Range(searchDepth, searchDepth - 1);
             DistanceCheckJob job = new DistanceCheckJob()
             {
                 positions = positions,
@@ -182,8 +162,6 @@ public static class HelperFunctions
 
         distances.Dispose();
         positions.Dispose();
-        //transformAccessArray.Dispose();
-        //Profiler.EndSample();
         return closestEnemy;
     }
 
@@ -199,7 +177,9 @@ public static class HelperFunctions
             Actor agent = agents[i].GetComponent<Actor>();
 
             if(agent.transform != self.transform && agent.isCloaked == false && self.ActorStats.IsEnemy(agent.ActorStats))
+            {
                 agentList.Add(agent);
+            }
         }
 
         List<Actor> enemiesInRange = new List<Actor>();
@@ -219,11 +199,13 @@ public static class HelperFunctions
 
             float currDist = Mathf.Infinity;
             for(int i = 0; i < distances.Length; i++)
+            {
                 if(distances[i] <= range)
                 {
                     currDist = distances[i];
                     enemiesInRange.Add(agentList[i]);
                 }
+            }
         }
         distances.Dispose();
         positions.Dispose();
@@ -237,7 +219,9 @@ public static class HelperFunctions
             1 << LayerMask.NameToLayer("Actors"));
 
         if(numHit == 0)
+        {
             return null;
+        }
 
         List<Actor> agentList = new List<Actor>();
 
@@ -246,13 +230,17 @@ public static class HelperFunctions
             Actor actor = populatedArray[i].GetComponent<Actor>();
 
             if(caller != actor && actor.HPPercentage <= healthThreshold && actor.ActorStats.isBeingHealed == false)
+            {
                 //if(actor != skillTarget)
                 //    Debug.Log($"<color=cyan>Found wounded friend ({actor.m_agentData.Name})</color>");
 
                 if(actor.ActorStats.IsEnemy(caller.ActorStats) == false)
+                {
                     //if(actor != skillTarget)
                     //    Debug.Log($"<color=cyan>Found wounded friend ({actor.m_agentData.Name})</color>");
                     agentList.Add(actor);
+                }
+            }
         }
 
         return agentList.OrderBy(a => a.HPPercentage).FirstOrDefault();
@@ -304,7 +292,7 @@ public static class HelperFunctions
 
     public static Vector3 GetGridObjectWorldPosition(int x, int z, float cellSize, Vector3 origin)
     {
-        return new Vector3(x, 0, z) * cellSize + origin;
+        return (new Vector3(x, 0, z) * cellSize) + origin;
     }
 
     public static Vector3 SampledTerrainPosition(Terrain terrain, Vector3 position)
@@ -341,9 +329,6 @@ public static class HelperFunctions
         NavMeshHit navHit;
         if(NavMesh.SamplePosition(targetPosition, out navHit, float.PositiveInfinity, NavMesh.AllAreas))
         {
-
-            //Debug.Log(ai.PrettyPrint(Color.cyan) + ": Sampling new wander destination");
-            //DebugExtension.DebugCylinder(hit.position, hit.position + new Vector3(0, 1.5f, 0), Color.green, 0.5f, 5);
             targetPosition = navHit.position;
         }
 
@@ -353,23 +338,14 @@ public static class HelperFunctions
     public static Vector3 GetSampledNavMeshPositionAroundPoint(Vector3 targetPosition, int searchCycles, float minRadiusAroundPoint, float maxRadiusAroundPoint)
     {
         List<Vector3> availablePositions = new List<Vector3>();
-        //for(int i = 0; i < searchCycles; i++)
-        //{
-        Vector3 rndPoint = targetPosition + UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(minRadiusAroundPoint, maxRadiusAroundPoint);
+      
+        Vector3 rndPoint = targetPosition + (UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(minRadiusAroundPoint, maxRadiusAroundPoint));
 
         NavMeshHit navHit;
         if(NavMesh.SamplePosition(rndPoint, out navHit, float.PositiveInfinity, NavMesh.AllAreas))
         {
-
-            //Debug.Log(ai.PrettyPrint(Color.cyan) + ": Sampling new wander destination");
-            //DebugExtension.DebugCylinder(hit.position, hit.position + new Vector3(0, 1.5f, 0), Color.green, 0.5f, 5);
             targetPosition = navHit.position;
         }
-        //else
-        //{
-        //    continue;
-        //}
-        //}
 
         return targetPosition;
     }
@@ -403,7 +379,6 @@ public static class HelperFunctions
                                             UnityEngine.Random.Range(0.05f, 0.95f) // Not using Random.value as clumps form around Verticies 
                                         );
         }
-        //Vector3.Lerp(point, navMeshData.vertices[navMeshData.indices[t + 2]], Random.value); //Made Obsolete
 
         return point;
     }
@@ -418,8 +393,8 @@ public static class HelperFunctions
     public static bool LineOfSightBoxcast(Transform origin, Transform target, Vector3 boxExtends,
         float startYOffset = 0, float endYOffset = 0)
     {
-        Vector3 start = (origin.position + Vector3.up * startYOffset);
-        Vector3 dir = (target.position + Vector3.up * endYOffset) - start;
+        Vector3 start = origin.position + (Vector3.up * startYOffset);
+        Vector3 dir = target.position + (Vector3.up * endYOffset) - start;
         float dist = dir.magnitude;
 
         if(Physics.BoxCast(start, boxExtends, dir.normalized, out RaycastHit hit, origin.rotation, dist,
@@ -437,40 +412,32 @@ public static class HelperFunctions
 
     public static bool LineOfSight(Vector3 start, Vector3 end)
     {
-        Vector3 _start = start + Vector3.up * 1.5f;
-        Vector3 _end = end + Vector3.up * 1.5f;
-        //RaycastHit hit;
+        Vector3 _start = start + (Vector3.up * 1.5f);
+        Vector3 _end = end + (Vector3.up * 1.5f);
         if(Physics.Linecast(_start, _end, /*out hit,*/ ~(1 << LayerMask.NameToLayer("Actors"))))
         {
-            //if(hit.collider.transform == target)
-            //{
-            //Debug.DrawLine(_start, _end - Vector3.up * 0.5f, new Color(0.8f, 0, 0.2f));
-            //hit.collider.transform == target)
             return false;
-            //}
         }
-        //Debug.DrawLine(_start, _end - Vector3.up * 0.5f, Color.green);
         return true;
     }
+
     public static bool LineOfSightH2H(Transform origin, Vector3 targetPoint, float startYOffset = 0, float endYOffset = 0)
     {
-        Vector3 start = origin.position + Vector3.up * startYOffset;
+        Vector3 start = origin.position + (Vector3.up * startYOffset);
         bool allTrue = true;
-        const float width = 1.2f;
+        const float width = 0.2f;
         const int count = 3;
         const float spacing = width / (count - 1);
         RaycastHit hit;
         for(float i = -(width / 2); i < width; i += spacing)
         {
-            Vector3 finalOffset = (origin.right * i);
-            Vector3 end = targetPoint + finalOffset + Vector3.up * endYOffset;
+            Vector3 finalOffset = origin.right * i;
+            Vector3 end = targetPoint + finalOffset + (Vector3.up * endYOffset);
 
             if(UnityEngine.Physics.Linecast(start + finalOffset, end + finalOffset, out hit,
                    (1 << LayerMask.NameToLayer("Obstacles")) | (1 << LayerMask.NameToLayer("Ground"))))
             {
                 Debug.DrawLine(start, end, new Color(0.8f, 0, 0.2f));
-
-                //Debug.Log("<color=orange>LOS</color> intersected by: " + hit.collider.name);
 
                 allTrue = false;
             }
@@ -486,7 +453,7 @@ public static class HelperFunctions
     {
         Vector3 displacement = targetPosition - shooterPosition;
         float targetMoveAngle = Vector3.Angle(-displacement, targetVelocity) * Mathf.Deg2Rad;
-        //if the target is stopping or if it is impossible for the projectile to catch up with the target (Sine Formula)
+    
         if(targetVelocity.magnitude == 0 || targetVelocity.magnitude > projectileSpeed && Mathf.Sin(targetMoveAngle) / projectileSpeed > Mathf.Cos(targetMoveAngle) / targetVelocity.magnitude)
         {
             //Debug.Log("Position prediction is not feasible.");
@@ -494,7 +461,7 @@ public static class HelperFunctions
         }
         //also Sine Formula
         float shootAngle = Mathf.Asin(Mathf.Sin(targetMoveAngle) * targetVelocity.magnitude / projectileSpeed);
-        return targetPosition + targetVelocity * displacement.magnitude / Mathf.Sin(Mathf.PI - targetMoveAngle - shootAngle) * Mathf.Sin(shootAngle) / targetVelocity.magnitude;
+        return targetPosition + (targetVelocity * displacement.magnitude / Mathf.Sin(Mathf.PI - targetMoveAngle - shootAngle) * Mathf.Sin(shootAngle) / targetVelocity.magnitude);
     }
 
     public static float GetPathLength(NavMeshAgent navAgent, Vector3 targetPosition)
@@ -533,8 +500,8 @@ public static class HelperFunctions
     {
         var ang = Random.value * 360;
         Vector3 pos;
-        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
-        pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
+        pos.x = center.x + (radius * Mathf.Sin(ang * Mathf.Deg2Rad));
+        pos.y = center.y + (radius * Mathf.Cos(ang * Mathf.Deg2Rad));
         pos.z = center.z;
         return pos;
     }

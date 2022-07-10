@@ -212,11 +212,12 @@ public class MagicEffect : ScriptableObject
             Debug.LogError("'" + id_VFXProjectile + "' projectile null");
         }
     }
-    public void SpawnEffectLocation(Actor self, Vector3? target, Transform spellAnchor)
+
+    public void SpawnEffectLocation(Actor self, Vector3 target, Transform spellAnchor)
     {
         if(_effectLogic != null)
         {
-            _effectLogic.Init(self, target.Value, _spell, projectile);
+            _effectLogic.Init(self, target, _spell, projectile);
 
             self.StartCoroutine(CR_UpdateEffectLogic());
             return;
@@ -226,9 +227,6 @@ public class MagicEffect : ScriptableObject
         //    return;
         //}
         //int attackResult = DnD.Roll(_numDice, _numDiceSides);
-
-        if(target == null)
-            return;
 
         if(id_VFXHandRelease != "")
             VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject(id_VFXHandRelease, ObjectPoolingCategory.VFX), spellAnchor.position, Quaternion.LookRotation(self.transform.forward, Vector3.up));
@@ -254,10 +252,10 @@ public class MagicEffect : ScriptableObject
         {
             if(_effectLogic != null && _spell != null)
             {
-                _effectLogic.Init(self, target.Value, _spell, projectile);
+                _effectLogic.Init(self, target, _spell, projectile);
             }
 
-            projectile.Launch(_effectLogic, self, spellAnchor.position, target.Value, _statusEffect, _targetType, _deliveryType, projectileType, _effectType, _savingThrowType, _attackRollType, new Dice(_numDamageDice, _numDamageDiceSides, 0), projectileSpeed, aoeRadius, effectDiameter, effectRange);
+            projectile.Launch(_effectLogic, self, spellAnchor.position, target, _statusEffect, _targetType, _deliveryType, projectileType, _effectType, _savingThrowType, _attackRollType, new Dice(_numDamageDice, _numDamageDiceSides, 0), projectileSpeed, aoeRadius, effectDiameter, effectRange);
             projectile.OnImpact = () =>
             {
                 if(sfxOnHit != null)

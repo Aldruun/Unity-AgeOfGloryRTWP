@@ -47,7 +47,7 @@ public static class VFXPlayer
             //    break;
             //case DamageType.UNHOLY:
             //    TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_unholy", ObjectPoolingCategory.VFX), position, Quaternion.identity);
-                break;
+                //break;
             case DamageType.POISON:
                 TriggerVFX(PoolSystem.GetPoolObject("vfx_hit_poison", ObjectPoolingCategory.VFX), position, Quaternion.identity);
                 break;

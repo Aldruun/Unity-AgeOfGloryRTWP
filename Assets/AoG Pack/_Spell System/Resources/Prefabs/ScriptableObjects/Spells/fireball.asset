@@ -46,6 +46,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ecb4c475afd7b445a6e03beab54f52f, type: 2}
   targetLogic: {fileID: 0}
   attackRollRequired: 0
+  percentMagnitude: 0
   castingTime: 3
   duration: 0
   concentrationTime: 0
@@ -56,7 +57,6 @@ MonoBehaviour:
   higherSlotBonusDice: 1
   aoeRadius: 7
   travelSpeed: 7
-  percentMagnitude: 0
   usages: 0
   maxUsages: 0
   activationRange: 12

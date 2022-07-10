@@ -253,7 +253,7 @@ public class UIActorPortrait : MonoBehaviour, IPointerClickHandler, IPointerDown
         //}
         //else if(action is AIActions.Action_Attack atk)
         //{
-        //    Weapon weapon = _linkedActor.Equipment.equippedWeapon.Weapon;
+        //    Weapon weapon = _linkedActor.Combat.GetEquippedWeapon;
         //    _actionIcon.sprite = weapon.identifier == "fist" ? ResourceManager.cursor_attack : ResourceManager.GetItemSprite(weapon.identifier);
         //}
 

@@ -23,7 +23,7 @@ public class SpellCompendium : ScriptableObject
         {
             Debug.Log("<color=" + ColorExtensions.ToRGBHex(Colors.RedCrayola) + ">characterLevel invalid (" + characterLevel + ")</color>");
         }
-        if(spellGrade <= 0 || spellGrade > 9)
+        if(spellGrade < 0 || spellGrade > 9)
         {
             Debug.Log("<color=" + ColorExtensions.ToRGBHex(Colors.RedCrayola) + ">spellGrade invalid (" + spellGrade + ")</color>");
         }

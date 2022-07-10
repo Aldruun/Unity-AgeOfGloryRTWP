@@ -154,9 +154,9 @@ public class Editor_ActorDebugger : EditorWindow
                                 }
 
                                 GUILayout.Label("Enemy Flags: " + debugger.observedActor.ActorStats.GetEnemyFlags().ToString());
-                                if(observee.Equipment.equippedWeapon.Weapon != null)
+                                if(observee.Combat.GetEquippedWeapon().Data != null)
                                 {
-                                    GUILayout.Label("Weapon ID: " + observee.Equipment.equippedWeapon.Weapon.identifier);
+                                    GUILayout.Label("Weapon ID: " + observee.Combat.GetEquippedWeapon().Data.identifier);
                                 }
                                 GUILayout.Label("Global ID: " + observee.GetGlobalID());
                                 GUILayout.Label("Selected: " + observee.ActorUI.Selected);

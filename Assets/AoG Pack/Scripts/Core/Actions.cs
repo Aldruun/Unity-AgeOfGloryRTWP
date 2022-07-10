@@ -29,7 +29,7 @@ public static class Actions
         Vector3 targetPos = point;
         Vector3 targetDir = targetPos - selfPos;
 
-        bool hasLOS = HelperFunctions.LineOfSightH2H(self.transform, targetPos, 1.5f);
+        bool hasLOS = HelperFunctions.LineOfSightH2H(self.transform, targetPos, 1.1f, 1.5f);
         bool inFOV = requiresInFOV ? Get.IsInFOV(self.transform, targetPos, 5) : true;
         bool inRange = targetDir.magnitude <= range;
 
@@ -38,14 +38,24 @@ public static class Actions
         if(hasLOS == false)
         {
             Debug.DrawLine(self.transform.position + Vector3.up * 0.3f, point, Color.red);
-            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NoLOS)</color>");
+            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300);
+            
+            if(self.debugNavigation)
+            {
+                Debug.Log(self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NoLOS)</color>");
+            }
 
             self.SetDestination(targetPos, 1f);
         }
         else if(inRange == false)
         {
             Debug.DrawLine(self.transform.position + Vector3.up * 0.3f, point, Color.yellow);
-            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NotInRange)</color>");
+            HelperFunctions.RotateTo(self.transform, self.NavAgent.steeringTarget, 300);
+
+            if(self.debugNavigation)
+            {
+                Debug.Log(self.GetName() + ": MoveIntoRange: <color=orange>Rotating to path (NotInRange)</color>");
+            }
 
             self.SetDestination(targetPos, Mathf.Clamp(range - 0.1f, 0, 100));
         }
@@ -55,10 +65,13 @@ public static class Actions
             self.HoldPosition();
             if(inFOV == false)
             {
-                HelperFunctions.RotateTo(self.transform, targetPos, 300, self.GetName() + ": MoveIntoRange: <color=orange>Rotating to target (InFOV)</color>");
+                HelperFunctions.RotateTo(self.transform, targetPos, 300);
+
+                if(self.debugNavigation)
+                    Debug.Log(self.GetName() + ": MoveIntoRange: <color=orange>Rotating to target (NoFOV)</color>");
             }
 
-            if(self.debug)
+            if(self.debugNavigation)
                 Debug.Log(self.GetName() + "<color=cyan>: # Can attack</color>");
         }
         return hasLOS && inRange && inFOV;

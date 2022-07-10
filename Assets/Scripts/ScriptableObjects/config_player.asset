@@ -18,7 +18,7 @@ MonoBehaviour:
   UniqueID: b11eeea4-a44b-46a4-b195-dd2a211fe12e
   Name: Player
   InventoryTemplate: {fileID: 11400000, guid: 449032662a45772429abcefebff343b9, type: 2}
-  ActorFlags: 2
+  ActorFlags: 3
   portraitSprite: {fileID: 21300000, guid: 7cfb5fb7b683c2149a751396b7c57a21, type: 3}
   ActorRadius: 0.2
   VoicesetID: voiceset female confident

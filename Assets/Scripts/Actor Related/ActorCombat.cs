@@ -1,8 +1,6 @@
 ﻿using AoG.Core;
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -297,7 +295,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         //int damage = damageRoll;
         if(hitSuccess)
         {
-            SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.HURT);
+            self.VerbalConstant(VerbalConstantType.HURT);
             DevConsole.Log("<color=cyan>" + self.GetName() + "</color> was hit by <color=white>" + source.GetName() + "</color> and lost <color=white>" + damageRoll + "</color> hitpoints.");
             //GameEventSystem.OnHeroHit?.Invoke(this, damageRoll, damageType);
             Execute_ModifyHealth(-damageRoll, ModType.ADDITIVE);
@@ -310,7 +308,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         DevConsole.Log("<color=cyan>" + self.GetName() + "</color>: Attack Roll " + attackRoll + (hitSuccess ? " > " : " <= ") + counterValue + " (Saving Throw/AC) : " + (hitSuccess ? "Hit " : "Miss "));
 
         ActivateOnHitCircus(source, damageRoll, damageType, hitSuccess);
-        
+
 
         //if(blocking)
         //    OnStagger?.Invoke();
@@ -392,7 +390,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         finalAmount = attackRoll; // Exmpl: 5 * 100 / 100 * 0
                                   //finalAmount *= GameMaster.Instance.gameSettings.globalDmgMult;
                                   //}
-        SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.HURT);
+        self.VerbalConstant(VerbalConstantType.HURT);
         if(finalAmount > 0)
             finalAmount = Mathf.CeilToInt(finalAmount);
 
@@ -401,7 +399,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         if(self.dead)
         {
             StopCoroutine(pushCoroutine);
-            SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.DEAD);
+            self.VerbalConstant(VerbalConstantType.DEAD);
 
             foreach(NPCInput summoned in self.summonedCreatures)
             {
@@ -429,174 +427,52 @@ public class ActorCombat : MonoBehaviour, IAttackable
         }
         else
         {
-            SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.HURT);
+            self.VerbalConstant(VerbalConstantType.HURT);
         }
     }
 
     public virtual void Die()
     {
-        
+
         gameObject.layer = LayerMask.NameToLayer("Corpses");
         //Vector3 collapseForce = -transform.forward;
         //Animation.CollapseDead(null, collapseForce);
 
-        Animation.Animator.Play("Die", 9);
-
-        if(self.ActorStats.HasActorFlag(ActorFlags.PC))
-        {
-            GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
-        }
+        Animation.PlayMotion_Die();
 
         Callback_ActorDied();
 
-        SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.DEAD);
+        self.VerbalConstant(VerbalConstantType.DEAD);
+
+        self.CancelAnimations();
 
         if(stats.IsEssential == false)
         {
+            if(self.IsPlayer)
+            {
+                self.ActorUI.Deselect();
+
+                //if(SelectionManager.selected.Count == 0)
+                //{
+                //    if(Interface.GetCurrentGame().GetPartySize(true) > 0)
+                //    {
+                //        Actor nextAlive = Interface.GetCurrentGame().PCs.Where(pc => pc.healthDepleted == false).FirstOrDefault();
+
+                //        nextAlive.Select();
+                //    }
+                //}
+
+                FormationController.ClearFormationVisual(self.PartySlot);
+                GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
+            }
+
+            self.ActorUI.Clear();
             StopAllCoroutines();
             GameInterface.Instance.GetCurrentGame().GetCurrentMap().AddGarbage(gameObject);
         }
 
-        self.CancelAnimations();
-
-        if(self.IsPlayer)
-        {
-            self.ActorUI.Deselect();
-            //if(SelectionManager.selected.Count == 0)
-            //{
-            //    if(Interface.GetCurrentGame().GetPartySize(true) > 0)
-            //    {
-            //        Actor nextAlive = Interface.GetCurrentGame().PCs.Where(pc => pc.healthDepleted == false).FirstOrDefault();
-
-            //        nextAlive.Select();
-            //    }
-            //}
-
-            FormationController.ClearFormationVisual(self.PartySlot);
-        }
-
         self.Stop();
-        self.ActorUI.Clear();
-
-        //if(debug)
-        //    Debug.Log(self.GetName() + "<color=orange> died [Actions left: " + actionQueue.Count + "]</color>");
     }
-
-    //public void ApplyDamage(Actor source, Weapon weapon, EffectData magicEffect, bool isProjectile, bool hitSuccess = true)
-    //{
-    //    float finalAmount = 0;
-    //    bool isUnarmedHit = false;
-    //    DamageType damageType = DamageType.SLASHING;
-    //    if(weapon != null)
-    //    {
-    //        damageType = weapon.damageType;
-    //        isUnarmedHit = weapon.AnimationPack == AnimationSet.UNARMED;
-    //        finalAmount += weapon.BaseDamageRoll;
-    //    }
-
-    //    if(finalAmount == 0)
-    //    {
-    //        Debug.Log("ActorInput.ApplyDamage: Weapon and magic effect value = 0");
-    //    }
-
-    //    if(Animation.isBlocking)
-    //    {
-    //        SFXPlayer.PlaySound_AttackBlocked(transform.position);
-    //        //Animation.PlayMotion_StopBlocking();
-    //        return;
-    //    }
-
-    //    if(hitSuccess) //! Currently only failes if target is out of range
-    //    {
-    //        pushCoroutine = StartCoroutine(CR_PushBack(source, self));
-    //        //UIFloatingInfoManager.current.CreatePopup(transform.position, finalAmount.ToString(), 5, 1, 3);
-
-    //        //if(Animation.inBleedOutState == false)
-    //        //{
-    //        //    ActorUtility.ModifyActorStun(actorInput.ActorRecord, -(int)finalAmount / 2, ModType.ADDITIVE);
-    //        //    if(ActorUtility.GetModdedAttribute(actorInput.ActorRecord, ActorAttribute.STUN) < 1)
-    //        //    {
-    //        //        Animation.PlayMotion_BleedOut(0);
-    //        //        ActorUtility.ModifyActorStun(actorInput.ActorRecord, 1, ModType.ADDITIVE);
-    //        //    }
-    //        //    Callback_OnStunChanged();
-    //        //}
-
-    //        //! No worries. The stagger function takes care of the bleedout hit
-    //        bool staggerSuccess = UnityEngine.Random.value > 0.3f;
-
-    //        if(staggerSuccess)
-    //        {
-    //            Animation.PlayMotion_Stagger();
-    //        }
-
-    //        //finalAmount *= GameStateManager.gameSettings.globalDmgMult;
-
-    //        if(finalAmount > 0)
-    //        {
-    //            finalAmount = Mathf.CeilToInt(finalAmount);
-    //        }
-
-    //        ActorUtility.ModifyActorHealth(self.ActorStats, -(int)finalAmount, ModType.ADDITIVE);
-    //        Callback_OnHealthChanged();
-
-    //        ActivateOnHitCircus(source, weapon, magicEffect, isProjectile);
-
-    //        OnHit?.Invoke(source, finalAmount, damageType, true);
-    //        //if(source != null && source.ActorRecord.faction == Faction.Heroes)
-    //        //{
-    //        //    int baseExp = (int)(actorInput.ActorRecord.level <= source.ActorRecord.level ? ((actorInput.ActorRecord.level * 5) + 45) : ((actorInput.ActorRecord.level * 5) + 45) * (1 + (0.05f * (source.ActorRecord.level - actorInput.ActorRecord.level))));
-    //        //    float perc = finalAmount / ActorUtility.GetModdedAttribute(actorInput.ActorRecord, ActorAttribute.MAXHEALTH);
-    //        //    float result = perc * baseExp;
-    //        //    source.ActorRecord.Execute_ModifyCurrentXP(result, ModType.ADDITIVE);
-    //        //}
-    //        //m_states[Symbols.LOW_HEALTH] = m_currHealth < 50;
-
-    //        if(self.dead)
-    //        {
-    //            StopCoroutine(pushCoroutine);
-    //            SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.DEAD);
-
-    //            foreach(NPCInput summoned in self.summonedCreatures)
-    //            {
-    //                if(summoned == null || summoned.dead)
-    //                {
-    //                    continue;
-    //                }
-
-    //                summoned.Combat.Kill();
-    //            }
-
-    //            if(self.ActorStats.HasActorFlag(ActorFlags.ESSENTIAL) == false)
-    //            {
-    //                //OnDestroyed?.Invoke(this, source, Vector3.zero);
-    //                Debug.Log(self.GetName() + ":<color=orange> DEAD</color>");
-    //                gameObject.layer = LayerMask.NameToLayer("Corpses");
-    //                Vector3 collapseForce = source ? source.transform.forward : -transform.forward;
-    //                Animation.CollapseDead(source, collapseForce);
-
-    //                if(self.ActorStats.HasActorFlag(ActorFlags.ALLY))
-    //                {
-    //                    GameEventSystem.RequestRemovePortrait?.Invoke(self.PartySlot);
-    //                }
-
-    //                GameEventSystem.RequestAddGarbage(gameObject);
-    //                self.spawnpoint.StartRespawnCountdown();
-
-    //                Callback_ActorDied();
-    //            }
-    //            else
-    //            {
-    //                Execute_KnockDown(Vector3.zero, 5, true);
-    //                ActorUtility.ModifyActorHealth(self.ActorStats, 1, ModType.ABSOLUTE);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.HURT);
-    //        }
-    //    }
-    //}
 
     public void Kill()
     {
@@ -606,7 +482,6 @@ public class ActorCombat : MonoBehaviour, IAttackable
         Callback_ActorDied();
     }
 
-
     #region OnHit Feedback
     private IEnumerator CR_PushBack(Actor source, Actor pushed)
     {
@@ -614,19 +489,9 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
         while(time > 0)
         {
-            //Debug.Assert(actorInput != null, "actorInput null");
-            //Debug.Assert(actorInput.NavAgent != null, "actorInput.NavAgent null");
-            //if(actorInput.NavAgent.enabled == false)
-            //{
-            //    yield break;
-            //}
-
             time -= Time.deltaTime;
 
-            if(pushed.IsPlayer)
-                pushed.cc.Move(source.transform.forward /** 0.5f*/ * Time.deltaTime);
-            else
-                pushed.NavAgent.Move(source.transform.forward /** 0.5f*/ * Time.deltaTime);
+            pushed.NavAgent.Move(source.transform.forward /** 0.5f*/ * Time.deltaTime);
             yield return null;
         }
     }
@@ -637,11 +502,10 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
         Vector3 dir = source != null ? source.transform.position - transform.position : transform.forward;
         dir.y = 0;
-        Vector3 victimHitpoint = GetAttackPoint().position;
-        Vector3 finalHitPosition = victimHitpoint;
 
-        finalHitPosition = victimHitpoint + (source.Animation.head.transform.position - victimHitpoint).normalized * 0.1f;
-        
+        Vector3 victimHitpoint = GetAttackPoint().position;
+        Vector3 finalHitPosition = victimHitpoint + (source.Animation.head.transform.position - victimHitpoint).normalized * 0.1f;
+
         VFXPlayer.PlayVFX_OnHit(finalHitPosition, dir, damageType);
         SFXPlayer.PlaySound_OnHit(finalHitPosition, damageType, damageType == DamageType.CRUSHING);
 
@@ -665,14 +529,14 @@ public class ActorCombat : MonoBehaviour, IAttackable
         //actorInput.character.OnArmorUnequipped?.Invoke(armor, true, silent == false);
     }
 
-    public Weapon GetEquippedWeapon()
+    public WeaponData GetEquippedWeapon()
     {
-        return Equipment.equippedWeapon.Weapon;
+        return Equipment.equippedWeapon;
     }
 
     public virtual void Execute_EquipBestWeapon(int WEAPON_TYPE, bool playAnimation, bool playSound)
     {
-        if(self.debugGear)
+        if(self.debugCombat)
             Debug.Log(self.GetName() + ":<color=orange>2</color> ActorInput.Execute_EquipBestWeapon");
         Weapon weapon = Equipment.EquipBestWeapon(WEAPON_TYPE);
         if(weapon == null)
@@ -690,23 +554,23 @@ public class ActorCombat : MonoBehaviour, IAttackable
     {
         if(WeaponDrawn)
         {
-            if(self.debugGear)
+            if(self.debugCombat)
                 Debug.LogError(self.GetName() + ":<color=red>*</color> ActorInput.Execute_DrawWeapon: weaponObject already drawn");
             return;
         }
 
-        if(Equipment.equippedWeapon.Weapon == null)
+        if(GetEquippedWeapon()== null)
         {
-            if(self.debugGear)
+            if(self.debugCombat)
                 Debug.LogError(self.GetName() + ":<color=red>*</color> ActorInput.Execute_DrawWeapon: weaponObject = null");
             return;
         }
 
-        if(self.debugGear)
+        if(self.debugCombat)
             Debug.Log(self.GetName() + "<color=green>*</color>: ActorInput.Execute_DrawWeapon");
 
         SetWeaponDrawn(true);
-        Animation.PlayMotion_DrawWeapon(GetEquippedWeapon().AnimationPack);
+        Animation.PlayMotion_DrawWeapon(GetEquippedWeapon().Data.AnimationPack);
         StartCoroutine(CR_ParentWeaponToHand());
     }
 
@@ -714,31 +578,31 @@ public class ActorCombat : MonoBehaviour, IAttackable
     {
         yield return new WaitForSeconds(0.5f);
         Equipment.ParentWeaponToHand();
-        SFXPlayer.PlaySound_DrawWeapon(GetEquippedWeapon().weaponCategory, transform.position);
+        SFXPlayer.PlaySound_DrawWeapon(GetEquippedWeapon().Data.weaponCategory, transform.position);
     }
 
     public void Execute_SheathWeapon()
     {
         if(WeaponDrawn == false)
         {
-            if(self.debugGear)
+            if(self.debugCombat)
                 Debug.LogError(self.GetName() + ":<color=red>*</color> ActorInput.Execute_DrawWeapon: weaponDrawn == false");
             return;
         }
 
-        if(Equipment.equippedWeapon.Weapon == null)
+        if(GetEquippedWeapon()== null)
         {
-            if(self.debugGear)
+            if(self.debugCombat)
                 Debug.LogError(self.GetName() + ":<color=red>*</color> ActorInput.Execute_DrawWeapon: weaponObject = null");
             return;
         }
 
-        if(self.debugGear)
+        if(self.debugCombat)
             Debug.Log(self.GetName() + ":<color=green>*</color> ActorInput.Execute_SheathWeapon");
         //OnSheathWeapon?.Invoke((int)gearData.equippedWeapon.Weapon.weaponCategory);
 
         SetWeaponDrawn(false);
-        Animation.PlayMotion_SheathWeapon(GetEquippedWeapon().AnimationPack);
+        Animation.PlayMotion_SheathWeapon(GetEquippedWeapon().Data.AnimationPack);
         StartCoroutine(CR_ParentWeaponToHolster());
     }
 
@@ -746,12 +610,12 @@ public class ActorCombat : MonoBehaviour, IAttackable
     {
         yield return new WaitForSeconds(0.5f);
         Equipment.ParentWeaponToHolster();
-        SFXPlayer.PlaySound_SheathWeapon(GetEquippedWeapon().weaponCategory, transform.position);
+        SFXPlayer.PlaySound_SheathWeapon(GetEquippedWeapon().Data.weaponCategory, transform.position);
     }
 
     private void SetWeaponDrawn(bool on)
     {
-        if(self.debugGear)
+        if(self.debugCombat)
             Debug.Log(self.GetName() + ":<color=cyan>*</color> Setting weapon drawn = '" + on + "'");
         WeaponDrawn = on;
     }
@@ -774,14 +638,14 @@ public class ActorCombat : MonoBehaviour, IAttackable
             return;
         }
         //hitSuccess = true;
-        //if(actorInput.debugGear)
-        //    Debug.Log(actorInput.GetName() + ":<color=cyan>*</color> ActorInput.Execute_Attack");
-        Animation.PlayMotion_Attack(GetEquippedWeapon().AnimationPack);
-        if(GetHostileTarget() != null)
-            GetHostileTarget().Combat.SignalIncomingMeleeAttack(GetEquippedWeapon(), transform.position);
+        if(self.debugCombat)
+            Debug.Log(self.GetName() + ":<color=cyan>*</color> ActorInput.Execute_Attack");
+        Animation.PlayMotion_Attack(GetEquippedWeapon().Data.AnimationPack);
+        //if(GetHostileTarget() != null)
+        //    GetHostileTarget().Combat.SignalIncomingMeleeAttack(GetEquippedWeapon(), transform.position);
 
-        StartCoroutine(CR_DelayAttackEffects());
-
+        if(GetEquippedWeapon().Data.CombatType == CombatType.MELEE)
+            StartCoroutine(CR_DelayAttackEffects());
     }
 
     private IEnumerator CR_DelayAttackEffects()
@@ -794,7 +658,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
             yield break;
         }
         SFXPlayer.ActorSFX.VerbalConstant(characterVoiceSet, voiceAudioSource, VerbalConstantType.ATTACK, 0.2f);
-        SFXPlayer.PlaySound_Swing(transform.position, Equipment.equippedWeapon.Weapon.weaponCategory);
+        SFXPlayer.PlaySound_Swing(transform.position, GetEquippedWeapon().Data.weaponCategory);
         // hitSuccess = GetHostileTarget().Animation.isAttacking || GetHostileTarget().isDowned || GetHostileTarget().ActorRecord.inSpellChargeLoop ? true : Random.value < 0.7f;
         // if(hitSuccess == false)
         //     GetHostileTarget().Combat.Animation.PlayMotion_Evade(1f);
@@ -879,10 +743,10 @@ public class ActorCombat : MonoBehaviour, IAttackable
     /// </summary>
     public void Hit()
     {
-        if(self.debugAnimation)
+        if(self.debugCombat)
             Debug.Log(gameObject.name + ":<color=cyan>*</color> Hit procedure");
 
-        if(Equipment.equippedWeapon == null)
+        if(GetEquippedWeapon() == null)
         {
             if(self.debugAnimation)
                 Debug.Log($"{self.GetName()}: Applying damage failed: Equipped right hand weapon = null");
@@ -891,12 +755,12 @@ public class ActorCombat : MonoBehaviour, IAttackable
         {
             if(Animation.IsIncapacitated())
             {
-                if(self.debugAnimation)
+                if(self.debugCombat)
                     Debug.Log(gameObject.name + ": <color=yellow>*</color>Can't hit anything -> Incapacitated");
                 return;
             }
 
-            Weapon weapon = GetEquippedWeapon();
+            Weapon weapon = GetEquippedWeapon().Data;
             if(weapon.projectileIdentifier != null)
             {
 
@@ -907,7 +771,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
                 if(_projectile == null)
                     Debug.LogError("ActorMonoObject: Projectile visual not found");
 
-                _projectile.Launch(null, self, Equipment.spellAnchor.position, GetHostileTarget(), new StatusEffectData(), SpellTargetType.Foe, DeliveryType.SeekActor,
+                _projectile.Launch(null, self, Equipment.m_weaponHand.position, GetHostileTarget(), new StatusEffectData(), SpellTargetType.Foe, DeliveryType.SeekActor,
                     ProjectileType.Lobber, DamageType.MISSILE, SavingThrowType.None, SpellAttackRollType.Ranged, new Dice(weapon.NumDice, weapon.NumDieSides, 0), 15, 0, 0, 0);
             }
             else
@@ -916,7 +780,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
                 if(numFound == 0)
                 {
-                    //if(actorInput.debugAnimation)
+                    //if(actorInput.debugCombat)
                     //    Debug.Log(gameObject.name + ": <color=orange>*</color>No melee hit targets found");
                     return;
                 }
@@ -929,7 +793,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
                     if(targetHit.GetTransform() == transform || (self.IsPlayer && targetHit.AttackableType == AttackableType.PC)
                         /*|| (actorInput.IsAlly && (targetHit.AttackableType == AttackableType.PC || targetHit.AttackableType == AttackableType.PC))*/)
                     {
-                        //if(actorInput.debugAnimation)
+                        //if(actorInput.debugCombat)
                         //    Debug.Log(gameObject.name + ": <color=orange>*</color>Target is me! Skipping!");
                         continue;
                     }
@@ -954,7 +818,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
     private void ActivateWeaponTrail(AnimationEvent animationEvent)
     {
-        if(Equipment.equippedWeapon.WeaponTrailVFX == null)
+        if(GetEquippedWeapon().WeaponTrailVFX == null)
         {
             //Debug.LogError("Weapon trail null");
             return;
@@ -964,24 +828,24 @@ public class ActorCombat : MonoBehaviour, IAttackable
         bool doStab = xAngle < 0;
 
 
-        Transform vfxTransform = Equipment.equippedWeapon.WeaponTrailVFX.transform;
+        Transform vfxTransform = GetEquippedWeapon().WeaponTrailVFX.transform;
 
         if(doStab)
         {
-            Vector3 weaponPos = Equipment.equippedWeapon.WeaponObject.transform.position;
+            Vector3 weaponPos = GetEquippedWeapon().WeaponObject.transform.position;
             vfxTransform.position = new Vector3(weaponPos.x, weaponPos.y, transform.position.z);
-            Equipment.equippedWeapon.WeaponTrailVFX.SendEvent("PlayStab");
+            GetEquippedWeapon().WeaponTrailVFX.SendEvent("PlayStab");
         }
         else
         {
             int zAngle = animationEvent.intParameter;
-            Vector3 weaponDir = Equipment.equippedWeapon.WeaponObject.transform.position - transform.position;
+            Vector3 weaponDir = GetEquippedWeapon().WeaponObject.transform.position - transform.position;
             vfxTransform.localPosition = new Vector3(0, Animation.chest.position.y, 0);
             vfxTransform.localEulerAngles = new Vector3(xAngle, Quaternion.LookRotation(weaponDir).y * 0.5f, zAngle);
-            Equipment.equippedWeapon.WeaponTrailVFX.SendEvent("PlaySlash");
+            GetEquippedWeapon().WeaponTrailVFX.SendEvent("PlaySlash");
         }
 
-        // Equipment.equippedWeapon.WeaponTrailVFX.Play();
+        // Combat.GetEquippedWeaponTrailVFX.Play();
     }
 
     public void ActivateSpellEffects()
