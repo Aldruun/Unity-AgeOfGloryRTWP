@@ -292,12 +292,12 @@ public class Editor_ActorDebugger : EditorWindow
 
                                 foreach(StatusEffect statusEff in debugger.observedActor.GetAppliedStatusEffects())
                                 {
-                                    if(statusEff == null || statusEff.rounds == 0)
+                                    if(statusEff == null || statusEff.Duration == 0)
                                     {
                                         continue;
                                     }
 
-                                    GUILayout.Label(statusEff.statusEffect + " - " + statusEff.rounds + " Rounds");
+                                    GUILayout.Label(statusEff.statusEffect + " - " + statusEff.Duration + " Rounds");
                                 }
 
                                 GUI.skin = null;

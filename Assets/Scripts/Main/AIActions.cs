@@ -220,7 +220,6 @@ public static class AIActions
         private float _preCastTimer = 2f;
         private float _postCastTimer = 3f;
         private float _castingTime;
-        private float _duration;
 
         internal Spell spell;
 
@@ -238,7 +237,6 @@ public static class AIActions
             _preCastTimer = 1f;
             _postCastTimer = 3f;
             self.Combat.noStagger = false;
-            _duration = spell.duration * 6;
             return this;
         }
 

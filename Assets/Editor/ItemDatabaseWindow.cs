@@ -1238,11 +1238,7 @@ public class ItemDatabaseWindow : EditorWindow
 
         selectedSpell.spellIcon = (Sprite)EditorGUILayout.ObjectField("Icon:", selectedSpell.spellIcon, typeof(Sprite), false, GUILayout.ExpandWidth(false));
 
-        selectedSpell.subCategory = (SubCategory)EditorGUILayout.EnumPopup("Subcategory: ", selectedSpell.subCategory, GUILayout.Width(270));
-        selectedSpell.attackRollType = (SpellAttackRollType)EditorGUILayout.EnumPopup("Attack Roll: ", selectedSpell.attackRollType, GUILayout.Width(270));
-        selectedSpell.effectType = (DamageType)EditorGUILayout.EnumPopup("Effect Type: ", selectedSpell.effectType, GUILayout.Width(270));
         selectedSpell.spellTargetType = (SpellTargetType)EditorGUILayout.EnumPopup("Target Type: ", selectedSpell.spellTargetType, GUILayout.Width(270));
-        selectedSpell.savingThrowType = (SavingThrowType)EditorGUILayout.EnumPopup("Saving Throw Type: ", selectedSpell.savingThrowType, GUILayout.Width(270));
         selectedSpell.magicSchool = (MagicSchool)EditorGUILayout.EnumPopup("Magic School: ", selectedSpell.magicSchool, GUILayout.Width(300));
         selectedSpell.equipType = (EquipType)EditorGUILayout.EnumPopup("Equip Type: ", selectedSpell.equipType, GUILayout.Width(300));
         selectedSpell.castingType = (CastingType)EditorGUILayout.EnumPopup("Casting Type: ", selectedSpell.castingType, GUILayout.Width(300));
@@ -1259,27 +1255,16 @@ public class ItemDatabaseWindow : EditorWindow
 
         selectedSpell.targetLogic = (SpellTargetLogic)EditorGUILayout.ObjectField("Target Logic:", selectedSpell.targetLogic, typeof(SpellTargetLogic), false, GUILayout.Width(300)/*, GUILayout.ExpandWidth(false)*/);
         selectedSpell.castingTime = EditorGUILayout.IntField("Casting Time:", selectedSpell.castingTime, GUILayout.Width(150));
-        selectedSpell.duration = EditorGUILayout.IntField("Spell Duration:", selectedSpell.duration, GUILayout.Width(150));
-        selectedSpell.concentrationTime = EditorGUILayout.IntField("Concentration Time:", selectedSpell.concentrationTime, GUILayout.Width(150));
 
         selectedSpell.attackRollRequired = EditorGUILayout.Toggle("Attack Roll Required", selectedSpell.attackRollRequired);
 
         GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
-        EditorGUIUtility.labelWidth = 80;
-        selectedSpell.specialRollDice = EditorGUILayout.IntField("Special Roll:", selectedSpell.specialRollDice, GUILayout.Width(100));
-        EditorGUIUtility.labelWidth = 15;
-        selectedSpell.numSpecialRollDieSides = EditorGUILayout.IntField("d", selectedSpell.numSpecialRollDieSides, GUILayout.Width(150));
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
-        EditorGUIUtility.labelWidth = 80;
-        selectedSpell.damageRollDice = EditorGUILayout.IntField("Damage Roll:", selectedSpell.damageRollDice, GUILayout.Width(100));
-        EditorGUIUtility.labelWidth = 15;
-        selectedSpell.numDamageRollDieSides = EditorGUILayout.IntField("d", selectedSpell.numDamageRollDieSides, GUILayout.Width(150));
         EditorGUIUtility.labelWidth = 120;
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-        selectedSpell.higherSlotBonusDice = EditorGUILayout.IntField("Die Per Higher Slot:", selectedSpell.higherSlotBonusDice, GUILayout.Width(150));
         selectedSpell.percentMagnitude = EditorGUILayout.Toggle("Percent Magnitude: ", selectedSpell.percentMagnitude);
         //selectedSpell.cost = EditorGUILayout.FloatField("Cost:", selectedSpell.cost, GUILayout.Width(150));
         selectedSpell.activationRange = EditorGUILayout.IntField("Activation Range:", selectedSpell.activationRange, GUILayout.Width(150));
@@ -1289,8 +1274,6 @@ public class ItemDatabaseWindow : EditorWindow
         selectedSpell.recoveryTime = EditorGUILayout.FloatField("Recovery Time:", selectedSpell.recoveryTime, GUILayout.Width(150));
         selectedSpell.spellcastMotionIndex = EditorGUILayout.IntField("Cast Anim Idx:", selectedSpell.spellcastMotionIndex, GUILayout.Width(150));
         selectedSpell.releaseMotionIndex = EditorGUILayout.IntField("Release Anim Idx:", selectedSpell.releaseMotionIndex, GUILayout.Width(150));
-        selectedSpell.effectDiameter = EditorGUILayout.FloatField("Effect Diameter:", selectedSpell.effectDiameter, GUILayout.Width(150));
-        selectedSpell.effectRange = EditorGUILayout.FloatField("Effect Range:", selectedSpell.effectRange, GUILayout.Width(150));
 
         srlSpell.ApplyModifiedProperties();
         EditorGUILayout.EndVertical();

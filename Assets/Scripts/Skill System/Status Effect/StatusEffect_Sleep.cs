@@ -15,7 +15,7 @@ public class StatusEffect_Sleep : StatusEffect
 
     protected override void OnBegin(Actor actor)
     {
-        actor.Combat.Execute_KnockDown(Vector3.zero, rounds);
+        actor.Combat.Execute_KnockDown(Vector3.zero, Duration);
     }
 
     public override void OnEnd(Actor actor)

@@ -59,9 +59,6 @@ public class Projectile : MonoBehaviour
     ProjectilePathType _projectilePathType;
     ProjectileType _projectileType;
     DeliveryType _deliveryType;
-    SpellTargetType _targetType;
-    SpellAttackRollType _attackRollType;
-    StatusEffectData _statusEffect;
 
     public Action OnImpact;
     public Actor owner { get; private set; }
@@ -72,32 +69,23 @@ public class Projectile : MonoBehaviour
 
     public bool targetIsGround;
     bool _done;
-    SpellTargetLogic _projectileTargetLogic;
 
-    public void Launch(SpellTargetLogic projectileTargetLogic, Actor owner, Vector3 startPosition, Actor target,
-        StatusEffectData statusEffect,
-        SpellTargetType targetType,
+    public void Launch(Actor owner, Vector3 startPosition, Actor target,
         DeliveryType deliveryType,
         ProjectileType projectileType,
         DamageType effectType,
-        SavingThrowType savingThrowType,
-        SpellAttackRollType attackRollType, Dice damageDice, float speed, float aoeRadius, float beamDiameter, float beamRange)
+        float speed, float aoeRadius, float beamDiameter, float beamRange)
     {
-        _projectileTargetLogic = projectileTargetLogic;
         //transform.LookAt(target.transform);
-        _statusEffect = statusEffect;
 
         this.owner = owner;
         transform.position = _startPos = startPosition;
 
         _lifeTime = 0;
         this.target = target;
-        _targetType = targetType;
         _deliveryType = deliveryType;
         _projectileType = projectileType;
         this.effectType = effectType;
-        this.savingThrowType = savingThrowType;
-        _attackRollType = attackRollType;
         this.damageDice = damageDice;
         _speed = speed;
         this.aoeRadius = aoeRadius;
@@ -108,30 +96,20 @@ public class Projectile : MonoBehaviour
 
     }
 
-    public void Launch(SpellTargetLogic projectileTargetLogic, Actor owner, Vector3 startPosition, Vector3 targetPosition,
-        StatusEffectData statusEffect,
-        SpellTargetType targetType,
+    public void Launch(Actor owner, Vector3 startPosition, Vector3 targetPosition,
         DeliveryType deliveryType,
         ProjectileType projectileType,
         DamageType effectType,
-        SavingThrowType savingThrowType,
-        SpellAttackRollType attackRollType, Dice damageDice, float speed, float aoeRadius, float beamDiameter, float beamRange)
+        float speed, float aoeRadius, float beamDiameter, float beamRange)
     {
-        _projectileTargetLogic = projectileTargetLogic;
-
-        _statusEffect = statusEffect;
-
         this.owner = owner;
         transform.position = _startPos = startPosition;
         transform.rotation = Quaternion.LookRotation(targetPosition - transform.position);
         _targetPosition = targetPosition;
         _lifeTime = 0;
-        _targetType = targetType;
         _deliveryType = deliveryType;
         _projectileType = projectileType;
         this.effectType = effectType;
-        this.savingThrowType = savingThrowType;
-        _attackRollType = attackRollType;
         this.damageDice = damageDice;
         _speed = speed;
         this.aoeRadius = aoeRadius;
@@ -200,11 +178,11 @@ public class Projectile : MonoBehaviour
 
                     if(Vector3.Distance(_targetPosition, transform.position) < 0.2f)
                     {
-                        trgt.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, DnD.Roll(damageDice.numDice, damageDice.numSides), false);
-                        if(_statusEffect.rounds > 0)
-                        {
-                            trgt.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-                        }
+                        trgt.Combat.ApplyDamage(owner, effectType, damageDice.Roll(), false);
+                        //if(_statusEffect.rounds > 0)
+                        //{
+                        //    trgt.ApplyStatusEffect(_statusEffect, _statusEffect.rounds);
+                        //}
 
                         OnImpact?.Invoke();
                         StopAndDisable("Seek actor -> Target reached");
@@ -258,11 +236,11 @@ public class Projectile : MonoBehaviour
                         transform.position = _targetPosition;
                         if(target != null)
                         {
-                            trgt.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
-                            if(_statusEffect.rounds > 0)
-                            {
-                                trgt.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-                            }
+                            trgt.Combat.ApplyDamage(owner, effectType, damageDice.Roll(), false);
+                            //if(_statusEffect.rounds > 0)
+                            //{
+                            //    trgt.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+                            //}
                         }
                         OnImpact?.Invoke();
 
@@ -345,11 +323,11 @@ public class Projectile : MonoBehaviour
                 continue;
             }
 
-            aoeTarget.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
-            if(_statusEffect.rounds > 0)
-            {
-                aoeTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-            }
+            aoeTarget.Combat.ApplyDamage(owner, effectType, damageDice.Roll(), false);
+            //if(_statusEffect.rounds > 0)
+            //{
+            //    aoeTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+            //}
         }
     }
 
@@ -370,11 +348,11 @@ public class Projectile : MonoBehaviour
                 continue;
             }
 
-            beamTarget.Combat.ApplyDamage(owner, savingThrowType, effectType, _attackRollType, damageDice.Roll(), false);
-            if(_statusEffect.rounds > 0)
-            {
-                beamTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
-            }
+            beamTarget.Combat.ApplyDamage(owner, effectType, damageDice.Roll(), false);
+            //if(_statusEffect.rounds > 0)
+            //{
+            //    beamTarget.ApplyStatusEffect(_statusEffect.statusType, _statusEffect.rounds);
+            //}
         }
     }
 

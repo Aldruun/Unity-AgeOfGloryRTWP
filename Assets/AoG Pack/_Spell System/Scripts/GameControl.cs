@@ -257,7 +257,7 @@ namespace AoG.Controls
                 case DeliveryType.InstantSelf:
                 case DeliveryType.InstantActor:
 
-                    if(actorUnderMouse == caster && clickedSpell.effectType != DamageType.HEAL)
+                    if(actorUnderMouse == caster && clickedSpell.spellTargetType != SpellTargetType.Friend)
                         return;
                     targetActor = actorUnderMouse;
                     break;
@@ -544,7 +544,7 @@ namespace AoG.Controls
                     {
                         aimProjector.transform.position = caster.transform.position;
                         aimProjector.enabled = true;
-                        aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
+                        //aimProjector.SetBeam(caster, spell.effectRange, spell.effectDiameter, spell.spellTargetType);
                         break;
                     }
                 case DeliveryType.Beam:

@@ -167,7 +167,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         return result;
     }
 
-    public virtual void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage)
+    public virtual void ApplyDamage(Actor source, DamageType damageType, int damageRoll, bool percentage)
     {
         if(self.dead)
         {
@@ -182,36 +182,6 @@ public class ActorCombat : MonoBehaviour, IAttackable
         int attackRoll = 0;
 
         int AC = stats.GetStat(ActorStat.AC);
-
-        switch(attackRollType)
-        {
-            case SpellAttackRollType.Melee:
-                attackRoll = DnD.D20() + stats.strMod;
-                if(attackRoll <= 0)
-                    attackRoll = 1;
-                break;
-            case SpellAttackRollType.Ranged:
-                attackRoll = DnD.D20() + stats.dexMod;
-                if(attackRoll <= 0)
-                    attackRoll = 1;
-                break;
-            case SpellAttackRollType.None:
-                attackRoll = -1;
-                break;
-        }
-
-
-        // Attack Roll:
-        // Your attack roll is 1d20 + your ability modifier +your proficiency bonus if you're proficient with the weapon you’re using.
-
-        // Damage Roll:
-        // When attacking with a weapon, you add your ability modifier—the same modifier used for the attack roll—to the damage.
-
-        //if(debug)
-        //{
-        //    Debug.Log(GetName() + ": attackRoll: " + attackRoll + " damageRoll: " + damageRoll);
-        //}
-
 
 
         switch(damageType)
@@ -251,7 +221,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
         }
 
         // isProjectile || isMagicAttack ? true : UnityEngine.Random.value > 0.1f;
-        int savingThrow = savingThrowType != SavingThrowType.None ? MakeSavingThrow(savingThrowType) : AC;
+        //int savingThrow = savingThrowType != SavingThrowType.None ? MakeSavingThrow(savingThrowType) : AC;
         int DC = 8 + stats.proficiencyBonus + stats.intMod;
         bool hitSuccess = false;
         bool critHitSuccess = false;
@@ -259,15 +229,16 @@ public class ActorCombat : MonoBehaviour, IAttackable
 
         float counterValue = AC;
 
-        if(savingThrowType != SavingThrowType.None)
-        {
-            //! roll < 8 + prof + spell modifier - target's save modifier ->
-            //! p(hit) = (7 + prof + spell modifier - target's save modifier) / 20
-            attackRoll = DC;
-            counterValue = savingThrow = MakeSavingThrow(savingThrowType);
-            hitSuccess = DC >= savingThrow;
-        }
-        else if(guaranteedHit == false)
+        //if(savingThrowType != SavingThrowType.None)
+        //{
+        //    //! roll < 8 + prof + spell modifier - target's save modifier ->
+        //    //! p(hit) = (7 + prof + spell modifier - target's save modifier) / 20
+        //    attackRoll = DC;
+        //    counterValue = savingThrow = MakeSavingThrow(savingThrowType);
+        //    hitSuccess = DC >= savingThrow;
+        //}
+        //else
+        if(guaranteedHit == false)
         {
             if(attackRoll >= 20)
             {
@@ -771,8 +742,8 @@ public class ActorCombat : MonoBehaviour, IAttackable
                 if(_projectile == null)
                     Debug.LogError("ActorMonoObject: Projectile visual not found");
 
-                _projectile.Launch(null, self, Equipment.m_weaponHand.position, GetHostileTarget(), new StatusEffectData(), SpellTargetType.Foe, DeliveryType.SeekActor,
-                    ProjectileType.Lobber, DamageType.MISSILE, SavingThrowType.None, SpellAttackRollType.Ranged, new Dice(weapon.NumDice, weapon.NumDieSides, 0), 15, 0, 0, 0);
+                _projectile.Launch(self, Equipment.m_weaponHand.position, GetHostileTarget(), DeliveryType.SeekActor,
+                    ProjectileType.Lobber, DamageType.MISSILE, 15, 0, 0, 0);
             }
             else
             {
@@ -810,7 +781,7 @@ public class ActorCombat : MonoBehaviour, IAttackable
                     //float distance = directionToTarget.magnitude;
 
                     if(Mathf.Abs(angle) < 50/* && distance < 10*/)
-                        targetHit.ApplyDamage(self, SavingThrowType.Constitution, weapon.damageType, SpellAttackRollType.Melee, weapon.BaseDamageRoll, false);
+                        targetHit.ApplyDamage(self, weapon.damageType, weapon.BaseDamageRoll, false);
                 }
             }
         }

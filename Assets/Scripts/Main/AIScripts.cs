@@ -390,7 +390,7 @@ public abstract class AICombatScript : GameScript
 
             for(int effIndex = 0; effIndex < effCount; effIndex++)
             {
-                if(currSpell.effectType == effectTypes[effIndex] && currSpell.deliveryType == deliveryType)
+                if(currSpell.magicEffectsData[0].damageType == effectTypes[effIndex] && currSpell.deliveryType == deliveryType)
                 {
                     return currSpell;
                 }
@@ -430,7 +430,7 @@ public abstract class AICombatScript : GameScript
                     break;
                 }
 
-                if(currSpell.effectType == effectTypes[j])
+                if(currSpell.magicEffectsData[0].damageType == effectTypes[j])
                 {
                     for(int k = 0; k < deliveryTypes.Length; k++)
                     {

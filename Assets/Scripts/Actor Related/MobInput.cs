@@ -56,7 +56,7 @@ public class MobInput : NPCInput
             _attackers[source] += finalAmount / 100;
         }
 
-        Combat.ApplyDamage(source, savingThrowType, damageType, attackRollType, damageRoll, true);
+        Combat.ApplyDamage(source, damageType, damageRoll, true);
         
         if(_attackers.ContainsKey(source))
             _attackers[source] += finalAmount;

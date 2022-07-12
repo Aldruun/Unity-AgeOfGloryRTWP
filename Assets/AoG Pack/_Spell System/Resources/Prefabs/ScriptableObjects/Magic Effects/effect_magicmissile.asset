@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1841cb380102c5744901e092220cd7f4, type: 3}
   m_Name: effect_magicmissile
   m_EditorClassIdentifier: 
+  keywords: 0
   affectedAttribute: 0
-  _statusEffect:
-    rounds: 0
-    statusType: 0
+  statusEffect: 0
   duration: 0
   aoeRadius: 0
   effectDiameter: 0

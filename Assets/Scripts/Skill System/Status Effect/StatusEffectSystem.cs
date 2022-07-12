@@ -55,13 +55,13 @@ public class StatusEffectSystem
         //Profiler.EndSample();
     }
 
-    public void ApplyStatusEffect(Status status, int rounds)
+    public void ApplyStatusEffect(Status status, float duration)
     {
         if(_statusEffects.ContainsKey(status))
         {
-            if(_statusEffects[status].rounds < rounds)
+            if(_statusEffects[status].Duration < duration)
             {
-                _statusEffects[status].rounds = rounds;
+                _statusEffects[status].Duration = duration;
             }
             return;
         }
@@ -170,23 +170,23 @@ public class StatusEffectSystem
         if(statusEffect == null)
             statusEffect = new StatusEffect_Dummy();
 
-        statusEffect.Init(self, rounds);
+        statusEffect.Init(self, duration);
 
         _statusEffects.Add(status, statusEffect);
     }
 
     public void DecrementRounds()
     {
-        foreach(KeyValuePair<Status, StatusEffect> kvp in _statusEffects.ToArray())
-        {
-            _statusEffects[kvp.Key].rounds--;
-            if(kvp.Value.rounds == 0)
-            {
-                _statusEffects[kvp.Key].OnEnd(self);
-                _statusEffects.Remove(kvp.Key);
-                self.ActorUI.RevertToAlignmentColor();
-            }
-        }
+        //foreach(KeyValuePair<Status, StatusEffect> kvp in _statusEffects.ToArray())
+        //{
+            //(int)(_statusEffects[kvp.Key].Duration)--;
+            //if(kvp.Value.Duration <= 0)
+            //{
+            //    _statusEffects[kvp.Key].OnEnd(self);
+            //    _statusEffects.Remove(kvp.Key);
+            //    self.ActorUI.RevertToAlignmentColor();
+            //}
+        //}
     }
 
     internal bool HasStatusEffect(Status status)

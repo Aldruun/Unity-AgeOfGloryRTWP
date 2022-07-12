@@ -136,14 +136,6 @@ public class SpellCompendium : ScriptableObject
 
         return null;
     }
-
-    public static void UpdateMaxSpellUsages(List<SpellData> spellData)
-    {
-        foreach(SpellData data in spellData)
-        {
-            data.usages = data.maxUsages;
-        }
-    }
 }
 
 [System.Serializable]

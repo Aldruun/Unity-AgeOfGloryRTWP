@@ -76,6 +76,8 @@ public enum ActorStat
 {
     HITPOINTS,
     MAXHITPOINTS,
+    MANAPOINTS,
+    MAXMANAPOINTS,
     HITDIE,
     AC,
     APR,

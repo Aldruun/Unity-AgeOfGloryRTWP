@@ -7,16 +7,16 @@ public abstract class StatusEffect
     protected float intervalTime;
     protected bool percentage;
     private float tickTimer;
-    public int rounds;
+    public float Duration;
     public int effectValue;
     public float tickTime;
     protected bool done;
 
     public Status statusEffect;
 
-    public void Init(Actor actor, int rounds)
+    public void Init(Actor actor, float duration)
     {
-        this.rounds = rounds;
+        this.Duration = duration;
         OnBegin(actor);
     }
 

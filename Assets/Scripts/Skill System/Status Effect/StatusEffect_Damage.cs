@@ -3,13 +3,13 @@
 public class StatusEffect_Damage : StatusEffect
 {
     private DamageType effectType;
-    public StatusEffect_Damage(DamageType effectType, int effectValue, bool percentage, float interval, int rounds)
+    public StatusEffect_Damage(DamageType effectType, int effectValue, bool percentage, float interval, float duration)
     {
         this.effectType = effectType;
         this.effectValue = effectValue;
         this.percentage = percentage;
         this.tickTime = interval;
-        this.rounds = rounds;
+        this.Duration = duration;
     }
 
     protected override void Tick(Actor actor)

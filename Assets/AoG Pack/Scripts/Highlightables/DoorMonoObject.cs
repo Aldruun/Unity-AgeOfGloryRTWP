@@ -29,7 +29,7 @@ public class DoorMonoObject : HighlightableMonoObject, IAttackable
         AttackableType = AttackableType.DOOR;
     }
 
-    public void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage)
+    public void ApplyDamage(Actor source, DamageType damageType, int damageRoll, bool percentage)
     {
        
     }

@@ -35,12 +35,12 @@ public class SpellBook
     }
 }
 
-public class SpellData
+public struct SpellData
 {
-    public Spell spell;
-    public bool available;
-    public int usages;
-    public int maxUsages;
+    public readonly Spell spell;
+    public readonly bool available;
+    public readonly int usages;
+    public  readonly int maxUsages;
 
     public SpellData(Spell spell, bool available, int usages, int maxUsages)
     {

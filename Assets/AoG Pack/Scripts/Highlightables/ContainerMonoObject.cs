@@ -23,7 +23,7 @@ public class ContainerMonoObject : HighlightableMonoObject, IAttackable
         AttackableType = AttackableType.CONTAINER;
     }
 
-    public void ApplyDamage(Actor source, SavingThrowType savingThrowType, DamageType damageType, SpellAttackRollType attackRollType, int damageRoll, bool percentage)
+    public void ApplyDamage(Actor source, DamageType damageType, int damageRoll, bool percentage)
     {
         int damage = damageRoll;
 

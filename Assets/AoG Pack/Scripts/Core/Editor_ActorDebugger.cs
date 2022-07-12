@@ -262,7 +262,7 @@ public class Editor_ActorDebugger : EditorWindow
                                 {
                                     foreach(var eff in debugger.observedActor.GetAppliedStatusEffects())
                                     {
-                                        GUILayout.Label(eff.statusEffect + ": " + eff.rounds + "s");
+                                        GUILayout.Label(eff.statusEffect + ": " + eff.Duration + "s");
                                     }
                                 }
                             }

@@ -10,28 +10,23 @@ public enum AffectedAttribute
 [CreateAssetMenu(menuName = "Spell System/Magic Effect")]
 public class MagicEffect : ScriptableObject
 {
-    SpellTargetType _targetType;
+    public Keyword keywords;
+    SpellTargetType targetType;
     public AffectedAttribute affectedAttribute;
-    DamageType _effectType;
-    SavingThrowType _savingThrowType;
-    CastingType _castingType;
-    DeliveryType _deliveryType;
-    public StatusEffectData _statusEffect;
-
-    //float _baseCost;
-    bool _attackRollRequired;
-    SpellAttackRollType _attackRollType;
-    int _numAtkDice;
-    int _numAtkDiceSides;
-    int _numDamageDice;
-    int _numDamageDiceSides;
-    bool _percentMagnitude;
+    protected DamageType damageType;
+    protected SavingThrowType savingThrowType;
+    protected CastingType castingType;
+    protected DeliveryType deliveryType;
+    public Status statusEffect;
+    
+    private bool attackRollRequired;
+    private SpellAttackRollType attackRollType;
+    private bool percentMagnitude;
 
     public float duration;
     public float aoeRadius;
     public float effectDiameter;
     public float effectRange;
-    //public List<StatusEffect> statusEffectsTarget;
 
     public string id_VFXProjectile;
     public string id_VFXOnHit;
@@ -57,38 +52,17 @@ public class MagicEffect : ScriptableObject
     //private Collider[] _friends;
     public Projectile projectile { get; protected set; }
 
-    public Actor spellTarget { get; protected set; }
-
-    bool _active;
-
-    SpellTargetLogic _effectLogic;
-
-    Spell _spell;
     public string id_VFXOnInflict;
     public string id_VFXOnImpact;
+    private bool IsPermanent;
+    private float Magnitude;
 
     public virtual void Init(Spell spell)
     {
-        _spell = spell;
-        _attackRollRequired = spell.attackRollRequired;
-        _attackRollType = spell.attackRollType;
-        _effectLogic = spell.targetLogic;
-
-        effectDiameter = spell.effectDiameter;
-        effectRange = spell.effectRange;
-        aoeRadius = spell.aoeRadius;
-        _targetType = spell.spellTargetType;
-        _effectType = spell.effectType;
-        _savingThrowType = spell.savingThrowType;
-        _percentMagnitude = spell.percentMagnitude;
-        _castingType = spell.castingType;
-        _deliveryType = spell.deliveryType;
-        //_baseCost = spell.cost;
-        _numDamageDice = spell.damageRollDice;
-        _numDamageDiceSides = spell.numDamageRollDieSides;
-        //if(spell.keywords.Contains(Keyword.Heal))
-        //    _friends = new Collider[5];
-
+        targetType = spell.spellTargetType;
+        castingType = spell.castingType;
+        deliveryType = spell.deliveryType;
+ 
         if(sfxOnHit != null && sfxOnHit.Length == 0)
             sfxOnHit = null;
     }
@@ -115,26 +89,6 @@ public class MagicEffect : ScriptableObject
 
     public void SpawnEffect(Actor self, Actor target, Transform spellAnchor)
     {
-        if(_effectLogic != null)
-        {
-            Debug.Assert(_spell != null, "Spell null");
-            Debug.Assert(self != null, "owner null");
-            Debug.Assert(target != null, "target null");
-            _effectLogic.Init(self, target, _spell, projectile);
-
-            self.StartCoroutine(CR_UpdateEffectLogic());
-            return;
-        }
-        //if(_projectile != null)
-        //{
-        //    return;
-        //}
-        //int attackResult = DnD.Roll(_numDice, _numDiceSides);
-
-        spellTarget = target;
-        if(spellTarget == null)
-            return;
-
         if(id_VFXHandRelease != "")
             VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject(id_VFXHandRelease, ObjectPoolingCategory.VFX), spellAnchor.position, Quaternion.LookRotation(self.transform.forward, Vector3.up));
         if(id_VFXHandIdle != "")
@@ -169,7 +123,7 @@ public class MagicEffect : ScriptableObject
                 GameObject vfxObjSpecial = PoolSystem.GetPoolObject(id_VFXProjectile, ObjectPoolingCategory.VFX);
                 Projectile projectileSpecial = vfxObjSpecial.GetComponent<Projectile>();
                 projectileSpecial.transform.rotation = Quaternion.LookRotation(targetPos); // UnityEngine.Random.Range(0.5f, -0.5f)
-                projectileSpecial.Launch(_effectLogic, self, spellAnchor.position, target, _statusEffect, _targetType, _deliveryType, projectileType, _effectType, SavingThrowType.None, _attackRollType, new Dice(_numDamageDice, _numDamageDiceSides, 1), projectileSpeed, aoeRadius, effectDiameter, effectRange);
+                projectileSpecial.Launch(self, spellAnchor.position, target, deliveryType, projectileType, damageType, projectileSpeed, aoeRadius, effectDiameter, effectRange);
 
                 projectileSpecial.OnImpact = () =>
                 {
@@ -196,7 +150,7 @@ public class MagicEffect : ScriptableObject
 
 
 
-            projectile.Launch(_effectLogic, self, spellAnchor.position, target, _statusEffect, _targetType, _deliveryType, projectileType, _effectType, _savingThrowType, _attackRollType, new Dice(_numDamageDice, _numDamageDiceSides, 0), projectileSpeed, aoeRadius, effectDiameter, effectRange);
+            projectile.Launch(self, spellAnchor.position, target, deliveryType, projectileType, damageType, projectileSpeed, aoeRadius, effectDiameter, effectRange);
             projectile.OnImpact = () =>
             {
                 if(sfxOnHit != null)
@@ -215,19 +169,6 @@ public class MagicEffect : ScriptableObject
 
     public void SpawnEffectLocation(Actor self, Vector3 target, Transform spellAnchor)
     {
-        if(_effectLogic != null)
-        {
-            _effectLogic.Init(self, target, _spell, projectile);
-
-            self.StartCoroutine(CR_UpdateEffectLogic());
-            return;
-        }
-        //if(_projectile != null)
-        //{
-        //    return;
-        //}
-        //int attackResult = DnD.Roll(_numDice, _numDiceSides);
-
         if(id_VFXHandRelease != "")
             VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject(id_VFXHandRelease, ObjectPoolingCategory.VFX), spellAnchor.position, Quaternion.LookRotation(self.transform.forward, Vector3.up));
         if(id_VFXHandIdle != "")
@@ -250,12 +191,8 @@ public class MagicEffect : ScriptableObject
 
         if(projectile != null)
         {
-            if(_effectLogic != null && _spell != null)
-            {
-                _effectLogic.Init(self, target, _spell, projectile);
-            }
-
-            projectile.Launch(_effectLogic, self, spellAnchor.position, target, _statusEffect, _targetType, _deliveryType, projectileType, _effectType, _savingThrowType, _attackRollType, new Dice(_numDamageDice, _numDamageDiceSides, 0), projectileSpeed, aoeRadius, effectDiameter, effectRange);
+            Debug.Log("Launching projectile at position '" + target + "'");
+            projectile.Launch(self, spellAnchor.position, target, deliveryType, projectileType, damageType, projectileSpeed, aoeRadius, effectDiameter, effectRange);
             projectile.OnImpact = () =>
             {
                 if(sfxOnHit != null)
@@ -278,7 +215,6 @@ public class MagicEffect : ScriptableObject
 
     public void Extinguish()
     {
-        _active = false;
         //if(self.debug)
         Debug.Log("<color=orange>Extinguishing magic effect</color>");
 
@@ -290,83 +226,34 @@ public class MagicEffect : ScriptableObject
         }
     }
 
-    IEnumerator CR_UpdateEffectLogic()
+    internal static EffectData GetEffectData(MagicEffect magicEffect)
     {
-        while(_effectLogic.Done() == false)
-        {
-            //Debug.Log("___________UPDATING");
-            yield return null;
-        }
-        Debug.Log("___________UPDATING DONE");
+        EffectData effectData = new EffectData();
+        effectData.isPermanent = magicEffect.IsPermanent;
+        effectData.magnitude = magicEffect.Magnitude;
+        effectData.duration = magicEffect.duration;
+        effectData.aoeRadius = magicEffect.aoeRadius;
+        effectData.effect = magicEffect.statusEffect;
+        effectData.damageType = magicEffect.damageType;
+        effectData.castingType = magicEffect.castingType;
+        effectData.deliveryType = magicEffect.deliveryType;
+        effectData.keywordFlags = magicEffect.keywords;
+        effectData.effectDiameter = magicEffect.effectDiameter;
+
+        effectData.vfxid_impact = magicEffect.id_VFXOnImpact;
+        effectData.vfxid_inflict = magicEffect.id_VFXOnInflict;
+        effectData.vfxid_handrelease = magicEffect.id_VFXHandRelease;
+        effectData.vfxid_handidle = magicEffect.id_VFXHandIdle;
+        effectData.vfxid_handcharge = magicEffect.id_VFXHandCharge;
+        effectData.vfxid_projectile = magicEffect.id_VFXProjectile;
+
+        effectData.sfxCharge = magicEffect.sfxChargeSpell;
+        effectData.sfxCastLoop = magicEffect.sfxChargeSpell;
+        effectData.sfxOnHit = magicEffect.sfxOnHit;
+        effectData.sfxRelease = magicEffect.sfxOnRelease;
+
+        return effectData;
     }
-
-    //IEnumerator CR_UpdateConcentrationEffect(Transform spellAnchor, AgentMonoController self)
-    //{
-    //    _active = true;
-    //    while(_active)
-    //    {
-    //        if(self.debug)
-    //            Debug.Log(self.agentData.Name + ": <color=orange>CR_UpdateConcentrationEffect</color>");
-    //        self.Execute_ModifyMana(-(baseCost * GameMaster.Instance.gameSettings.globalManaCostMult * Time.deltaTime));
-    //        //_projectile.UpdateStatic(spellAnchor.position, spellAnchor.position + self.transform.forward);
-    //        yield return null;
-    //    }
-    //    if(self.debug)
-    //        Debug.Log(self.agentData.Name + ": <color=orange>Stopped effect loop</color>");
-    //}
-
-    //public AgentMonoController GetMostWoundedInRangeNonAlloc(AgentMonoController caller, float healthThreshold,
-    //    float range, Collider[] populatedArray)
-    //{
-    //    int numHit = Physics.OverlapSphereNonAlloc(caller.transform.position, range, populatedArray,
-    //        1 << LayerMask.NameToLayer("Agents"));
-
-    //    if(numHit == 0)
-    //        return null;
-
-    //    List<AgentMonoController> agentList = new List<AgentMonoController>();
-
-    //    for(int i = 0; i < numHit; i++)
-    //    {
-    //        AgentMonoController agent = populatedArray[i].GetComponent<AgentMonoController>();
-
-    //        if(caller != agent && agent.m_healthPercentage <= healthThreshold && agent.isBeingHealed == false)
-    //            //if(agent != skillTarget)
-    //            //    Debug.Log($"<color=cyan>Found wounded friend ({agent.m_agentData.Name})</color>");
-
-    //            if(agent.IsEnemy(caller) == false)
-    //                //if(agent != skillTarget)
-    //                //    Debug.Log($"<color=cyan>Found wounded friend ({agent.m_agentData.Name})</color>");
-    //                agentList.Add(agent);
-    //    }
-
-    //    return agentList.OrderBy(a => a.m_healthPercentage).FirstOrDefault();
-    //}
-
-    //public AgentMonoController GetFriendsInRangeNonAlloc(AgentMonoController caller, float range,
-    //    Collider[] populatedArray)
-    //{
-    //    int numHit = Physics.OverlapSphereNonAlloc(caller.transform.position, range, populatedArray,
-    //        1 << LayerMask.NameToLayer("Agents"));
-
-    //    if(numHit == 0)
-    //        return null;
-
-    //    List<AgentMonoController> agentList = new List<AgentMonoController>();
-
-    //    for(int i = 0; i < numHit; i++)
-    //    {
-    //        AgentMonoController agent = populatedArray[i].GetComponent<AgentMonoController>();
-
-    //        if( /*agent != _agent &&*/
-    //            agent.destroyed == false && agent.IsFriend(caller) && agent.attackTarget != null &&
-    //            agent.isBeingBuffed == false)
-    //            agentList.Add(agent);
-    //    }
-
-    //    return agentList.OrderBy(a => (a.attackTarget.transform.position - a.transform.position).sqrMagnitude)
-    //        .FirstOrDefault();
-    //}
 
     protected void ClampTo(Actor self, Transform obj, Transform target, float duration)
     {
@@ -386,4 +273,189 @@ public class MagicEffect : ScriptableObject
 
         obj.gameObject.SetActive(false);
     }
+}
+
+
+[System.Serializable]
+public class EffectData
+{
+    // Magical effect, hard-coded ID
+    //public short effectID;
+
+    // Which skills/attributes are affected (for restore/drain spells
+    // etc.)
+    //public byte skill, attribute; // -1 if N/A
+    public MagicSchool magicSchool;
+    // Other spell parameters
+    public string ID;
+    public float aoeRadius; // 0 - self, 1 - touch, 2 - target (RangeType enum)
+    public float area;
+    public float duration;
+    public float magnitude;
+    //public float travelSpeed;
+    public bool isPermanent;
+    public Status effect;
+    public DamageType damageType;
+    public CastingType castingType;
+    public DeliveryType deliveryType;
+    public Keyword keywordFlags;
+
+    public string vfxid_handcharge;
+    public string vfxid_projectile;
+    public string vfxid_handidle;
+    public string vfxid_handrelease;
+    public string vfxid_inflict;
+    public string vfxid_impact;
+
+    public AudioClip sfxCharge;
+    public AudioClip[] sfxRelease;
+    public AudioClip sfxCastLoop;
+    public AudioClip[] sfxOnHit;
+    internal float effectDiameter;
+}
+
+public enum Effects
+{
+    Shield = 3,
+    FireShield = 4,
+    LightningShield = 5,
+    FrostShield = 6,
+    Burden = 7,
+    Lock = 12,
+    Open = 13,
+    FireDamage = 14,
+    ShockDamage = 15,
+    FrostDamage = 16,
+    DrainAttribute = 17,
+    DrainHealth = 18,
+    DrainMagicka = 19,
+    DrainFatigue = 20,
+    DrainSkill = 21,
+    DamageAttribute = 22,
+    DamageHealth = 23,
+    DamageMagicka = 24,
+    DamageFatigue = 25,
+    DamageSkill = 26,
+    Poison = 27,
+    WeaknessToFire = 28,
+    WeaknessToFrost = 29,
+    WeaknessToShock = 30,
+    WeaknessToMagicka = 31,
+    WeaknessToCommonDisease = 32,
+    WeaknessToBlightDisease = 33,
+    WeaknessToCorprusDisease = 34,
+    WeaknessToPoison = 35,
+    WeaknessToNormalWeapons = 36,
+    DisintegrateWeapon = 37,
+    DisintegrateArmor = 38,
+    Invisibility = 39,
+    Chameleon = 40,
+    Light = 41,
+    Sanctuary = 42,
+    NightEye = 43,
+    Charm = 44,
+    Paralyze = 45,
+    Silence = 46,
+    Blind = 47,
+    Sound = 48,
+    CalmHumanoid = 49,
+    CalmCreature = 50,
+    FrenzyHumanoid = 51,
+    FrenzyCreature = 52,
+    DemoralizeHumanoid = 53,
+    DemoralizeCreature = 54,
+    RallyHumanoid = 55,
+    RallyCreature = 56,
+    Dispel = 57,
+    Soultrap = 58,
+    Telekinesis = 59,
+    Mark = 60,
+    Recall = 61,
+    DivineIntervention = 62,
+    AlmsiviIntervention = 63,
+    DetectAnimal = 64,
+    DetectEnchantment = 65,
+    DetectKey = 66,
+    SpellAbsorption = 67,
+    Reflect = 68,
+    CureCommonDisease = 69,
+    CureBlightDisease = 70,
+    CureCorprusDisease = 71,
+    CurePoison = 72,
+    CureParalyzation = 73,
+    RestoreAttribute = 74,
+    RestoreHealth = 75,
+    RestoreMagicka = 76,
+    RestoreFatigue = 77,
+    RestoreSkill = 78,
+    FortifyAttribute = 79,
+    FortifyHealth = 80,
+    FortifyMagicka = 81,
+    FortifyFatigue = 82,
+    FortifySkill = 83,
+    FortifyMaximumMagicka = 84,
+    AbsorbAttribute = 85,
+    AbsorbHealth = 86,
+    AbsorbMagicka = 87,
+    AbsorbFatigue = 88,
+    AbsorbSkill = 89,
+    ResistFire = 90,
+    ResistFrost = 91,
+    ResistShock = 92,
+    ResistMagicka = 93,
+    ResistCommonDisease = 94,
+    ResistBlightDisease = 95,
+    ResistCorprusDisease = 96,
+    ResistPoison = 97,
+    ResistNormalWeapons = 98,
+    ResistParalysis = 99,
+    RemoveCurse = 100,
+    TurnUndead = 101,
+    SummonScamp = 102,
+    SummonClannfear = 103,
+    SummonDaedroth = 104,
+    SummonDremora = 105,
+    SummonAncestralGhost = 106,
+    SummonSkeletalMinion = 107,
+    SummonBonewalker = 108,
+    SummonGreaterBonewalker = 109,
+    SummonBonelord = 110,
+    SummonWingedTwilight = 111,
+    SummonHunger = 112,
+    SummonGoldenSaint = 113,
+    SummonFlameAtronach = 114,
+    SummonFrostAtronach = 115,
+    SummonStormAtronach = 116,
+    FortifyAttack = 117,
+    CommandCreature = 118,
+    CommandHumanoid = 119,
+    BoundDagger = 120,
+    BoundLongsword = 121,
+    BoundMace = 122,
+    BoundBattleAxe = 123,
+    BoundSpear = 124,
+    BoundLongbow = 125,
+    ExtraSpell = 126,
+    BoundCuirass = 127,
+    BoundHelm = 128,
+    BoundBoots = 129,
+    BoundShield = 130,
+    BoundGloves = 131,
+    Corprus = 132,
+    Vampirism = 133,
+    SummonCenturionSphere = 134,
+    SunDamage = 135,
+    StuntedMagicka = 136,
+
+    // Tribunal only
+    SummonFabricant = 137,
+
+    // Bloodmoon only
+    SummonWolf = 138,
+    SummonBear = 139,
+    SummonBonewolf = 140,
+    SummonCreature04 = 141,
+    SummonCreature05 = 142,
+
+    Length
 }

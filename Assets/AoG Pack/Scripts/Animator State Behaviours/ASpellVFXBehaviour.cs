@@ -17,38 +17,38 @@ public class ASpellVFXBehaviour : StateMachineBehaviour
         Vector3 chargeVFXPos = actor.transform.position + Vector3.up * 1.1f + actor.transform.forward * 0.5f;
         float castTime = actor.Combat.equippedSpell.castTimeMult;
 
-        switch(actor.Combat.equippedSpell.effectType)
-        {
-            case DamageType.MAGIC:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_magic", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //switch(actor.Combat.equippedSpell.damageType)
+        //{
+        //    case DamageType.MAGIC:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_magic", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
 
-                break;
-            case DamageType.MAGICFIRE:
-            case DamageType.FIRE:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_fire", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    case DamageType.MAGICFIRE:
+        //    case DamageType.FIRE:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_fire", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
 
-                break;
-            case DamageType.MAGICCOLD:
-            case DamageType.COLD:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_frost", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-            case DamageType.ELECTRICITY:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_lightning", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-            case DamageType.RADIANT:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_radiant", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-            //case DamageType.MAGICCOLD:
-            case DamageType.HEAL:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_heal", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-            case DamageType.POISON:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_poison", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-            default:
-                chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_radiant", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
-                break;
-        }
+        //        break;
+        //    case DamageType.MAGICCOLD:
+        //    case DamageType.COLD:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_frost", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    case DamageType.ELECTRICITY:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_lightning", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    case DamageType.RADIANT:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_radiant", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    //case DamageType.MAGICCOLD:
+        //    case DamageType.HEAL:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_heal", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    case DamageType.POISON:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_poison", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //    default:
+        //        chargeVFX = VFXPlayer.TriggerVFX(PoolSystem.GetPoolObject("vfx_chargespell_radiant", ObjectPoolingCategory.VFX), chargeVFXPos, Quaternion.identity, castTime);
+        //        break;
+        //}
 
         if(actor.ActorStats.Race != ActorRace.GOBLIN)
         {
@@ -66,10 +66,10 @@ public class ASpellVFXBehaviour : StateMachineBehaviour
             }
         }
 
-        if(chargeVFX == null)
-        {
-            Debug.LogError("_chargeVFX = null for effectType '" + actor.Combat.equippedSpell.effectType + "'");
-        }
+        //if(chargeVFX == null)
+        //{
+        //    Debug.LogError("_chargeVFX = null for effectType '" + actor.Combat.equippedSpell.damageType + "'");
+        //}
     }
 
 

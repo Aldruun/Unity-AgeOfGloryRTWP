@@ -72,7 +72,7 @@ public class UIPartyPotraitManager
 
     public void RemovePortrait(int partyMemberIndex)
     {
-        UIActorPortrait portrait = partymemberPortraits[partyMemberIndex - 1];
+        UIActorPortrait portrait = partymemberPortraits[partyMemberIndex];
         GameObject portraitObj = portrait.gameObject;
         Object.Destroy(portraitObj);
         partymemberPortraits.Remove(partyMemberIndex);

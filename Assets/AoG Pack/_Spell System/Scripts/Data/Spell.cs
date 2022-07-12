@@ -184,10 +184,6 @@ public class Spell : ScriptableObject
     public int Grade;
     internal int slotLevel;
     public Class[] targetClasses;
-    public SubCategory subCategory;
-    public SpellAttackRollType attackRollType;
-    public DamageType effectType;
-    public SavingThrowType savingThrowType;
     public ProjectileType projectileType;
     //public SpellActivationMode activationMode;
     public MagicSchool magicSchool;
@@ -197,29 +193,19 @@ public class Spell : ScriptableObject
     public SpellTargetType spellTargetType;
     public Keyword keywords;
     public List<MagicEffect> magicEffects;
+    public List<EffectData> magicEffectsData;
     public SpellTargetLogic targetLogic;
 
     public bool attackRollRequired;
     public bool percentMagnitude;
     public int castingTime = 1;
-    public int duration;
-    public int concentrationTime;
-    public int specialRollDice = 0;
-    public int numSpecialRollDieSides = 0;
-    public int damageRollDice = 1;
-    public int numDamageRollDieSides = 3;
-    public int higherSlotBonusDice = 1;
     public float aoeRadius;
     public float travelSpeed;
-    public int usages;
-    public int maxUsages;
     public int activationRange;
-    public float cooldownTime;
-    public float recoveryTime;
     public int spellcastMotionIndex;
     public int releaseMotionIndex;
-    public float effectDiameter;
-    public float effectRange;
+    public float cooldownTime;
+    public float recoveryTime;
 
     [Range(0.5f, 2f)] public float chargeTimeMult = 1f; // TODO: Get animation length
     [Range(0.5f, 2f)] public float castTimeMult = 1f; // TODO: Get animation length
@@ -228,6 +214,7 @@ public class Spell : ScriptableObject
 
     internal float cooldownTimer;
     public System.Action<float> CooldownHook;
+    internal int Cost;
 
     public float priority { get; set; }
 
@@ -280,7 +267,7 @@ public class Spell : ScriptableObject
 
     public bool HasKeyWord(Keyword keyword)
     {
-        if((keywords & keyword) != 0)
+        if((magicEffectsData[0].keywordFlags & keyword) != 0)
         {
             return true;
         }
@@ -294,16 +281,3 @@ public enum SpellType
     Arcane,
     Divine
 }
-
-//[System.Serializable]
-//public class SpellRule
-//{
-//    public Class targetClass;
-//    public int requiredLevel;
-//    //public SpellType spellType;
-//    //public SpellRule(Class targetClass, int spellGrade)
-//    //{
-//    //    this.targetClass = targetClass;
-//    //    this.spellGrade = spellGrade;
-//    //}
-//}

@@ -27,6 +27,7 @@ public static class HelperFunctions
         float normalizedValue = Mathf.Clamp((currentValue - minValue) / (maxValue - minValue), 0, 1);
         return normalizedValue;
     }
+
     public static float GetLinearDistanceAttenuation(Vector3 pos1, Vector3 pos2, float minDist, float maxDist)
     {
         float dist = Vector3.Distance(pos1, pos2);
@@ -67,7 +68,7 @@ public static class HelperFunctions
             {
                 continue;
             }
-           
+
             if(a.ActorStats.GetActorFlags().HasFlag(enemyFlags) && /*a.isDowned == false &&*/ a.dead == false)
             {
                 agentList.Add(a);
@@ -338,7 +339,7 @@ public static class HelperFunctions
     public static Vector3 GetSampledNavMeshPositionAroundPoint(Vector3 targetPosition, int searchCycles, float minRadiusAroundPoint, float maxRadiusAroundPoint)
     {
         List<Vector3> availablePositions = new List<Vector3>();
-      
+
         Vector3 rndPoint = targetPosition + (UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(minRadiusAroundPoint, maxRadiusAroundPoint));
 
         NavMeshHit navHit;
@@ -453,8 +454,8 @@ public static class HelperFunctions
     {
         Vector3 displacement = targetPosition - shooterPosition;
         float targetMoveAngle = Vector3.Angle(-displacement, targetVelocity) * Mathf.Deg2Rad;
-    
-        if(targetVelocity.magnitude == 0 || targetVelocity.magnitude > projectileSpeed && Mathf.Sin(targetMoveAngle) / projectileSpeed > Mathf.Cos(targetMoveAngle) / targetVelocity.magnitude)
+
+        if(targetVelocity.magnitude == 0 || (targetVelocity.magnitude > projectileSpeed && Mathf.Sin(targetMoveAngle) / projectileSpeed > Mathf.Cos(targetMoveAngle) / targetVelocity.magnitude))
         {
             //Debug.Log("Position prediction is not feasible.");
             return targetPosition;

@@ -186,7 +186,7 @@ public abstract class Actor : Scriptable
         colliderRoot = cc.center - (Vector3.up * (cc.height * 0.5f));
     }
 
-    internal void ApplyStatusEffect(Status status, int rounds)
+    internal void ApplyStatusEffect(Status status, float duration)
     {
         switch(status)
         {
@@ -206,7 +206,7 @@ public abstract class Actor : Scriptable
                 break;
         }
 
-        statusEffectSystem.ApplyStatusEffect(status, rounds);
+        statusEffectSystem.ApplyStatusEffect(status, duration);
     }
 
     internal bool HasStatusEffect(Status status)

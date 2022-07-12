@@ -24,10 +24,6 @@ MonoBehaviour:
   spellIcon: {fileID: 21300000, guid: 6d0f440f1a283ed4fa3ce87ffc283a6e, type: 3}
   Grade: 1
   targetClasses: 0a0000000c000000
-  subCategory: 0
-  attackRollType: 0
-  effectType: 7
-  savingThrowType: 0
   projectileType: 0
   magicSchool: 4
   equipType: 0
@@ -37,27 +33,17 @@ MonoBehaviour:
   keywords: 128
   magicEffects:
   - {fileID: 11400000, guid: c14328a621744c440be6b0ea488499cf, type: 2}
+  magicEffectsData: []
   targetLogic: {fileID: 0}
   attackRollRequired: 0
   percentMagnitude: 0
   castingTime: 1
-  duration: 0
-  concentrationTime: 0
-  specialRollDice: 0
-  numSpecialRollDieSides: 0
-  damageRollDice: 1
-  numDamageRollDieSides: 5
-  higherSlotBonusDice: 1
   aoeRadius: 0
   travelSpeed: 14
-  usages: 0
-  maxUsages: 0
   activationRange: 9
-  cooldownTime: 3
-  recoveryTime: 2
   spellcastMotionIndex: 0
   releaseMotionIndex: 0
-  effectDiameter: 0
-  effectRange: 0
+  cooldownTime: 3
+  recoveryTime: 2
   chargeTimeMult: 1
   castTimeMult: 1

@@ -28,7 +28,6 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
         this.spell = spell;
         //this.projectile = projectile;
         _beamEnemyList = new RaycastHit[5];
-        _lifeTime = spell.duration * 6;
         _damageTick01Timer = firstTickAt0 ? 0 : tickInterval;
         _ticksAvailable = numTicks;
         _tempParticleSystem = vfxObj.GetComponentInChildren<ParticleSystem>();
@@ -76,11 +75,11 @@ public class SpellTargetLogic_Beam : SpellTargetLogic
                 //    continue;
                 //}
 
-                beamTarget.Combat.ApplyDamage(owner, spell.savingThrowType, spell.effectType, spell.attackRollType, DnD.Roll(spell.damageRollDice, spell.numDamageRollDieSides), false);
-                var statuseffect = spell.magicEffects[0]._statusEffect;
-                if(statuseffect.rounds > 0)
+                //beamTarget.Combat.ApplyDamage(owner, spell.savingThrowType, spell.damageType, spell.attackRollType, DnD.Roll(spell.damageRollDice, spell.numDamageRollDieSides), false);
+                var duration = spell.magicEffects[0].duration;
+                if(duration > 0)
                 {
-                    beamTarget.ApplyStatusEffect(statuseffect.statusType, statuseffect.rounds);
+                    beamTarget.ApplyStatusEffect(spell.magicEffects[0].statusEffect, duration);
                 }
             }
         }

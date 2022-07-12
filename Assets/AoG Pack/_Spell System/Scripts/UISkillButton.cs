@@ -1,20 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions;
 
 public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public bool Active;
     internal Spell spell;
-    private Actor _caster;
+    private readonly Actor _caster;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -23,7 +19,8 @@ public class UISkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             "<color=cyan>" + spell.Name + "</color>\n\n" +
             spell.description + "\n\n" +
             "Range: " + spell.activationRange + "\n\n" +
-            "Dmg: " + spell.damageRollDice
+            "Effects: " + spell.magicEffectsData[0].effect +
+            "Dmg: " + spell.magicEffectsData[0].magnitude
             );
         //GetComponent<TooltipTrigger>().text = "<color=cyan>" + skill.skillName + "</color>\n\n" +
         //    skill.description + "\n\n" +
